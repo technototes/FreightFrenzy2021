@@ -38,12 +38,12 @@ public class PathCommand extends Command {
         return path(new TurnCommand(subsystem, degrees));
     }
 
-    public PathCommand spline(double x, double y, double end, boolean reversed){
-        return path(new SplineCommand(subsystem, x, y, end, reversed));
+    public PathCommand spline(double x, double y, double end, double rot){
+        return path(new SplineCommand(subsystem, x, y, end, rot));
     }
 
-    public PathCommand strafe(double x, double y, boolean reversed){
-        return path(new StrafeCommand(subsystem, x, y, reversed));
+    public PathCommand strafe(double x, double y, double rot){
+        return path(new StrafeCommand(subsystem, x, y, rot));
     }
 
     public PathCommand path(PathCommand c){

@@ -22,6 +22,8 @@ public abstract class CommandOpMode extends LinearOpMode {
 
     private Logger logger;
 
+    private boolean terminated = false;
+
     /** Get op mode state
      *
      * @return Current op mode state
@@ -55,7 +57,7 @@ public abstract class CommandOpMode extends LinearOpMode {
         opModeTimer.reset();
         logger = new Logger(this);
         uponInit();
-        while (!isStarted()) {
+        while (!isStarted() && !terminated) {
             initLoop();
             universalLoop();
             CommandScheduler.getInstance().run();
@@ -63,7 +65,7 @@ public abstract class CommandOpMode extends LinearOpMode {
         }
         opModeState = OpModeState.RUN;
         uponStart();
-        while (opModeIsActive()) {
+        while (opModeIsActive() && !terminated) {
             runLoop();
             universalLoop();
             CommandScheduler.getInstance().run();
@@ -136,5 +138,8 @@ public abstract class CommandOpMode extends LinearOpMode {
             }
             return false;
         }
+    }
+    public void terminate(){
+        terminated = true;
     }
 }

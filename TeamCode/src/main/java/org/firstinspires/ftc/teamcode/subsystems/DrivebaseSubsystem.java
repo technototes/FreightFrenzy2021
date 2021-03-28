@@ -172,6 +172,7 @@ public class DrivebaseSubsystem extends MecanumDrive {
 
         // TODO: if desired, use setLocalizer() to change the localization method
         /* for instance,*/ setLocalizer(local);
+        setPoseEstimate(new Pose2d());
     }
 
     public TrajectoryBuilder trajectoryBuilder(Pose2d startPose) {
