@@ -9,7 +9,7 @@ public class WobbleRaiseCommand extends WaitCommand {
 
     public WobbleRaiseCommand(WobbleSubsystem w){
         //COOLDOWN
-        super(0.1);
+        super(0.5);
         //addRequirements(w);
         subsystem = w;
     }

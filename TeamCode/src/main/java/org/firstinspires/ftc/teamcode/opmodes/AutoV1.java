@@ -47,10 +47,9 @@ public class AutoV1 extends CommandOpMode implements Loggable {
     @Override
     public void uponStart() {
         CommandScheduler.getInstance().schedule(new SequentialCommandGroup(
-                //grip wobble
-                new InstantCommand(()->robot.wobbleSubsystem.setClawPosition(WobbleSubsystem.ClawPosition.CLOSED)),
                 //prep to shoot
                 new ParallelCommandGroup(
+                        new InstantCommand(()->robot.wobbleSubsystem.setClawPosition(WobbleSubsystem.ClawPosition.CLOSED)),
                         new IndexPivotUpCommand(robot.indexSubsystem),
                         new AlignToShootCommand(robot.drivebaseSubsystem, robot.shooterSubsystem),
                         new ShooterSetFlapCommand(robot.shooterSubsystem, ()->0.5)),
@@ -94,7 +93,7 @@ public class AutoV1 extends CommandOpMode implements Loggable {
                 //goto line
                 new ParallelCommandGroup(
                         new StrafeCommand(robot.drivebaseSubsystem, 50, 10, 0),
-                        new WobbleRaiseCommand(robot.wobbleSubsystem))
+                        new SequentialCommandGroup(new WobbleRaiseCommand(robot.wobbleSubsystem), new WobbleCloseCommand(robot.wobbleSubsystem)))
         ).then(new InstantCommand(this::terminate)));
     }
 }
