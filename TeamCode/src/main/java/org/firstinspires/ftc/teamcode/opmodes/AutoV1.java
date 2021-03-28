@@ -88,5 +88,54 @@ public class AutoV1 extends CommandOpMode implements Loggable {
                 //END
                 new WaitCommand(100)
         ));
+        CommandScheduler.getInstance().schedule(new SequentialCommandGroup(
+                new InstantCommand(()->robot.wobbleSubsystem.setClawPosition(WobbleSubsystem.ClawPosition.CLOSED)),
+                //shoot 3 rings
+                new ParallelCommandGroup(
+                        new IndexPivotUpCommand(robot.indexSubsystem),
+                        new AlignToShootCommand(robot.drivebaseSubsystem, robot.shooterSubsystem),
+                        new ShooterSetFlapCommand(robot.shooterSubsystem, ()->0.5),
+                        new IntakeStopCommand(robot.intakeSubsystem)
+                ),
+                new SequentialCommandGroup(new ArmExtendCommand(robot.indexSubsystem), new ArmRetractCommand(robot.indexSubsystem)),
+                new SequentialCommandGroup(new ArmExtendCommand(robot.indexSubsystem), new ArmRetractCommand(robot.indexSubsystem)),
+                new SequentialCommandGroup(new ArmExtendCommand(robot.indexSubsystem), new ArmRetractCommand(robot.indexSubsystem)),
+                new SequentialCommandGroup(new ArmExtendCommand(robot.indexSubsystem), new ArmRetractCommand(robot.indexSubsystem)),
+                new ParallelCommandGroup(new IndexPivotDownCommand(robot.indexSubsystem),
+                        new ShooterStopCommand(robot.shooterSubsystem),
+                        new IntakeInCommand(robot.intakeSubsystem)),
+                //move to stack
+                new SplineCommand(robot.drivebaseSubsystem, 48, 12, 0),
+                //shoot 3 rings
+                new ParallelCommandGroup(
+                        new IndexPivotUpCommand(robot.indexSubsystem),
+                        new AlignToShootCommand(robot.drivebaseSubsystem, robot.shooterSubsystem),
+                        new ShooterSetFlapCommand(robot.shooterSubsystem, ()->0.5),
+                        new IntakeStopCommand(robot.intakeSubsystem)),
+                new SequentialCommandGroup(new ArmExtendCommand(robot.indexSubsystem), new ArmRetractCommand(robot.indexSubsystem)),
+                new SequentialCommandGroup(new ArmExtendCommand(robot.indexSubsystem), new ArmRetractCommand(robot.indexSubsystem)),
+                new SequentialCommandGroup(new ArmExtendCommand(robot.indexSubsystem), new ArmRetractCommand(robot.indexSubsystem)),
+                new SequentialCommandGroup(new ArmExtendCommand(robot.indexSubsystem), new ArmRetractCommand(robot.indexSubsystem)),
+                new ParallelCommandGroup(new IndexPivotDownCommand(robot.indexSubsystem),
+                        new ShooterStopCommand(robot.shooterSubsystem)),
+                //drop 1st wobble
+                new SplineCommand(robot.drivebaseSubsystem, 72, 24, 90),
+                new ParallelCommandGroup(new WobbleOpenCommand(robot.wobbleSubsystem), new WobbleLowerCommand(robot.wobbleSubsystem)),
+                new WobbleRaiseCommand(robot.wobbleSubsystem),
+                new TurnCommand(robot.drivebaseSubsystem, 0),
+                //grad 2nd wobble
+                new StrafeCommand(robot.drivebaseSubsystem, 10, 10),
+                new WobbleLowerCommand(robot.wobbleSubsystem),
+                new SequentialCommandGroup(new WobbleCloseCommand(robot.wobbleSubsystem), new WobbleRaiseCommand(robot.wobbleSubsystem)),
+                //drop 2nd wobble
+                new StrafeCommand(robot.drivebaseSubsystem, 72, 24),
+                new ParallelCommandGroup(new WobbleOpenCommand(robot.wobbleSubsystem), new WobbleLowerCommand(robot.wobbleSubsystem)),
+                new WobbleRaiseCommand(robot.wobbleSubsystem),
+                //goto line
+                new StrafeCommand(robot.drivebaseSubsystem, 50, 10),
+
+                //END
+                new WaitCommand(100)
+        ));
     }
 }

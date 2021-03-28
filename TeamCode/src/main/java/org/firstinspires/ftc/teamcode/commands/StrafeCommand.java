@@ -25,6 +25,8 @@ public class StrafeCommand extends PathCommand {
     public void init() {
         subsystem.followTrajectoryAsync(subsystem.trajectoryBuilder(subsystem.getPoseEstimate(), reversed)
                 .strafeTo(new Vector2d(xpos,ypos))
+                .lineToLinearHeading(new Pose2d(10, 10, Math.PI))
+                .lineToSplineHeading(new Pose2d(10, 10, Math.PI))
                 .build());
     }
 
