@@ -8,7 +8,7 @@ public class WobbleOpenCommand extends WaitCommand {
     public WobbleSubsystem subsystem;
     public WobbleOpenCommand(WobbleSubsystem s){
         //COOLDOWN
-        super(0.1);
+        super(0.5);
         subsystem = s;
         //this.addRequirements(subsystem);
     }

@@ -31,7 +31,7 @@ public class IndexSubsystem extends ServoSubsystem implements Stated<Integer> {
     }
 
     public void raiseToShooter(){
-        pivot.setPosition(0.62);
+        pivot.setPosition(0.65);//0.62
     }
     public void lowerToIntake(){
         pivot.setPosition(0.4);

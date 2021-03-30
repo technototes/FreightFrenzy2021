@@ -77,6 +77,7 @@ public abstract class CommandOpMode extends LinearOpMode {
         end();
         CommandScheduler.getInstance().run();
         opModeTimer.reset();
+        CommandScheduler.resetScheduler();
 
     }
 

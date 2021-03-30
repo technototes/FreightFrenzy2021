@@ -102,7 +102,7 @@ public class OperatorInterface {
                 new AlignToShootCommand(robot.drivebaseSubsystem, robot.shooterSubsystem),
                 new ShooterSetFlapCommand(robot.shooterSubsystem, ()->0.5),
                 new IntakeStopCommand(robot.intakeSubsystem)))
-                .schedule(()->fireAxis.getAsBoolean()&&firePrepButton.getAsBoolean(), new SequentialCommandGroup(new ArmExtendCommand(robot.indexSubsystem), new WaitCommand(()->1-fireAxis.getAsDouble()), new ArmRetractCommand(robot.indexSubsystem)))
+                .schedule(()->fireAxis.getAsBoolean()&&firePrepButton.getAsBoolean(), new SequentialCommandGroup(new ArmExtendCommand(robot.indexSubsystem), new ArmRetractCommand(robot.indexSubsystem), new WaitCommand(()->1-fireAxis.getAsDouble())))
                 .whenReleased(new IndexPivotDownCommand(robot.indexSubsystem))
                 .whenReleased(new ShooterStopCommand(robot.shooterSubsystem))
                 .whenReleased(new IntakeInCommand(robot.intakeSubsystem));

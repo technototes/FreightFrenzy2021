@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.opmodes;
 
+import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.technototes.library.command.Command;
 import com.technototes.library.command.CommandScheduler;
@@ -49,51 +50,60 @@ public class AutoV1 extends CommandOpMode implements Loggable {
         CommandScheduler.getInstance().schedule(new SequentialCommandGroup(
                 //prep to shoot
                 new ParallelCommandGroup(
+                        new TurnCommand(robot.drivebaseSubsystem, -10),
                         new InstantCommand(()->robot.wobbleSubsystem.setClawPosition(WobbleSubsystem.ClawPosition.CLOSED)),
                         new IndexPivotUpCommand(robot.indexSubsystem),
                         new AlignToShootCommand(robot.drivebaseSubsystem, robot.shooterSubsystem),
-                        new ShooterSetFlapCommand(robot.shooterSubsystem, ()->0.5)),
+                        new ShooterSetFlapCommand(robot.shooterSubsystem, ()->0.4),
+                        new WaitCommand(0.3)),
                 //shoot 3 rings
                 new SequentialCommandGroup(new ArmExtendCommand(robot.indexSubsystem), new ArmRetractCommand(robot.indexSubsystem)),
+                new WaitCommand(0.2),
                 new SequentialCommandGroup(new ArmExtendCommand(robot.indexSubsystem), new ArmRetractCommand(robot.indexSubsystem)),
-                new SequentialCommandGroup(new ArmExtendCommand(robot.indexSubsystem), new ArmRetractCommand(robot.indexSubsystem)),
-                new SequentialCommandGroup(new ArmExtendCommand(robot.indexSubsystem), new ArmRetractCommand(robot.indexSubsystem)),
+//                new WaitCommand(0.1),
+//                new SequentialCommandGroup(new ArmExtendCommand(robot.indexSubsystem), new ArmRetractCommand(robot.indexSubsystem)),
                 //move to stack
                 new ParallelCommandGroup(
                         new IndexPivotDownCommand(robot.indexSubsystem),
                         new ShooterStopCommand(robot.shooterSubsystem),
                         new IntakeInCommand(robot.intakeSubsystem),
-                        new SplineCommand(robot.drivebaseSubsystem, 48, 12, 0)),
+                        new SplineCommand(robot.drivebaseSubsystem, 48, 12, 0, -15)),
                 //prep to shoot
                 new ParallelCommandGroup(
                         new IndexPivotUpCommand(robot.indexSubsystem),
                         new AlignToShootCommand(robot.drivebaseSubsystem, robot.shooterSubsystem),
-                        new IntakeStopCommand(robot.intakeSubsystem)),
+                        new IntakeStopCommand(robot.intakeSubsystem),
+                        new ShooterSetFlapCommand(robot.shooterSubsystem, ()->0.3)
+                        ),
                 //shoot 3 rings
                 new SequentialCommandGroup(new ArmExtendCommand(robot.indexSubsystem), new ArmRetractCommand(robot.indexSubsystem)),
+                new WaitCommand(0.2),
                 new SequentialCommandGroup(new ArmExtendCommand(robot.indexSubsystem), new ArmRetractCommand(robot.indexSubsystem)),
-                new SequentialCommandGroup(new ArmExtendCommand(robot.indexSubsystem), new ArmRetractCommand(robot.indexSubsystem)),
+                new WaitCommand(0.2),
                 new SequentialCommandGroup(new ArmExtendCommand(robot.indexSubsystem), new ArmRetractCommand(robot.indexSubsystem)),
                 //move to drop point
                 new ParallelCommandGroup(
                         new IndexPivotDownCommand(robot.indexSubsystem),
                         new ShooterStopCommand(robot.shooterSubsystem),
-                        new StrafeCommand(robot.drivebaseSubsystem, 72, 24,  90),
+                        new StrafeCommand(robot.drivebaseSubsystem, 120, 1,  90),
                         new WobbleLowerCommand(robot.wobbleSubsystem)),
                 //drop 1st wobble
+                //new TurnCommand(robot.drivebaseSubsystem, 90),
                 new WobbleOpenCommand(robot.wobbleSubsystem),
                 //move to 2nd wobble
-                new StrafeCommand(robot.drivebaseSubsystem, 10, 10, 0),
+                new StrafeCommand(robot.drivebaseSubsystem, 30, 29, -30),
                 //grab 2nd wobble
                 new WobbleCloseCommand(robot.wobbleSubsystem),
                 //move to drop point
-                new StrafeCommand(robot.drivebaseSubsystem, 72, 24, 90),
+                new StrafeCommand(robot.drivebaseSubsystem, 115, 1, 90),
                 //drop 2nd wobble
                 new WobbleOpenCommand(robot.wobbleSubsystem),
                 //goto line
                 new ParallelCommandGroup(
-                        new StrafeCommand(robot.drivebaseSubsystem, 50, 10, 0),
-                        new SequentialCommandGroup(new WobbleRaiseCommand(robot.wobbleSubsystem), new WobbleCloseCommand(robot.wobbleSubsystem)))
-        ).then(new InstantCommand(this::terminate)));
+                        new StrafeCommand(robot.drivebaseSubsystem, 80, 10, 82),
+                        new SequentialCommandGroup(new WobbleRaiseCommand(robot.wobbleSubsystem), new WobbleCloseCommand(robot.wobbleSubsystem))),
+                new InstantCommand(()->robot.drivebaseSubsystem.setPoseEstimate(new Pose2d())),
+                new InstantCommand(this::terminate)
+        ));
     }
 }

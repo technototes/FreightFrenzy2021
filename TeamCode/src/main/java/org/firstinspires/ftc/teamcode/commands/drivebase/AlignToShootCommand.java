@@ -28,7 +28,7 @@ public class AlignToShootCommand extends Command {
     @Override
     public boolean isFinished() {
         //check if changes are made
-        return true;//return shooterSubsystem.getVelocity()>0.9;
+        return shooterSubsystem.getVelocity()>0.8;
     }
 //    @Override
 //    public void end(boolean cancel) {

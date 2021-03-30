@@ -29,6 +29,10 @@ public class CommandScheduler implements Runnable {
         }
         return instance;
     }
+    //be careful with this
+    public static synchronized void resetScheduler(){
+        instance = null;
+    }
 
     private CommandScheduler(){
         commandsWithoutRequirements = new HashMap<>();

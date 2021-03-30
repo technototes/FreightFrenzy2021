@@ -18,13 +18,13 @@ public class StrafeCommand extends PathCommand {
 
 
     public StrafeCommand(DrivebaseSubsystem sub, double x, double y){
-        this(sub, x, y, 0);
+        this(sub, x, y, sub.getExternalHeading());
     }
 
     @Override
     public void init() {
         subsystem.followTrajectoryAsync(subsystem.trajectoryBuilder(subsystem.getPoseEstimate(), subsystem.getExternalHeading())
-                .lineToLinearHeading(new Pose2d(xpos, ypos, Math.toRadians(endRotation)))
+                .lineToSplineHeading(new Pose2d(xpos, ypos, Math.toRadians(endRotation)))
                 .build());
     }
 

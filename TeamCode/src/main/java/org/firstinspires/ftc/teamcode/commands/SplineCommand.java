@@ -19,13 +19,13 @@ public class SplineCommand extends PathCommand {
 
 
     public SplineCommand(DrivebaseSubsystem sub, double x, double y, double endTan){
-        this(sub, x, y, endTan, 0);
+        this(sub, x, y, endTan, sub.getExternalHeading());
     }
 
     @Override
     public void init() {
         subsystem.followTrajectoryAsync(subsystem.trajectoryBuilder(subsystem.getPoseEstimate(), subsystem.getExternalHeading())
-                .splineToLinearHeading(new Pose2d(xpos,ypos, Math.toRadians(endRotation)), Math.toRadians(endTanganet))
+                .splineToSplineHeading(new Pose2d(xpos,ypos, Math.toRadians(endRotation)), Math.toRadians(endTanganet))
                 .build());
     }
 
