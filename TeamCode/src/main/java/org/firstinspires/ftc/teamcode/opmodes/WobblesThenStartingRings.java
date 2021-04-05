@@ -5,6 +5,7 @@ import com.technototes.library.command.CommandScheduler;
 import com.technototes.library.command.InstantCommand;
 import com.technototes.library.command.ParallelCommandGroup;
 import com.technototes.library.command.SequentialCommandGroup;
+import com.technototes.library.command.WaitCommand;
 import com.technototes.library.structure.CommandOpMode;
 import com.technototes.logger.LogConfig;
 import com.technototes.logger.Loggable;
@@ -56,9 +57,10 @@ public class WobblesThenStartingRings extends CommandOpMode implements Loggable 
                         new DeliverSecondWobble2Command(robot.drivebaseSubsystem, robot.wobbleSubsystem, state),
                         //shoot
                         new ParallelCommandGroup(
-                                new StrafeCommand(robot.drivebaseSubsystem, state.correctedPos(60, 15, 0)),
+                                new StrafeCommand(robot.drivebaseSubsystem, state.correctedPos(60, 15, -10)),
                                 new PrepToShootCommand(robot.indexSubsystem, robot.shooterSubsystem, 0.8, 0.3)
                                 ),
+                        new WaitCommand(1),
                         new SendOneRingToShooterCommand(robot.indexSubsystem),
                         new SendOneRingToShooterCommand(robot.indexSubsystem),
                         new SendOneRingToShooterCommand(robot.indexSubsystem),

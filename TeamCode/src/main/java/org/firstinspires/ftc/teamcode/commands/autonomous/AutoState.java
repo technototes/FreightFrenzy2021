@@ -32,9 +32,10 @@ public class AutoState {
     public static final double SECOND_WOBBLE_DROP_OFFSET_X = 5;
     public static final double SECOND_WOBBLE_DROP_OFFSET_Y = 5;
 
-
-    public static final double SECOND_WOBBLE_GRAB_X = 26;
-    public static final double SECOND_WOBBLE_GRAB_Y = 30;
+    //+x is forward
+    //+y is left
+    public static final double SECOND_WOBBLE_GRAB_X = 24;
+    public static final double SECOND_WOBBLE_GRAB_Y = 32;
     public static final double SECOND_WOBBLE_GRAB_ROTATION = 0;
     public static final double SECOND_WOBBLE_GRAB_TAN = -90;
 
