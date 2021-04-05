@@ -8,13 +8,13 @@ public class IndexPivotUpCommand extends WaitCommand {
     public IndexSubsystem indexSubsystem;
     public IndexPivotUpCommand(IndexSubsystem subsystem){
         //COOLDOWN
-        super(0.5);
-        addRequirements(subsystem);
+        super(0.2);
+        //addRequirements(subsystem);
         indexSubsystem = subsystem;
     }
 
     @Override
-    public void init() {
+    public void execute() {
         indexSubsystem.raiseToShooter();
     }
 }

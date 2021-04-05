@@ -10,6 +10,7 @@ import java.util.function.DoubleSupplier;
 public class ShooterSetFlapCommand extends WaitCommand {
     public ShooterSubsystem subsystem;
     public DoubleSupplier supplier;
+    public double curr;
     public ShooterSetFlapCommand(ShooterSubsystem sub, DoubleSupplier sup) {
         super(0.1);
         subsystem = sub;
@@ -17,7 +18,12 @@ public class ShooterSetFlapCommand extends WaitCommand {
     }
 
     @Override
+    public void init() {
+        curr = supplier.getAsDouble();
+    }
+
+    @Override
     public void execute() {
-       subsystem.setFlapPosition(supplier.getAsDouble());
+       subsystem.setFlapPosition(curr);
     }
 }

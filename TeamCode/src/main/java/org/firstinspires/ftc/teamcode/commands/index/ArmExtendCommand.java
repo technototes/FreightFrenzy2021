@@ -8,13 +8,13 @@ public class ArmExtendCommand extends WaitCommand {
     public IndexSubsystem indexSubsystem;
     public ArmExtendCommand(IndexSubsystem subsystem){
         //COOLDOWN
-        super(0.4);
+        super(0.15);
         //addRequirements(subsystem);
         indexSubsystem = subsystem;
     }
 
     @Override
-    public void init() {
+    public void execute() {
         indexSubsystem.extendArm();
     }
 

@@ -4,7 +4,6 @@ import com.technototes.library.command.Command;
 
 import org.firstinspires.ftc.teamcode.subsystems.ShooterSubsystem;
 
-import java.util.function.DoubleSupplier;
 public class ShooterStopCommand extends Command {
     public ShooterSubsystem subsystem;
     public ShooterStopCommand(ShooterSubsystem sub){
@@ -14,8 +13,7 @@ public class ShooterStopCommand extends Command {
 
 
     @Override
-    public void execute() {
-        System.out.print("stopshooter");
+    public void init() {
         subsystem.setVelocity(0);
     }
 

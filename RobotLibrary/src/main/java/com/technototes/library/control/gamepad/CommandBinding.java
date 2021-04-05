@@ -7,6 +7,7 @@ import java.util.function.BooleanSupplier;
 /** Command implementation of {@link AbstractBinding}
  * @author Alex Stedman
  */
+//TODO make this less jank to use
 public class CommandBinding extends AbstractBinding<CommandButton> {
     /** Create binding
      *

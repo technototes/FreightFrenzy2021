@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.BooleanSupplier;
 
-public class CommandScheduler implements Runnable {
+public class CommandScheduler {
 
     private Map<Subsystem<?>, Map<Command, BooleanSupplier>> requirementCommands;
     private Map<Subsystem<?>, Command> runningRequirementCommands;
@@ -85,7 +85,6 @@ public class CommandScheduler implements Runnable {
     }
     private Set<Command> cancelledCommands;
 
-    @Override
     public void run() {
         cancelledCommands = new HashSet<>();
         requirementCommands.forEach(((subsystem, commandMap) -> {

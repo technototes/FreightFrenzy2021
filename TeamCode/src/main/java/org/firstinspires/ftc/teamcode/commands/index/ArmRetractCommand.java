@@ -8,13 +8,13 @@ public class ArmRetractCommand extends WaitCommand {
     public IndexSubsystem indexSubsystem;
     public ArmRetractCommand(IndexSubsystem subsystem){
         //COOLDOWN
-        super(0.2);
+        super(0.1);
         //addRequirements(subsystem);
         indexSubsystem = subsystem;
     }
 
     @Override
-    public void init() {
+    public void execute() {
         indexSubsystem.retractArm();
     }
 }

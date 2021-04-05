@@ -1,7 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.technototes.library.hardware.HardwareDevice;
 import com.technototes.library.hardware.motor.EncodedMotor;
 import com.technototes.library.hardware.motor.EncodedMotorGroup;
 import com.technototes.library.hardware.motor.Motor;
@@ -10,7 +10,11 @@ import com.technototes.library.hardware.motor.MotorGroup;
 import com.technototes.library.hardware.servo.Servo;
 import com.technototes.logger.Loggable;
 
-import org.firstinspires.ftc.teamcode.util.Encoder;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.roadrunnercode.util.Encoder;
+import org.openftc.easyopencv.OpenCvCamera;
+import org.openftc.easyopencv.OpenCvCameraFactory;
+
 import com.technototes.library.hardware.sensor.IMU;
 
 /** Class for the hardware devices of the robot
@@ -40,8 +44,8 @@ public class Hardware implements Loggable {
     public MotorGroup intakeMotorGroup;
 
     //shooter
-    public EncodedMotor<DcMotor> shooterMotor1;
-    public EncodedMotor<DcMotor> shooterMotor2;
+    public EncodedMotor<DcMotorEx> shooterMotor1;
+    public EncodedMotor<DcMotorEx> shooterMotor2;
     public EncodedMotorGroup shooterMotorGroup;
 
     public Servo shooterFlapServo;
@@ -50,6 +54,8 @@ public class Hardware implements Loggable {
     //wobble
     public Servo wobbleArmServo;
     public Servo wobbleClawServo;
+
+    public OpenCvCamera webcam;
 
     public Hardware(){
         flDriveMotor = new EncodedMotor<>("flMotor");
@@ -71,13 +77,18 @@ public class Hardware implements Loggable {
         //TODO fix this warning
         intakeMotorGroup = new MotorGroup(intakeMotor1, intakeMotor2);
 
-        shooterMotor1 = new EncodedMotor<>("shooter1");
-        shooterMotor2 = new EncodedMotor<>("shooter2");
-        shooterMotorGroup = new EncodedMotorGroup(shooterMotor1.invert(), shooterMotor2.invert());
+        shooterMotor1 = new EncodedMotor<DcMotorEx>("shooter1").invert();
+        shooterMotor2 = new EncodedMotor<DcMotorEx>("shooter2").invert();
+        shooterMotorGroup = new EncodedMotorGroup(shooterMotor1, shooterMotor2);
 
         shooterFlapServo = new Servo("flapservo");
 
         wobbleArmServo = new Servo("wobblearm");
         wobbleClawServo = new Servo("wobbleclaw");
+
+        webcam = OpenCvCameraFactory.getInstance().createWebcam(HardwareDevice.hardwareMap.get(WebcamName.class, "webcam"),
+                HardwareDevice.hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id",
+                        HardwareDevice.hardwareMap.appContext.getPackageName()));
     }
+
 }

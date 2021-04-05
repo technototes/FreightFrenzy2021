@@ -7,14 +7,10 @@ import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import org.firstinspires.ftc.teamcode.subsystems.DrivebaseSubsystem;
 
 public class SplineCommand extends PathCommand {
-    public double xpos, ypos, endTanganet;
-    public double endRotation;
+    public double endTanganet;
+    public Pose2d pose2d;
     public SplineCommand(DrivebaseSubsystem sub, double x, double y, double endTan, double endRot) {
-        super(sub);
-        xpos = x;
-        ypos = y;
-        endTanganet = endTan;
-        endRotation = endRot;
+        this(sub, new Pose2d(x,y,Math.toRadians(endRot)), endTan);
     }
 
 
@@ -22,10 +18,16 @@ public class SplineCommand extends PathCommand {
         this(sub, x, y, endTan, sub.getExternalHeading());
     }
 
+    public SplineCommand(DrivebaseSubsystem sub, Pose2d pose, double endTan){
+        super(sub);
+        pose2d = pose;
+        endTanganet = endTan;
+    }
+
     @Override
     public void init() {
         subsystem.followTrajectoryAsync(subsystem.trajectoryBuilder(subsystem.getPoseEstimate(), subsystem.getExternalHeading())
-                .splineToSplineHeading(new Pose2d(xpos,ypos, Math.toRadians(endRotation)), Math.toRadians(endTanganet))
+                .splineToLinearHeading(pose2d, Math.toRadians(endTanganet))
                 .build());
     }
 

@@ -67,6 +67,7 @@ public abstract class AbstractGamepad<T extends GamepadButton, U extends Gamepad
     private void setComponents(Gamepad g) throws InstantiationException, IllegalAccessException {
 
         //buttons
+        //a=new T();
         a = buttonClass.newInstance();
         a.setSupplier(() -> g.a);
         b = buttonClass.newInstance();

@@ -5,10 +5,10 @@ import com.technototes.logger.Log;
 import com.technototes.logger.Loggable;
 
 import org.firstinspires.ftc.teamcode.subsystems.OdometrySubsystem;
-import org.firstinspires.ftc.teamcode.subsystems.OldDrivebaseSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.IndexSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ShooterSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.VisionSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.WobbleSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.DrivebaseSubsystem;
 
@@ -16,7 +16,11 @@ import org.firstinspires.ftc.teamcode.subsystems.DrivebaseSubsystem;
  *
  */
 public class Robot implements Loggable {
+
+
+
     public Hardware hardware;
+
 
     //drivebase
     public DrivebaseSubsystem drivebaseSubsystem;
@@ -24,7 +28,7 @@ public class Robot implements Loggable {
     public OdometrySubsystem odometrySubsystem;
 
     //index
-    @Log.NumberBar(name = "Ring Capacity", index = -1, color = Color.DARK_GRAY, completeBarColor = Color.YELLOW, incompleteBarColor = Color.LIGHT_GRAY)
+    //@Log.NumberBar(name = "Ring Capacity", index = -1, color = Color.DARK_GRAY, completeBarColor = Color.YELLOW, incompleteBarColor = Color.LIGHT_GRAY)
     public IndexSubsystem indexSubsystem;
 
     //intake
@@ -39,6 +43,8 @@ public class Robot implements Loggable {
     @Log(name = "Wobble", index = 2, color = Color.RED)
     public WobbleSubsystem wobbleSubsystem;
 
+    public VisionSubsystem visionSubsystem;
+
     public Robot(){
         hardware = new Hardware();
 
@@ -50,9 +56,11 @@ public class Robot implements Loggable {
 
         intakeSubsystem = new IntakeSubsystem(hardware.intakeMotorGroup);
 
-        shooterSubsystem = new ShooterSubsystem(hardware.shooterMotorGroup, hardware.shooterFlapServo);
+        shooterSubsystem = new ShooterSubsystem(hardware.shooterMotor1, hardware.shooterMotor2, hardware.shooterFlapServo);
 
         wobbleSubsystem =  new WobbleSubsystem(hardware.wobbleArmServo, hardware.wobbleClawServo);
 
+        visionSubsystem = new VisionSubsystem(hardware.webcam);
     }
+
 }

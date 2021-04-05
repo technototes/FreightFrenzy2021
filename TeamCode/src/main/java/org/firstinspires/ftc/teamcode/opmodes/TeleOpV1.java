@@ -1,7 +1,11 @@
 package org.firstinspires.ftc.teamcode.opmodes;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.technototes.library.hardware.HardwareDevice;
 import com.technototes.library.structure.CommandOpMode;
+import com.technototes.logger.Color;
+import com.technototes.logger.Log;
+import com.technototes.logger.LogConfig;
 import com.technototes.logger.Loggable;
 
 import org.firstinspires.ftc.teamcode.OperatorInterface;
@@ -25,9 +29,9 @@ public class TeleOpV1 extends CommandOpMode implements Loggable {
         robot = new Robot();
         operatorInterface = new OperatorInterface(driverGamepad, codriverGamepad, robot);
     }
-
-    @Override
-    public void universalLoop() {
-        System.out.println();
+    @Log.Number(name="VOLTAGE", color = Color.YELLOW)
+    public double getVoltage(){
+        return HardwareDevice.hardwareMap.voltageSensor.iterator().next().getVoltage();
     }
+
 }

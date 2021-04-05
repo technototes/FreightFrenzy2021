@@ -28,6 +28,8 @@ dependencies {
 
     implementation 'com.acmerobotics.roadrunner:core:0.5.3'
 
+    implementation 'org.openftc:easyopencv:1.4.4'
+
     //implementation 'com.github.technototes:TechnoLib:0.9.11'
 }
 

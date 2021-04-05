@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.opmodes;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.technototes.library.command.InstantCommand;
 import com.technototes.library.hardware.servo.Servo;
@@ -8,7 +9,7 @@ import com.technototes.logger.Log;
 import com.technototes.logger.Loggable;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-
+@Disabled
 @TeleOp(name = "config")
 public class ConfigOpMode extends CommandOpMode implements Loggable {
 

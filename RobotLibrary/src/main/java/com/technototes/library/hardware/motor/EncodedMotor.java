@@ -1,7 +1,9 @@
 package com.technototes.library.hardware.motor;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.technototes.library.hardware.Sensored;
 import com.technototes.library.hardware.sensor.encoder.Encoder;
 import com.technototes.library.hardware.sensor.encoder.ExternalEncoder;
@@ -15,7 +17,6 @@ import com.technototes.logger.Stated;
  */
 public class EncodedMotor<T extends DcMotorSimple> extends Motor<T> implements Sensored {
 
-    //public PIDCoefficients coefficients;
     /** Deadzone for going to positions with encoder
      *
      */
@@ -29,7 +30,6 @@ public class EncodedMotor<T extends DcMotorSimple> extends Motor<T> implements S
      */
     public EncodedMotor(T device) {
         super(device);
-        //coefficients = new PIDCoefficients(0, 0, 0);
         if (device instanceof DcMotor) {
             encoder = new MotorEncoder((DcMotor) device);
         }
@@ -46,18 +46,25 @@ public class EncodedMotor<T extends DcMotorSimple> extends Motor<T> implements S
      */
     public EncodedMotor(String deviceName) {
         super(deviceName);
-        //coefficients = new PIDCoefficients(0, 0, 0);
-        //controller = new PIDFController(coefficients);
-        //coefficients = new PIDCoefficients(0, 0, 0);
         if (getDevice() instanceof DcMotor) {
             encoder = new MotorEncoder((DcMotor) getDevice());
         }
     }
 
-//    public EncodedMotor setPID(double p, double i, double d){
-//        coefficients = new PIDCoefficients(p, i, d);
-//        return this;
-//    }
+    public EncodedMotor<T> setPIDFCoeffecients(double p, double i, double d, double f){
+        if(getDevice() instanceof DcMotorEx){
+            ((DcMotorEx) getDevice()).setVelocityPIDFCoefficients(p, i, d, f);
+        }
+        return this;
+    }
+    public EncodedMotor<T> setPIDFCoeffecients(PIDFCoefficients coeffecients){
+        return setPIDFCoeffecients(coeffecients.p, coeffecients.i, coeffecients.d, coeffecients.f);
+    }
+    public EncodedMotor<T> setRunMode(DcMotor.RunMode m){
+        if(getDevice() instanceof DcMotor)
+            ((DcMotor) getDevice()).setMode(m);
+        return this;
+    }
 
     @Override
     public EncodedMotor<T> setInverted(boolean invert) {
@@ -150,7 +157,7 @@ public class EncodedMotor<T extends DcMotorSimple> extends Motor<T> implements S
      * @param tps the speed in encoder ticks per second
      */
     public void setVelocity(double tps) {
-        if(getDevice() instanceof DcMotor){
+        if(getDevice() instanceof DcMotorEx){
             ((DcMotor) getDevice()).setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             getDevice().setPower(tps);
         } else {
@@ -170,7 +177,7 @@ public class EncodedMotor<T extends DcMotorSimple> extends Motor<T> implements S
     @Override
     public double getSpeed(){
         if(getDevice() instanceof DcMotor){
-            ((DcMotor) getDevice()).setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            //((DcMotor) getDevice()).setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             return getDevice().getPower();
         } else {
             //TODO velo for non dcmotors
@@ -181,7 +188,7 @@ public class EncodedMotor<T extends DcMotorSimple> extends Motor<T> implements S
 
     @Override
     public void setSpeed(double speed) {
-        if(getDevice() instanceof DcMotor) ((DcMotor) getDevice()).setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        //if(getDevice() instanceof DcMotor) ((DcMotor) getDevice()).setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         super.setSpeed(speed);
     }
 }

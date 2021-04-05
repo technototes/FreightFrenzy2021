@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.opmodes;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -20,7 +21,7 @@ import org.firstinspires.ftc.teamcode.commands.TurnCommand;
 import org.firstinspires.ftc.teamcode.commands.drivebase.DriveCommand;
 import org.firstinspires.ftc.teamcode.commands.shooter.ShooterSetFlapCommand;
 import org.firstinspires.ftc.teamcode.commands.shooter.ShooterSetSpeedCommand;
-
+@Disabled
 @TeleOp(name = "shooterconfig")
 public class ShooterConfigOpMode extends CommandOpMode implements Loggable {
     @LogConfig.Disabled

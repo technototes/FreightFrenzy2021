@@ -50,7 +50,7 @@ public class Motor<T extends DcMotorSimple> extends HardwareDevice<T> implements
         return getDevice().getPower();
     }
 
-    /** Set speed of motor
+    /** Set speed of motor  
      *
      * @param speed The speed of the motor
      */

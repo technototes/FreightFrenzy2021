@@ -2,16 +2,23 @@ package org.firstinspires.ftc.teamcode.commands;
 
 import org.firstinspires.ftc.teamcode.subsystems.DrivebaseSubsystem;
 
+import java.util.function.DoubleSupplier;
+
 public class TurnCommand extends PathCommand {
-    public double angle;
+    public DoubleSupplier supplier;
     public TurnCommand(DrivebaseSubsystem sub, double ang) {
         super(sub);
-        angle = ang;
+        supplier =()->ang;
     }
+    public TurnCommand(DrivebaseSubsystem sub, DoubleSupplier ang) {
+        super(sub);
+        supplier = ang;
+    }
+
 
     @Override
     public void init() {
-        subsystem.turnAsync(Math.toRadians(angle)-subsystem.getExternalHeading());
+        subsystem.turnAsync(Math.toRadians(supplier.getAsDouble())-subsystem.getExternalHeading());
     }
 
 }
