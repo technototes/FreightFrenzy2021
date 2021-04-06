@@ -50,7 +50,6 @@ public class WobblesThenStartingRings extends CommandOpMode implements Loggable 
         state.setStackSize(AutoState.StackSize.FOUR);
         CommandScheduler.getInstance().scheduleForState(new GetStackSizeCommand(robot.visionSubsystem, state),
                 () -> true, OpModeState.INIT);
-
     }
 
     @Override
