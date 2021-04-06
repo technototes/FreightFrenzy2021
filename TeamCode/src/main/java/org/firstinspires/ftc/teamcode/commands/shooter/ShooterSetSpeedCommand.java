@@ -11,7 +11,7 @@ public class ShooterSetSpeedCommand extends WaitCommand {
     public double curr;
     public ShooterSetSpeedCommand(ShooterSubsystem sub, DoubleSupplier sup){
         super(1);
-        addRequirements(sub);
+        //addRequirements(sub);
         subsystem = sub;
         supplier = sup;
     }
@@ -19,6 +19,11 @@ public class ShooterSetSpeedCommand extends WaitCommand {
     @Override
     public void init() {
         curr = supplier.getAsDouble();
+
+    }
+
+    @Override
+    public void execute() {
         subsystem.setVelocity(curr);
     }
 }

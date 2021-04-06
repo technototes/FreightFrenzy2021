@@ -31,7 +31,8 @@ import java.util.function.Supplier;
  */
 public class Logger {
 
-    private Entry<?>[] runEntries, initEntries;
+    public Entry<?>[] runEntries;
+    public Entry<?>[] initEntries;
     private Set<Entry<?>> unindexedRunEntries, unindexedInitEntries;
     private Telemetry telemetry;
     private OpMode opMode;
@@ -59,7 +60,7 @@ public class Logger {
     }
 
     private void configure(Object root) {
-        for (Field field : root.getClass().getDeclaredFields()) {
+        for (Field field : root.getClass().getFields()) {
             try {
                 Object o = field.get(root);
                 if (isFieldAllowed(field)) {
@@ -70,18 +71,21 @@ public class Logger {
                             || field.isAnnotationPresent(Log.Boolean.class)) {
                         if (field.getType().isPrimitive() || o instanceof String) {
                             set(field.getDeclaredAnnotations(), field, root);
+                            System.out.println("prim");
                         } else if (getCustom(o) != null) {
                             set(field.getDeclaredAnnotations(), getCustom(o));
+                            System.out.println("cust");
                         } else if(o instanceof Stated) {
                             set(field.getDeclaredAnnotations(), ((Stated) o)::getState);
+                            System.out.println("stat");
                         }
                     }
                 }
             } catch (IllegalAccessException ignored) {
-
+                System.out.println("reeeeeeeeeeeeeeeeeeee");
             }
         }
-        for (Method m : root.getClass().getDeclaredMethods()) {
+        for (Method m : root.getClass().getMethods()) {
             set(m.getDeclaredAnnotations(), m, root);
         }
     }
@@ -89,7 +93,7 @@ public class Logger {
     //TODO make list and do sort with comparators
     //List<List<Entry<?>>
     private Entry<?>[] generate(Set<Entry<?>> a) {
-        Entry<?>[] returnEntry = new Entry[20];
+        Entry<?>[] returnEntry = new Entry[10];
         List<Entry<?>> unindexed = new ArrayList<>();
         for (Entry<?> e : a) {
             int index = e.getIndex();
