@@ -1,23 +1,21 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.technototes.control.gamepad.GamepadStick;
 import com.technototes.library.command.CommandScheduler;
+import com.technototes.library.command.InstantCommand;
 import com.technototes.library.command.ParallelCommandGroup;
-import com.technototes.library.command.WaitCommand;
 import com.technototes.library.control.gamepad.CommandAxis;
-import com.technototes.library.control.gamepad.CommandBinding;
 import com.technototes.library.control.gamepad.CommandButton;
 import com.technototes.library.control.gamepad.CommandGamepad;
 
-import com.technototes.library.command.SequentialCommandGroup;
-
 import org.firstinspires.ftc.teamcode.commands.autonomous.SendOneRingToShooterCommand;
+import org.firstinspires.ftc.teamcode.commands.autonomous.TurretFollowCommand;
 import org.firstinspires.ftc.teamcode.commands.drivebase.AlignToShootCommand;
 import org.firstinspires.ftc.teamcode.commands.drivebase.DriveCommand;
 import org.firstinspires.ftc.teamcode.commands.drivebase.ResetGyroCommand;
-import org.firstinspires.ftc.teamcode.commands.drivebase.TestSplineCommand;
-import org.firstinspires.ftc.teamcode.commands.index.ArmExtendCommand;
-import org.firstinspires.ftc.teamcode.commands.index.ArmRetractCommand;
+import org.firstinspires.ftc.teamcode.commands.drivebase.VisionAlignCommand;
 import org.firstinspires.ftc.teamcode.commands.index.IndexPivotDownCommand;
 import org.firstinspires.ftc.teamcode.commands.index.IndexPivotUpCommand;
 import org.firstinspires.ftc.teamcode.commands.intake.IntakeInCommand;
@@ -25,12 +23,8 @@ import org.firstinspires.ftc.teamcode.commands.intake.IntakeOutCommand;
 import org.firstinspires.ftc.teamcode.commands.intake.IntakeStopCommand;
 import org.firstinspires.ftc.teamcode.commands.shooter.ShooterSetFlapCommand;
 import org.firstinspires.ftc.teamcode.commands.shooter.ShooterStopCommand;
-import org.firstinspires.ftc.teamcode.commands.wobble.WobbleCloseCommand;
 import org.firstinspires.ftc.teamcode.commands.wobble.WobbleCloseThenRaiseCommand;
-import org.firstinspires.ftc.teamcode.commands.wobble.WobbleLowerCommand;
 import org.firstinspires.ftc.teamcode.commands.wobble.WobbleLowerThenOpenCommand;
-import org.firstinspires.ftc.teamcode.commands.wobble.WobbleOpenCommand;
-import org.firstinspires.ftc.teamcode.commands.wobble.WobbleRaiseCommand;
 
 /** Class for driver controls
  *
@@ -56,8 +50,8 @@ public class OperatorInterface {
     public CommandButton firePrepButton;
     public CommandAxis fireAxis;
 
-    public CommandButton shooterFlapButton;
-    public CommandAxis shooterFlapAxis;
+    public CommandButton powerButton;
+    public CommandAxis powerAxis;
 
     public GamepadStick driveLStick, driveRStick;
     //public CommandButton turboModeButton, snailModeButton;
@@ -83,8 +77,9 @@ public class OperatorInterface {
         //to actually fire
         fireAxis.setTriggerThreshold(0.1);
 
-        shooterFlapButton = driverGamepad.rightBumper;
-        shooterFlapAxis = driverGamepad.rightTrigger;
+        powerButton = driverGamepad.rightBumper;
+        powerAxis = driverGamepad.rightTrigger;
+        powerAxis.setTriggerThreshold(0.1);
 
         driveLStick = driverGamepad.leftStick;
         driveRStick = driverGamepad.rightStick;
@@ -92,6 +87,10 @@ public class OperatorInterface {
         
         resetGyroButton = driverGamepad.rightStickButton;
 
+
+
+//        powerAxis.whilePressed(new InstantCommand(()->robot.shooterSubsystem.setAngle(powerAxis.getAsDouble())))
+//                .whileReleased(new TurretFollowCommand(robot.drivebaseSubsystem, robot.shooterSubsystem));
         wobbleArmButton.whenToggled(new WobbleLowerThenOpenCommand(robot.wobbleSubsystem))
                 .whenInverseToggled(new WobbleCloseThenRaiseCommand(robot.wobbleSubsystem));
 
@@ -104,11 +103,12 @@ public class OperatorInterface {
         intakeSpitButton.whenPressed(new IntakeOutCommand(robot.intakeSubsystem))
                 .whenReleased(new IntakeStopCommand(robot.intakeSubsystem));
 
-        shooterFlapButton.whilePressed(new ShooterSetFlapCommand(robot.shooterSubsystem, shooterFlapAxis));
+        powerButton.whilePressed(new ShooterSetFlapCommand(robot.shooterSubsystem, ()->0.23));
+//        powerButton.whilePressed(new ShooterSetFlapCommand(robot.shooterSubsystem, powerAxis));
         firePrepButton.whenPressed(new ParallelCommandGroup(
                 new IndexPivotUpCommand(robot.indexSubsystem),
                 new AlignToShootCommand(robot.drivebaseSubsystem, robot.shooterSubsystem),
-                new ShooterSetFlapCommand(robot.shooterSubsystem, ()->0.28),
+                new ShooterSetFlapCommand(robot.shooterSubsystem, ()->0.70),
                 new IntakeStopCommand(robot.intakeSubsystem)))
                 .schedule(()->fireAxis.getAsBoolean()&&firePrepButton.getAsBoolean(), new SendOneRingToShooterCommand(robot.indexSubsystem, ()->1-fireAxis.getAsDouble()))   //new IndexPivotDownCommand(robot.indexSubsystem))
                 .whenReleased(new IndexPivotDownCommand(robot.indexSubsystem))
@@ -116,12 +116,16 @@ public class OperatorInterface {
                 //.whenReleased(new IntakeInCommand(robot.intakeSubsystem));
         //fireAxis.whenReleased(new ArmRetractCommand(robot.indexSubsystem));
         //drive command
-        CommandScheduler.getInstance().scheduleJoystick(new DriveCommand(robot.drivebaseSubsystem, driveLStick, driveRStick), ()->true);
+        testButton.whileReleased(new DriveCommand(robot.drivebaseSubsystem, driveLStick, driveRStick))
+                .whilePressed(new VisionAlignCommand(robot.drivebaseSubsystem, robot.visionSubsystem));
 
 //        snailModeButton.whenPressed(new SnailSpeedCommand(robot.drivebaseSubsystem))
 //                .whenReleased(new NormalSpeedCommand(robot.drivebaseSubsystem));
 //        turboModeButton.whenPressed(new TurboSpeedCommand(robot.drivebaseSubsystem))
 //                .whenReleased(new NormalSpeedCommand(robot.drivebaseSubsystem));
         resetGyroButton.whenPressed(new ResetGyroCommand(robot.drivebaseSubsystem));
+
+
+
     }
 }

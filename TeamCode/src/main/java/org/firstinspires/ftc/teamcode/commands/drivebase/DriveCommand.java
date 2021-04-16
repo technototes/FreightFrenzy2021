@@ -14,7 +14,7 @@ public class DriveCommand extends Command {
     public DrivebaseSubsystem subsystem;
     public DoubleSupplier x, y, r;
     public DriveCommand(DrivebaseSubsystem sub, Stick stick1, Stick stick2) {
-        addRequirements(sub.dummySubsystem);
+        //addRequirements(sub.dummySubsystem);
         subsystem = sub;
         x = stick1.getXSupplier();
         y = stick1.getYSupplier();
@@ -32,7 +32,7 @@ public class DriveCommand extends Command {
                 new Pose2d(
                         input.getX(),
                         input.getY(),
-                        -r.getAsDouble()
+                        -Math.pow(r.getAsDouble(), 3)
                 )
         );
         subsystem.update();

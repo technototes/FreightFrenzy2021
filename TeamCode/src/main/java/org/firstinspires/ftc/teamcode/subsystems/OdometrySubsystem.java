@@ -46,7 +46,7 @@ public class OdometrySubsystem extends ThreeTrackingWheelLocalizer {
         rightEncoder = r;
         frontEncoder = f;
 
-        leftEncoder.invert();
+        leftEncoder.setDirection(Encoder.Direction.REVERSE);
 
         // TODO: reverse any encoders using Encoder.setDirection(Encoder.Direction.REVERSE)
     }

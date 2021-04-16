@@ -12,6 +12,9 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvPipeline;
 import org.openftc.easyopencv.OpenCvWebcam;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class VisionSubsystem extends OpenCvPipeline {
 
     //We declare the mats ontop so we can reuse them later to avoid memory leaks
@@ -32,14 +35,19 @@ public class VisionSubsystem extends OpenCvPipeline {
 
     //The position related to the screen
     private double topRectWidthPercentage = 0;
-    private double topRectHeightPercentage = 0.57;
+    private double topRectHeightPercentage = 0.55;
     private double bottomRectWidthPercentage = 0;
-    private double bottomRectHeightPercentage = 0.66;
+    private double bottomRectHeightPercentage = 0.64;
 
     //The width and height of the rectangles in terms of pixels
     private int rectangleWidth = 40;
     private int rectangleHeight = 10;
 
+    private double upRectHeight = 0.5;
+    private double upRectWidth = 0.05;
+
+    public List<Integer> goal;
+    public int mean;
 
     private OpenCvCamera webcam;
 
@@ -59,6 +67,9 @@ public class VisionSubsystem extends OpenCvPipeline {
          *https://docs.opencv.org/3.4/d8/d01/group__imgproc__color__conversions.html
          */
         Imgproc.cvtColor(input, matYCrCb, Imgproc.COLOR_RGB2HSV);
+
+
+
 
         //The points needed for the rectangles are calculated here
         Rect topRect = new Rect(
@@ -98,6 +109,42 @@ public class VisionSubsystem extends OpenCvPipeline {
 //
 //        telemetry.update();
         //return the mat to be shown onto the screen
+
+        Imgproc.cvtColor(input, matYCrCb, Imgproc.COLOR_RGB2RGBA);
+
+        goal = new ArrayList<>();
+        for(double d = 0; d<1; d+=upRectWidth){
+            Rect r = new Rect((int) (matYCrCb.width() * d), 0, (int) (matYCrCb.width()*upRectWidth), (int) (matYCrCb.height()*upRectHeight));
+            drawRectOnToMat(input, r, new Scalar(255, 0, 0));
+            Mat m1 = new Mat();
+            Mat m2 = new Mat();
+            Mat m3 = new Mat();
+
+            Core.extractChannel(matYCrCb.submat(r), m1, 0);
+            Core.extractChannel(matYCrCb.submat(r), m2, 1);
+            Core.extractChannel(matYCrCb.submat(r), m3, 2);
+
+            Scalar mean1 = Core.mean(m1);
+            Scalar mean2 = Core.mean(m2);
+            Scalar mean3 = Core.mean(m3);
+
+            double avg = mean1.val[0]-mean2.val[0]-mean3.val[0]+100;
+            //mats.add(m);
+
+            if(avg>0) goal.add((int) Math.round(d/upRectWidth));
+
+
+            //telemetry.addLine(Math.round(d/upRectWidth)+": "+avg+" ");
+
+        }
+//        telemetry.update();
+        mean = 0;
+        for(int i : goal){
+            mean+=i;
+        }
+        if(goal.size()!=0) mean/=goal.size();
+//        telemetry.addLine(""+mean);
+
         return input;
     }
 

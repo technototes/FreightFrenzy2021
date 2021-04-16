@@ -21,7 +21,7 @@ public class AlignToShootCommand extends Command {
 
     @Override
     public void execute() {
-        shooterSubsystem.setVelocity(1);
+        shooterSubsystem.setVelocity(0.8);
     }
 
     @Override

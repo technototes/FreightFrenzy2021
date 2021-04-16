@@ -34,15 +34,15 @@ public class IndexSubsystem extends ServoSubsystem {
         pivot.setPosition(0.65);//0.62
     }
     public void lowerToIntake(){
-        pivot.setPosition(0.445);
+        pivot.setPosition(0.45);
     }
 
     public void extendArm(){
-        arm.setPosition(0.4);
+        arm.setPosition(0.3);
     }//0.45
 
     public void retractArm(){
-        arm.setPosition(0.18);
+        arm.setPosition(0.12);
     }
 //    //public int getNumRings(){
 //        return indexState.getNumRings();

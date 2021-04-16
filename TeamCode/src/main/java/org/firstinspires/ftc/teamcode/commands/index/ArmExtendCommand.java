@@ -8,7 +8,7 @@ public class ArmExtendCommand extends WaitCommand {
     public IndexSubsystem indexSubsystem;
     public ArmExtendCommand(IndexSubsystem subsystem){
         //COOLDOWN
-        super(0.15);
+        super(0.2);
         //addRequirements(subsystem);
         indexSubsystem = subsystem;
     }

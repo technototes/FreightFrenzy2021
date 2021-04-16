@@ -157,7 +157,7 @@ public class EncodedMotor<T extends DcMotorSimple> extends Motor<T> implements S
      * @param tps the speed in encoder ticks per second
      */
     public void setVelocity(double tps) {
-        if(getDevice() instanceof DcMotorEx){
+        if(getDevice() instanceof DcMotor){
             ((DcMotor) getDevice()).setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             getDevice().setPower(tps);
         } else {
@@ -166,23 +166,11 @@ public class EncodedMotor<T extends DcMotorSimple> extends Motor<T> implements S
     }
 
     public double getVelocity(){
-        if(getDevice() instanceof DcMotor){
-            ((DcMotor) getDevice()).setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            return getDevice().getPower();
-        } else {
-            //TODO velo for non dcmotors
-            return 0;
-        }
+        return getDevice().getPower();
     }
     @Override
     public double getSpeed(){
-        if(getDevice() instanceof DcMotor){
-            //((DcMotor) getDevice()).setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            return getDevice().getPower();
-        } else {
-            //TODO velo for non dcmotors
-            return 0;
-        }
+        return getDevice().getPower();
     }
 
 

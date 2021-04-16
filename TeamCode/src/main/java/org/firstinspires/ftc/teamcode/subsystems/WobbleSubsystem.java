@@ -10,7 +10,7 @@ public class WobbleSubsystem extends ServoSubsystem implements Stated<String> {
     public Servo clawServo;
 
     public enum ArmPosition{
-        RAISED(0.85), LOWERED(0.35);
+        RAISED(0.5), LOWERED(0);
         public double position;
         ArmPosition(double pos) {
             position = pos;
@@ -21,7 +21,7 @@ public class WobbleSubsystem extends ServoSubsystem implements Stated<String> {
     }
 
     public enum ClawPosition{
-        OPEN(1), CLOSED(0);
+        OPEN(1), CLOSED(0.5);
         public double position;
         ClawPosition(double pos) {
             position = pos;

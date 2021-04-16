@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.commands;
 
+import com.acmerobotics.roadrunner.util.Angle;
+
 import org.firstinspires.ftc.teamcode.subsystems.DrivebaseSubsystem;
 
 import java.util.function.DoubleSupplier;
@@ -18,7 +20,7 @@ public class TurnCommand extends PathCommand {
 
     @Override
     public void init() {
-        subsystem.turnAsync(Math.toRadians(supplier.getAsDouble())-subsystem.getExternalHeading());
+        subsystem.turnAsync(Angle.norm(Math.toRadians(supplier.getAsDouble())-subsystem.getExternalHeading()));
     }
 
 }

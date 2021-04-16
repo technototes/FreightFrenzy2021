@@ -49,6 +49,7 @@ public class Hardware implements Loggable {
     public EncodedMotorGroup shooterMotorGroup;
 
     public Servo shooterFlapServo;
+    public Servo shooterAngleServo;
 
 
     //wobble
@@ -82,6 +83,7 @@ public class Hardware implements Loggable {
         shooterMotorGroup = new EncodedMotorGroup(shooterMotor1, shooterMotor2);
 
         shooterFlapServo = new Servo("flapservo");
+        shooterAngleServo = new Servo("wobblearm");
 
         wobbleArmServo = new Servo("wobblearm");
         wobbleClawServo = new Servo("wobbleclaw");

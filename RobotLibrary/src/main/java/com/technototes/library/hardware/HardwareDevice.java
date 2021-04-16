@@ -29,6 +29,7 @@ public abstract class HardwareDevice<T extends com.qualcomm.robotcore.hardware.H
         this(hardwareMap.get((Class<T>) com.qualcomm.robotcore.hardware.HardwareDevice.class /*T.class*/, deviceName));
     }
 
+
     /** Get encapsulated device
      *
      * @return The device

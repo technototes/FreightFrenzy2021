@@ -21,7 +21,7 @@ import org.firstinspires.ftc.teamcode.commands.TurnCommand;
 import org.firstinspires.ftc.teamcode.commands.drivebase.DriveCommand;
 import org.firstinspires.ftc.teamcode.commands.shooter.ShooterSetFlapCommand;
 import org.firstinspires.ftc.teamcode.commands.shooter.ShooterSetSpeedCommand;
-@Disabled
+//@Disabled
 @TeleOp(name = "shooterconfig")
 public class ShooterConfigOpMode extends CommandOpMode implements Loggable {
     @LogConfig.Disabled
@@ -42,26 +42,35 @@ public class ShooterConfigOpMode extends CommandOpMode implements Loggable {
 
     @Log.Number(name = "x", index = 0)
     public double x(){
+        System.out.print("  x "+ (int)robot.drivebaseSubsystem.getPoseEstimate().getX());
         return robot.drivebaseSubsystem.getPoseEstimate().getX();
     }
     @Log.Number(name = "y", index = 1)
     public double y(){
+        System.out.print("  y "+ (int)robot.drivebaseSubsystem.getPoseEstimate().getY());
         return robot.drivebaseSubsystem.getPoseEstimate().getY();
 
     }
     @Log.Number(name = "rotation", index = 2)
     public double rotation(){
+        System.out.print("  rot "+ (int)Math.toDegrees(robot.drivebaseSubsystem.getExternalHeading()));
         return Math.toDegrees(robot.drivebaseSubsystem.getExternalHeading());
 
     }
     @Log.Number(name = "shooterspeed", index = 3)
     public double shooter(){
+        System.out.print("  sp "+ (int)robot.shooterSubsystem.getVelocity());
+
         return robot.shooterSubsystem.getVelocity();
     }
     @Log.Number(name = "flappos", index = 4)
     public double flap(){
+        System.out.print("  fl "+ (int)robot.shooterSubsystem.getFlapPosition());
         return robot.shooterSubsystem.getFlapPosition();
     }
 
-
+    @Override
+    public void universalLoop() {
+        System.out.println();
+    }
 }

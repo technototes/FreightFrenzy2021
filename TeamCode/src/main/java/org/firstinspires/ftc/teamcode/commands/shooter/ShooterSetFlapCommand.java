@@ -20,10 +20,7 @@ public class ShooterSetFlapCommand extends WaitCommand {
     @Override
     public void init() {
         curr = supplier.getAsDouble();
+        subsystem.setFlapPosition(curr);
     }
 
-    @Override
-    public void execute() {
-       subsystem.setFlapPosition(curr);
-    }
 }

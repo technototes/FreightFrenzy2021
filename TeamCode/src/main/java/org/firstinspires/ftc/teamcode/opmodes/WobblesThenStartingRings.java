@@ -62,9 +62,10 @@ public class WobblesThenStartingRings extends CommandOpMode implements Loggable 
                         new DeliverSecondWobble2Command(robot.drivebaseSubsystem, robot.wobbleSubsystem, state),
                         //shoot
                         new ParallelCommandGroup(
-                                new StrafeCommand(robot.drivebaseSubsystem, state.correctedPos(56, 18, -9)),
-                                new PrepToShootCommand(robot.indexSubsystem, robot.shooterSubsystem, 0.8, 0.29)
+                                new StrafeCommand(robot.drivebaseSubsystem, state.correctedPos(56, 18, -11)),
+                                new PrepToShootCommand(robot.indexSubsystem, robot.shooterSubsystem, 0.8, 0.28)
                                 ),
+                        new SendOneRingToShooterCommand(robot.indexSubsystem, 0.2),
                         new SendOneRingToShooterCommand(robot.indexSubsystem, 0.2),
                         new SendOneRingToShooterCommand(robot.indexSubsystem, 0.2),
                         new SendOneRingToShooterCommand(robot.indexSubsystem, 0.2),

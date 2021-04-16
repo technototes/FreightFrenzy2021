@@ -17,11 +17,12 @@ public class SendOneRingToShooterCommand extends SequentialCommandGroup {
         this(subsystem, ()->0);
     }
     public SendOneRingToShooterCommand(IndexSubsystem subsystem, DoubleSupplier d){
-        super(new ArmExtendCommand(subsystem),
-                new ParallelCommandGroup(new ArmRetractCommand(subsystem),
-                new IndexPivotMidCommand(subsystem)),
-                new IndexPivotUpCommand(subsystem),
-                new WaitCommand(d));
+//        super(new ArmExtendCommand(subsystem),
+//                new ParallelCommandGroup(new ArmRetractCommand(subsystem),
+//                new IndexPivotMidCommand(subsystem)),
+//                new IndexPivotUpCommand(subsystem),
+//                new WaitCommand(d));
+        super(new ArmExtendCommand(subsystem), new ArmRetractCommand(subsystem), new WaitCommand(d));
     }
     public SendOneRingToShooterCommand(IndexSubsystem subsystem, double d){
         this(subsystem, ()->d);

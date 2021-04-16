@@ -1,16 +1,11 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
-import com.acmerobotics.roadrunner.control.PIDCoefficients;
-import com.acmerobotics.roadrunner.control.PIDFController;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotorImpl;
 import com.qualcomm.robotcore.hardware.DcMotorImplEx;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
-import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
-import com.qualcomm.robotcore.util.ElapsedTime;
 import com.technototes.library.hardware.motor.EncodedMotor;
 import com.technototes.library.hardware.motor.EncodedMotorGroup;
+import com.technototes.library.hardware.motor.Motor;
 import com.technototes.library.hardware.servo.Servo;
 import com.technototes.library.subsystem.motor.EncodedMotorSubsystem;
 import com.technototes.logger.Stated;
@@ -19,14 +14,16 @@ import com.technototes.logger.Stated;
  *
  */
 public class ShooterSubsystem extends EncodedMotorSubsystem implements Stated<Double> {
-    public EncodedMotor motor1, motor2;
-    public Servo servo;
+    public EncodedMotor<DcMotorEx> motor1;
+    public Motor<DcMotorEx> motor2;
+    public Servo flap, angle;
+
 
     //public double targetVelo = 0.0;
 
 
     // Copy your PID Coefficients here
-    public static PIDFCoefficients MOTOR_VELO_PID = new PIDFCoefficients(14, 0.4, 0, 13.5);
+    public static PIDFCoefficients MOTOR_VELO_PID = new PIDFCoefficients(140, 0.4, 0, 13.5);
 
     // Copy your feedforward gains here
 //    public static double kV = 1 / 3000.0;//2655.0;
@@ -39,20 +36,21 @@ public class ShooterSubsystem extends EncodedMotorSubsystem implements Stated<Do
 //    private double lastTargetVelo = 0.0;
 //
 //    private final VelocityPIDFController veloController = new VelocityPIDFController(MOTOR_VELO_PID, kV, kA, kStatic);
-    public ShooterSubsystem(EncodedMotor<DcMotorEx> m1, EncodedMotor<DcMotorEx> m2, Servo s){
-        super(m1, m2);
+    public ShooterSubsystem(EncodedMotor<DcMotorEx> m1, Motor<DcMotorEx> m2, Servo f, Servo a){
+        super(new EncodedMotorGroup(m1, m2));
         motor1 = m1;
         motor2 = m2;
         m1.setPIDFCoeffecients(MOTOR_VELO_PID);
-        m2.setPIDFCoeffecients(MOTOR_VELO_PID);
-        servo = s;
-        s.setRange(0.5, 1);
+        flap = f;
+        angle = a;
+        flap.setRange(0.5, 1);
+        angle.setRange(1.0/3, 1);
 
     }
     public void setVelocity(double p){
         //targetVelo = p*3000;//2655;
         motor1.setVelocity(p);
-        motor2.setVelocity(p);
+        motor2.setSpeed(motor1.getSpeed());
     }
 
     public double getVelocity(){
@@ -66,11 +64,15 @@ public class ShooterSubsystem extends EncodedMotorSubsystem implements Stated<Do
     }
 
     public void setFlapPosition(double pos){
-        servo.setPosition(pos);
+        flap.setPosition(pos);
     }
 
     public double getFlapPosition(){
-        return servo.getPosition();
+        return flap.getPosition();
+    }
+
+    public void setAngle(double a){
+        angle.setPosition(a);
     }
 
     @Override
