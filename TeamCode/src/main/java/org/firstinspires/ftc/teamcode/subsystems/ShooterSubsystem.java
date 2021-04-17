@@ -23,7 +23,7 @@ public class ShooterSubsystem extends EncodedMotorSubsystem implements Stated<Do
 
 
     // Copy your PID Coefficients here
-    public static PIDFCoefficients MOTOR_VELO_PID = new PIDFCoefficients(140, 0.4, 0, 13.5);
+    public static PIDFCoefficients MOTOR_VELO_PID = new PIDFCoefficients(30, 0.4, 0, 13.5);
 
     // Copy your feedforward gains here
 //    public static double kV = 1 / 3000.0;//2655.0;

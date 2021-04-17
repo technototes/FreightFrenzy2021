@@ -21,13 +21,13 @@ public class AlignToShootCommand extends Command {
 
     @Override
     public void execute() {
-        shooterSubsystem.setVelocity(0.8);
+        shooterSubsystem.setVelocity(0.75);
     }
 
     @Override
     public boolean isFinished() {
         //check if changes are made
-        return shooterSubsystem.getVelocity()>0.8;
+        return shooterSubsystem.getVelocity()>0.75;
     }
 //    @Override
 //    public void end(boolean cancel) {

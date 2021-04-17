@@ -6,6 +6,8 @@ import com.technototes.control.gamepad.GamepadStick;
 import com.technototes.library.command.CommandScheduler;
 import com.technototes.library.command.InstantCommand;
 import com.technototes.library.command.ParallelCommandGroup;
+import com.technototes.library.command.SequentialCommandGroup;
+import com.technototes.library.command.WaitCommand;
 import com.technototes.library.control.gamepad.CommandAxis;
 import com.technototes.library.control.gamepad.CommandButton;
 import com.technototes.library.control.gamepad.CommandGamepad;
@@ -109,7 +111,7 @@ public class OperatorInterface {
                 new IndexPivotUpCommand(robot.indexSubsystem),
                 new AlignToShootCommand(robot.drivebaseSubsystem, robot.shooterSubsystem),
                 new ShooterSetFlapCommand(robot.shooterSubsystem, ()->0.70),
-                new IntakeStopCommand(robot.intakeSubsystem)))
+                new SequentialCommandGroup(new WaitCommand(1), new IntakeStopCommand(robot.intakeSubsystem))))
                 .schedule(()->fireAxis.getAsBoolean()&&firePrepButton.getAsBoolean(), new SendOneRingToShooterCommand(robot.indexSubsystem, ()->1-fireAxis.getAsDouble()))   //new IndexPivotDownCommand(robot.indexSubsystem))
                 .whenReleased(new IndexPivotDownCommand(robot.indexSubsystem))
                 .whenReleased(new ShooterStopCommand(robot.shooterSubsystem));

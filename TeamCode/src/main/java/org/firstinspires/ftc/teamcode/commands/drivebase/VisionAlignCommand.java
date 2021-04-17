@@ -13,7 +13,7 @@ import org.firstinspires.ftc.teamcode.subsystems.VisionSubsystem;
 public class VisionAlignCommand extends WaitCommand {
     public VisionSubsystem visionSubsystem;
     public DrivebaseSubsystem drivebaseSubsystem;
-    public int target = 8;
+    public int target = 9;
     public double scale = 30;
 
     public VisionAlignCommand(DrivebaseSubsystem d, VisionSubsystem v){
