@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
+import com.technototes.logger.Stated;
+
 import org.firstinspires.ftc.teamcode.commands.autonomous.AutoState;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
@@ -13,7 +15,7 @@ import org.openftc.easyopencv.OpenCvPipeline;
 import java.util.ArrayList;
 import java.util.List;
 
-public class VisionSubsystem extends OpenCvPipeline {
+public class VisionSubsystem extends OpenCvPipeline implements Stated<Integer> {
 
     //We declare the mats ontop so we can reuse them later to avoid memory leaks
     private Mat matYCrCb = new Mat();
@@ -57,7 +59,7 @@ public class VisionSubsystem extends OpenCvPipeline {
 
     double avg;
     Scalar mean1, mean2, mean3;
-    Mat m1, m2, m3;
+    Mat m1 = new Mat(), m2 = new Mat(), m3 = new Mat();
     Rect r;
 
     Rect topRect, bottomRect;
@@ -92,8 +94,8 @@ public class VisionSubsystem extends OpenCvPipeline {
         );
 
         //The rectangle is drawn into the mat
-        drawRectOnToMat(input, topRect, RED);
-        drawRectOnToMat(input, bottomRect, GREEN);
+        drawRectOnToMat(input, topRect, new Scalar(255, 0, 0));
+        drawRectOnToMat(input, bottomRect, new Scalar(0, 255, 0));
 
         //We crop the image so it is only everything inside the rectangles and find the cb value inside of them
         topBlock = matYCrCb.submat(topRect);
@@ -115,46 +117,46 @@ public class VisionSubsystem extends OpenCvPipeline {
 //        telemetry.update();
         //return the mat to be shown onto the screen
 
-        Imgproc.cvtColor(input, matYCrCb, Imgproc.COLOR_RGB2RGBA);
-
-        goal = new ArrayList<>();
-        for(double d = 0; d<1; d+=upRectWidth){
-            r = new Rect((int) (matYCrCb.width() * d), 0, (int) (matYCrCb.width()*upRectWidth), (int) (matYCrCb.height()*upRectHeight));
-            drawRectOnToMat(input, r, new Scalar(255, 0, 0));
-
-            Core.extractChannel(matYCrCb.submat(r), m1, 0);
-            Core.extractChannel(matYCrCb.submat(r), m2, 1);
-            Core.extractChannel(matYCrCb.submat(r), m3, 2);
-
-            mean1 = Core.mean(m1);
-            mean2 = Core.mean(m2);
-            mean3 = Core.mean(m3);
-
-            avg = mean1.val[0]-mean2.val[0]-mean3.val[0]+100;
-            //mats.add(m);
-
-            if(avg>0) goal.add((int) Math.round(d/upRectWidth));
-
-
-            //telemetry.addLine(Math.round(d/upRectWidth)+": "+avg+" ");
-
-        }
-        m1.release();
-        m2.release();
-        m3.release();
-
-//        telemetry.update();
-        mean = 0;
-        for(int i : goal){
-            mean+=i;
-        }
-        if(goal.size()!=0) mean/=goal.size();
-//        telemetry.addLine(""+mean);
-        try {
-            Thread.sleep(50);
-        } catch (InterruptedException e) {
-            System.out.println("vision thread interrupted");
-        }
+//        Imgproc.cvtColor(input, matYCrCb, Imgproc.COLOR_RGB2RGBA);
+//
+//        goal = new ArrayList<>();
+//        for(double d = 0; d<1; d+=upRectWidth){
+//            r = new Rect((int) (matYCrCb.width() * d), 0, (int) (matYCrCb.width()*upRectWidth), (int) (matYCrCb.height()*upRectHeight));
+//            drawRectOnToMat(input, r, new Scalar(255, 0, 0));
+//
+//            Core.extractChannel(matYCrCb.submat(r), m1, 0);
+//            Core.extractChannel(matYCrCb.submat(r), m2, 1);
+//            Core.extractChannel(matYCrCb.submat(r), m3, 2);
+//
+//            mean1 = Core.mean(m1);
+//            mean2 = Core.mean(m2);
+//            mean3 = Core.mean(m3);
+//
+//            avg = mean1.val[0]-mean2.val[0]-mean3.val[0]+100;
+//            //mats.add(m);
+//
+//            if(avg>0) goal.add((int) Math.round(d/upRectWidth));
+//
+//
+//            //telemetry.addLine(Math.round(d/upRectWidth)+": "+avg+" ");
+//
+//        }
+//        m1.release();
+//        m2.release();
+//        m3.release();
+//
+////        telemetry.update();
+//        mean = 0;
+//        for(int i : goal){
+//            mean+=i;
+//        }
+//        if(goal.size()!=0) mean/=goal.size();
+////        telemetry.addLine(""+mean);
+//        try {
+//            Thread.sleep(50);
+//        } catch (InterruptedException e) {
+//            System.out.println("vision thread interrupted");
+//        }
         return input;
     }
 
@@ -186,4 +188,8 @@ public class VisionSubsystem extends OpenCvPipeline {
         return bottomAverage;
     }
 
+    @Override
+    public Integer getState() {
+        return getStackSize();
+    }
 }

@@ -1,9 +1,12 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.technototes.library.hardware.HardwareDevice;
 import com.technototes.logger.Color;
 import com.technototes.logger.Log;
+import com.technototes.logger.LogConfig;
 import com.technototes.logger.Loggable;
 
+import org.firstinspires.ftc.teamcode.opmodes.WobblesThenStartingRings;
 import org.firstinspires.ftc.teamcode.subsystems.OdometrySubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.IndexSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
@@ -28,22 +31,29 @@ public class Robot implements Loggable {
     public OdometrySubsystem odometrySubsystem;
 
     //index
-    //@Log.NumberBar(name = "Ring Capacity", index = -1, color = Color.DARK_GRAY, completeBarColor = Color.YELLOW, incompleteBarColor = Color.LIGHT_GRAY)
+    @Log(name = "Index", index = 4, color = Color.ORANGE, entryColor = Color.LIGHT_GRAY)
     public IndexSubsystem indexSubsystem;
 
     //intake
-    @Log(name = "Intake", index = 0, color = Color.RED)
+    @Log(name = "Intake", index = 1, color = Color.BLUE, entryColor = Color.LIGHT_GRAY)
     public IntakeSubsystem intakeSubsystem;
 
     //shooter
-    @Log(name = "Shooter", color = Color.GREEN)
+    @Log.NumberBar(name = "Shooter", index =  2, completeBarColor = Color.GREEN, min = 0)
     public ShooterSubsystem shooterSubsystem;
 
     //wobble
-    @Log(name = "Wobble", index = 2, color = Color.RED)
+    @Log(name = "Wobble", index = 3, color = Color.RED, entryColor = Color.LIGHT_GRAY)
     public WobbleSubsystem wobbleSubsystem;
 
+    @LogConfig.Run(duringInit = true, duringRun = false)
+    @Log.Number(name = "numrings", index = 0, color = Color.YELLOW, numberColor = Color.YELLOW)
     public VisionSubsystem visionSubsystem;
+
+    @Log.Number(name="VOLTAGE", index = 0, color = Color.YELLOW, numberColor = Color.LIGHT_GRAY)
+    public double getVoltage(){
+        return HardwareDevice.hardwareMap.voltageSensor.iterator().next().getVoltage();
+    }
 
     public Robot(){
         hardware = new Hardware();
@@ -56,7 +66,7 @@ public class Robot implements Loggable {
 
         intakeSubsystem = new IntakeSubsystem(hardware.intakeMotorGroup);
 
-        shooterSubsystem = new ShooterSubsystem(hardware.shooterMotor1, hardware.shooterMotor2, hardware.shooterFlapServo, hardware.shooterAngleServo);
+        shooterSubsystem = new ShooterSubsystem(hardware.shooterMotor1, hardware.shooterMotor2, hardware.shooterFlapServo);
 
         wobbleSubsystem =  new WobbleSubsystem(hardware.wobbleArmServo, hardware.wobbleClawServo);
 

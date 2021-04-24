@@ -16,7 +16,7 @@ import com.technototes.logger.Stated;
 public class ShooterSubsystem extends EncodedMotorSubsystem implements Stated<Double> {
     public EncodedMotor<DcMotorEx> motor1;
     public Motor<DcMotorEx> motor2;
-    public Servo flap, angle;
+    public Servo flap;
 
 
     //public double targetVelo = 0.0;
@@ -36,15 +36,13 @@ public class ShooterSubsystem extends EncodedMotorSubsystem implements Stated<Do
 //    private double lastTargetVelo = 0.0;
 //
 //    private final VelocityPIDFController veloController = new VelocityPIDFController(MOTOR_VELO_PID, kV, kA, kStatic);
-    public ShooterSubsystem(EncodedMotor<DcMotorEx> m1, Motor<DcMotorEx> m2, Servo f, Servo a){
+    public ShooterSubsystem(EncodedMotor<DcMotorEx> m1, Motor<DcMotorEx> m2, Servo f){
         super(new EncodedMotorGroup(m1, m2));
         motor1 = m1;
         motor2 = m2;
         m1.setPIDFCoeffecients(MOTOR_VELO_PID);
         flap = f;
-        angle = a;
         flap.setRange(0.5, 1);
-        angle.setRange(1.0/3, 1);
 
     }
     public void setVelocity(double p){
@@ -71,9 +69,6 @@ public class ShooterSubsystem extends EncodedMotorSubsystem implements Stated<Do
         return flap.getPosition();
     }
 
-    public void setAngle(double a){
-        angle.setPosition(a);
-    }
 
     @Override
     public Double getState() {

@@ -7,6 +7,7 @@ import com.technototes.library.command.ParallelCommandGroup;
 import com.technototes.library.command.SequentialCommandGroup;
 import com.technototes.library.command.WaitCommand;
 import com.technototes.library.structure.CommandOpMode;
+import com.technototes.logger.Color;
 import com.technototes.logger.Log;
 import com.technototes.logger.LogConfig;
 import com.technototes.logger.Loggable;
@@ -22,6 +23,8 @@ import org.firstinspires.ftc.teamcode.commands.autonomous.ObtainSecondWobble2Com
 import org.firstinspires.ftc.teamcode.commands.autonomous.ParkCommand;
 import org.firstinspires.ftc.teamcode.commands.autonomous.PrepToShootCommand;
 import org.firstinspires.ftc.teamcode.commands.autonomous.SendOneRingToShooterCommand;
+import org.firstinspires.ftc.teamcode.commands.intake.IntakeInCommand;
+import org.firstinspires.ftc.teamcode.commands.intake.IntakeStopCommand;
 import org.firstinspires.ftc.teamcode.commands.shooter.ShooterStopCommand;
 import org.firstinspires.ftc.teamcode.subsystems.WobbleSubsystem;
 
@@ -32,12 +35,6 @@ public class WobblesThenStartingRings extends CommandOpMode implements Loggable 
      */
     //@LogConfig.Disabled
     public Robot robot;
-
-    //@LogConfig.Run(duringInit = true)
-    @Log.Number(index = 3)
-    public int getStackSize() {
-        return state.stackSize.numRings;
-    }
 
     public AutoState state;
 
@@ -62,15 +59,18 @@ public class WobblesThenStartingRings extends CommandOpMode implements Loggable 
                         new DeliverSecondWobble2Command(robot.drivebaseSubsystem, robot.wobbleSubsystem, state),
                         //shoot
                         new ParallelCommandGroup(
-                                new StrafeCommand(robot.drivebaseSubsystem, state.correctedPos(56, 18, -11)),
-                                new PrepToShootCommand(robot.indexSubsystem, robot.shooterSubsystem, 0.8, 0.28)
-                                ),
+
+                                new StrafeCommand(robot.drivebaseSubsystem, state.correctedPos(60, 6, -5)),
+                                new PrepToShootCommand(robot.indexSubsystem, robot.shooterSubsystem, 0.8, 0.45),
+                                new SequentialCommandGroup(new IntakeInCommand(robot.intakeSubsystem), new WaitCommand(0.4), new IntakeStopCommand(robot.intakeSubsystem))
+
+                        ),
                         new SendOneRingToShooterCommand(robot.indexSubsystem, 0.2),
                         new SendOneRingToShooterCommand(robot.indexSubsystem, 0.2),
                         new SendOneRingToShooterCommand(robot.indexSubsystem, 0.2),
                         new SendOneRingToShooterCommand(robot.indexSubsystem, 0.2),
-                        new SendOneRingToShooterCommand(robot.indexSubsystem, 0.2),
-                        new SendOneRingToShooterCommand(robot.indexSubsystem, 0.2),
+//                        new SendOneRingToShooterCommand(robot.indexSubsystem, 0.2),
+//                        new SendOneRingToShooterCommand(robot.indexSubsystem, 0.2),
                         //new SendOneRingToShooterCommand(robot.indexSubsystem, 0.2),
 //                        new SendOneRingToShooterCommand(robot.indexSubsystem),
 //                        new SendOneRingToShooterCommand(robot.indexSubsystem),
@@ -84,7 +84,7 @@ public class WobblesThenStartingRings extends CommandOpMode implements Loggable 
 
     @Override
     public void universalLoop() {
-        System.out.println(getStackSize());
-        telemetry.addLine(""+getStackSize());
+//        System.out.println(getStackSize());
+//        telemetry.addLine(""+getStackSize());
     }
 }

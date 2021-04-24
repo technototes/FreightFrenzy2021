@@ -1,10 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.acmerobotics.roadrunner.geometry.Pose2d;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.technototes.control.gamepad.GamepadStick;
-import com.technototes.library.command.CommandScheduler;
-import com.technototes.library.command.InstantCommand;
 import com.technototes.library.command.ParallelCommandGroup;
 import com.technototes.library.command.SequentialCommandGroup;
 import com.technototes.library.command.WaitCommand;
@@ -13,8 +9,6 @@ import com.technototes.library.control.gamepad.CommandButton;
 import com.technototes.library.control.gamepad.CommandGamepad;
 
 import org.firstinspires.ftc.teamcode.commands.autonomous.SendOneRingToShooterCommand;
-import org.firstinspires.ftc.teamcode.commands.autonomous.TurretFollowCommand;
-import org.firstinspires.ftc.teamcode.commands.drivebase.AlignToShootCommand;
 import org.firstinspires.ftc.teamcode.commands.drivebase.DriveCommand;
 import org.firstinspires.ftc.teamcode.commands.drivebase.ResetGyroCommand;
 import org.firstinspires.ftc.teamcode.commands.drivebase.VisionAlignCommand;
@@ -24,6 +18,7 @@ import org.firstinspires.ftc.teamcode.commands.intake.IntakeInCommand;
 import org.firstinspires.ftc.teamcode.commands.intake.IntakeOutCommand;
 import org.firstinspires.ftc.teamcode.commands.intake.IntakeStopCommand;
 import org.firstinspires.ftc.teamcode.commands.shooter.ShooterSetFlapCommand;
+import org.firstinspires.ftc.teamcode.commands.shooter.ShooterSetSpeedCommand;
 import org.firstinspires.ftc.teamcode.commands.shooter.ShooterStopCommand;
 import org.firstinspires.ftc.teamcode.commands.wobble.WobbleCloseThenRaiseCommand;
 import org.firstinspires.ftc.teamcode.commands.wobble.WobbleLowerThenOpenCommand;
@@ -109,9 +104,9 @@ public class OperatorInterface {
 //        powerButton.whilePressed(new ShooterSetFlapCommand(robot.shooterSubsystem, powerAxis));
         firePrepButton.whenPressed(new ParallelCommandGroup(
                 new IndexPivotUpCommand(robot.indexSubsystem),
-                new AlignToShootCommand(robot.drivebaseSubsystem, robot.shooterSubsystem),
-                new ShooterSetFlapCommand(robot.shooterSubsystem, ()->0.70),
-                new SequentialCommandGroup(new WaitCommand(1), new IntakeStopCommand(robot.intakeSubsystem))))
+                new ShooterSetSpeedCommand(robot.shooterSubsystem, ()->0.8),
+                new ShooterSetFlapCommand(robot.shooterSubsystem, ()->0.47),
+                new SequentialCommandGroup(new IntakeInCommand(robot.intakeSubsystem), new WaitCommand(0.4), new IntakeStopCommand(robot.intakeSubsystem))))
                 .schedule(()->fireAxis.getAsBoolean()&&firePrepButton.getAsBoolean(), new SendOneRingToShooterCommand(robot.indexSubsystem, ()->1-fireAxis.getAsDouble()))   //new IndexPivotDownCommand(robot.indexSubsystem))
                 .whenReleased(new IndexPivotDownCommand(robot.indexSubsystem))
                 .whenReleased(new ShooterStopCommand(robot.shooterSubsystem));

@@ -3,6 +3,7 @@ package com.technototes.library.command;
 import com.technototes.library.structure.CommandOpMode;
 import com.technototes.library.subsystem.Subsystem;
 
+import java.security.spec.ECField;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -86,22 +87,23 @@ public class CommandScheduler {
     private Set<Command> cancelledCommands;
 
     public void run() {
-        cancelledCommands = new HashSet<>();
-        requirementCommands.forEach(((subsystem, commandMap) -> {
-            Command c = runningRequirementCommands.get(subsystem);
-            commandMap.entrySet().stream().filter((entry) -> {
-                        return entry.getKey().commandState == Command.CommandState.RESET
-                                && entry.getValue().getAsBoolean()
-                                && entry.getKey() != c;
+            cancelledCommands = new HashSet<>();
+            requirementCommands.forEach(((subsystem, commandMap) -> {
+                Command c = runningRequirementCommands.get(subsystem);
+                commandMap.entrySet().stream().filter((entry) -> {
+                            return entry.getKey().commandState == Command.CommandState.RESET
+                                    && entry.getValue().getAsBoolean()
+                                    && entry.getKey() != c;
+                        }
+                ).findFirst().ifPresent(m -> {
+                    if (c != null) {
+                        cancel(c);
+                        cancelledCommands.add(c);
                     }
-            ).findFirst().ifPresent(m -> {
-                if(c != null) {
-                    cancel(c);
-                    cancelledCommands.add(c);
-                }
-                runningRequirementCommands.put(subsystem, m.getKey());
-            });
-        }));
+                    runningRequirementCommands.put(subsystem, m.getKey());
+                });
+            }));
+
         runningRequirementCommands.forEach(((subsystem, command) -> run(command, requirementCommands.get(subsystem).get(command))));
         commandsWithoutRequirements.forEach(this::run);
         requirementCommands.keySet().forEach(Subsystem::periodic);

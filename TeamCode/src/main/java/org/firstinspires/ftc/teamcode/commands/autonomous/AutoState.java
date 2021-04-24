@@ -23,7 +23,7 @@ public class AutoState {
     public static final double FIRST_WOBBLE_DROP_Y_0 = -8;
     public static final double FIRST_WOBBLE_DROP_ROTATION_0 = 90;
     public static final double FIRST_WOBBLE_DROP_X_1 = 87;
-    public static final double FIRST_WOBBLE_DROP_Y_1 = 19;
+    public static final double FIRST_WOBBLE_DROP_Y_1 = 16;
     public static final double FIRST_WOBBLE_DROP_ROTATION_1 = 90;
     public static final double FIRST_WOBBLE_DROP_X_4 = 112;
     public static final double FIRST_WOBBLE_DROP_Y_4 = -8;

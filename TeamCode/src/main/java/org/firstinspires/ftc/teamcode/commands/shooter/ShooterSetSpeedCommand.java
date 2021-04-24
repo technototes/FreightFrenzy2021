@@ -1,16 +1,16 @@
 package org.firstinspires.ftc.teamcode.commands.shooter;
 
+import com.technototes.library.command.Command;
 import com.technototes.library.command.WaitCommand;
 
 import org.firstinspires.ftc.teamcode.subsystems.ShooterSubsystem;
 
 import java.util.function.DoubleSupplier;
-public class ShooterSetSpeedCommand extends WaitCommand {
+public class ShooterSetSpeedCommand extends Command {
     public ShooterSubsystem subsystem;
     public DoubleSupplier supplier;
     public double curr;
     public ShooterSetSpeedCommand(ShooterSubsystem sub, DoubleSupplier sup){
-        super(1);
         //addRequirements(sub);
         subsystem = sub;
         supplier = sup;

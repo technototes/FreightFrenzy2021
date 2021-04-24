@@ -57,7 +57,7 @@ public class WobbleSubsystem extends ServoSubsystem implements Stated<String> {
 
     @Override
     public String getState() {
-        return "CLAW: "+clawPosition.getPosition()+". ARM: "+armPosition.getPosition();
+        return "CLAW: "+clawPosition+". ARM: "+armPosition;
     }
 
 }

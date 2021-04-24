@@ -49,7 +49,6 @@ public class Hardware implements Loggable {
     public EncodedMotorGroup shooterMotorGroup;
 
     public Servo shooterFlapServo;
-    public Servo shooterAngleServo;
 
 
     //wobble
@@ -73,8 +72,8 @@ public class Hardware implements Loggable {
         indexArmServo = new Servo("indexarm");
         indexPivotServo = new Servo("indexpivot");
 
-        intakeMotor1 = new Motor<>("intake1");
-        intakeMotor2 = new Motor<>("intake2");
+        intakeMotor1 = new Motor<>("intake1").invert();
+        intakeMotor2 = new Motor<>("intake2").invert();
         //TODO fix this warning
         intakeMotorGroup = new MotorGroup(intakeMotor1, intakeMotor2);
 
@@ -83,7 +82,6 @@ public class Hardware implements Loggable {
         shooterMotorGroup = new EncodedMotorGroup(shooterMotor1, shooterMotor2);
 
         shooterFlapServo = new Servo("flapservo");
-        shooterAngleServo = new Servo("wobblearm");
 
         wobbleArmServo = new Servo("wobblearm");
         wobbleClawServo = new Servo("wobbleclaw");

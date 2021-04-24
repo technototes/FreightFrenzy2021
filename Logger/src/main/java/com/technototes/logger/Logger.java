@@ -50,6 +50,7 @@ public class Logger {
         opMode = op;
         telemetry = op.telemetry;
         telemetry.setDisplayFormat(Telemetry.DisplayFormat.HTML);
+//        telemetry.setDisplayFormat(Telemetry.DisplayFormat.MONOSPACE);
 
         unindexedRunEntries = new LinkedHashSet<>();
         unindexedInitEntries = new LinkedHashSet<>();
@@ -125,11 +126,15 @@ public class Logger {
 
 
     private void update(Entry<?>[] choice) {
-        for (int i = 0; i < choice.length; i++) {
-            telemetry.addLine((i > 9 ? i + "| " : i + " | ") + (choice[i] == null ? "" :
-                    choice[i].getTag().replace('`', captionDivider) + choice[i].toString()));
+        try {
+            for (int i = 0; i < choice.length; i++) {
+                telemetry.addLine((i > 9 ? i + "| " : i + " | ") + (choice[i] == null ? "" :
+                        choice[i].getTag().replace('`', captionDivider) + choice[i].toString()));
+            }
+            telemetry.update();
+        }catch(Exception e){
+
         }
-        telemetry.update();
     }
 
     /**
@@ -179,7 +184,6 @@ public class Logger {
                         ((Log.NumberSlider) as).color(), ((Log.NumberSlider) as).sliderBackground(),
                         ((Log.NumberSlider) as).outline(), ((Log.NumberSlider) as).slider());
                 e.setPriority(((Log.NumberSlider) as).priority());
-                break;
             } else if (as instanceof Log.NumberBar) {
                 e = new NumberBarEntry(((Log.NumberBar) as).name(), (Supplier<Number>) m,
                         ((Log.NumberBar) as).index(), ((Log.NumberBar) as).min(),
@@ -187,18 +191,15 @@ public class Logger {
                         ((Log.NumberBar) as).color(), ((Log.NumberBar) as).completeBarColor(),
                         ((Log.NumberBar) as).outline(), ((Log.NumberBar) as).incompleteBarColor());
                 e.setPriority(((Log.NumberBar) as).priority());
-                break;
             } else if (as instanceof Log.Number) {
                 e = new NumberEntry(((Log.Number) as).name(), (Supplier<Number>) m,
                         ((Log.Number) as).index(), ((Log.Number) as).color(),
                         ((Log.Number) as).numberColor());
                 e.setPriority(((Log.Number) as).priority());
-                break;
             } else if (as instanceof Log) {
                 e = new StringEntry(((Log) as).name(), (Supplier<String>) m,
                         ((Log) as).index(), ((Log) as).color(), ((Log) as).format(), ((Log) as).entryColor());
                 e.setPriority(((Log) as).priority());
-                break;
             } else if (as instanceof Log.Boolean) {
                 e = new BooleanEntry(((Log.Boolean) as).name(), (Supplier<Boolean>) m, ((Log.Boolean) as).index(),
                         ((Log.Boolean) as).trueValue(), ((Log.Boolean) as).falseValue(),
@@ -206,7 +207,6 @@ public class Logger {
                         ((Log.Boolean) as).falseFormat(), ((Log.Boolean) as).trueColor(),
                         ((Log.Boolean) as).falseColor());
                 e.setPriority(((Log.Boolean) as).priority());
-                break;
             } else if (as instanceof LogConfig.Run) {
                 init = ((LogConfig.Run) as).duringInit();
                 run = ((LogConfig.Run) as).duringRun();
