@@ -57,7 +57,6 @@ public class Start2Wobbles extends CommandOpMode implements Loggable {
                         new SendOneRingToShooterCommand(robot.indexSubsystem),
                         new SendOneRingToShooterCommand(robot.indexSubsystem),
                         new SendOneRingToShooterCommand(robot.indexSubsystem),
-                        new IndexPivotDownCommand(robot.indexSubsystem),
                         new ShooterStopCommand(robot.shooterSubsystem),
                         new DeliverFirstWobbleCommand(robot.drivebaseSubsystem, robot.wobbleSubsystem, state),
                         new ObtainSecondWobbleCommand(robot.drivebaseSubsystem, robot.wobbleSubsystem, state),
