@@ -17,14 +17,14 @@ import java.util.function.DoubleSupplier;
 
 public class PrepToShootCommand extends ParallelCommandGroup {
     public PrepToShootCommand(IndexSubsystem i, ShooterSubsystem s, DoubleSupplier speed, DoubleSupplier flap){
-        super(new IndexPivotUpCommand(i),
+        super(
                 new ShooterSetSpeedCommand(s, speed),
                 new ShooterSetFlapCommand(s, flap),
                 new ArmRetractCommand(i)
         );
     }
     public PrepToShootCommand(IndexSubsystem i, ShooterSubsystem s, double speed, double flap){
-        super(new IndexPivotUpCommand(i),
+        super(
                 new ShooterSetSpeedCommand(s, ()->speed),
                 new ShooterSetFlapCommand(s, ()->flap),
                 new ArmRetractCommand(i)
