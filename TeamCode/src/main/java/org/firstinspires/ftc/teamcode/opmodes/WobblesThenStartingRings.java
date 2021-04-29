@@ -55,25 +55,18 @@ public class WobblesThenStartingRings extends CommandOpMode implements Loggable 
                 new SequentialCommandGroup(
                         new DeliverFirstWobble2Command(robot.drivebaseSubsystem, robot.wobbleSubsystem, state),
                         new ObtainSecondWobble2Command(robot.drivebaseSubsystem, robot.wobbleSubsystem, state),
-                        //new StrafeCommand(robot.drivebaseSubsystem, state.correctedPos(30, 0, 0)),
                         new DeliverSecondWobble2Command(robot.drivebaseSubsystem, robot.wobbleSubsystem, state),
                         //shoot
                         new ParallelCommandGroup(
-
                                 new StrafeCommand(robot.drivebaseSubsystem, state.correctedPos(60, 6, -5)),
                                 new PrepToShootCommand(robot.indexSubsystem, robot.shooterSubsystem, 0.8, 0.45),
-                                new SequentialCommandGroup(new IntakeInCommand(robot.intakeSubsystem), new WaitCommand(0.4), new IntakeStopCommand(robot.intakeSubsystem))
-
+                                new SequentialCommandGroup(new IntakeInCommand(robot.intakeSubsystem), new WaitCommand(0.4),
+                                        new IntakeStopCommand(robot.intakeSubsystem))
                         ),
                         new SendOneRingToShooterCommand(robot.indexSubsystem, 0.2),
                         new SendOneRingToShooterCommand(robot.indexSubsystem, 0.2),
                         new SendOneRingToShooterCommand(robot.indexSubsystem, 0.2),
                         new SendOneRingToShooterCommand(robot.indexSubsystem, 0.2),
-//                        new SendOneRingToShooterCommand(robot.indexSubsystem, 0.2),
-//                        new SendOneRingToShooterCommand(robot.indexSubsystem, 0.2),
-                        //new SendOneRingToShooterCommand(robot.indexSubsystem, 0.2),
-//                        new SendOneRingToShooterCommand(robot.indexSubsystem),
-//                        new SendOneRingToShooterCommand(robot.indexSubsystem),
 
                         new ParkCommand(robot.drivebaseSubsystem, robot.wobbleSubsystem, state),
                         new ShooterStopCommand(robot.shooterSubsystem),

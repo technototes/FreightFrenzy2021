@@ -16,10 +16,6 @@ public class TrajectoryCommand extends PathCommand {
         super(sub);
         pose2d = pose;
         startAngle = starta;
-//        for(int i = 0; i < pose2d.length; i++){
-//            Pair<Double, Pose2d> p = pose2d[i];
-//            pose2d[i] = new Pair<>(p.first, new Pose2d(p.second.getX(), p.second.getY(), Math.toRadians(p.second.getHeading())));
-//        }
     }
     public TrajectoryCommand(DrivebaseSubsystem sub, Pair<Double, Pose2d>... pose){
         this(sub, sub.getPoseEstimate().getHeading(), pose);

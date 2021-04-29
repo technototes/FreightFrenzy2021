@@ -32,9 +32,9 @@ import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
 import com.technototes.library.hardware.HardwareDevice;
 import com.technototes.library.hardware.motor.EncodedMotor;
+import com.technototes.library.hardware.sensor.IMU;
 import com.technototes.library.subsystem.Subsystem;
 
-import com.technototes.library.hardware.sensor.IMU;
 import org.firstinspires.ftc.roadrunnercode.util.LynxModuleUtil;
 
 import java.util.ArrayList;
@@ -57,6 +57,7 @@ import static org.firstinspires.ftc.teamcode.subsystems.DriveConstants.kV;
 
 @Config
 public class DrivebaseSubsystem extends MecanumDrive {
+    public double speed = 1;
     public static PIDCoefficients TRANSLATIONAL_PID = new PIDCoefficients(5, 0, 0);
     public static PIDCoefficients HEADING_PID = new PIDCoefficients(5, 0, 0);
 

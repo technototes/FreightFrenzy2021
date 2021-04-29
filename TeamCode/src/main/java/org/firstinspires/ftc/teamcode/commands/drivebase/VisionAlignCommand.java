@@ -14,10 +14,10 @@ public class VisionAlignCommand extends WaitCommand {
     public VisionSubsystem visionSubsystem;
     public DrivebaseSubsystem drivebaseSubsystem;
     public int target = 9;
-    public double scale = 2;
+    public double scale = 1;
 
     public VisionAlignCommand(DrivebaseSubsystem d, VisionSubsystem v){
-        super(0.1);
+        super(0);
         drivebaseSubsystem = d;
         visionSubsystem = v;
     }
@@ -25,7 +25,7 @@ public class VisionAlignCommand extends WaitCommand {
     @Override
     public void init() {
 //        drivebaseSubsystem.setDrivePower(new Pose2d(0, 0, -(visionSubsystem.mean-target)/scale));
-        drivebaseSubsystem.setDrivePower(new Pose2d(0, 0, Math.pow(3*Math.PI/2-Angle.norm(drivebaseSubsystem.getExternalHeading()-Math.PI/2)-Math.PI/2, 1)/scale));
+        drivebaseSubsystem.setDrivePower(new Pose2d(0, 0, Math.pow(4*Math.PI/2-Angle.norm(drivebaseSubsystem.getExternalHeading()-Math.PI/1)-Math.PI/1, 1)/scale));
         //System.out.println(visionSubsystem.mean);
     }
 }

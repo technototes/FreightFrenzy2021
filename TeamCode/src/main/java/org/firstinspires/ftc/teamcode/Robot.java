@@ -34,11 +34,12 @@ public class Robot implements Loggable {
     @Log(name = "Index", index = 4, color = Color.ORANGE, entryColor = Color.LIGHT_GRAY)
     public IndexSubsystem indexSubsystem;
 
-    //intake
+    //intake not logged with autonomous opmode
+    @LogConfig.Blacklist(WobblesThenStartingRings.class)
     @Log(name = "Intake", index = 1, color = Color.BLUE, entryColor = Color.LIGHT_GRAY)
     public IntakeSubsystem intakeSubsystem;
 
-    //shooter
+    //shooter logged with number/progress bar
     @Log.NumberBar(name = "Shooter", index =  2, completeBarColor = Color.GREEN, min = 0)
     public ShooterSubsystem shooterSubsystem;
 
@@ -46,10 +47,12 @@ public class Robot implements Loggable {
     @Log(name = "Wobble", index = 3, color = Color.RED, entryColor = Color.LIGHT_GRAY)
     public WobbleSubsystem wobbleSubsystem;
 
+    //numrings is only shown during the init period of the match
     @LogConfig.Run(duringInit = true, duringRun = false)
     @Log.Number(name = "numrings", index = 0, color = Color.YELLOW, numberColor = Color.YELLOW)
     public VisionSubsystem visionSubsystem;
 
+    //voltage displayed in yellow to catch driver's eye
     @Log.Number(name="VOLTAGE", index = 0, color = Color.YELLOW, numberColor = Color.LIGHT_GRAY)
     public double getVoltage(){
         return HardwareDevice.hardwareMap.voltageSensor.iterator().next().getVoltage();

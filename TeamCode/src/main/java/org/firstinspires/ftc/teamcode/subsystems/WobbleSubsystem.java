@@ -6,8 +6,6 @@ import com.technototes.logger.Stated;
 
 public class WobbleSubsystem extends ServoSubsystem implements Stated<String> {
 
-    public Servo armServo;
-    public Servo clawServo;
 
     public enum ArmPosition{
         RAISED(0.5), LOWERED(0);
@@ -30,7 +28,11 @@ public class WobbleSubsystem extends ServoSubsystem implements Stated<String> {
             return position;
         }
     }
+    //hardware devices
+    public Servo armServo;
+    public Servo clawServo;
 
+    //variables for wobble states
     public ArmPosition armPosition;
     public ClawPosition clawPosition;
 
@@ -41,15 +43,13 @@ public class WobbleSubsystem extends ServoSubsystem implements Stated<String> {
         armPosition = ArmPosition.LOWERED;
         clawPosition = ClawPosition.CLOSED;
     }
-
-
-
-
+    //set claw position to either OPEN(1) or CLOSED(0.5)
     public void setClawPosition(ClawPosition pos){
         clawServo.setPosition(pos.getPosition());
         clawPosition = pos;
 
     }
+    //set arm position to either RAISED(0.5) or LOWERED(0)
     public void setArmPosition(ArmPosition pos){
         armServo.setPosition(pos.getPosition());
         armPosition = pos;

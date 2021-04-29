@@ -11,6 +11,8 @@ public class Servo extends HardwareDevice<com.qualcomm.robotcore.hardware.Servo>
 
     //public double pid_p, pid_i, pid_d;
 
+
+    private boolean inverted = false;
     /** Create servo object
      *
      * @param device The servo
@@ -39,12 +41,12 @@ public class Servo extends HardwareDevice<com.qualcomm.robotcore.hardware.Servo>
 
     @Override
     public boolean getInverted() {
-        return getDevice().getDirection() == com.qualcomm.robotcore.hardware.Servo.Direction.FORWARD;
+        return inverted;
     }
 
     @Override
     public Servo setInverted(boolean invert) {
-        getDevice().setDirection(invert ? com.qualcomm.robotcore.hardware.Servo.Direction.FORWARD : com.qualcomm.robotcore.hardware.Servo.Direction.REVERSE);
+        inverted = invert;
         return this;
     }
 
@@ -53,13 +55,13 @@ public class Servo extends HardwareDevice<com.qualcomm.robotcore.hardware.Servo>
      * @param position The position to set the servo to
      */
     public void setPosition(double position) {
-        getDevice().setPosition(position);
+        getDevice().setPosition(!inverted ? position : 1-position);
     }
 
     @Log
     @Override
     public double getSensorValue() {
-        return getDevice().getPosition();
+        return !inverted ? getDevice().getPosition() : 1-getDevice().getPosition();
     }
 
     /** Get servo position
