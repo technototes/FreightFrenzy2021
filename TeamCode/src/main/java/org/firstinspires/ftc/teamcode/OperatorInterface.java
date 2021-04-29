@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.technototes.control.gamepad.GamepadStick;
+import com.technototes.library.command.Command;
 import com.technototes.library.command.InstantCommand;
 import com.technototes.library.command.ParallelCommandGroup;
 import com.technototes.library.command.SequentialCommandGroup;
@@ -23,6 +24,8 @@ import org.firstinspires.ftc.teamcode.commands.shooter.ShooterSetSpeedCommand;
 import org.firstinspires.ftc.teamcode.commands.shooter.ShooterStopCommand;
 import org.firstinspires.ftc.teamcode.commands.wobble.WobbleCloseThenRaiseCommand;
 import org.firstinspires.ftc.teamcode.commands.wobble.WobbleLowerThenOpenCommand;
+import org.firstinspires.ftc.teamcode.commands.wobble.WobbleRotateLeftCommand;
+import org.firstinspires.ftc.teamcode.commands.wobble.WobbleRotateRightCommand;
 
 /** Class for driver controls
  *
@@ -43,7 +46,7 @@ public class OperatorInterface {
      */
     public CommandButton intakeMainButton, intakeSpitButton;
 
-    public CommandButton testButton, wobbleArmButton;
+    public CommandButton wobbleLeftButton, wobbleRightButton, wobbleUpButton, wobbleDownButton;
 
     public CommandButton firePrepButton;
     public CommandAxis fireAxis;
@@ -67,8 +70,11 @@ public class OperatorInterface {
         intakeMainButton = driverGamepad.a;
         intakeSpitButton = driverGamepad.b;
 
-        testButton = driverGamepad.x;
-        wobbleArmButton = driverGamepad.y;
+        //testButton = driverGamepad.x;
+        wobbleUpButton = driverGamepad.dpadUp;
+        wobbleDownButton = driverGamepad.dpadDown;
+        wobbleLeftButton = driverGamepad.dpadLeft;
+        wobbleRightButton = driverGamepad.dpadRight;
 
         firePrepButton = driverGamepad.leftBumper;
         fireAxis = driverGamepad.leftTrigger;
@@ -86,8 +92,11 @@ public class OperatorInterface {
         resetGyroButton = driverGamepad.rightStickButton;
 
 
-        wobbleArmButton.whenToggled(new WobbleLowerThenOpenCommand(robot.wobbleSubsystem))
-                .whenInverseToggled(new WobbleCloseThenRaiseCommand(robot.wobbleSubsystem));
+        wobbleDownButton.whenPressed(new WobbleLowerThenOpenCommand(robot.wobbleSubsystem));
+        wobbleUpButton.whenPressed(new WobbleCloseThenRaiseCommand(robot.wobbleSubsystem));
+
+        wobbleLeftButton.whenPressed(new WobbleRotateLeftCommand(robot.wobbleSubsystem)).whenReleased(new Command().addRequirements(robot.wobbleSubsystem));
+        wobbleRightButton.whenPressed(new WobbleRotateRightCommand(robot.wobbleSubsystem)).whenReleased(new Command().addRequirements(robot.wobbleSubsystem));
 
         //intake commands
         intakeMainButton.whenPressed(new IntakeInCommand(robot.intakeSubsystem));
@@ -110,9 +119,7 @@ public class OperatorInterface {
                         new ShooterStopCommand(robot.shooterSubsystem)));
 
         //drive command
-        testButton.whileReleased(new DriveCommand(robot.drivebaseSubsystem, driveLStick, driveRStick))
-                .whilePressed(new VisionAlignCommand(robot.drivebaseSubsystem, robot.visionSubsystem));
-
+        resetGyroButton.whenReleased(new DriveCommand(robot.drivebaseSubsystem, driveLStick, driveRStick));
         resetGyroButton.whenPressed(new ResetGyroCommand(robot.drivebaseSubsystem));
 
 

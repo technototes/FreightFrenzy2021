@@ -71,7 +71,7 @@ public class Robot implements Loggable {
 
         shooterSubsystem = new ShooterSubsystem(hardware.shooterMotor1, hardware.shooterMotor2, hardware.shooterFlapServo);
 
-        wobbleSubsystem =  new WobbleSubsystem(hardware.wobbleArmServo, hardware.wobbleClawServo);
+        wobbleSubsystem =  new WobbleSubsystem(hardware.wobbleArmServos, hardware.wobbleClawServo, hardware.wobbleTurretServo);
 
         visionSubsystem = new VisionSubsystem(hardware.webcam);
     }

@@ -90,25 +90,17 @@ public class AutoV1 extends CommandOpMode implements Loggable {
                 new SequentialCommandGroup(
                         new ParallelCommandGroup(
                                 new TurnCommand(robot.drivebaseSubsystem, INITIAL_SHOOTING_ROTATION),//-10
-                                new IndexPivotUpCommand(robot.indexSubsystem),
                                 new AlignToShootCommand(robot.drivebaseSubsystem, robot.shooterSubsystem),
                                 new ShooterSetFlapCommand(robot.shooterSubsystem, () -> INITIAL_FLAP_ANGLE),//0.4
                                 new WaitCommand(0.3)
                         ),
                         //shoot 3 rings
-                        new InstantCommand(()->robot.indexSubsystem.arm.setPosition(0.3)),
-                        new WaitCommand(0.1),
-                        new InstantCommand(()->robot.indexSubsystem.arm.setPosition(0.2)),
-                        new WaitCommand(0.1),
                         //new WaitCommand(ADDITIONAL_DELAY_BETWEEN_SHOTS), //0.2
                         new SequentialCommandGroup(new ArmExtendCommand(robot.indexSubsystem), new ArmRetractCommand(robot.indexSubsystem)),
                         new WaitCommand(ADDITIONAL_DELAY_BETWEEN_SHOTS), //0.2
                         new SequentialCommandGroup(new ArmExtendCommand(robot.indexSubsystem), new ArmRetractCommand(robot.indexSubsystem)),
                         new WaitCommand(ADDITIONAL_DELAY_BETWEEN_SHOTS), //0.2
-                        new InstantCommand(()->robot.indexSubsystem.arm.setPosition(0.3)),
-                        new WaitCommand(0.1),
-                        new InstantCommand(()->robot.indexSubsystem.arm.setPosition(0.2)),
-                        new WaitCommand(0.1),
+
                         new SequentialCommandGroup(new ArmExtendCommand(robot.indexSubsystem), new ArmRetractCommand(robot.indexSubsystem)),
                         new WaitCommand(ADDITIONAL_DELAY_BETWEEN_SHOTS), //0.2
                         new SequentialCommandGroup(new ArmExtendCommand(robot.indexSubsystem), new ArmRetractCommand(robot.indexSubsystem)),
@@ -118,7 +110,6 @@ public class AutoV1 extends CommandOpMode implements Loggable {
 
                         //move to stack
                         new ParallelCommandGroup(
-                                new IndexPivotDownCommand(robot.indexSubsystem),
                                 new SequentialCommandGroup(new WaitCommand(1), new ShooterStopCommand(robot.shooterSubsystem)),
                                 new IntakeInCommand(robot.intakeSubsystem),
                                 new SplineCommand(robot.drivebaseSubsystem, FIRST_WOBBLE_DROP_X, FIRST_WOBBLE_DROP_Y, 20, FIRST_WOBBLE_DROP_ROTATION)
@@ -136,7 +127,6 @@ public class AutoV1 extends CommandOpMode implements Loggable {
                         new SplineCommand(robot.drivebaseSubsystem, SECONDARY_SHOOTING_X, SECONDARY_SHOOTING_Y, 0),
                 new ParallelCommandGroup(
                                         new TurnCommand(robot.drivebaseSubsystem, SECONDARY_SHOOTING_ROTATION),
-                                        new IndexPivotUpCommand(robot.indexSubsystem),
                                         new AlignToShootCommand(robot.drivebaseSubsystem, robot.shooterSubsystem),
                                         new IntakeStopCommand(robot.intakeSubsystem),
                                         new ShooterSetFlapCommand(robot.shooterSubsystem, () -> SECONDARY_FLAP_ANGLE)//0.3
@@ -149,7 +139,6 @@ public class AutoV1 extends CommandOpMode implements Loggable {
                                 new SequentialCommandGroup(new ArmExtendCommand(robot.indexSubsystem), new ArmRetractCommand(robot.indexSubsystem)),
                         //move to drop point
                                 new ParallelCommandGroup(
-                                        new IndexPivotDownCommand(robot.indexSubsystem),
                                         new ShooterStopCommand(robot.shooterSubsystem)
                                         ),
 

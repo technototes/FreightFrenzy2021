@@ -8,6 +8,7 @@ import com.technototes.library.hardware.motor.Motor;
 import com.technototes.library.hardware.motor.MotorGroup;
 
 import com.technototes.library.hardware.servo.Servo;
+import com.technototes.library.hardware.servo.ServoGroup;
 import com.technototes.logger.Loggable;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
@@ -52,8 +53,13 @@ public class Hardware implements Loggable {
 
 
     //wobble
-    public Servo wobbleArmServo;
+    public Servo wobbleLeftArmServo;
+    public Servo wobbleRightArmServo;
+    public ServoGroup wobbleArmServos;
+
     public Servo wobbleClawServo;
+    public Servo wobbleTurretServo;
+
 
     public OpenCvCamera webcam;
 
@@ -83,8 +89,13 @@ public class Hardware implements Loggable {
 
         shooterFlapServo = new Servo("flapservo");
 
-        wobbleArmServo = new Servo("wobblearm");
-        wobbleClawServo = new Servo("wobbleclaw");
+        wobbleLeftArmServo = new Servo("lwobblearm").setRange(0.2, 0.55);
+        wobbleRightArmServo = new Servo("rwobblearm").setRange(0.45, 0.8).invert();
+        wobbleArmServos = new ServoGroup(wobbleLeftArmServo, wobbleRightArmServo);
+
+        wobbleClawServo = new Servo("wobbleclaw").setRange(0.1, 0.6);
+        wobbleTurretServo = new Servo("wobbleturret").setRange(0, 0.47);
+
 
         webcam = OpenCvCameraFactory.getInstance().createWebcam(HardwareDevice.hardwareMap.get(WebcamName.class, "webcam"),
                 HardwareDevice.hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id",
