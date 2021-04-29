@@ -99,13 +99,11 @@ public class OperatorInterface {
 
         firePrepButton.whenPressed(new ParallelCommandGroup(
                 new InstantCommand(()->robot.drivebaseSubsystem.speed = 0.5),
-                new IndexPivotUpCommand(robot.indexSubsystem),
                 new ShooterSetSpeedCommand(robot.shooterSubsystem, ()->0.8),
                 new ShooterSetFlapCommand(robot.shooterSubsystem, ()->0.47),
                 new SequentialCommandGroup(new IntakeInCommand(robot.intakeSubsystem), new WaitCommand(0.4), new IntakeStopCommand(robot.intakeSubsystem))))
                 .schedule(()->fireAxis.getAsBoolean()&&firePrepButton.getAsBoolean(), new SendOneRingToShooterCommand(robot.indexSubsystem, ()->1-fireAxis.getAsDouble()))   //new IndexPivotDownCommand(robot.indexSubsystem))
                 .whenReleased(new ParallelCommandGroup(
-                        new IndexPivotDownCommand(robot.indexSubsystem),
                         new InstantCommand(()->robot.drivebaseSubsystem.speed = 1),
                         new ShooterStopCommand(robot.shooterSubsystem)));
 
