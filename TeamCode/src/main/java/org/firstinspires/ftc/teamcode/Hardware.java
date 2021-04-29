@@ -36,7 +36,6 @@ public class Hardware implements Loggable {
 
     //index
     public Servo indexArmServo;
-    public Servo indexPivotServo;
 
     //intake
     public Motor intakeMotor1;
@@ -70,7 +69,6 @@ public class Hardware implements Loggable {
         imu = new IMU("imu");
 
         indexArmServo = new Servo("indexarm");
-        indexPivotServo = new Servo("indexpivot");
 
         intakeMotor1 = new Motor<>("intake1").invert();
         intakeMotor2 = new Motor<>("intake2").invert();
