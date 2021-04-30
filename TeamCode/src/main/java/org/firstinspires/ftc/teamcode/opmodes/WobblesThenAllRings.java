@@ -28,7 +28,6 @@ import org.firstinspires.ftc.teamcode.commands.autonomous.ObtainSecondWobbleComm
 import org.firstinspires.ftc.teamcode.commands.autonomous.ParkCommand;
 import org.firstinspires.ftc.teamcode.commands.autonomous.PrepToShootCommand;
 import org.firstinspires.ftc.teamcode.commands.autonomous.SendOneRingToShooterCommand;
-import org.firstinspires.ftc.teamcode.commands.index.IndexPivotDownCommand;
 import org.firstinspires.ftc.teamcode.commands.shooter.ShooterStopCommand;
 import org.firstinspires.ftc.teamcode.subsystems.WobbleSubsystem;
 @Disabled

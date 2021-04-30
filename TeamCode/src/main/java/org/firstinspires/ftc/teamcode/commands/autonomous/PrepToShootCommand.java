@@ -6,7 +6,6 @@ import com.technototes.library.command.WaitCommand;
 import org.firstinspires.ftc.teamcode.commands.TurnCommand;
 import org.firstinspires.ftc.teamcode.commands.drivebase.AlignToShootCommand;
 import org.firstinspires.ftc.teamcode.commands.index.ArmRetractCommand;
-import org.firstinspires.ftc.teamcode.commands.index.IndexPivotUpCommand;
 import org.firstinspires.ftc.teamcode.commands.shooter.ShooterSetFlapCommand;
 import org.firstinspires.ftc.teamcode.commands.shooter.ShooterSetSpeedCommand;
 import org.firstinspires.ftc.teamcode.subsystems.DrivebaseSubsystem;

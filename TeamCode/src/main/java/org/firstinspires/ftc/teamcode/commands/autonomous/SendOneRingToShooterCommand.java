@@ -6,8 +6,6 @@ import com.technototes.library.command.WaitCommand;
 
 import org.firstinspires.ftc.teamcode.commands.index.ArmExtendCommand;
 import org.firstinspires.ftc.teamcode.commands.index.ArmRetractCommand;
-import org.firstinspires.ftc.teamcode.commands.index.IndexPivotMidCommand;
-import org.firstinspires.ftc.teamcode.commands.index.IndexPivotUpCommand;
 import org.firstinspires.ftc.teamcode.subsystems.IndexSubsystem;
 
 import java.util.function.DoubleSupplier;

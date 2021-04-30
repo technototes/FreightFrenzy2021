@@ -21,8 +21,6 @@ import org.firstinspires.ftc.teamcode.commands.TurnCommand;
 import org.firstinspires.ftc.teamcode.commands.drivebase.AlignToShootCommand;
 import org.firstinspires.ftc.teamcode.commands.index.ArmExtendCommand;
 import org.firstinspires.ftc.teamcode.commands.index.ArmRetractCommand;
-import org.firstinspires.ftc.teamcode.commands.index.IndexPivotDownCommand;
-import org.firstinspires.ftc.teamcode.commands.index.IndexPivotUpCommand;
 import org.firstinspires.ftc.teamcode.commands.intake.IntakeInCommand;
 import org.firstinspires.ftc.teamcode.commands.intake.IntakeStopCommand;
 import org.firstinspires.ftc.teamcode.commands.shooter.ShooterSetFlapCommand;
@@ -100,7 +98,6 @@ public class AutoV1 extends CommandOpMode implements Loggable {
                         new WaitCommand(ADDITIONAL_DELAY_BETWEEN_SHOTS), //0.2
                         new SequentialCommandGroup(new ArmExtendCommand(robot.indexSubsystem), new ArmRetractCommand(robot.indexSubsystem)),
                         new WaitCommand(ADDITIONAL_DELAY_BETWEEN_SHOTS), //0.2
-
                         new SequentialCommandGroup(new ArmExtendCommand(robot.indexSubsystem), new ArmRetractCommand(robot.indexSubsystem)),
                         new WaitCommand(ADDITIONAL_DELAY_BETWEEN_SHOTS), //0.2
                         new SequentialCommandGroup(new ArmExtendCommand(robot.indexSubsystem), new ArmRetractCommand(robot.indexSubsystem)),
