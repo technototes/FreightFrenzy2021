@@ -1,18 +1,18 @@
-package org.firstinspires.ftc.teamcode.commands.wobble;
+package org.firstinspires.ftc.teamcode.commands.turret;
 
 import com.technototes.library.command.Command;
 
-import org.firstinspires.ftc.teamcode.subsystems.WobbleSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.TurretSubsystem;
 
 import java.util.function.BooleanSupplier;
 
-public class WobbleRotateRightCommand extends Command {
+public class TurretRotateRightCommand extends Command {
 
-    public WobbleSubsystem subsystem;
+    public TurretSubsystem subsystem;
     public double startingPos;
     public BooleanSupplier runCondition;
 
-    public WobbleRotateRightCommand(WobbleSubsystem sub){
+    public TurretRotateRightCommand(TurretSubsystem sub){
         addRequirements(sub);
         subsystem = sub;
     }
