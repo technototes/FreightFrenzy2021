@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.technototes.library.hardware.HardwareDevice;
 import com.technototes.library.hardware.motor.EncodedMotor;
@@ -11,8 +12,11 @@ import com.technototes.library.hardware.servo.Servo;
 import com.technototes.library.hardware.servo.ServoGroup;
 import com.technototes.logger.Loggable;
 
+import org.firstinspires.ftc.roadrunnercode.util.AxesSigns;
+import org.firstinspires.ftc.roadrunnercode.util.BNO055IMUUtil;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.roadrunnercode.util.Encoder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 
@@ -72,11 +76,13 @@ public class Hardware implements Loggable {
         rightOdometryEncoder = new Encoder("intake2");
         frontOdometryEncoder = new Encoder("intake1");
 
-        imu = new IMU("imu");
+        BNO055IMU i = HardwareDevice.hardwareMap.get(BNO055IMU.class, "imu");
+        BNO055IMUUtil.remapAxes(imu.device, AxesOrder.XZY, AxesSigns.PPP);
+        imu = new IMU(i);
 
         indexArmServo = new Servo("indexarm");
 
-        intakeMotor1 = new Motor<>("intake1").invert();
+        intakeMotor1 = new Motor<>("intake1");
         intakeMotor2 = new Motor<>("intake2").invert();
         //TODO fix this warning
         intakeMotorGroup = new MotorGroup(intakeMotor1, intakeMotor2);

@@ -15,7 +15,7 @@ import org.openftc.easyopencv.OpenCvPipeline;
 import java.util.ArrayList;
 import java.util.List;
 
-public class VisionSubsystem extends OpenCvPipeline implements Stated<Integer> {
+public class VisionStackSubsystem extends OpenCvPipeline implements Stated<Integer> {
 
     //We declare the mats ontop so we can reuse them later to avoid memory leaks
     private Mat matYCrCb = new Mat();
@@ -51,7 +51,7 @@ public class VisionSubsystem extends OpenCvPipeline implements Stated<Integer> {
 
     private OpenCvCamera webcam;
 
-    public VisionSubsystem(OpenCvCamera w) {
+    public VisionStackSubsystem(OpenCvCamera w) {
         webcam = w;
         webcam.setPipeline(this);
         webcam.openCameraDeviceAsync(() -> webcam.startStreaming(320,240, OpenCvCameraRotation.UPRIGHT));

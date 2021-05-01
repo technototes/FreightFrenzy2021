@@ -2,21 +2,18 @@ package org.firstinspires.ftc.teamcode.commands.drivebase;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.util.Angle;
-import com.technototes.library.command.Command;
 import com.technototes.library.command.WaitCommand;
-import com.technototes.library.util.MathUtils;
 
 import org.firstinspires.ftc.teamcode.subsystems.DrivebaseSubsystem;
-import org.firstinspires.ftc.teamcode.subsystems.ShooterSubsystem;
-import org.firstinspires.ftc.teamcode.subsystems.VisionSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.VisionStackSubsystem;
 
 public class VisionAlignCommand extends WaitCommand {
-    public VisionSubsystem visionSubsystem;
+    public VisionStackSubsystem visionSubsystem;
     public DrivebaseSubsystem drivebaseSubsystem;
     public int target = 9;
     public double scale = 1;
 
-    public VisionAlignCommand(DrivebaseSubsystem d, VisionSubsystem v){
+    public VisionAlignCommand(DrivebaseSubsystem d, VisionStackSubsystem v){
         super(0);
         drivebaseSubsystem = d;
         visionSubsystem = v;

@@ -26,7 +26,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.teamcode.subsystems.VisionSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.VisionStackSubsystem;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 
@@ -40,7 +40,7 @@ import org.openftc.easyopencv.OpenCvCameraFactory;
 public class VisionTest extends LinearOpMode
 {
     OpenCvCamera webcam;
-    VisionSubsystem pipeline;
+    VisionStackSubsystem pipeline;
 
     @Override
     public void runOpMode()
@@ -53,7 +53,7 @@ public class VisionTest extends LinearOpMode
          */
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "webcam"), cameraMonitorViewId);
-        pipeline = new VisionSubsystem(webcam);
+        pipeline = new VisionStackSubsystem(webcam);
 
 
 
