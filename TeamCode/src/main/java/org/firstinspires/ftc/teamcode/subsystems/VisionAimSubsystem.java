@@ -18,7 +18,7 @@ import java.util.List;
 public class VisionAimSubsystem extends OpenCvPipeline implements Stated<Integer> {
 
     private double upRectHeight = 0.5;
-    private double upRectWidth = 0.05;
+    private double upRectWidth = 0.02;
     private Mat matYCrCb = new Mat();
 
     public List<Integer> goal;
@@ -78,11 +78,11 @@ public class VisionAimSubsystem extends OpenCvPipeline implements Stated<Integer
 
         }
 
-        int mean = 0;
+        mean = 0;
         for(int i : goal){
             mean+=i;
         }
-        mean/=goal.size();
+        mean = (goal.size() != 0 ? mean/goal.size() : 0);
         m1.release();
         m2.release();
         m3.release();
@@ -105,7 +105,7 @@ public class VisionAimSubsystem extends OpenCvPipeline implements Stated<Integer
 
 
     public double getAvg(){
-        return avg;
+        return mean;
     }
 
     @Override

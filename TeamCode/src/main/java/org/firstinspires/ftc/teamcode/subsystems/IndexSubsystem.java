@@ -9,7 +9,7 @@ public class IndexSubsystem extends ServoSubsystem implements Stated<String>{
 
 
     public enum ArmPositon{
-        EXTENDED(0.3), RETRACTED(0.12);
+        EXTENDED(0.12), RETRACTED(0.3);
         double pos;
         ArmPositon(double v){
             pos = v;

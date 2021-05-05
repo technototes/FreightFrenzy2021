@@ -6,7 +6,7 @@ import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.localization.ThreeTrackingWheelLocalizer;
 
-import org.firstinspires.ftc.roadrunnercode.util.Encoder;
+import org.firstinspires.ftc.teamcode.roadrunnercode.util.Encoder;
 
 import java.util.Arrays;
 import java.util.List;
@@ -30,8 +30,8 @@ public class OdometrySubsystem extends ThreeTrackingWheelLocalizer {
     public static double WHEEL_RADIUS = 0.68897; // in
     public static double GEAR_RATIO = 1; // output (wheel) speed / input (encoder) speed
 
-    public static double LATERAL_DISTANCE = 17; // in; distance between the left and right wheels
-    public static double FORWARD_OFFSET = 0; // in; offset of the lateral wheel
+    public static double LATERAL_DISTANCE = 16.4; // in; distance between the left and right wheels
+    public static double FORWARD_OFFSET = 0.18; // in; offset of the lateral wheel
 
     private Encoder leftEncoder, rightEncoder, frontEncoder;
 
@@ -45,8 +45,6 @@ public class OdometrySubsystem extends ThreeTrackingWheelLocalizer {
         leftEncoder = l;
         rightEncoder = r;
         frontEncoder = f;
-
-        leftEncoder.setDirection(Encoder.Direction.REVERSE);
 
         // TODO: reverse any encoders using Encoder.setDirection(Encoder.Direction.REVERSE)
     }

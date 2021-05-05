@@ -15,7 +15,7 @@ public class WobbleRaiseCommand extends WaitCommand {
     }
 
     @Override
-    public void init() {
+    public void execute() {
         subsystem.setArmPosition(WobbleSubsystem.ArmPosition.RAISED);
     }
 

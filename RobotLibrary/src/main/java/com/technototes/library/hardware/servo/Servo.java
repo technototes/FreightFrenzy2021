@@ -1,5 +1,6 @@
 package com.technototes.library.hardware.servo;
 
+import com.qualcomm.robotcore.util.Range;
 import com.technototes.library.hardware.*;
 import com.technototes.logger.Log;
 import com.technototes.logger.Stated;
@@ -55,6 +56,7 @@ public class Servo extends HardwareDevice<com.qualcomm.robotcore.hardware.Servo>
      * @param position The position to set the servo to
      */
     public void setPosition(double position) {
+        position = Range.clip(position, 0, 1);
         getDevice().setPosition(!inverted ? position : 1-position);
     }
 
@@ -88,17 +90,5 @@ public class Servo extends HardwareDevice<com.qualcomm.robotcore.hardware.Servo>
         return new ServoGroup(this, d);
     }
 
-//    @Override
-//    public void setPIDValues(double p, double i, double d) {
-//        pid_p = p;
-//        pid_i = i;
-//        pid_d = d;
-//    }
-
-//    @Override
-//    public boolean setPositionPID(double val) {
-//        device.setPosition(PIDUtils.calculatePIDDouble(pid_p, pid_i, pid_d, device.getPosition(), val));
-//        return isAtPosition(val);
-//    }
 
 }

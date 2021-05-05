@@ -71,28 +71,28 @@ public class Command implements Runnable {
     }
 
     //run a command after
-    public Command then(Command c){
-        CommandScheduler.getInstance().scheduleAfterOther(this, c);
-        return c;
+    public SequentialCommandGroup then(Command c){
+        return new SequentialCommandGroup(this, c);
     }
-    //wait a time
 
-    public Command sleep(double sec){
+    //wait a time
+    public SequentialCommandGroup wait(double sec){
         return then(new WaitCommand(sec));
     }
-    public Command sleep(DoubleSupplier sup){
+    public SequentialCommandGroup wait(DoubleSupplier sup){
         return then(new WaitCommand(sup));
     }
 
+
+
     //await a condition
-    public Command await(BooleanSupplier condition) {
+    public SequentialCommandGroup until(BooleanSupplier condition) {
         return then(new ConditionalCommand(condition));
     }
 
     //run a command in parallel
-    public Command with(Command c){
-        CommandScheduler.getInstance().scheduleWithOther(this, c);
-        return c;
+    public ParallelCommandGroup with(Command c){
+        return new ParallelCommandGroup(this, c);
     }
 
     /** Run the commmand
@@ -104,7 +104,7 @@ public class Command implements Runnable {
             case RESET:
                 commandRuntime.reset();
                 commandState = CommandState.INITILAIZING;
-                return;//
+                return;
             case INITILAIZING:
                 init();
                 commandState = CommandState.EXECUTING;
@@ -113,11 +113,10 @@ public class Command implements Runnable {
                 execute();
                 if(isFinished()) commandState = CommandState.FINISHED;
                 //allow one cycle to run so other dependent commands can schedule
-                return;//
+                return;
             case FINISHED:
                 end(!isFinished());
                 commandState = CommandState.RESET;
-                return;
         }
     }
 

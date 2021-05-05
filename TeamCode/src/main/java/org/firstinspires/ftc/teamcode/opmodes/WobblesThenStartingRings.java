@@ -45,8 +45,8 @@ public class WobblesThenStartingRings extends CommandOpMode implements Loggable 
         robot.wobbleSubsystem.setArmPosition(WobbleSubsystem.ArmPosition.RAISED);
         state = new AutoState(AutoState.Team.RED);
         state.setStackSize(AutoState.StackSize.FOUR);
-        CommandScheduler.getInstance().scheduleForState(new GetStackSizeCommand(robot.visionSubsystem, state),
-                () -> true, OpModeState.INIT);
+//        CommandScheduler.getInstance().scheduleForState(new GetStackSizeCommand(robot.visionSubsystem, state),
+//                () -> true, OpModeState.INIT);
     }
 
     @Override

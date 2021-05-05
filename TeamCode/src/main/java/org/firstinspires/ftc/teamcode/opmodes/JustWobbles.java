@@ -36,7 +36,7 @@ public class JustWobbles extends CommandOpMode implements Loggable {
         robot = new Robot();
         robot.wobbleSubsystem.setClawPosition(WobbleSubsystem.ClawPosition.CLOSED);
         state.setStackSize(AutoState.StackSize.FOUR);
-        CommandScheduler.getInstance().scheduleForState(new GetStackSizeCommand(robot.visionSubsystem, state),
+        CommandScheduler.getInstance().scheduleForState(new GetStackSizeCommand(robot.visionStackSubsystem, state),
                 ()->true, OpModeState.INIT);
     }
 

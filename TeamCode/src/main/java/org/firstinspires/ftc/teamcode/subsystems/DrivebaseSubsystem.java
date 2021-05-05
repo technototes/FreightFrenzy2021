@@ -35,7 +35,7 @@ import com.technototes.library.hardware.motor.EncodedMotor;
 import com.technototes.library.hardware.sensor.IMU;
 import com.technototes.library.subsystem.Subsystem;
 
-import org.firstinspires.ftc.roadrunnercode.util.LynxModuleUtil;
+import org.firstinspires.ftc.teamcode.roadrunnercode.util.LynxModuleUtil;
 
 import java.util.ArrayList;
 import java.util.Arrays;

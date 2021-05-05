@@ -17,7 +17,7 @@ public class ParallelRaceGroup extends CommandGroup {
 
     @Override
     public void schedule(Command c) {
-        this.with(c);
+        CommandScheduler.getInstance().scheduleWithOther(this, c);
     }
 
     /** Is this finished

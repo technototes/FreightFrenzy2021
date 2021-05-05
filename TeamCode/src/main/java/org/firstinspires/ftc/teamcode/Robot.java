@@ -11,6 +11,8 @@ import org.firstinspires.ftc.teamcode.subsystems.OdometrySubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.IndexSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ShooterSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.TurretSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.VisionAimSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.VisionStackSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.WobbleSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.DrivebaseSubsystem;
@@ -48,9 +50,13 @@ public class Robot implements Loggable {
     public WobbleSubsystem wobbleSubsystem;
 
     //numrings is only shown during the init period of the match
-    @LogConfig.Run(duringInit = true, duringRun = false)
-    @Log.Number(name = "numrings", index = 0, color = Color.YELLOW, numberColor = Color.YELLOW)
-    public VisionStackSubsystem visionSubsystem;
+//    @LogConfig.Run(duringInit = true, duringRun = false)
+//    @Log.Number(name = "numrings", index = 0, color = Color.YELLOW, numberColor = Color.YELLOW)
+    public VisionStackSubsystem visionStackSubsystem;
+
+    public VisionAimSubsystem visionAimSubsystem;
+    @Log
+    public TurretSubsystem turretSubsystem;
 
     //voltage displayed in yellow to catch driver's eye
     @Log.Number(name="VOLTAGE", index = 0, color = Color.YELLOW, numberColor = Color.LIGHT_GRAY)
@@ -73,7 +79,11 @@ public class Robot implements Loggable {
 
         wobbleSubsystem =  new WobbleSubsystem(hardware.wobbleArmServos, hardware.wobbleClawServo, hardware.wobbleTurretServo);
 
-        visionSubsystem = new VisionStackSubsystem(hardware.webcam);
+        //visionStackSubsystem = new VisionStackSubsystem(hardware.webcam);
+
+        visionAimSubsystem = new VisionAimSubsystem(hardware.webcam);
+
+        turretSubsystem = new TurretSubsystem(hardware.turretServo);
     }
 
 }

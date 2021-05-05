@@ -20,6 +20,8 @@ import org.firstinspires.ftc.teamcode.commands.intake.IntakeStopCommand;
 import org.firstinspires.ftc.teamcode.commands.shooter.ShooterSetFlapCommand;
 import org.firstinspires.ftc.teamcode.commands.shooter.ShooterSetSpeedCommand;
 import org.firstinspires.ftc.teamcode.commands.shooter.ShooterStopCommand;
+import org.firstinspires.ftc.teamcode.commands.turret.TurretRotateLeftCommand;
+import org.firstinspires.ftc.teamcode.commands.turret.TurretRotateRightCommand;
 import org.firstinspires.ftc.teamcode.commands.wobble.WobbleCloseThenRaiseCommand;
 import org.firstinspires.ftc.teamcode.commands.wobble.WobbleLowerThenOpenCommand;
 import org.firstinspires.ftc.teamcode.commands.wobble.WobbleRotateLeftCommand;
@@ -45,6 +47,8 @@ public class OperatorInterface {
     public CommandButton intakeMainButton, intakeSpitButton;
 
     public CommandButton wobbleLeftButton, wobbleRightButton, wobbleUpButton, wobbleDownButton;
+
+    public CommandButton turretLeftButton, turretRightButton;
 
     public CommandButton firePrepButton;
     public CommandAxis fireAxis;
@@ -74,6 +78,9 @@ public class OperatorInterface {
         wobbleLeftButton = driverGamepad.dpadLeft;
         wobbleRightButton = driverGamepad.dpadRight;
 
+        turretLeftButton = driverGamepad.x;
+        turretRightButton = driverGamepad.y;
+
         firePrepButton = driverGamepad.leftBumper;
         fireAxis = driverGamepad.leftTrigger;
         //to actually fire
@@ -93,8 +100,8 @@ public class OperatorInterface {
         wobbleDownButton.whenPressed(new WobbleLowerThenOpenCommand(robot.wobbleSubsystem));
         wobbleUpButton.whenPressed(new WobbleCloseThenRaiseCommand(robot.wobbleSubsystem));
 
-        wobbleLeftButton.whenPressed(new WobbleRotateLeftCommand(robot.wobbleSubsystem)).whenReleased(new Command().addRequirements(robot.wobbleSubsystem));
-        wobbleRightButton.whenPressed(new WobbleRotateRightCommand(robot.wobbleSubsystem)).whenReleased(new Command().addRequirements(robot.wobbleSubsystem));
+//        wobbleLeftButton.whenPressed(new WobbleRotateLeftCommand(robot.wobbleSubsystem)).whenReleased(new Command().addRequirements(robot.wobbleSubsystem));
+//        wobbleRightButton.whenPressed(new WobbleRotateRightCommand(robot.wobbleSubsystem)).whenReleased(new Command().addRequirements(robot.wobbleSubsystem));
 
         //intake commands
         intakeMainButton.whenPressed(new IntakeInCommand(robot.intakeSubsystem));
@@ -102,12 +109,12 @@ public class OperatorInterface {
         intakeSpitButton.whenPressed(new IntakeOutCommand(robot.intakeSubsystem))
                 .whenReleased(new IntakeStopCommand(robot.intakeSubsystem));
 
-        powerButton.whilePressed(new ShooterSetFlapCommand(robot.shooterSubsystem, ()->0.23));
+        powerButton.whilePressed(new ShooterSetFlapCommand(robot.shooterSubsystem, ()->0.70));
 
         firePrepButton.whenPressed(new ParallelCommandGroup(
-                new InstantCommand(()->robot.drivebaseSubsystem.speed = 0.5),
+                new InstantCommand(()->robot.drivebaseSubsystem.speed = 0.7),
                 new ShooterSetSpeedCommand(robot.shooterSubsystem, ()->0.8),
-                new ShooterSetFlapCommand(robot.shooterSubsystem, ()->0.47),
+                new ShooterSetFlapCommand(robot.shooterSubsystem, ()->0.55),
                 new SequentialCommandGroup(new IntakeInCommand(robot.intakeSubsystem), new WaitCommand(0.4), new IntakeStopCommand(robot.intakeSubsystem))))
                 .schedule(()->fireAxis.getAsBoolean()&&firePrepButton.getAsBoolean(), new SendOneRingToShooterCommand(robot.indexSubsystem, ()->1-fireAxis.getAsDouble()))   //new IndexPivotDownCommand(robot.indexSubsystem))
                 .whenReleased(new ParallelCommandGroup(
@@ -115,10 +122,14 @@ public class OperatorInterface {
                         new ShooterStopCommand(robot.shooterSubsystem)));
 
         //drive command
-        resetGyroButton.whenReleased(new DriveCommand(robot.drivebaseSubsystem, driveLStick, driveRStick));
+        resetGyroButton.whileReleased(new DriveCommand(robot.drivebaseSubsystem, driveLStick, driveRStick));
         resetGyroButton.whenPressed(new ResetGyroCommand(robot.drivebaseSubsystem));
 
+        turretLeftButton.whenPressed(new WobbleRotateLeftCommand(robot.wobbleSubsystem, turretLeftButton));
+        turretRightButton.whenPressed(new WobbleRotateRightCommand(robot.wobbleSubsystem, turretRightButton));
 
-
+        driverGamepad.rightTrigger.whilePressed(new VisionAlignCommand(
+                robot.turretSubsystem, robot.visionAimSubsystem
+        ));
     }
 }

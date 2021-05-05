@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.commands.wobble;
 
 import com.technototes.library.command.Command;
+import com.technototes.library.control.gamepad.CommandButton;
 
 import org.firstinspires.ftc.teamcode.subsystems.WobbleSubsystem;
 
@@ -12,9 +13,13 @@ public class WobbleRotateLeftCommand extends Command {
     public double startingPos;
     public BooleanSupplier runCondition;
 
-    public WobbleRotateLeftCommand(WobbleSubsystem sub){
-        addRequirements(sub);
+    public WobbleRotateLeftCommand(WobbleSubsystem sub, CommandButton b){
         subsystem = sub;
+        runCondition = b::isReleased;
+    }
+    public WobbleRotateLeftCommand(WobbleSubsystem sub){
+        subsystem = sub;
+        runCondition = ()->commandRuntime.seconds()>0.5;
     }
 
     @Override
@@ -24,6 +29,10 @@ public class WobbleRotateLeftCommand extends Command {
 
     @Override
     public void execute() {
-        subsystem.setTurretPosition(startingPos-Math.pow(commandRuntime.seconds()/5,3));
+        subsystem.setTurretPosition(startingPos-commandRuntime.seconds()/2);
+    }
+    @Override
+    public boolean isFinished() {
+        return runCondition.getAsBoolean();
     }
 }

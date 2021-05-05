@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.technototes.library.hardware.HardwareDevice;
 import com.technototes.library.hardware.motor.EncodedMotor;
@@ -12,10 +11,10 @@ import com.technototes.library.hardware.servo.Servo;
 import com.technototes.library.hardware.servo.ServoGroup;
 import com.technototes.logger.Loggable;
 
-import org.firstinspires.ftc.roadrunnercode.util.AxesSigns;
-import org.firstinspires.ftc.roadrunnercode.util.BNO055IMUUtil;
+import org.firstinspires.ftc.teamcode.roadrunnercode.util.AxesSigns;
+import org.firstinspires.ftc.teamcode.roadrunnercode.util.BNO055IMUUtil;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.roadrunnercode.util.Encoder;
+import org.firstinspires.ftc.teamcode.roadrunnercode.util.Encoder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
@@ -65,6 +64,7 @@ public class Hardware implements Loggable {
 
 
     public OpenCvCamera webcam;
+    public Servo turretServo;
 
     public Hardware(){
         flDriveMotor = new EncodedMotor<>("flMotor");
@@ -72,13 +72,12 @@ public class Hardware implements Loggable {
         rlDriveMotor = new EncodedMotor<>("rlMotor");
         rrDriveMotor = new EncodedMotor<>("rrMotor");
 
-        leftOdometryEncoder = new Encoder("shooter2");
-        rightOdometryEncoder = new Encoder("intake2");
-        frontOdometryEncoder = new Encoder("intake1");
+        leftOdometryEncoder = new Encoder("flMotor").invert();
+        rightOdometryEncoder = new Encoder("shooter2").invert();
+        frontOdometryEncoder = new Encoder("rlMotor");
 
-        BNO055IMU i = HardwareDevice.hardwareMap.get(BNO055IMU.class, "imu");
-        BNO055IMUUtil.remapAxes(imu.device, AxesOrder.XZY, AxesSigns.PPP);
-        imu = new IMU(i);
+        imu = new IMU("imu");
+        BNO055IMUUtil.remapAxes(imu.device, AxesOrder.XYZ, AxesSigns.NNN);
 
         indexArmServo = new Servo("indexarm");
 
@@ -98,8 +97,9 @@ public class Hardware implements Loggable {
         wobbleArmServos = new ServoGroup(wobbleLeftArmServo, wobbleRightArmServo);
 
         wobbleClawServo = new Servo("wobbleclaw").setRange(0.1, 0.6);
-        wobbleTurretServo = new Servo("wobbleturret").setRange(0, 0.47);
+        wobbleTurretServo = new Servo("wobbleturret").setRange(0.4, 1);
 
+        turretServo = new Servo("turret").setRange(0, 1);
 
         webcam = OpenCvCameraFactory.getInstance().createWebcam(HardwareDevice.hardwareMap.get(WebcamName.class, "webcam"),
                 HardwareDevice.hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id",

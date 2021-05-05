@@ -37,4 +37,8 @@ public class ConditionalCommand extends Command {
 
     }
 
+    @Override
+    public boolean isFinished() {
+        return supplier.getAsBoolean();
+    }
 }

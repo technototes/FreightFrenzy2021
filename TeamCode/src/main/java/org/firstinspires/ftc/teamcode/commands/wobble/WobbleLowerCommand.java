@@ -15,8 +15,8 @@ public class WobbleLowerCommand extends WaitCommand {
     }
 
     @Override
-    public void init() {
-        subsystem.setArmPosition(WobbleSubsystem.ArmPosition.LOWERED);
+    public void execute() {
+        subsystem.armServo.setPosition(commandRuntime.seconds()*2);
     }
 
 }

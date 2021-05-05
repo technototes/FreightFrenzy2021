@@ -20,26 +20,26 @@ public class AutoState {
     public static final double SECONDARY_FLAP_ANGLE = 0.3;
 
     public static final double FIRST_WOBBLE_DROP_X_0 = 65;
-    public static final double FIRST_WOBBLE_DROP_Y_0 = -8;
-    public static final double FIRST_WOBBLE_DROP_ROTATION_0 = 90;
+    public static final double FIRST_WOBBLE_DROP_Y_0 = 0;
+    public static final double FIRST_WOBBLE_DROP_ROTATION_0 = 0;
     public static final double FIRST_WOBBLE_DROP_X_1 = 87;
-    public static final double FIRST_WOBBLE_DROP_Y_1 = 16;
-    public static final double FIRST_WOBBLE_DROP_ROTATION_1 = 90;
+    public static final double FIRST_WOBBLE_DROP_Y_1 = 24;
+    public static final double FIRST_WOBBLE_DROP_ROTATION_1 = 0;
     public static final double FIRST_WOBBLE_DROP_X_4 = 112;
-    public static final double FIRST_WOBBLE_DROP_Y_4 = -8;
-    public static final double FIRST_WOBBLE_DROP_ROTATION_4 = 90;
+    public static final double FIRST_WOBBLE_DROP_Y_4 = 0;
+    public static final double FIRST_WOBBLE_DROP_ROTATION_4 = 0;
 
     public static final double SECOND_WOBBLE_DROP_OFFSET_X = 5;
     public static final double SECOND_WOBBLE_DROP_OFFSET_Y = 5;
 
 
-    public static final double SECOND_WOBBLE_GRAB_X = 28;
-    public static final double SECOND_WOBBLE_GRAB_Y = 32;
+    public static final double SECOND_WOBBLE_GRAB_X = 35;
+    public static final double SECOND_WOBBLE_GRAB_Y = 20;
     public static final double SECOND_WOBBLE_GRAB_ROTATION = 0;
     public static final double SECOND_WOBBLE_GRAB_TAN = -90;
 
 
-    public static final double END_X = 70;
+    public static final double END_X = 80;
     public static final double END_Y = 10;
     public static final double END_ROTATION = 90;
 
@@ -87,6 +87,7 @@ public class AutoState {
     public Pose2d correctedFirstWobbleDropPos(){
         return correctedPos(stackSize.xPos, stackSize.yPos, stackSize.rotation);
     }
+
     public Pose2d correctedSecondWobbleDropPos(){
         return correctedPos(stackSize.xPos-SECOND_WOBBLE_DROP_OFFSET_X, stackSize.yPos+SECOND_WOBBLE_DROP_OFFSET_Y, stackSize.rotation);
     }

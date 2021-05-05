@@ -2,27 +2,37 @@ package org.firstinspires.ftc.teamcode.commands.drivebase;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.util.Angle;
+import com.technototes.library.command.Command;
 import com.technototes.library.command.WaitCommand;
 
 import org.firstinspires.ftc.teamcode.subsystems.DrivebaseSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.TurretSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.VisionAimSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.VisionStackSubsystem;
 
-public class VisionAlignCommand extends WaitCommand {
-    public VisionStackSubsystem visionSubsystem;
-    public DrivebaseSubsystem drivebaseSubsystem;
-    public int target = 9;
-    public double scale = 1;
+public class VisionAlignCommand extends Command {
+    public  VisionAimSubsystem visionSubsystem;
+    public TurretSubsystem turretSubsystem;
+    public int target = 25;
+    public static final double P = 500;
 
-    public VisionAlignCommand(DrivebaseSubsystem d, VisionStackSubsystem v){
-        super(0);
-        drivebaseSubsystem = d;
+    public VisionAlignCommand(TurretSubsystem t, VisionAimSubsystem v){
+        turretSubsystem = t;
         visionSubsystem = v;
+    }
+    double cur;
+    @Override
+    public void init() {
+        cur = visionSubsystem.getAvg();
     }
 
     @Override
-    public void init() {
-//        drivebaseSubsystem.setDrivePower(new Pose2d(0, 0, -(visionSubsystem.mean-target)/scale));
-        drivebaseSubsystem.setDrivePower(new Pose2d(0, 0, Math.pow(4*Math.PI/2-Angle.norm(drivebaseSubsystem.getExternalHeading()-Math.PI/1)-Math.PI/1, 1)/scale));
-        //System.out.println(visionSubsystem.mean);
+    public void execute() {
+        turretSubsystem.changeBy(-(cur-target)/P );
     }
+
+//    @Override
+//    public boolean isFinished() {
+//        return Math.abs(cur-target) < 2;
+//    }
 }

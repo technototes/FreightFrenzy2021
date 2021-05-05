@@ -17,7 +17,7 @@ public class ParallelCommandGroup extends CommandGroup {
 
     @Override
     public void schedule(Command c) {
-        this.with(c);
+        CommandScheduler.getInstance().scheduleWithOther(this, c);
     }
 
 
@@ -31,5 +31,5 @@ public class ParallelCommandGroup extends CommandGroup {
     public boolean isFinished() {
     //if there is no unfinished commands its done
         return !commandMap.containsValue(false);
-}
+    }
 }
