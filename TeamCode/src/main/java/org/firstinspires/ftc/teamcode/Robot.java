@@ -11,6 +11,7 @@ import org.firstinspires.ftc.teamcode.subsystems.OdometrySubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.IndexSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ShooterSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.StickSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.TurretSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.VisionAimSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.VisionStackSubsystem;
@@ -57,6 +58,9 @@ public class Robot implements Loggable {
     public VisionAimSubsystem visionAimSubsystem;
     public TurretSubsystem turretSubsystem;
 
+    @Log(name="Sticks", index = 5)
+    public StickSubsystem stickSubsystem;
+
     //voltage displayed in yellow to catch driver's eye
     @Log.Number(name="VOLTAGE", index = 0, color = Color.YELLOW, numberColor = Color.LIGHT_GRAY)
     public double getVoltage(){
@@ -83,6 +87,8 @@ public class Robot implements Loggable {
         visionAimSubsystem = new VisionAimSubsystem(hardware.webcam);
 
         turretSubsystem = new TurretSubsystem(hardware.turretServo, hardware.raiseServo);
+
+        stickSubsystem = new StickSubsystem(hardware.sticks);
     }
 
 }

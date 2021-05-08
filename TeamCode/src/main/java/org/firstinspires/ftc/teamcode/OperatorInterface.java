@@ -80,8 +80,8 @@ public class OperatorInterface {
         wobbleLeftButton = driverGamepad.dpadLeft;
         wobbleRightButton = driverGamepad.dpadRight;
 
-        turretLeftButton = driverGamepad.x;
-        turretRightButton = driverGamepad.y;
+        turretLeftButton = driverGamepad.dpadLeft;
+        turretRightButton = driverGamepad.dpadRight;
 
         firePrepButton = driverGamepad.leftBumper;
         fireAxis = driverGamepad.leftTrigger;
@@ -134,6 +134,10 @@ public class OperatorInterface {
 
         turretLeftButton.whenPressed(new WobbleRotateLeftCommand(robot.wobbleSubsystem, turretLeftButton));
         turretRightButton.whenPressed(new WobbleRotateRightCommand(robot.wobbleSubsystem, turretRightButton));
+
+        driverGamepad.y.whenToggled(new InstantCommand(robot.stickSubsystem::lower))
+                .whenInverseToggled(new InstantCommand(robot.stickSubsystem::raise));
+
 
 
     }
