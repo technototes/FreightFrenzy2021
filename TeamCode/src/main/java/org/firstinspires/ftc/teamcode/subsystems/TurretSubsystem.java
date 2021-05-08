@@ -27,7 +27,7 @@ public class TurretSubsystem extends ServoSubsystem implements Stated<String> {
     }
 
     public void raise(){
-        raiseServo.setPosition(0.95);
+        raiseServo.setPosition(0.9);
     }
     @Override
     public String getState() {

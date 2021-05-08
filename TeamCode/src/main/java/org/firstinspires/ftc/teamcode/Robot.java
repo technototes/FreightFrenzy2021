@@ -43,7 +43,7 @@ public class Robot implements Loggable {
     public IntakeSubsystem intakeSubsystem;
 
     //shooter logged with number/progress bar
-    @Log.NumberBar(name = "Shooter", index =  2, completeBarColor = Color.GREEN, min = 0)
+    //@Log.NumberBar(name = "Shooter", index =  2, completeBarColor = Color.GREEN, min = 0, max=2000)
     public ShooterSubsystem shooterSubsystem;
 
     //wobble

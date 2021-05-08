@@ -57,7 +57,7 @@ public abstract class CommandOpMode extends LinearOpMode {
         CommandScheduler.getInstance().opMode = this;
         opModeTimer.reset();
         logger = new Logger(this);
-        while ((!isStarted() || additionalInitConditions()) && !terminated && !isStopRequested()) {
+        while (!(isStarted() && additionalInitConditions()) && !terminated && !isStopRequested()) {
             initLoop();
             universalLoop();
             CommandScheduler.getInstance().run();
@@ -145,6 +145,6 @@ public abstract class CommandOpMode extends LinearOpMode {
     }
 
     public boolean additionalInitConditions(){
-        return false;
+        return true;
     }
 }

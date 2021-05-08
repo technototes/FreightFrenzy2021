@@ -105,14 +105,14 @@ public class Hardware implements Loggable {
         wobbleTurretServo = new Servo("wobbleturret").setRange(0.5, 1);
 
         turretServo = new Servo("turret").setRange(0, 1);
-        raiseServo = new Servo("raise").setStartingPosition(0.9);
+        raiseServo = new Servo("raise");
 
         webcam = OpenCvCameraFactory.getInstance().createWebcam(HardwareDevice.hardwareMap.get(WebcamName.class, "webcam"),
                 HardwareDevice.hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id",
                         HardwareDevice.hardwareMap.appContext.getPackageName()));
 
-        leftStick = new Servo("lstick");
-        rightStick = new Servo("rstick").invert();
+        leftStick = new Servo("lstick").setRange(0, 1).invert();
+        rightStick = new Servo("rstick").setRange(0, 0.5);
         sticks = new ServoGroup(leftStick, rightStick);
     }
 

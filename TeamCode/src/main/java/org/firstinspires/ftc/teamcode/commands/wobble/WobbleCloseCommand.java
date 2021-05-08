@@ -10,7 +10,7 @@ public class WobbleCloseCommand extends WaitCommand {
         //COOLDOWN
         super(0.4);
         subsystem = s;
-        //this.addRequirements(subsystem);
+        this.addRequirements(subsystem);
     }
 
     @Override

@@ -2,27 +2,38 @@ package com.technototes.control.gamepad;
 
 import java.util.function.BooleanSupplier;
 
-/** Simple implementation of {@link AbstractBinding}
+/** Simple implementation of {@link Binding}
  * @author Alex Stedman
  */
-public final class SimpleBinding extends AbstractBinding<GamepadButton> {
+public final class SimpleBinding extends GamepadButton implements Binding<GamepadButton> {
+    private GamepadButton[] buttons;
+    private Type defaultType;
     /** Create binding
      *
-     * @param buttons The buttons for the binding
+     * @param b The buttons for the binding
      */
-    public SimpleBinding(BooleanSupplier... buttons){
-        super(buttons);
+    public SimpleBinding(GamepadButton... b){
+       this(Type.ALL_ACTIVE, b);
     }
     /** Create binding
      *
-     * @param buttons The buttons for the binding
+     * @param b The buttons for the binding
      * @param type The binding type
      */
-    public SimpleBinding(Type type, BooleanSupplier... buttons){
-        super(type, buttons);
+    public SimpleBinding(Type type, GamepadButton... b){
+        defaultType = type;
+        buttons = b;
+        setSupplier(this::get);
     }
+
     @Override
-    public GamepadButton getAsButton(Type t) {
-        return new GamepadButton(()->get(t));
+    public GamepadButton[] getSuppliers() {
+        return buttons;
     }
+
+    @Override
+    public Type getDefaultType() {
+        return defaultType;
+    }
+
 }

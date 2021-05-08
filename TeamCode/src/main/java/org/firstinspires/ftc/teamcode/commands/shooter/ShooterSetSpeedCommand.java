@@ -26,4 +26,9 @@ public class ShooterSetSpeedCommand extends Command {
     public void execute() {
         subsystem.setVelocity(curr);
     }
+
+//    @Override
+//    public boolean isFinished() {
+//        return Math.abs(subsystem.getVelocity()-curr) < 20;
+//    }
 }

@@ -59,7 +59,7 @@ public class ShooterConfigOpMode extends CommandOpMode implements Loggable {
     }
     @Log.Number(name = "shooterspeed", index = 3)
     public double shooter(){
-        System.out.print("  sp "+ robot.shooterSubsystem.getVelocity());
+        System.out.print("  sp "+ robot.shooterSubsystem.motor1.getDevice().getVelocity());
 
         return robot.shooterSubsystem.getVelocity();
     }

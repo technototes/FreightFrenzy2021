@@ -60,6 +60,7 @@ public class WobblesThenAllRings extends CommandOpMode implements Loggable {
 
     @Override
     public void uponStart() {
+        robot.turretSubsystem.raise();
         CommandScheduler.getInstance().schedule(
                 new SequentialCommandGroup(
                         new DeliverFirstWobble3Command(robot.drivebaseSubsystem, robot.wobbleSubsystem, state),
