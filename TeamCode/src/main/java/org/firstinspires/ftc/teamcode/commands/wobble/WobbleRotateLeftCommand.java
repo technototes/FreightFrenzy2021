@@ -29,7 +29,7 @@ public class WobbleRotateLeftCommand extends Command {
 
     @Override
     public void execute() {
-        subsystem.setTurretPosition(startingPos-commandRuntime.seconds()/2);
+        subsystem.setTurretPosition(startingPos-commandRuntime.seconds()*2);
     }
     @Override
     public boolean isFinished() {

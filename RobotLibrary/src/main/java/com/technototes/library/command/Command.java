@@ -76,10 +76,10 @@ public class Command implements Runnable {
     }
 
     //wait a time
-    public SequentialCommandGroup wait(double sec){
+    public SequentialCommandGroup sleep(double sec){
         return then(new WaitCommand(sec));
     }
-    public SequentialCommandGroup wait(DoubleSupplier sup){
+    public SequentialCommandGroup sleep(DoubleSupplier sup){
         return then(new WaitCommand(sup));
     }
 

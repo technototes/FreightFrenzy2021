@@ -44,18 +44,14 @@ public class WobblesThenAllRings extends CommandOpMode implements Loggable {
      */
     public Robot robot;
 
-    public AutoState.StackSize getStackSize(){
-        return state.stackSize;
-    }
-
     public AutoState state;
 
     @Override
     public void uponInit() {
+        CommandScheduler.resetScheduler();
         robot = new Robot();
         robot.wobbleSubsystem.setClawPosition(WobbleSubsystem.ClawPosition.CLOSED);
         robot.wobbleSubsystem.setArmPosition(WobbleSubsystem.ArmPosition.RAISED);
-        robot.turretSubsystem.setTurretPosition(1);
         state = new AutoState(AutoState.Team.RED);
         state.setStackSize(AutoState.StackSize.FOUR);
             //        CommandScheduler.getInstance().scheduleForState(new GetStackSizeCommand(robot.visionSubsystem, state),
@@ -69,8 +65,10 @@ public class WobblesThenAllRings extends CommandOpMode implements Loggable {
                         new DeliverFirstWobble3Command(robot.drivebaseSubsystem, robot.wobbleSubsystem, state),
                         new PathToShootCommand(robot.drivebaseSubsystem, robot.shooterSubsystem, state),
                         new AimAndShootCommand(robot.indexSubsystem, robot.turretSubsystem, robot.visionAimSubsystem),
+                        new ShooterStopCommand(robot.shooterSubsystem),
                         new IntakeStackCommand(robot.drivebaseSubsystem, robot.intakeSubsystem, state),
-                        new AimAndShootCommand(robot.indexSubsystem, robot.turretSubsystem, robot.visionAimSubsystem),
+                        new InstantCommand(()->robot.wobbleSubsystem.setTurretPosition(1)),
+//                        new AimAndShootCommand(robot.indexSubsystem, robot.turretSubsystem, robot.visionAimSubsystem),
                         new ObtainSecondWobble3Command(robot.drivebaseSubsystem, robot.wobbleSubsystem, state),
                         new DeliverSecondWobble3Command(robot.drivebaseSubsystem, robot.wobbleSubsystem, state),
                         new ParkCommand(robot.drivebaseSubsystem, robot.wobbleSubsystem, state),

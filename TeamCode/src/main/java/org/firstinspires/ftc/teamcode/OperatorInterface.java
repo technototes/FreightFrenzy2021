@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.technototes.control.gamepad.AbstractBinding;
 import com.technototes.control.gamepad.GamepadStick;
 import com.technototes.library.command.Command;
 import com.technototes.library.command.InstantCommand;
@@ -7,6 +8,7 @@ import com.technototes.library.command.ParallelCommandGroup;
 import com.technototes.library.command.SequentialCommandGroup;
 import com.technototes.library.command.WaitCommand;
 import com.technototes.library.control.gamepad.CommandAxis;
+import com.technototes.library.control.gamepad.CommandBinding;
 import com.technototes.library.control.gamepad.CommandButton;
 import com.technototes.library.control.gamepad.CommandGamepad;
 
@@ -93,7 +95,7 @@ public class OperatorInterface {
         driveLStick = driverGamepad.leftStick;
         driveRStick = driverGamepad.rightStick;
 
-        
+
         resetGyroButton = driverGamepad.rightStickButton;
 
 
@@ -109,18 +111,23 @@ public class OperatorInterface {
         intakeSpitButton.whenPressed(new IntakeOutCommand(robot.intakeSubsystem))
                 .whenReleased(new IntakeStopCommand(robot.intakeSubsystem));
 
-        powerButton.whilePressed(new ShooterSetFlapCommand(robot.shooterSubsystem, ()->0.70));
+        powerButton.whilePressed(new ShooterSetFlapCommand(robot.shooterSubsystem, ()->1));
 
+        firePrepButton.whenPressed(new ShooterSetFlapCommand(robot.shooterSubsystem, ()->0.9))
+            .whilePressed(new VisionAlignCommand(robot.turretSubsystem, robot.visionAimSubsystem).asConditional(()->!powerButton.getAsBoolean()));
         firePrepButton.whenPressed(new ParallelCommandGroup(
                 new InstantCommand(()->robot.drivebaseSubsystem.speed = 0.7),
-                new ShooterSetSpeedCommand(robot.shooterSubsystem, ()->0.8),
-                new ShooterSetFlapCommand(robot.shooterSubsystem, ()->0.55),
+                new ShooterSetSpeedCommand(robot.shooterSubsystem, ()->0.6),
                 new SequentialCommandGroup(new IntakeInCommand(robot.intakeSubsystem), new WaitCommand(0.4), new IntakeStopCommand(robot.intakeSubsystem))))
                 .schedule(()->fireAxis.getAsBoolean()&&firePrepButton.getAsBoolean(), new SendOneRingToShooterCommand(robot.indexSubsystem, ()->1-fireAxis.getAsDouble()))   //new IndexPivotDownCommand(robot.indexSubsystem))
                 .whenReleased(new ParallelCommandGroup(
                         new InstantCommand(()->robot.drivebaseSubsystem.speed = 1),
-                        new ShooterStopCommand(robot.shooterSubsystem)));
+                        new ShooterSetSpeedCommand(robot.shooterSubsystem, ()->0.4),
+                        new InstantCommand(()->robot.turretSubsystem.setTurretPosition(0.5))
+                ));
 
+
+        driverGamepad.leftStickButton.whenPressed(new ShooterStopCommand(robot.shooterSubsystem));
         //drive command
         resetGyroButton.whileReleased(new DriveCommand(robot.drivebaseSubsystem, driveLStick, driveRStick));
         resetGyroButton.whenPressed(new ResetGyroCommand(robot.drivebaseSubsystem));
@@ -128,8 +135,6 @@ public class OperatorInterface {
         turretLeftButton.whenPressed(new WobbleRotateLeftCommand(robot.wobbleSubsystem, turretLeftButton));
         turretRightButton.whenPressed(new WobbleRotateRightCommand(robot.wobbleSubsystem, turretRightButton));
 
-        driverGamepad.rightTrigger.whilePressed(new VisionAlignCommand(
-                robot.turretSubsystem, robot.visionAimSubsystem
-        ));
+
     }
 }

@@ -22,8 +22,11 @@ public class SequentialCommandGroup extends CommandGroup {
 
     @Override
     public void schedule(Command c) {
-        CommandScheduler.getInstance().scheduleAfterOther(
-                lastCommand == null ? this : lastCommand, c);
+        if(lastCommand == null){
+            CommandScheduler.getInstance().scheduleWithOther(this, c);
+        }else {
+            CommandScheduler.getInstance().scheduleAfterOther(lastCommand, c);
+        }
         lastCommand = c;
     }
 

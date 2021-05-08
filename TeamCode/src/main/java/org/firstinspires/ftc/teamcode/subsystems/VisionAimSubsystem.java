@@ -67,7 +67,7 @@ public class VisionAimSubsystem extends OpenCvPipeline implements Stated<Integer
             avg = mean1.val[0]-(mean1.val[0]+mean2.val[0]+mean3.val[0])/3;
             //mats.add(m);
 
-            if(avg>20) {
+            if(avg>15) {
                 goal.add((int) Math.round(d/ upRectWidth));
                 drawRectOnToMat(input, r, new Scalar(0, 255, 0));
 

@@ -5,12 +5,13 @@ import com.technototes.library.subsystem.servo.ServoSubsystem;
 import com.technototes.logger.Stated;
 
 public class TurretSubsystem extends ServoSubsystem implements Stated<String> {
-    Servo turretServo;
+    public Servo turretServo, raiseServo;
 
 
-    public TurretSubsystem(Servo turret){
-        super(turret);
+    public TurretSubsystem(Servo turret, Servo raise){
+        super(turret, raise);
         turretServo = turret;
+        raiseServo = raise;
     }
 
     public void setTurretPosition(double val){
@@ -25,6 +26,9 @@ public class TurretSubsystem extends ServoSubsystem implements Stated<String> {
         setTurretPosition(getTurretPosition()+v);
     }
 
+    public void raise(){
+        raiseServo.setPosition(0.95);
+    }
     @Override
     public String getState() {
         System.out.println(turretServo.getPosition());

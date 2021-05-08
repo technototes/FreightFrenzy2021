@@ -18,7 +18,7 @@ public class ShooterSubsystem extends EncodedMotorSubsystem implements Stated<Do
     public Motor<DcMotorEx> motor2;
     public Servo flap;
 
-    public static PIDFCoefficients MOTOR_VELO_PID = new PIDFCoefficients(30, 0.4, 0, 13.5);
+    public static PIDFCoefficients MOTOR_VELO_PID = new PIDFCoefficients(100, 0, 0, 13.5);
 
     public ShooterSubsystem(EncodedMotor<DcMotorEx> m1, Motor<DcMotorEx> m2, Servo f){
         super(new EncodedMotorGroup(m1, m2));

@@ -17,7 +17,7 @@ public class IntakeStackCommand extends SequentialCommandGroup {
     public IntakeStackCommand(DrivebaseSubsystem d, IntakeSubsystem i, AutoState s) {
         super(
 
-                new IntakeInCommand(i).with(new TrajectoryCommand(d, new Pair(s.correctedTan(0), s.correctedPos(50, 0, 0)))),
+                new IntakeInCommand(i).with(new TrajectoryCommand(d, new Pair(s.correctedTan(0), s.correctedPos(30, 0, 0)))),
                 new IntakeStopCommand(i)
         );
     }

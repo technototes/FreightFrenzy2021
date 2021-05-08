@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.commands.drivebase;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.util.Angle;
+import com.qualcomm.robotcore.util.Range;
 import com.technototes.library.command.Command;
 import com.technototes.library.command.WaitCommand;
 
@@ -14,7 +15,7 @@ public class VisionAlignCommand extends Command {
     public  VisionAimSubsystem visionSubsystem;
     public TurretSubsystem turretSubsystem;
     public int target = 25;
-    public static final double P = 500;
+    public static final double P = 0.0002;
 
     public VisionAlignCommand(TurretSubsystem t, VisionAimSubsystem v){
         turretSubsystem = t;
@@ -28,7 +29,7 @@ public class VisionAlignCommand extends Command {
 
     @Override
     public void execute() {
-        turretSubsystem.changeBy(-(cur-target)/P );
+        turretSubsystem.changeBy(Math.pow(Range.clip(-(cur-target), -5, 5), 3)*P);
     }
 
 //    @Override

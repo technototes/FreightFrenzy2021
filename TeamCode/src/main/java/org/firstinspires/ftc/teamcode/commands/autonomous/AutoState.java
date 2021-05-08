@@ -19,13 +19,13 @@ public class AutoState {
 
     public static final double SECONDARY_FLAP_ANGLE = 0.3;
 
-    public static final double FIRST_WOBBLE_DROP_X_0 = 65;
+    public static final double FIRST_WOBBLE_DROP_X_0 = 60;
     public static final double FIRST_WOBBLE_DROP_Y_0 = 0;
     public static final double FIRST_WOBBLE_DROP_ROTATION_0 = 0;
-    public static final double FIRST_WOBBLE_DROP_X_1 = 87;
+    public static final double FIRST_WOBBLE_DROP_X_1 = 84;
     public static final double FIRST_WOBBLE_DROP_Y_1 = 24;
     public static final double FIRST_WOBBLE_DROP_ROTATION_1 = 0;
-    public static final double FIRST_WOBBLE_DROP_X_4 = 112;
+    public static final double FIRST_WOBBLE_DROP_X_4 = 108;
     public static final double FIRST_WOBBLE_DROP_Y_4 = 0;
     public static final double FIRST_WOBBLE_DROP_ROTATION_4 = 0;
 

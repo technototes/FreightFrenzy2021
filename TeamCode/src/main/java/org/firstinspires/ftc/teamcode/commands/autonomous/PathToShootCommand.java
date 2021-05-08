@@ -18,8 +18,8 @@ import org.firstinspires.ftc.teamcode.subsystems.VisionAimSubsystem;
 public class PathToShootCommand extends SequentialCommandGroup {
     public PathToShootCommand(DrivebaseSubsystem d, ShooterSubsystem s, AutoState st){
         super(new ParallelCommandGroup(
-                new TrajectoryCommand(d, new Pair(st.correctedTan(-90), st.correctedPos(60, 0, 0))),
-                new ShooterSetSpeedCommand(s, ()->0.8).with(new ShooterSetFlapCommand(s, ()->0.55))
+                new TrajectoryCommand(d, new Pair(st.correctedTan(-180), st.correctedPos(60, 0, 0))),
+                new ShooterSetSpeedCommand(s, ()->0.8).with(new ShooterSetFlapCommand(s, ()->0.80))
                 ));
     }
 }

@@ -55,7 +55,6 @@ public class Robot implements Loggable {
     public VisionStackSubsystem visionStackSubsystem;
 
     public VisionAimSubsystem visionAimSubsystem;
-    @Log
     public TurretSubsystem turretSubsystem;
 
     //voltage displayed in yellow to catch driver's eye
@@ -83,7 +82,7 @@ public class Robot implements Loggable {
 
         visionAimSubsystem = new VisionAimSubsystem(hardware.webcam);
 
-        turretSubsystem = new TurretSubsystem(hardware.turretServo);
+        turretSubsystem = new TurretSubsystem(hardware.turretServo, hardware.raiseServo);
     }
 
 }

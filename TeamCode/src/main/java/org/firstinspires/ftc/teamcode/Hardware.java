@@ -65,6 +65,7 @@ public class Hardware implements Loggable {
 
     public OpenCvCamera webcam;
     public Servo turretServo;
+    public Servo raiseServo;
 
     public Hardware(){
         flDriveMotor = new EncodedMotor<>("flMotor");
@@ -97,9 +98,10 @@ public class Hardware implements Loggable {
         wobbleArmServos = new ServoGroup(wobbleLeftArmServo, wobbleRightArmServo);
 
         wobbleClawServo = new Servo("wobbleclaw").setRange(0.1, 0.6);
-        wobbleTurretServo = new Servo("wobbleturret").setRange(0.4, 1);
+        wobbleTurretServo = new Servo("wobbleturret").setRange(0.5, 1);
 
         turretServo = new Servo("turret").setRange(0, 1);
+        raiseServo = new Servo("raise").setStartingPosition(0.9);
 
         webcam = OpenCvCameraFactory.getInstance().createWebcam(HardwareDevice.hardwareMap.get(WebcamName.class, "webcam"),
                 HardwareDevice.hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id",
