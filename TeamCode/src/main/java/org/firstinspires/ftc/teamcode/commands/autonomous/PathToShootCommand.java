@@ -20,7 +20,7 @@ public class PathToShootCommand extends SequentialCommandGroup {
     public PathToShootCommand(DrivebaseSubsystem d, ShooterSubsystem s, AutoState st){
         super(new ParallelCommandGroup(
                 new StrafeCommand(d, st.correctedPos(60, 0, 0)),
-                new ShooterSetSpeedCommand(s, ()->1450).with(new ShooterSetFlapCommand(s, ()->0.85))
+                new ShooterSetSpeedCommand(s, ()->1370).with(new ShooterSetFlapCommand(s, ()->0.85))
                 ));
     }
 }

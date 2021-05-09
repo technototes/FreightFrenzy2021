@@ -35,6 +35,7 @@ import org.firstinspires.ftc.teamcode.commands.autonomous.ParkCommand;
 import org.firstinspires.ftc.teamcode.commands.autonomous.PathToShootCommand;
 import org.firstinspires.ftc.teamcode.commands.autonomous.PrepToShootCommand;
 import org.firstinspires.ftc.teamcode.commands.autonomous.SendOneRingToShooterCommand;
+import org.firstinspires.ftc.teamcode.commands.shooter.ShooterSetSpeedCommand;
 import org.firstinspires.ftc.teamcode.commands.shooter.ShooterStopCommand;
 import org.firstinspires.ftc.teamcode.subsystems.WobbleSubsystem;
 @Autonomous(name = "WobblesThenAllRings")
@@ -65,12 +66,13 @@ public class WobblesThenAllRings extends CommandOpMode implements Loggable {
                 new SequentialCommandGroup(
                         new DeliverFirstWobble3Command(robot.drivebaseSubsystem, robot.wobbleSubsystem, state),
                         new PathToShootCommand(robot.drivebaseSubsystem, robot.shooterSubsystem, state),
-                        new AimAndShootCommand(robot.indexSubsystem, robot.turretSubsystem, robot.visionAimSubsystem),
-                        new ShooterStopCommand(robot.shooterSubsystem),
+                        new AimAndShootCommand(robot.indexSubsystem, robot.turretSubsystem, robot.visionAimSubsystem, robot.shooterSubsystem),
+                        new ShooterSetSpeedCommand(robot.shooterSubsystem, ()->800),
                         new IntakeStackCommand(robot.drivebaseSubsystem, robot.intakeSubsystem, state),
                         new InstantCommand(()->robot.wobbleSubsystem.setTurretPosition(1)),
-//                        new AimAndShootCommand(robot.indexSubsystem, robot.turretSubsystem, robot.visionAimSubsystem),
                         new ObtainSecondWobble3Command(robot.drivebaseSubsystem, robot.wobbleSubsystem, state),
+                        new PathToShootCommand(robot.drivebaseSubsystem, robot.shooterSubsystem, state),
+                        new AimAndShootCommand(robot.indexSubsystem, robot.turretSubsystem, robot.visionAimSubsystem, robot.shooterSubsystem),
                         new DeliverSecondWobble3Command(robot.drivebaseSubsystem, robot.wobbleSubsystem, state),
                         new ParkCommand(robot.drivebaseSubsystem, robot.wobbleSubsystem, state),
                         new InstantCommand(this::terminate)
