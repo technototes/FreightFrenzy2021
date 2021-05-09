@@ -18,6 +18,7 @@ public class IntakeStackCommand extends SequentialCommandGroup {
     public IntakeStackCommand(DrivebaseSubsystem d, IntakeSubsystem i, AutoState s) {
         super(
                 new IntakeInCommand(i).with(new StrafeCommand(d, s.correctedPos(30, 0, 0))),
+                new WaitCommand(1),
                 new IntakeStopCommand(i)
         );
     }

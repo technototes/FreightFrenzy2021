@@ -118,7 +118,7 @@ public class OperatorInterface {
         powerButton.whilePressed(new ShooterSetFlapCommand(robot.shooterSubsystem, ()->1));
 
         firePrepButton.whenPressed(new ShooterSetFlapCommand(robot.shooterSubsystem, ()->0.85))
-                .whilePressed(new ShooterSetSpeedCommand(robot.shooterSubsystem, ()->1370))
+                .whilePressed(new ShooterSetSpeedCommand(robot.shooterSubsystem, ()->1330))
                 .whilePressed(new VisionAlignCommand(robot.turretSubsystem, robot.visionAimSubsystem).asConditional(()->!powerButton.getAsBoolean()));
         firePrepButton.whenPressed(new ParallelCommandGroup(
                 new InstantCommand(()->robot.drivebaseSubsystem.speed = 0.7),

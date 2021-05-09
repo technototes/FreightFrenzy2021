@@ -6,6 +6,7 @@ import com.technototes.library.command.InstantCommand;
 import com.technototes.library.command.ParallelCommandGroup;
 import com.technototes.library.command.SequentialCommandGroup;
 
+import org.firstinspires.ftc.teamcode.commands.StrafeCommand;
 import org.firstinspires.ftc.teamcode.commands.TrajectoryCommand;
 import org.firstinspires.ftc.teamcode.commands.turret.TurretRotateLeftCommand;
 import org.firstinspires.ftc.teamcode.commands.wobble.WobbleCloseCommand;
@@ -19,7 +20,7 @@ public class ObtainSecondWobble3Command extends SequentialCommandGroup {
     public ObtainSecondWobble3Command(DrivebaseSubsystem d, WobbleSubsystem w, AutoState s){
         super(
                 new InstantCommand(()->w.setTurretPosition(0)),
-                new WobbleLowerCommand(w).with(new TrajectoryCommand(d, s.correctedTan(90), new Pair<>(s.correctedTan(-170), s.correctedSecondWobbleGrabPos()))),
+                new WobbleLowerCommand(w).with(new StrafeCommand(d, s.correctedSecondWobbleGrabPos())),
 
                 new WobbleCloseCommand(w));
     }

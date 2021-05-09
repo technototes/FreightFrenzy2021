@@ -20,20 +20,20 @@ public class AutoState {
     public static final double SECONDARY_FLAP_ANGLE = 0.3;
 
     public static final double FIRST_WOBBLE_DROP_X_0 = 60;
-    public static final double FIRST_WOBBLE_DROP_Y_0 = 0;
+    public static final double FIRST_WOBBLE_DROP_Y_0 = -7;
     public static final double FIRST_WOBBLE_DROP_ROTATION_0 = 0;
     public static final double FIRST_WOBBLE_DROP_X_1 = 84;
     public static final double FIRST_WOBBLE_DROP_Y_1 = 24;
     public static final double FIRST_WOBBLE_DROP_ROTATION_1 = 0;
     public static final double FIRST_WOBBLE_DROP_X_4 = 108;
-    public static final double FIRST_WOBBLE_DROP_Y_4 = 0;
+    public static final double FIRST_WOBBLE_DROP_Y_4 = -7;
     public static final double FIRST_WOBBLE_DROP_ROTATION_4 = 0;
 
     public static final double SECOND_WOBBLE_DROP_OFFSET_X = 5;
     public static final double SECOND_WOBBLE_DROP_OFFSET_Y = 5;
 
 
-    public static final double SECOND_WOBBLE_GRAB_X = 35;
+    public static final double SECOND_WOBBLE_GRAB_X = 30;
     public static final double SECOND_WOBBLE_GRAB_Y = 20;
     public static final double SECOND_WOBBLE_GRAB_ROTATION = 0;
     public static final double SECOND_WOBBLE_GRAB_TAN = -90;

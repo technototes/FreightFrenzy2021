@@ -11,29 +11,28 @@ import org.firstinspires.ftc.teamcode.subsystems.TurretSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.VisionAimSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.VisionStackSubsystem;
 
-public class VisionAlignCommand extends Command {
+public class VisionAlignCommand extends WaitCommand {
     public  VisionAimSubsystem visionSubsystem;
     public TurretSubsystem turretSubsystem;
     public int target = 25;
     public static final double P = 0.0002;
 
     public VisionAlignCommand(TurretSubsystem t, VisionAimSubsystem v){
+        this(t, v, 0);
+    }
+
+    public VisionAlignCommand(TurretSubsystem t, VisionAimSubsystem v, double time){
+        super(time);
         turretSubsystem = t;
         visionSubsystem = v;
     }
+
     double cur;
-    @Override
-    public void init() {
-        cur = visionSubsystem.getAvg();
-    }
 
     @Override
     public void execute() {
-        turretSubsystem.changeBy(Math.pow(Range.clip(-(cur-target), -5, 5), 3)*P);
+        cur = visionSubsystem.getAvg();
+        turretSubsystem.changeBy(Math.pow(Range.clip(-(cur-target), -4, 4), 3)*P);
     }
 
-    @Override
-    public boolean isFinished() {
-        return Math.abs(cur-target) <= 1;
-    }
 }
