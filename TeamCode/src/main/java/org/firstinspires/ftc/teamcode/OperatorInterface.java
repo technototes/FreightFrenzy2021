@@ -117,16 +117,16 @@ public class OperatorInterface {
 
         powerButton.whilePressed(new ShooterSetFlapCommand(robot.shooterSubsystem, ()->1));
 
-        firePrepButton.whenPressed(new ShooterSetFlapCommand(robot.shooterSubsystem, ()->0.85))
+        firePrepButton.whenPressed(new ShooterSetFlapCommand(robot.shooterSubsystem, ()->0.82))
                 .whilePressed(new ShooterSetSpeedCommand(robot.shooterSubsystem, ()->1330))
                 .whilePressed(new VisionAlignCommand(robot.turretSubsystem, robot.visionAimSubsystem).asConditional(()->!powerButton.getAsBoolean()));
         firePrepButton.whenPressed(new ParallelCommandGroup(
                 new InstantCommand(()->robot.drivebaseSubsystem.speed = 0.7),
                 new SequentialCommandGroup(new IntakeInCommand(robot.intakeSubsystem), new WaitCommand(0.4), new IntakeStopCommand(robot.intakeSubsystem))))
-                .schedule(()->fireAxis.getAsBoolean()&&firePrepButton.getAsBoolean() && robot.shooterSubsystem.getVelocity()>=1300, new SendOneRingToShooterCommand(robot.indexSubsystem, ()->1-fireAxis.getAsDouble()))  //new IndexPivotDownCommand(robot.indexSubsystem))
+                .schedule(()->fireAxis.getAsBoolean()&&firePrepButton.getAsBoolean() && robot.shooterSubsystem.getVelocity()>=1200, new SendOneRingToShooterCommand(robot.indexSubsystem, ()->1-fireAxis.getAsDouble()))  //new IndexPivotDownCommand(robot.indexSubsystem))
                 .whenReleased(new ParallelCommandGroup(
                         new InstantCommand(()->robot.drivebaseSubsystem.speed = 1),
-                        new ShooterSetSpeedCommand(robot.shooterSubsystem, ()->800),
+                        new ShooterSetSpeedCommand(robot.shooterSubsystem, ()->1000),
                         new InstantCommand(()->robot.turretSubsystem.setTurretPosition(0.5))
                 ));
 

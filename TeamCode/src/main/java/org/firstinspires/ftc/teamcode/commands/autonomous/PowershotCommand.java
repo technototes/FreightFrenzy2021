@@ -5,6 +5,7 @@ import com.technototes.library.command.ParallelCommandGroup;
 import com.technototes.library.command.SequentialCommandGroup;
 
 import org.firstinspires.ftc.teamcode.commands.StrafeCommand;
+import org.firstinspires.ftc.teamcode.commands.intake.IntakeInCommand;
 import org.firstinspires.ftc.teamcode.commands.intake.IntakeStopCommand;
 import org.firstinspires.ftc.teamcode.commands.shooter.ShooterSetFlapCommand;
 import org.firstinspires.ftc.teamcode.commands.shooter.ShooterSetSpeed2Command;
@@ -20,21 +21,26 @@ public class PowershotCommand extends SequentialCommandGroup {
                 new ParallelCommandGroup(
                         new StrafeCommand(d, st.correctedPos(58, 35, 0)),
                         new IntakeStopCommand(i),
-                        new ShooterSetSpeed2Command(s, () -> 1000).with(new ShooterSetFlapCommand(s, () -> 0.74))
+                        new ShooterSetSpeed2Command(s, () -> 1000),
+                        new ShooterSetFlapCommand(s, () -> 0.79)
                 ),
-
-                new SendOneRingToShooterCommand(ix),
-                //tried to fix with ^
+                //Just checking
+                //new StrafeCommand(d, st.correctedPos(58, 35, -1)),
                 //it doesnt actually shoot this one
-                new InstantCommand(() -> t.setTurretPosition(0.1)),
+                new InstantCommand(() -> t.setTurretPosition(0.05)),
                 new ShooterSetSpeed2Command(s, () -> 1000),
                 new SendOneRingToShooterCommand(ix),
                 //it shoots this one
-                new InstantCommand(() -> t.setTurretPosition(0.14)),
-                new ShooterSetSpeed2Command(s, () -> 1130),
+                new InstantCommand(() -> t.setTurretPosition(0.13)),
+                new ShooterSetSpeed2Command(s, () -> 1160),
                 new SendOneRingToShooterCommand(ix),
-                new InstantCommand(() -> t.setTurretPosition(0.28)),
-                new ShooterSetSpeed2Command(s, () -> 1130),
+                //it shoots this one
+                new InstantCommand(() -> t.setTurretPosition(0.295)),
+                new ShooterSetSpeed2Command(s, () -> 1150),
+                new SendOneRingToShooterCommand(ix),
+                //it shoots this one
+                new InstantCommand(() -> t.setTurretPosition(0.43)),
+                new ShooterSetSpeed2Command(s, () -> 1150),
                 new SendOneRingToShooterCommand(ix)
 
         );
