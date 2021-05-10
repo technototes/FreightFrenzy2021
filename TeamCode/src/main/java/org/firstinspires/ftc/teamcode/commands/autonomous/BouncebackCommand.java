@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.commands.autonomous;
 import com.technototes.library.command.ParallelCommandGroup;
 import com.technototes.library.command.ParallelRaceGroup;
 import com.technototes.library.command.SequentialCommandGroup;
+import com.technototes.library.command.WaitCommand;
 
 import org.firstinspires.ftc.teamcode.commands.StrafeCommand;
 import org.firstinspires.ftc.teamcode.commands.intake.IntakeInCommand;
@@ -19,12 +20,17 @@ public class BouncebackCommand extends SequentialCommandGroup {
         super(
                 //bounceback time
                 new ParallelCommandGroup(
-                        new StrafeCommand(d, st.correctedPos(110, 50, -90)),
+                        new StrafeCommand(d, st.correctedPos(115, 50, -45)),
                         new ShooterSetSpeed2Command(s, () -> 10),
                         new IntakeInCommand(i)
                 ),
-                new StrafeCommand(d, st.correctedPos(110, 0, -90)),
-                new IntakeStopCommand(i)
+                new ParallelCommandGroup(
+                        new StrafeCommand(d, st.correctedPos(115, 0, -45)),
+                        new SequentialCommandGroup(
+                                new WaitCommand(3),
+                                new IntakeStopCommand(i)
+                        )
+                )
         );
     }
 }

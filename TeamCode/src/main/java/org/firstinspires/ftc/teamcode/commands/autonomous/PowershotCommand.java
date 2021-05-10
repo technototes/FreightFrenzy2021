@@ -22,21 +22,21 @@ public class PowershotCommand extends SequentialCommandGroup {
                         new StrafeCommand(d, st.correctedPos(58, 35, 0)),
                         new IntakeStopCommand(i),
                         new ShooterSetSpeed2Command(s, () -> 1000),
-                        new ShooterSetFlapCommand(s, () -> 0.78)
+                        new ShooterSetFlapCommand(s, () -> 0.79)
                 ),
                 //Just checking
-                new StrafeCommand(d, st.correctedPos(58, 35, -1)),
+                //new StrafeCommand(d, st.correctedPos(58, 35, -1)),
                 //it doesnt actually shoot this one
                 new InstantCommand(() -> t.setTurretPosition(0.05)),
                 new ShooterSetSpeed2Command(s, () -> 1000),
                 new SendOneRingToShooterCommand(ix),
                 //it shoots this one
-                new InstantCommand(() -> t.setTurretPosition(0.12)),
-                new ShooterSetSpeed2Command(s, () -> 1150),
+                new InstantCommand(() -> t.setTurretPosition(0.13)),
+                new ShooterSetSpeed2Command(s, () -> 1160),
                 new SendOneRingToShooterCommand(ix),
                 //it shoots this one
-                new InstantCommand(() -> t.setTurretPosition(0.27)),
-                new ShooterSetSpeed2Command(s, () -> 1130),
+                new InstantCommand(() -> t.setTurretPosition(0.295)),
+                new ShooterSetSpeed2Command(s, () -> 1150),
                 new SendOneRingToShooterCommand(ix),
                 //it shoots this one
                 new InstantCommand(() -> t.setTurretPosition(0.43)),

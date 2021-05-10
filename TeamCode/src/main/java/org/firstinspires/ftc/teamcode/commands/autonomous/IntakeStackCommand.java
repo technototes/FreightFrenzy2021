@@ -17,8 +17,12 @@ import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
 public class IntakeStackCommand extends SequentialCommandGroup {
     public IntakeStackCommand(DrivebaseSubsystem d, IntakeSubsystem i, AutoState s) {
         super(
-                new IntakeInCommand(i).with(new StrafeCommand(d, s.correctedPos(45, 15, 20))),
-                new WaitCommand(1),
+                new StrafeCommand(d, s.correctedPos(50, 12, 0)),
+                new StrafeCommand(d, s.correctedPos(45, 16, 20)).with(new IntakeInCommand(i)),
+                new WaitCommand(0.5),
+                new IntakeStopCommand(i),
+                new IntakeInCommand(i),
+                new WaitCommand(1.5),
                 new IntakeStopCommand(i)
         );
     }

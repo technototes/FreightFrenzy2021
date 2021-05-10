@@ -65,7 +65,7 @@ public class WobblesThenAllRings extends CommandOpMode implements Loggable {
 
     @Override
     public void uponStart() {
-        final boolean usePowershotCommand = true;
+        final boolean usePowershotCommand = false;
         robot.turretSubsystem.raise();
         robot.turretSubsystem.setTurretPosition(1);
 
@@ -82,12 +82,15 @@ public class WobblesThenAllRings extends CommandOpMode implements Loggable {
                     new SequentialCommandGroup(
                             new DeliverFirstWobble3Command(robot.drivebaseSubsystem, robot.wobbleSubsystem, state),
                             new ShooterSetSpeedCommand(robot.shooterSubsystem, () -> 800),
+                            //new PowershotCommand(robot.drivebaseSubsystem, robot.shooterSubsystem, robot.intakeSubsystem, robot.indexSubsystem, robot.turretSubsystem, state),
+                            //new ShooterSetSpeedCommand(robot.shooterSubsystem, () -> 1),
                             new PathToShootCommand(robot.drivebaseSubsystem, robot.shooterSubsystem, robot.intakeSubsystem, state),
                             new AimAndShootCommand(robot.intakeSubsystem, robot.indexSubsystem, robot.turretSubsystem, robot.visionAimSubsystem, robot.shooterSubsystem),
                             new ShooterSetSpeedCommand(robot.shooterSubsystem, () -> 800),
                             new IntakeStackCommand(robot.drivebaseSubsystem, robot.intakeSubsystem, state),
                             new ObtainSecondWobble3Command(robot.drivebaseSubsystem, robot.wobbleSubsystem, state),
                             new IntakeInCommand(robot.intakeSubsystem),
+                            new ShooterSetSpeedCommand(robot.shooterSubsystem, () -> 800),
                             new PathToShootCommand(robot.drivebaseSubsystem, robot.shooterSubsystem, robot.intakeSubsystem, state).with(new WobbleRaiseCommand(robot.wobbleSubsystem)),
                             new AimAndShootCommand(robot.intakeSubsystem, robot.indexSubsystem, robot.turretSubsystem, robot.visionAimSubsystem, robot.shooterSubsystem),
                             new ShooterSetSpeedCommand(robot.shooterSubsystem, () -> 1),
