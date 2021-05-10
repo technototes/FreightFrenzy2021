@@ -35,6 +35,7 @@ import org.firstinspires.ftc.teamcode.commands.autonomous.ParkCommand;
 import org.firstinspires.ftc.teamcode.commands.autonomous.PathToShootCommand;
 import org.firstinspires.ftc.teamcode.commands.autonomous.PrepToShootCommand;
 import org.firstinspires.ftc.teamcode.commands.autonomous.SendOneRingToShooterCommand;
+import org.firstinspires.ftc.teamcode.commands.shooter.ShooterSetSpeed2Command;
 import org.firstinspires.ftc.teamcode.commands.shooter.ShooterSetSpeedCommand;
 import org.firstinspires.ftc.teamcode.commands.shooter.ShooterStopCommand;
 import org.firstinspires.ftc.teamcode.commands.wobble.WobbleRaiseCommand;
@@ -56,8 +57,8 @@ public class WobblesThenAllRings extends CommandOpMode implements Loggable {
         robot.wobbleSubsystem.setArmPosition(WobbleSubsystem.ArmPosition.RAISED);
         state = new AutoState(AutoState.Team.RED);
         state.setStackSize(AutoState.StackSize.FOUR);
-                    CommandScheduler.getInstance().scheduleForState(new GetStackSizeCommand(robot.visionStackSubsystem, state),
-                    () -> true, OpModeState.INIT);
+                        CommandScheduler.getInstance().scheduleForState(new GetStackSizeCommand(robot.visionStackSubsystem, state),
+                        () -> true, OpModeState.INIT);
     }
 
     @Override
@@ -67,16 +68,14 @@ public class WobblesThenAllRings extends CommandOpMode implements Loggable {
         CommandScheduler.getInstance().schedule(
                 new SequentialCommandGroup(
                         new DeliverFirstWobble3Command(robot.drivebaseSubsystem, robot.wobbleSubsystem, state),
-                        new PathToShootCommand(robot.drivebaseSubsystem, robot.shooterSubsystem, robot.intakeSubsystem, state),
+                        new PathToShootCommand(robot.drivebaseSubsystem, robot.shooterSubsystem, robot.intakeSubsystem, robot.turretSubsystem, state),
                         new AimAndShootCommand(robot.intakeSubsystem, robot.indexSubsystem, robot.turretSubsystem, robot.visionAimSubsystem, robot.shooterSubsystem),
-                        new IntakeStackCommand(robot.drivebaseSubsystem, robot.intakeSubsystem, state),
-                        new ShooterSetSpeedCommand(robot.shooterSubsystem, ()->800),
+                        new IntakeStackCommand(robot.drivebaseSubsystem, robot.intakeSubsystem, state).with(new ShooterSetSpeedCommand(robot.shooterSubsystem, ()->800)),
                         new ObtainSecondWobble3Command(robot.drivebaseSubsystem, robot.wobbleSubsystem, state),
-                        new PathToShootCommand(robot.drivebaseSubsystem, robot.shooterSubsystem, robot.intakeSubsystem, state).with(new WobbleRaiseCommand(robot.wobbleSubsystem)),
+                        new PathToShootCommand(robot.drivebaseSubsystem, robot.shooterSubsystem, robot.intakeSubsystem, robot.turretSubsystem, state).with(new WobbleRaiseCommand(robot.wobbleSubsystem)),
                         new AimAndShootCommand(robot.intakeSubsystem, robot.indexSubsystem, robot.turretSubsystem, robot.visionAimSubsystem, robot.shooterSubsystem),
-                        new ShooterSetSpeedCommand(robot.shooterSubsystem, ()->0),
                         new DeliverSecondWobble3Command(robot.drivebaseSubsystem, robot.wobbleSubsystem, state).with(new InstantCommand(()->robot.turretSubsystem.setTurretPosition(1))),
-                        new ParkCommand(robot.drivebaseSubsystem, robot.wobbleSubsystem, state),
+                        new ParkCommand(robot.drivebaseSubsystem, robot.wobbleSubsystem, state).with(new ShooterSetSpeed2Command(robot.shooterSubsystem, ()->0)),
                         new InstantCommand(this::terminate)
         ));
     }

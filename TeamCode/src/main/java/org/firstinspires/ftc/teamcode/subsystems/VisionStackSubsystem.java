@@ -54,16 +54,13 @@ public class VisionStackSubsystem extends OpenCvPipeline implements Stated<Integ
         // the robot crashes on startup
         final boolean useWebcamWorkaround = true;
         if (useWebcamWorkaround) {
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        webcam.openCameraDevice();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    webcam.openCameraDeviceAsync(() -> webcam.startStreaming(320, 240, OpenCvCameraRotation.UPRIGHT));
+            new Thread(() -> {
+                try {
+                    webcam.openCameraDevice();
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
+                webcam.openCameraDeviceAsync(() -> webcam.startStreaming(320, 240, OpenCvCameraRotation.UPRIGHT));
             }).start();
         } else {
             webcam.openCameraDeviceAsync(() -> webcam.startStreaming(320, 240, OpenCvCameraRotation.UPRIGHT));

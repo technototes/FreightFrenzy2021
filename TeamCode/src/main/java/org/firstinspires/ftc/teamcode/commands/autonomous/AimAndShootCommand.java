@@ -5,6 +5,7 @@ import com.technototes.library.command.ParallelCommandGroup;
 import com.technototes.library.command.SequentialCommandGroup;
 
 import org.firstinspires.ftc.teamcode.commands.drivebase.VisionAlignCommand;
+import org.firstinspires.ftc.teamcode.commands.index.ArmExtendCommand;
 import org.firstinspires.ftc.teamcode.commands.index.ArmRetractCommand;
 import org.firstinspires.ftc.teamcode.commands.intake.IntakeInCommand;
 import org.firstinspires.ftc.teamcode.commands.intake.IntakeStopCommand;
@@ -19,12 +20,12 @@ public class AimAndShootCommand extends SequentialCommandGroup {
     public AimAndShootCommand(IntakeSubsystem i, IndexSubsystem ix, TurretSubsystem t, VisionAimSubsystem v, ShooterSubsystem s){
         super(
                 new IntakeStopCommand(i),
-                new ArmRetractCommand(ix).with(new InstantCommand(()->t.setTurretPosition(0.25))).sleep(0.5),
+                new ArmRetractCommand(ix),
 
                 new SendOneRingToShooterCommand(ix).then(new ShooterSetSpeed2Command(s, ()->1310)),
                 new SendOneRingToShooterCommand(ix).then(new ShooterSetSpeed2Command(s, ()->1310)),
                 new SendOneRingToShooterCommand(ix).then(new ShooterSetSpeed2Command(s, ()->1310)),
-                new SendOneRingToShooterCommand(ix)
+                new ArmExtendCommand(ix)
 
                 );
     }
