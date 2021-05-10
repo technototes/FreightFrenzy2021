@@ -21,6 +21,7 @@ import org.firstinspires.ftc.teamcode.commands.TrajectoryCommand;
 import org.firstinspires.ftc.teamcode.commands.TurnCommand;
 import org.firstinspires.ftc.teamcode.commands.autonomous.AimAndShootCommand;
 import org.firstinspires.ftc.teamcode.commands.autonomous.AutoState;
+import org.firstinspires.ftc.teamcode.commands.autonomous.BouncebackCommand;
 import org.firstinspires.ftc.teamcode.commands.autonomous.DeliverFirstWobble2Command;
 import org.firstinspires.ftc.teamcode.commands.autonomous.DeliverFirstWobble3Command;
 import org.firstinspires.ftc.teamcode.commands.autonomous.DeliverFirstWobbleCommand;
@@ -72,6 +73,8 @@ public class WobblesThenAllRings extends CommandOpMode implements Loggable {
             CommandScheduler.getInstance().schedule(
                     new SequentialCommandGroup(
                             new PowershotCommand(robot.drivebaseSubsystem, robot.shooterSubsystem, robot.intakeSubsystem, robot.indexSubsystem, robot.turretSubsystem, state),
+                            new BouncebackCommand(robot.drivebaseSubsystem, robot.shooterSubsystem, robot.intakeSubsystem, robot.indexSubsystem, robot.turretSubsystem, state),
+                            new ObtainSecondWobble3Command(robot.drivebaseSubsystem, robot.wobbleSubsystem, state),
                             new InstantCommand(this::terminate)
                     ));
         } else {
