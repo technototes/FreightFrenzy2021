@@ -24,7 +24,7 @@ public class PathToShootCommand extends SequentialCommandGroup {
     public PathToShootCommand(DrivebaseSubsystem d, ShooterSubsystem s, IntakeSubsystem i, AutoState st) {
         super(new ParallelCommandGroup(
                         new IntakeInCommand(i),
-                        new StrafeCommand(d, st.correctedPos(55, 17, 0))
+                        new StrafeCommand(d, st.correctedPos(58, 17, 0))
                 ),
                 new IntakeStopCommand(i),
                 new ShooterSetSpeed2Command(s, () -> 1310).with(new ShooterSetFlapCommand(s, () -> 0.85))
