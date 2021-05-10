@@ -114,8 +114,9 @@ public class Command implements Runnable {
                 if(isFinished()) commandState = CommandState.FINISHED;
                 //allow one cycle to run so other dependent commands can schedule
                 return;
+            case CANCELLED:
             case FINISHED:
-                end(!isFinished());
+                end(commandState == CommandState.FINISHED);
                 commandState = CommandState.RESET;
         }
     }
@@ -124,7 +125,7 @@ public class Command implements Runnable {
      *
      */
     public enum CommandState {
-        RESET, INITILAIZING, EXECUTING, FINISHED
+        RESET, INITILAIZING, EXECUTING, FINISHED, CANCELLED
     }
 
 
@@ -167,6 +168,14 @@ public class Command implements Runnable {
     }
     public final boolean justStarted() {
         return commandState == CommandState.INITILAIZING;
+    }
+
+    public final boolean isRunning(){
+        return commandState != CommandState.RESET;
+    }
+
+    public final void cancel(){
+        commandState = CommandState.CANCELLED;
     }
 
 }

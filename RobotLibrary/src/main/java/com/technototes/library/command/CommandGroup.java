@@ -35,6 +35,11 @@ public abstract class CommandGroup extends Command {
     public abstract void schedule(Command c);
 
     @Override
+    public void init() {
+        commandMap.replaceAll((command, bool) -> false);
+    }
+
+    @Override
     public void execute() {
         //makes true if command just finished
         commandMap.replaceAll((command, bool) -> command.justFinished() ? true : bool);
@@ -49,10 +54,9 @@ public abstract class CommandGroup extends Command {
     @Override
     public void end(boolean cancel) {
         if(cancel){
-            for (Map.Entry<Command, Boolean> entry : commandMap.entrySet()) {
-                if (!entry.getValue()) entry.getKey().end(true);
-            }
+            commandMap.forEach((c, b)-> {
+                        if(!b) c.cancel();
+                    });               
         }
-        commandMap.replaceAll((command, bool) -> false);
     }
 }

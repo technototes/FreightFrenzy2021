@@ -7,6 +7,7 @@ import java.security.spec.ECField;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.BooleanSupplier;
@@ -36,9 +37,9 @@ public class CommandScheduler {
     }
 
     private CommandScheduler(){
-        commandsWithoutRequirements = new HashMap<>();
-        requirementCommands = new HashMap<>();
-        runningRequirementCommands = new HashMap<>();
+        commandsWithoutRequirements = new LinkedHashMap<>();
+        requirementCommands = new LinkedHashMap<>();
+        runningRequirementCommands = new LinkedHashMap<>();
     }
 
     public CommandScheduler schedule(Command command){
@@ -87,7 +88,7 @@ public class CommandScheduler {
     private Set<Command> cancelledCommands;
 
     public void run() {
-            cancelledCommands = new HashSet<>();
+            cancelledCommands = new LinkedHashSet<>();
             requirementCommands.forEach(((subsystem, commandMap) -> {
                 Command c = runningRequirementCommands.get(subsystem);
                 commandMap.entrySet().stream().filter((entry) -> {
@@ -97,7 +98,7 @@ public class CommandScheduler {
                         }
                 ).findFirst().ifPresent(m -> {
                     if (c != null) {
-                        cancel(c);
+                        c.cancel();
                         cancelledCommands.add(c);
                     }
                     runningRequirementCommands.put(subsystem, m.getKey());
@@ -110,14 +111,10 @@ public class CommandScheduler {
         cancelledCommands.forEach(Command::run);
     }
     public void run(Command command, BooleanSupplier supplier){
-        if(supplier.getAsBoolean() || command.commandState != Command.CommandState.RESET){
-            //System.out.println("run(): " + command.toString() + ", " + command.getClass().toString() + ", " + command.getRuntime().toString());
+        if(supplier.getAsBoolean() || command.isRunning()){
+            //System.out.println("run(): " + command.toString() + ", " + command.getClass().toString() + ", " + command.getRuntime  ().toString());
             command.run();
         }
-    }
-    public void cancel(Command command){
-        //force the command to end
-        if(command != null) command.commandState = Command.CommandState.FINISHED;
     }
 
 }

@@ -22,6 +22,9 @@ public class PowershotCommand extends SequentialCommandGroup {
                         new IntakeStopCommand(i),
                         new ShooterSetSpeed2Command(s, () -> 1000).with(new ShooterSetFlapCommand(s, () -> 0.74))
                 ),
+
+                new SendOneRingToShooterCommand(ix),
+                //tried to fix with ^
                 //it doesnt actually shoot this one
                 new InstantCommand(() -> t.setTurretPosition(0.1)),
                 new ShooterSetSpeed2Command(s, () -> 1000),
