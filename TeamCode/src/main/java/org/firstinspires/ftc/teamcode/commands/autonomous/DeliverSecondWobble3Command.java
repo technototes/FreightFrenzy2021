@@ -22,6 +22,6 @@ public class DeliverSecondWobble3Command extends SequentialCommandGroup {
         super(new ParallelCommandGroup(
                 new WobbleRaiseCommand(w).then(new InstantCommand(()->w.setTurretPosition(0))).then(new WobbleLowerCommand(w)),
                 new StrafeCommand(d, s.correctedSecondWobbleDropPos())),
-                new WobbleOpenCommand(w));
+              new WobbleOpenCommand(w));
     }
 }
