@@ -39,6 +39,7 @@ import org.firstinspires.ftc.teamcode.commands.shooter.ShooterSetSpeedCommand;
 import org.firstinspires.ftc.teamcode.commands.shooter.ShooterStopCommand;
 import org.firstinspires.ftc.teamcode.commands.wobble.WobbleRaiseCommand;
 import org.firstinspires.ftc.teamcode.subsystems.WobbleSubsystem;
+
 @Autonomous(name = "WobblesThenStartingRings")
 public class WobblesThenStartingRings extends CommandOpMode implements Loggable {
     /**
@@ -67,11 +68,11 @@ public class WobblesThenStartingRings extends CommandOpMode implements Loggable 
         CommandScheduler.getInstance().schedule(
                 new SequentialCommandGroup(
                         new DeliverFirstWobble3Command(robot.drivebaseSubsystem, robot.wobbleSubsystem, state),
-                       // new StrafeCommand(robot.drivebaseSubsystem, state.correctedPos(60, 30, 0)),
+                        // new StrafeCommand(robot.drivebaseSubsystem, state.correctedPos(60, 30, 0)),
                         new ObtainSecondWobble3Command(robot.drivebaseSubsystem, robot.wobbleSubsystem, state),
-                        new PathToShootCommand(robot.drivebaseSubsystem, robot.shooterSubsystem, state).with(new WobbleRaiseCommand(robot.wobbleSubsystem)),
-                        new AimAndShootCommand(robot.indexSubsystem, robot.turretSubsystem, robot.visionAimSubsystem, robot.shooterSubsystem),
-                        new DeliverSecondWobble3Command(robot.drivebaseSubsystem, robot.wobbleSubsystem, state).with(new InstantCommand(()->robot.turretSubsystem.setTurretPosition(1))),
+                        new PathToShootCommand(robot.drivebaseSubsystem, robot.shooterSubsystem, robot.intakeSubsystem, state).with(new WobbleRaiseCommand(robot.wobbleSubsystem)),
+                        new AimAndShootCommand(robot.intakeSubsystem, robot.indexSubsystem, robot.turretSubsystem, robot.visionAimSubsystem, robot.shooterSubsystem),
+                        new DeliverSecondWobble3Command(robot.drivebaseSubsystem, robot.wobbleSubsystem, state).with(new InstantCommand(() -> robot.turretSubsystem.setTurretPosition(1))),
                         new ParkCommand(robot.drivebaseSubsystem, robot.wobbleSubsystem, state),
                         new InstantCommand(this::terminate)
                 ));

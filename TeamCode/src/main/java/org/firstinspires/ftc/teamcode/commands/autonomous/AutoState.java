@@ -34,7 +34,7 @@ public class AutoState {
 
 
     public static final double SECOND_WOBBLE_GRAB_X = 26;
-    public static final double SECOND_WOBBLE_GRAB_Y = 37;
+    public static final double SECOND_WOBBLE_GRAB_Y = 38;
     public static final double SECOND_WOBBLE_GRAB_ROTATION = 0;
     public static final double SECOND_WOBBLE_GRAB_TAN = -90;
 
