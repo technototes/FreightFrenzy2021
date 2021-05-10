@@ -1,16 +1,16 @@
 package org.firstinspires.ftc.teamcode.commands.shooter;
 
 import com.technototes.library.command.Command;
-import com.technototes.library.command.WaitCommand;
 
 import org.firstinspires.ftc.teamcode.subsystems.ShooterSubsystem;
 
 import java.util.function.DoubleSupplier;
-public class ShooterSetSpeedCommand extends Command {
+
+public class ShooterSetSpeed2Command extends Command {
     public ShooterSubsystem subsystem;
     public DoubleSupplier supplier;
     public double curr;
-    public ShooterSetSpeedCommand(ShooterSubsystem sub, DoubleSupplier sup){
+    public ShooterSetSpeed2Command(ShooterSubsystem sub, DoubleSupplier sup){
 //        addRequirements(sub);
         subsystem = sub;
         supplier = sup;
@@ -24,11 +24,16 @@ public class ShooterSetSpeedCommand extends Command {
 
     @Override
     public void execute() {
-        subsystem.setVelocity(curr);
+        subsystem.setVelocity(curr*1.4);
     }
 
-//    @Override
-//    public boolean isFinished() {
-//        return Math.abs(subsystem.getVelocity()-curr) < 20;
-//    }
+    @Override
+    public boolean isFinished() {
+        return curr-subsystem.getVelocity() < 30;
+    }
+
+    @Override
+    public void end(boolean cancel) {
+        subsystem.setVelocity(curr);
+    }
 }

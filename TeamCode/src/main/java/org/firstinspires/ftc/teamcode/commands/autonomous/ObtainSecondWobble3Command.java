@@ -19,7 +19,7 @@ import org.firstinspires.ftc.teamcode.subsystems.WobbleSubsystem;
 public class ObtainSecondWobble3Command extends SequentialCommandGroup {
     public ObtainSecondWobble3Command(DrivebaseSubsystem d, WobbleSubsystem w, AutoState s){
         super(
-                new InstantCommand(()->w.setTurretPosition(0)),
+                new InstantCommand(()->w.setTurretPosition(1)),
                 new WobbleLowerCommand(w).with(new StrafeCommand(d, s.correctedSecondWobbleGrabPos())),
 
                 new WobbleCloseCommand(w));

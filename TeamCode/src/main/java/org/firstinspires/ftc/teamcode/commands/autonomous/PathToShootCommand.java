@@ -9,6 +9,7 @@ import org.firstinspires.ftc.teamcode.commands.StrafeCommand;
 import org.firstinspires.ftc.teamcode.commands.TrajectoryCommand;
 import org.firstinspires.ftc.teamcode.commands.drivebase.VisionAlignCommand;
 import org.firstinspires.ftc.teamcode.commands.shooter.ShooterSetFlapCommand;
+import org.firstinspires.ftc.teamcode.commands.shooter.ShooterSetSpeed2Command;
 import org.firstinspires.ftc.teamcode.commands.shooter.ShooterSetSpeedCommand;
 import org.firstinspires.ftc.teamcode.subsystems.DrivebaseSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.IndexSubsystem;
@@ -19,8 +20,9 @@ import org.firstinspires.ftc.teamcode.subsystems.VisionAimSubsystem;
 public class PathToShootCommand extends SequentialCommandGroup {
     public PathToShootCommand(DrivebaseSubsystem d, ShooterSubsystem s, AutoState st){
         super(new ParallelCommandGroup(
-                new StrafeCommand(d, st.correctedPos(60, 30, 0)),
-                new ShooterSetSpeedCommand(s, ()->1330).with(new ShooterSetFlapCommand(s, ()->0.85))
+
+                new StrafeCommand(d, st.correctedPos(60, 17, 0)),
+                new ShooterSetSpeed2Command(s, ()->1310).with(new ShooterSetFlapCommand(s, ()->0.85))
                 ));
     }
 }

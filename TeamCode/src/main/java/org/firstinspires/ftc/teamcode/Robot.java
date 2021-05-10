@@ -17,6 +17,7 @@ import org.firstinspires.ftc.teamcode.subsystems.VisionAimSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.VisionStackSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.WobbleSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.DrivebaseSubsystem;
+import org.openftc.easyopencv.OpenCvCameraRotation;
 
 /** Class for the subsystems on the robot
  *
@@ -67,7 +68,7 @@ public class Robot implements Loggable {
         return HardwareDevice.hardwareMap.voltageSensor.iterator().next().getVoltage();
     }
 
-    public Robot(){
+    public Robot(boolean stack){
         hardware = new Hardware();
 
         odometrySubsystem = new OdometrySubsystem(hardware.leftOdometryEncoder, hardware.rightOdometryEncoder, hardware.frontOdometryEncoder);
@@ -82,13 +83,20 @@ public class Robot implements Loggable {
 
         wobbleSubsystem =  new WobbleSubsystem(hardware.wobbleArmServos, hardware.wobbleClawServo, hardware.wobbleTurretServo);
 
-        //visionStackSubsystem = new VisionStackSubsystem(hardware.webcam);
+        if(stack) {
+            visionStackSubsystem = new VisionStackSubsystem(hardware.webcam);
+        }else {
+            visionAimSubsystem = new VisionAimSubsystem(hardware.webcam);
+        }
 
-        visionAimSubsystem = new VisionAimSubsystem(hardware.webcam);
+
+
 
         turretSubsystem = new TurretSubsystem(hardware.turretServo, hardware.raiseServo);
 
         stickSubsystem = new StickSubsystem(hardware.sticks);
     }
-
+    public Robot(){
+        this(false);
+    }
 }

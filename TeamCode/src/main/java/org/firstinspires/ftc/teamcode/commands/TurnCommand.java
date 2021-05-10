@@ -20,7 +20,7 @@ public class TurnCommand extends PathCommand {
 
     @Override
     public void init() {
-        subsystem.turnAsync(Angle.norm(Math.toRadians(supplier.getAsDouble())-subsystem.getExternalHeading()));
+        subsystem.turnAsync(Math.toRadians(supplier.getAsDouble())-subsystem.getExternalHeading());
     }
 
 }
