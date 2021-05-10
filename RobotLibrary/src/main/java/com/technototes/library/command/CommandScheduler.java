@@ -111,6 +111,7 @@ public class CommandScheduler {
     }
     public void run(Command command, BooleanSupplier supplier){
         if(supplier.getAsBoolean() || command.commandState != Command.CommandState.RESET){
+            //System.out.println("run(): " + command.toString() + ", " + command.getClass().toString() + ", " + command.getRuntime().toString());
             command.run();
         }
     }

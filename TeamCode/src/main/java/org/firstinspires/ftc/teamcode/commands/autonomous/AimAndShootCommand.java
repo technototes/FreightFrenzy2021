@@ -22,11 +22,13 @@ public class AimAndShootCommand extends SequentialCommandGroup {
                 new IntakeStopCommand(i),
                 new ArmRetractCommand(ix),
 
-                new SendOneRingToShooterCommand(ix).then(new ShooterSetSpeed2Command(s, ()->1310)),
-                new SendOneRingToShooterCommand(ix).then(new ShooterSetSpeed2Command(s, ()->1310)),
-                new SendOneRingToShooterCommand(ix).then(new ShooterSetSpeed2Command(s, ()->1310)),
-                new ArmExtendCommand(ix)
-
+                // Must be done by previous command, to save time
+                //new ShooterSetSpeed2Command(s, () -> 1310).with(new ShooterSetFlapCommand(s, () -> 0.85)),
+                new SendOneRingToShooterCommand(ix),
+                new ShooterSetSpeed2Command(s, ()->1310),
+                new SendOneRingToShooterCommand(ix),
+                new ShooterSetSpeed2Command(s, ()->1310),
+                new SendOneRingToShooterCommand(ix)
                 );
     }
 }
