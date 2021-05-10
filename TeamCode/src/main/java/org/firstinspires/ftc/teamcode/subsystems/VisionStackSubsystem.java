@@ -48,9 +48,27 @@ public class VisionStackSubsystem extends OpenCvPipeline implements Stated<Integ
     public VisionStackSubsystem(OpenCvCamera w) {
         webcam = w;
         webcam.setPipeline(this);
-        webcam.openCameraDeviceAsync(() -> webcam.startStreaming(320,240, OpenCvCameraRotation.UPRIGHT));
-    }
 
+        // See https://github.com/OpenFTC/EasyOpenCV/issues/12
+        // Hack to give Android some extra time to make the webcam accessible, so it's less likely
+        // the robot crashes on startup
+        final boolean useWebcamWorkaround = true;
+        if (useWebcamWorkaround) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        webcam.openCameraDevice();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    webcam.openCameraDeviceAsync(() -> webcam.startStreaming(320, 240, OpenCvCameraRotation.UPRIGHT));
+                }
+            }).start();
+        } else {
+            webcam.openCameraDeviceAsync(() -> webcam.startStreaming(320, 240, OpenCvCameraRotation.UPRIGHT));
+        }
+    }
 
     Rect topRect, bottomRect;
     Scalar topMean, bottomMean;
