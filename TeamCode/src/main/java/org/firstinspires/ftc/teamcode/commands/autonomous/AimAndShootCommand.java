@@ -20,10 +20,13 @@ public class AimAndShootCommand extends SequentialCommandGroup {
     public AimAndShootCommand(IntakeSubsystem i, IndexSubsystem ix, TurretSubsystem t, VisionAimSubsystem v, ShooterSubsystem s){
         super(
                 new IntakeStopCommand(i),
-                new ArmRetractCommand(ix),
+//                new ArmRetractCommand(ix),
 
                 // Must be done by previous command, to save time
                 //new ShooterSetSpeed2Command(s, () -> 1310).with(new ShooterSetFlapCommand(s, () -> 0.85)),
+
+                new SendOneRingToShooterCommand(ix),
+                new ShooterSetSpeed2Command(s, ()->1310),
                 new SendOneRingToShooterCommand(ix),
                 new ShooterSetSpeed2Command(s, ()->1310),
                 new SendOneRingToShooterCommand(ix),

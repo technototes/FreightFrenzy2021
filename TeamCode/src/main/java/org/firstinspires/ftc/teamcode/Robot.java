@@ -52,8 +52,8 @@ public class Robot implements Loggable {
     public WobbleSubsystem wobbleSubsystem;
 
     //numrings is only shown during the init period of the match
-//    @LogConfig.Run(duringInit = true, duringRun = false)
-//    @Log.Number(name = "numrings", index = 0, color = Color.YELLOW, numberColor = Color.YELLOW)
+    @LogConfig.Run(duringInit = true, duringRun = false)
+    @Log.Number(name = "numrings", index = 0, color = Color.YELLOW, numberColor = Color.YELLOW)
     public VisionStackSubsystem visionStackSubsystem;
 
     public VisionAimSubsystem visionAimSubsystem;
@@ -65,7 +65,9 @@ public class Robot implements Loggable {
     //voltage displayed in yellow to catch driver's eye
     @Log.Number(name="VOLTAGE", index = 0, color = Color.YELLOW, numberColor = Color.LIGHT_GRAY)
     public double getVoltage(){
-        return HardwareDevice.hardwareMap.voltageSensor.iterator().next().getVoltage();
+        double d = HardwareDevice.hardwareMap.voltageSensor.iterator().next().getVoltage();
+        System.out.println(d);
+        return d;
     }
 
     public Robot(boolean stack){

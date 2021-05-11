@@ -17,7 +17,7 @@ import java.util.List;
 
 public class VisionAimSubsystem extends OpenCvPipeline implements Stated<Integer> {
 
-    private double upRectHeight = 0.5;
+    private double upRectHeight = 0.4;
     private double upRectWidth = 0.02;
     private Mat matYCrCb = new Mat();
 

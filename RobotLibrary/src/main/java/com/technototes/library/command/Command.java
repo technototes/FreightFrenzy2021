@@ -116,7 +116,7 @@ public class Command implements Runnable {
                 return;
             case CANCELLED:
             case FINISHED:
-                end(commandState == CommandState.FINISHED);
+                end(commandState == CommandState.CANCELLED);
                 commandState = CommandState.RESET;
         }
     }
@@ -175,7 +175,7 @@ public class Command implements Runnable {
     }
 
     public final void cancel(){
-        commandState = CommandState.CANCELLED;
+        if(isRunning()) commandState = CommandState.CANCELLED;
     }
 
 }

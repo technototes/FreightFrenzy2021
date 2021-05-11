@@ -6,11 +6,12 @@ import com.technototes.library.command.WaitCommand;
 import org.firstinspires.ftc.teamcode.subsystems.ShooterSubsystem;
 
 import java.util.function.DoubleSupplier;
-public class ShooterSetSpeedCommand extends Command {
+public class ShooterSetSpeedCommand extends WaitCommand {
     public ShooterSubsystem subsystem;
     public DoubleSupplier supplier;
     public double curr;
     public ShooterSetSpeedCommand(ShooterSubsystem sub, DoubleSupplier sup){
+        super(0.1);
 //        addRequirements(sub);
         subsystem = sub;
         supplier = sup;
@@ -24,7 +25,7 @@ public class ShooterSetSpeedCommand extends Command {
 
     @Override
     public void execute() {
-        subsystem.setVelocity(curr);
+        subsystem.setVelocity(curr*(1+(curr-subsystem.getVelocity())/500));
     }
 
 //    @Override

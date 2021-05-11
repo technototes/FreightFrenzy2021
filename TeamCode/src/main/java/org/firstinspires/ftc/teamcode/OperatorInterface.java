@@ -20,6 +20,7 @@ import org.firstinspires.ftc.teamcode.commands.intake.IntakeInCommand;
 import org.firstinspires.ftc.teamcode.commands.intake.IntakeOutCommand;
 import org.firstinspires.ftc.teamcode.commands.intake.IntakeStopCommand;
 import org.firstinspires.ftc.teamcode.commands.shooter.ShooterSetFlapCommand;
+import org.firstinspires.ftc.teamcode.commands.shooter.ShooterSetSpeed2Command;
 import org.firstinspires.ftc.teamcode.commands.shooter.ShooterSetSpeedCommand;
 import org.firstinspires.ftc.teamcode.commands.shooter.ShooterStopCommand;
 import org.firstinspires.ftc.teamcode.commands.turret.TurretRotateLeftCommand;
@@ -115,18 +116,18 @@ public class OperatorInterface {
         intakeSpitButton.whenPressed(new IntakeOutCommand(robot.intakeSubsystem))
                 .whenReleased(new IntakeStopCommand(robot.intakeSubsystem));
 
-        powerButton.whilePressed(new ShooterSetFlapCommand(robot.shooterSubsystem, ()->1));
+        powerButton.whilePressed(new ShooterSetFlapCommand(robot.shooterSubsystem, ()->0));
 
-        firePrepButton.whenPressed(new ShooterSetFlapCommand(robot.shooterSubsystem, ()->0.82))
-                .whilePressed(new ShooterSetSpeedCommand(robot.shooterSubsystem, ()->1330))
+        firePrepButton.whenPressed(new ShooterSetFlapCommand(robot.shooterSubsystem, ()->0.88))
+                .whilePressed(new ShooterSetSpeedCommand(robot.shooterSubsystem, ()->1350))
                 .whilePressed(new VisionAlignCommand(robot.turretSubsystem, robot.visionAimSubsystem).asConditional(()->!powerButton.getAsBoolean()));
         firePrepButton.whenPressed(new ParallelCommandGroup(
-                new InstantCommand(()->robot.drivebaseSubsystem.speed = 0.7),
-                new SequentialCommandGroup(new IntakeInCommand(robot.intakeSubsystem), new WaitCommand(0.4), new IntakeStopCommand(robot.intakeSubsystem))))
-                .schedule(()->fireAxis.getAsBoolean()&&firePrepButton.getAsBoolean() && robot.shooterSubsystem.getVelocity()>=1200, new SendOneRingToShooterCommand(robot.indexSubsystem, ()->1-fireAxis.getAsDouble()))  //new IndexPivotDownCommand(robot.indexSubsystem))
+                new InstantCommand(()->robot.drivebaseSubsystem.speed = 0.7)
+                ))//new SequentialCommandGroup(new IntakeInCommand(robot.intakeSubsystem), new WaitCommand(0.4), new IntakeStopCommand(robot.intakeSubsystem))))
+                .schedule(()->fireAxis.getAsBoolean()&&firePrepButton.getAsBoolean() && robot.shooterSubsystem.getVelocity()>=1300, new SendOneRingToShooterCommand(robot.indexSubsystem, ()->1-fireAxis.getAsDouble()))  //new IndexPivotDownCommand(robot.indexSubsystem))
                 .whenReleased(new ParallelCommandGroup(
                         new InstantCommand(()->robot.drivebaseSubsystem.speed = 1),
-                        new ShooterSetSpeedCommand(robot.shooterSubsystem, ()->1000),
+                        //new ShooterSetSpeed2Command(robot.shooterSubsystem, ()->1350),
                         new InstantCommand(()->robot.turretSubsystem.setTurretPosition(0.5))
                 ));
 
@@ -153,6 +154,7 @@ public class OperatorInterface {
                         .then(new InstantCommand(()->robot.wobbleSubsystem.setTurretPosition(0))));
 
 
+        //driverGamepad.dpadLeft.whenPressed(new InstantCommand(()->robot.turretSubsystem.raise()));
 
     }
 }

@@ -24,13 +24,13 @@ import org.firstinspires.ftc.teamcode.subsystems.VisionAimSubsystem;
 public class PathToShootCommand extends SequentialCommandGroup {
     public PathToShootCommand(DrivebaseSubsystem d, ShooterSubsystem s, IntakeSubsystem i, TurretSubsystem t, AutoState st) {
         super(new ParallelCommandGroup(
-                        new IntakeInCommand(i),
-                        new StrafeCommand(d, st.correctedPos(55, 17, 0)),
-                        new InstantCommand(()->t.setTurretPosition(0.25)),
+                        //new IntakeInCommand(i),
+                        new StrafeCommand(d, st.correctedPos(55, 14, 0)),
+                        new InstantCommand(()->t.setTurretPosition(0.27)),
                         new ShooterSetSpeed2Command(s, () -> 1310),
                         new ShooterSetFlapCommand(s, () -> 0.85)
-                ),
-                new IntakeStopCommand(i)
+                )//,
+                //new IntakeStopCommand(i)
         );
 
     }

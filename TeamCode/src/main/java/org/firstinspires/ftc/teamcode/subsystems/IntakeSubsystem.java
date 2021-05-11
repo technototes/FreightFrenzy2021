@@ -13,7 +13,7 @@ public class IntakeSubsystem extends MotorSubsystem<Motor<?>> implements Stated<
      *
      */
     public enum IntakeSpeed{
-        IN(1), OUT(-1);
+        IN(0.9), OUT(-0.7);
         double speed;
         IntakeSpeed(double s){
             speed = s;
