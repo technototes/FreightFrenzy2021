@@ -21,9 +21,11 @@ public final class SimpleBinding extends GamepadButton implements Binding<Gamepa
      * @param type The binding type
      */
     public SimpleBinding(Type type, GamepadButton... b){
+        super(null);
         defaultType = type;
         buttons = b;
-        setSupplier(this::get);
+        booleanSupplier = this::get;
+
     }
 
     @Override

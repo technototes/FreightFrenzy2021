@@ -1,22 +1,22 @@
 package com.technototes.library.command;
 
+import androidx.annotation.Nullable;
+
 import com.technototes.library.structure.CommandOpMode;
 import com.technototes.library.subsystem.Subsystem;
 
-import java.security.spec.ECField;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.BooleanSupplier;
 
 public class CommandScheduler {
 
-    private Map<Subsystem<?>, Map<Command, BooleanSupplier>> requirementCommands;
-    private Map<Subsystem<?>, Command> runningRequirementCommands;
-    private Map<Command, BooleanSupplier> commandsWithoutRequirements;
+    private Map<Command, BooleanSupplier> commandMap;
+    private Map<Subsystem, Set<Command>> requirementMap;
+    private Map<Subsystem, Command> defaultMap;
+
 
     public CommandOpMode opMode;
     public CommandScheduler setOpMode(CommandOpMode c){
@@ -32,14 +32,16 @@ public class CommandScheduler {
         return instance;
     }
     //be careful with this
-    public static synchronized void resetScheduler(){
+    public static synchronized CommandScheduler resetScheduler(){
         instance = null;
+        Command.clear();
+        return getInstance();
     }
 
     private CommandScheduler(){
-        commandsWithoutRequirements = new LinkedHashMap<>();
-        requirementCommands = new LinkedHashMap<>();
-        runningRequirementCommands = new LinkedHashMap<>();
+        commandMap = new HashMap<>();
+        requirementMap = new HashMap<>();
+        defaultMap = new HashMap<>();
     }
 
     public CommandScheduler schedule(Command command){
@@ -47,6 +49,9 @@ public class CommandScheduler {
     }
     public CommandScheduler scheduleInit(Command command, BooleanSupplier supplier){
         return scheduleForState(command, supplier, CommandOpMode.OpModeState.INIT);
+    }
+    public CommandScheduler scheduleInit(Command command){
+        return scheduleForState(command, ()->true, CommandOpMode.OpModeState.INIT);
     }
     public CommandScheduler scheduleJoystick(Command command, BooleanSupplier supplier){
         return scheduleForState(command, supplier, CommandOpMode.OpModeState.RUN, CommandOpMode.OpModeState.END);
@@ -68,53 +73,53 @@ public class CommandScheduler {
         return schedule(other, ()->dependency.justStarted() && additionalCondition.getAsBoolean());
     }
 
-
-    public CommandScheduler schedule(Command command, BooleanSupplier supplier){
-        if(command.getRequirements().isEmpty()){
-            commandsWithoutRequirements.put(command, supplier);
-        }else{
-            command.requirements.forEach((subsystem -> {
-                if(!requirementCommands.containsKey(subsystem)){
-                    requirementCommands.put(subsystem, new LinkedHashMap<>());
-                }
-                if(subsystem.getDefaultCommand() == command){
-                    runningRequirementCommands.put(subsystem, command);
-                }
-                requirementCommands.get(subsystem).put(command, supplier);
-            }));
+    public CommandScheduler scheduleDefault(Command command, Subsystem subsystem){
+        if (command.getRequirements().contains(subsystem)) {
+            defaultMap.put(subsystem, command);
+            schedule(command, ()-> getCurrent(subsystem)==command);
+        } else {
+            System.err.println("default commands must require their subsystem: "+command.getClass().toString());
         }
         return this;
     }
-    private Set<Command> cancelledCommands;
+    @Nullable
+    public Command getDefault(Subsystem s){
+        return defaultMap.get(s);
+    }
+    @Nullable
+    public Command getCurrent(Subsystem s){
+        return requirementMap.getOrDefault(s, new HashSet<>()).stream()
+                .filter(Command::isRunning).findAny().orElse(getDefault(s));
+    }
+
+    public CommandScheduler schedule(Command command, BooleanSupplier supplier) {
+        commandMap.put(command, supplier);
+        for(Subsystem s : command.getRequirements()){
+            requirementMap.putIfAbsent(s, new HashSet<>());
+            requirementMap.get(s).add(command);
+        }
+        return this;
+    }
 
     public void run() {
-            cancelledCommands = new LinkedHashSet<>();
-            requirementCommands.forEach(((subsystem, commandMap) -> {
-                Command c = runningRequirementCommands.get(subsystem);
-                commandMap.entrySet().stream().filter((entry) -> {
-                            return entry.getKey().commandState == Command.CommandState.RESET
-                                    && entry.getValue().getAsBoolean()
-                                    && entry.getKey() != c;
-                        }
-                ).findFirst().ifPresent(m -> {
-                    if (c != null) {
-                        c.cancel();
-                        cancelledCommands.add(c);
-                    }
-                    runningRequirementCommands.put(subsystem, m.getKey());
-                });
-            }));
 
-        runningRequirementCommands.forEach(((subsystem, command) -> run(command, requirementCommands.get(subsystem).get(command))));
-        commandsWithoutRequirements.forEach(this::run);
-        requirementCommands.keySet().forEach(Subsystem::periodic);
-        cancelledCommands.forEach(Command::run);
+            for(Command c1 : commandMap.keySet()){
+                if(c1.justStarted()) {
+                    for (Subsystem s : c1.getRequirements()) {
+                        for(Command c2 : requirementMap.get(s)){
+                            if(c1 != c2) c2.cancel();
+                        }
+                    }
+                }
+            }
+            commandMap.forEach(this::run);
+            requirementMap.keySet().forEach(Subsystem::periodic);
+
     }
     public void run(Command command, BooleanSupplier supplier){
-        if(supplier.getAsBoolean() || command.isRunning()){
-            //System.out.println("run(): " + command.toString() + ", " + command.getClass().toString() + ", " + command.getRuntime  ().toString());
-            command.run();
-        }
+        if(supplier.getAsBoolean() || command.isRunning()) command.run();
     }
+
+
 
 }

@@ -5,14 +5,14 @@ import java.util.function.BooleanSupplier;
 /** Simple class for commands that require a certain condition to be true to run
  * @author Alex Stedman
  */
-public class ConditionalCommand extends Command {
+public class ConditionalCommand implements Command {
     private BooleanSupplier supplier;
     private Command trueCommand, falseCommand;
 
     public ConditionalCommand(BooleanSupplier condition){
         supplier = condition;
-        trueCommand = new Command();
-        falseCommand = new Command();
+        trueCommand = this::execute;
+        falseCommand = this::execute;
     }
 
 
@@ -25,7 +25,7 @@ public class ConditionalCommand extends Command {
         supplier = condition;
         CommandScheduler.getInstance().scheduleWithOther(this, command, condition);
         trueCommand = command;
-        falseCommand = new Command();
+        falseCommand = this::execute;
     }
 
     /** Make a conditional command
@@ -40,6 +40,11 @@ public class ConditionalCommand extends Command {
         CommandScheduler.getInstance().scheduleWithOther(this, falseC, ()->!condition.getAsBoolean());
         trueCommand = trueC;
         falseCommand = falseC;
+    }
+
+    @Override
+    public void execute() {
+
     }
 
     @Override

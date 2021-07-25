@@ -1,7 +1,5 @@
 package com.technototes.library.command;
 
-import java.util.Map;
-
 /** Command group to run commands in parallel until all finish
  * @author Alex Stedman
  */
@@ -14,6 +12,7 @@ public class ParallelCommandGroup extends CommandGroup {
     public ParallelCommandGroup(Command... commands) {
         super(commands);
     }
+
 
     @Override
     public void schedule(Command c) {

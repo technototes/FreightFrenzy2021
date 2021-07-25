@@ -2,7 +2,7 @@ package org.firstinspires.ftc.teamcode.opmodes;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.technototes.library.command.CommandScheduler;
-import com.technototes.library.command.InstantCommand;
+import com.technototes.library.command.OldInstantCommand;
 import com.technototes.library.command.SequentialCommandGroup;
 import com.technototes.library.structure.CommandOpMode;
 import com.technototes.logger.LogConfig;
@@ -48,7 +48,7 @@ public class JustWobbles extends CommandOpMode implements Loggable {
                         new ObtainSecondWobble2Command(robot.drivebaseSubsystem, robot.wobbleSubsystem, state),
                         new DeliverSecondWobble2Command(robot.drivebaseSubsystem, robot.wobbleSubsystem, state),
                         new ParkCommand(robot.drivebaseSubsystem, robot.wobbleSubsystem, state),
-                        new InstantCommand(this::terminate)
+                        new OldInstantCommand(this::terminate)
                 )
         );
     }

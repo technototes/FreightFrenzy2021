@@ -2,16 +2,11 @@ package com.technototes.library.hardware.servo;
 
 import com.qualcomm.robotcore.util.Range;
 import com.technototes.library.hardware.*;
-import com.technototes.logger.Log;
-import com.technototes.logger.Stated;
 
 /** Class for servos
  * @author Alex Stedman
  */
-public class Servo extends HardwareDevice<com.qualcomm.robotcore.hardware.Servo> implements Sensored, Invertable<Servo>, Followable<Servo> {
-
-    //public double pid_p, pid_i, pid_d;
-
+public class Servo extends HardwareDevice<com.qualcomm.robotcore.hardware.Servo> implements Sensored, Invertable<Servo> {
 
     private boolean inverted = false;
     /** Create servo object
@@ -56,14 +51,12 @@ public class Servo extends HardwareDevice<com.qualcomm.robotcore.hardware.Servo>
      * @param position The position to set the servo to
      */
     public void setPosition(double position) {
-        position = Range.clip(position, 0, 1);
-        getDevice().setPosition(!inverted ? position : 1-position);
+        device.setPosition(Range.clip(!inverted ? position : 1-position, 0, 1));
     }
 
-    @Log
     @Override
     public double getSensorValue() {
-        return !inverted ? getDevice().getPosition() : 1-getDevice().getPosition();
+        return inverted ? 1-device.getPosition() : device.getPosition();
     }
 
     /** Get servo position
@@ -83,11 +76,6 @@ public class Servo extends HardwareDevice<com.qualcomm.robotcore.hardware.Servo>
     public Servo setRange(double min, double max) {
         getDevice().scaleRange(min, max);
         return this;
-    }
-    @Deprecated
-    @Override
-    public Servo follow(Servo d) {
-        return new ServoGroup(this, d);
     }
 
 

@@ -16,7 +16,7 @@ public class TestSplineCommand extends Command {
     public Trajectory traj, traj2;
 
     public TestSplineCommand(DrivebaseSubsystem sub) {
-        addRequirements(sub.dummySubsystem);
+        addRequirements(sub);
         subsystem = sub;
         traj = subsystem.trajectoryBuilder(new Pose2d())
                 .splineTo(new Vector2d(30, 30), 0)

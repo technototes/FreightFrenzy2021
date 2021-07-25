@@ -5,7 +5,7 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.technototes.library.command.CommandScheduler;
-import com.technototes.library.command.InstantCommand;
+import com.technototes.library.command.OldInstantCommand;
 import com.technototes.library.command.ParallelCommandGroup;
 import com.technototes.library.command.SequentialCommandGroup;
 import com.technototes.library.command.WaitCommand;
@@ -16,7 +16,6 @@ import com.technototes.logger.Loggable;
 import org.firstinspires.ftc.teamcode.Robot;
 import org.firstinspires.ftc.teamcode.commands.SplineCommand;
 import org.firstinspires.ftc.teamcode.commands.StrafeCommand;
-import org.firstinspires.ftc.teamcode.commands.TrajectoryCommand;
 import org.firstinspires.ftc.teamcode.commands.TurnCommand;
 import org.firstinspires.ftc.teamcode.commands.drivebase.AlignToShootCommand;
 import org.firstinspires.ftc.teamcode.commands.index.ArmExtendCommand;
@@ -148,8 +147,8 @@ public class AutoV1 extends CommandOpMode implements Loggable {
                         new ParallelCommandGroup(
                                 new StrafeCommand(robot.drivebaseSubsystem, END_X, END_Y, END_ROTATION), //80 10 82
                                 new SequentialCommandGroup(new WobbleRaiseCommand(robot.wobbleSubsystem), new WobbleCloseCommand(robot.wobbleSubsystem))),
-                        new InstantCommand(() -> robot.drivebaseSubsystem.setPoseEstimate(new Pose2d())),
-                        new InstantCommand(this::terminate)
+                        new OldInstantCommand(() -> robot.drivebaseSubsystem.setPoseEstimate(new Pose2d())),
+                        new OldInstantCommand(this::terminate)
                 ));
     }
 }

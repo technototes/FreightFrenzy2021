@@ -2,9 +2,10 @@ package org.firstinspires.ftc.teamcode.subsystems;
 
 import com.technototes.library.hardware.servo.Servo;
 import com.technototes.library.subsystem.servo.ServoSubsystem;
-import com.technototes.logger.Stated;
 
-public class StickSubsystem extends ServoSubsystem implements Stated<StickSubsystem.StickState> {
+import java.util.function.Supplier;
+
+public class StickSubsystem extends ServoSubsystem implements Supplier<StickSubsystem.StickState> {
    public Servo servo;
 
    public enum StickState{
@@ -35,7 +36,7 @@ public class StickSubsystem extends ServoSubsystem implements Stated<StickSubsys
 
 
     @Override
-    public StickState getState() {
+    public StickState get() {
         return state;
     }
 

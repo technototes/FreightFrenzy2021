@@ -6,12 +6,12 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
  * @author Alex Stedman
  * @param <T> The class for the default device (ones found in ftcsdk)
  */
-public abstract class HardwareDevice<T extends com.qualcomm.robotcore.hardware.HardwareDevice> {
+public abstract class HardwareDevice<T> {
     /** Hardware map object for stuff
      *
      */
     public static HardwareMap hardwareMap = null;
-    private T device;
+    protected T device;
 
     /** Make a hardware device
      *
@@ -21,14 +21,13 @@ public abstract class HardwareDevice<T extends com.qualcomm.robotcore.hardware.H
         this.device = device;
     }
 
-    /** Make a hardware device with the string to get from robotmap
+    /** Make a hardware device with the string to get from hardwaremap
      *
      * @param deviceName The device name
      */
-    public HardwareDevice(String deviceName) {
-        this(hardwareMap.get((Class<T>) com.qualcomm.robotcore.hardware.HardwareDevice.class /*T.class*/, deviceName));
+    protected HardwareDevice(String deviceName) {
+         this(hardwareMap.get((Class<T>) Object.class /*T.class*/, deviceName));
     }
-
 
     /** Get encapsulated device
      *

@@ -6,7 +6,7 @@ import java.util.Map;
 /** Root class for all command groups
  * @author Alex Stedman
  */
-public abstract class CommandGroup extends Command {
+public abstract class CommandGroup implements Command {
     protected Map<Command, Boolean> commandMap;
 
 
@@ -16,19 +16,19 @@ public abstract class CommandGroup extends Command {
      */
     public CommandGroup(Command... commands) {
         commandMap = new HashMap<>();
-        for(Command c : commands){
-            addCommand(c);
-        }
+        addCommands(commands);
     }
 
     /** Add a command to the group
      *
-     * @param command The command
+     * @param commands The command
      * @return this
      */
-    public CommandGroup addCommand(Command command){
-        commandMap.put(command, false);
-        schedule(command);
+    public CommandGroup addCommands(Command... commands){
+        for(Command c : commands){
+            commandMap.put(c, false);
+            schedule(c);
+        }
         return this;
     }
 
@@ -53,10 +53,6 @@ public abstract class CommandGroup extends Command {
 
     @Override
     public void end(boolean cancel) {
-        if(cancel){
-            commandMap.forEach((c, b)-> {
-                        if(!b) c.cancel();
-                    });               
-        }
+        commandMap.keySet().forEach(Command::cancel);
     }
 }

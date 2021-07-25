@@ -10,7 +10,7 @@ import java.util.function.DoubleSupplier;
 /** Simple command to drive mecanum robot
  * @author Alex Stedman
  */
-public class MecanumDriveCommand extends Command {
+public class MecanumDriveCommand implements Command {
     private MecanumDrivebaseSubsystem subsystem;
     private DoubleSupplier xv, yv, tv;
     private DoubleSupplier gyro;
@@ -26,6 +26,7 @@ public class MecanumDriveCommand extends Command {
                                DoubleSupplier ySupplier, DoubleSupplier twistSupplier){
         addRequirements(subsystem);
         this.subsystem = subsystem;
+
         gyro = ()->0;
         xv = xSupplier;
         yv = ySupplier;

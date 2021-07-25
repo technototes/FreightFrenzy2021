@@ -11,7 +11,7 @@ public class PathCommand extends Command {
 
 
     public PathCommand(DrivebaseSubsystem sub){
-        addRequirements(sub.dummySubsystem);
+        addRequirements(sub);
         subsystem = sub;
     }
 

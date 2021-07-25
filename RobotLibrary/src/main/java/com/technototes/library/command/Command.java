@@ -3,10 +3,12 @@ package com.technototes.library.command;
 
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.technototes.library.subsystem.Subsystem;
-
+import com.technototes.library.subsystem.SubsystemBase;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
@@ -14,51 +16,43 @@ import java.util.function.DoubleSupplier;
 /** The root Command class
  * @author Alex Stedman
  */
-public class Command implements Runnable {
+@FunctionalInterface
+public interface Command extends Runnable{
 
-    protected ElapsedTime commandRuntime;
-    protected CommandState commandState;
-    protected Set<Subsystem> requirements;
+    Map<Command, CommandState> stateMap = new HashMap<>();
+    Map<Command, ElapsedTime> timeMap = new HashMap<>();
+    Map<Command, Set<Subsystem>> requirementMap = new HashMap<>();
 
-    /** Make a Command
-     *
-     */
-    public Command() {
-        commandState = CommandState.RESET;
-        commandRuntime = new ElapsedTime();
-        requirements = new HashSet<>();
-        commandRuntime.reset();
-    }
+
 
     /** Add requirement subsystems to command
      *
      * @param requirements The subsystems
      * @return this
      */
-    public final Command addRequirements(Subsystem... requirements) {
-        this.requirements.addAll(Arrays.asList(requirements));
+    default Command addRequirements(Subsystem... requirements) {
+        Set<Subsystem> s = requirementMap.putIfAbsent(this, new HashSet<>(Arrays.asList(requirements)));
+        if(s != null) s.addAll(Arrays.asList(requirements));
         return this;
     }
 
     /** Init the command
      *
      */
-    public void init() {
+    default void init(){
 
     }
 
     /** Execute the command
      *
      */
-    public void execute() {
-
-    }
+    void execute();
 
     /** Return if the command is finished
      *
      * @return Is command finished
      */
-    public boolean isFinished() {
+    default boolean isFinished() {
         return true;
     }
 
@@ -66,65 +60,90 @@ public class Command implements Runnable {
      *
      * @param cancel If the command was cancelled or ended naturally
      */
-    public void end(boolean cancel) {
+    default void end(boolean cancel) {
 
     }
 
     //run a command after
-    public SequentialCommandGroup then(Command c){
-        return new SequentialCommandGroup(this, c);
+    default SequentialCommandGroup andThen(Command... c){
+        return new SequentialCommandGroup(this, c.length == 1 ? c[0] : new ParallelCommandGroup(c));
     }
 
     //wait a time
-    public SequentialCommandGroup sleep(double sec){
-        return then(new WaitCommand(sec));
+    default SequentialCommandGroup sleep(double sec){
+        return andThen(new WaitCommand(sec));
     }
-    public SequentialCommandGroup sleep(DoubleSupplier sup){
-        return then(new WaitCommand(sup));
+    default SequentialCommandGroup sleep(DoubleSupplier sup){
+        return andThen(new WaitCommand(sup));
     }
 
 
 
     //await a condition
-    public SequentialCommandGroup until(BooleanSupplier condition) {
-        return then(new ConditionalCommand(condition));
+    default SequentialCommandGroup until(BooleanSupplier condition) {
+        return andThen(new ConditionalCommand(condition));
     }
 
     //run a command in parallel
-    public ParallelCommandGroup with(Command c){
-        return new ParallelCommandGroup(this, c);
+    default ParallelCommandGroup alongWith(Command... c){
+        Command[] c1 = new Command[c.length+1];
+        c1[0] = this;
+        System.arraycopy(c, 0, c1, 1, c.length);
+        return new ParallelCommandGroup(c1);
     }
+
+    default ParallelDeadlineGroup deadlineWith(Command... c){
+        return new ParallelDeadlineGroup(this, c);
+    }
+
+    default ParallelRaceGroup raceWith(Command... c){
+        Command[] c1 = new Command[c.length+1];
+        c1[0] = this;
+        System.arraycopy(c, 0, c1, 1, c.length);
+        return new ParallelRaceGroup(c1);
+    }
+
+
+    /** Creates a conditional command out of this
+     *
+     * @param condition The condition to run the command under
+     * @return the conditional command
+     */
+    default ConditionalCommand asConditional(BooleanSupplier condition){
+        return new ConditionalCommand(condition, this);
+    }
+
 
     /** Run the commmand
      *
      */
     @Override
-    public void run() {
-        switch (commandState) {
+    default void run() {
+        switch (getState()) {
             case RESET:
-                commandRuntime.reset();
-                commandState = CommandState.INITILAIZING;
+                getRuntime().reset();
+                setState(CommandState.INITILAIZING);
                 return;
             case INITILAIZING:
                 init();
-                commandState = CommandState.EXECUTING;
+                setState(CommandState.EXECUTING);
                 //THERE IS NO RETURN HERE SO IT FALLS THROUGH TO POST-INITIALIZATION
             case EXECUTING:
                 execute();
-                if(isFinished()) commandState = CommandState.FINISHED;
+                if(isFinished()) setState(CommandState.FINISHED);
                 //allow one cycle to run so other dependent commands can schedule
                 return;
             case CANCELLED:
             case FINISHED:
-                end(commandState == CommandState.CANCELLED);
-                commandState = CommandState.RESET;
+                end(isCancelled());
+                setState(CommandState.RESET);
         }
     }
 
     /** The command state enum
      *
      */
-    public enum CommandState {
+    enum CommandState {
         RESET, INITILAIZING, EXECUTING, FINISHED, CANCELLED
     }
 
@@ -133,49 +152,60 @@ public class Command implements Runnable {
      *
      * @return The runtime as an {@link ElapsedTime}
      */
-    public ElapsedTime getRuntime() {
-        return commandRuntime;
+    default ElapsedTime getRuntime() {
+        ElapsedTime t = timeMap.putIfAbsent(this, new ElapsedTime());
+        return t != null ? t : timeMap.get(this);
     }
 
     /** Return the command state
      *
      * @return The state as an {@link CommandState}
      */
-    public CommandState getState() {
-        return commandState;
+    default CommandState getState() {
+        return stateMap.getOrDefault(this, CommandState.RESET);
+    }
+    default Command setState(CommandState s) {
+        stateMap.put(this, s);
+        return this;
     }
 
     /** Return the subsystem requirements for this command
      *
-     * @return The {@link Subsystem} requirements
+     * @return The {@link SubsystemBase} requirements
      */
-    public Set<Subsystem> getRequirements() {
-        return requirements;
-    }
-
-    /** Creates a conditional command out of this
-     *
-     * @param condition The condition to run the command under
-     * @return the conditional command
-     */
-    public ConditionalCommand asConditional(BooleanSupplier condition){
-        return new ConditionalCommand(condition, this);
+    default Set<Subsystem> getRequirements() {
+        requirementMap.putIfAbsent(this, new HashSet<>());
+        return requirementMap.get(this);
     }
 
 
-    public final boolean justFinished(){
-        return commandState == CommandState.FINISHED;
+
+    default boolean justFinished(){
+        return getState() == CommandState.FINISHED;
     }
-    public final boolean justStarted() {
-        return commandState == CommandState.INITILAIZING;
+    default boolean justStarted() {
+        return getState() == CommandState.INITILAIZING;
     }
 
-    public final boolean isRunning(){
-        return commandState != CommandState.RESET;
+
+    default boolean isRunning(){
+        return getState() != CommandState.RESET ;
     }
 
-    public final void cancel(){
-        if(isRunning()) commandState = CommandState.CANCELLED;
+    default boolean isCancelled(){
+        return getState() == CommandState.CANCELLED ;
     }
+
+
+    default void cancel(){
+        if(isRunning()) setState(CommandState.CANCELLED);
+    }
+
+    static void clear(){
+        stateMap.clear();
+        timeMap.clear();
+        requirementMap.clear();
+    }
+
 
 }

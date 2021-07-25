@@ -11,6 +11,7 @@ import java.util.function.BooleanSupplier;
  * @author Alex Stedman
  * @param <T> The type of Gamepad Button
  */
+@FunctionalInterface
 public interface GamepadInput<T extends GamepadButton> extends InputScheduler<T> {
 
     @Override

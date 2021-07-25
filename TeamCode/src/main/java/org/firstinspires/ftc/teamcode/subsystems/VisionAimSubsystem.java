@@ -1,8 +1,7 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
-import com.technototes.logger.Stated;
+import com.technototes.vision.hardware.Camera;
 
-import org.firstinspires.ftc.teamcode.commands.autonomous.AutoState;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.Rect;
@@ -14,8 +13,9 @@ import org.openftc.easyopencv.OpenCvPipeline;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Supplier;
 
-public class VisionAimSubsystem extends OpenCvPipeline implements Stated<Integer> {
+public class VisionAimSubsystem extends OpenCvPipeline implements Supplier<Integer> {
 
     private double upRectHeight = 0.4;
     private double upRectWidth = 0.02;
@@ -26,8 +26,8 @@ public class VisionAimSubsystem extends OpenCvPipeline implements Stated<Integer
 
     private OpenCvCamera webcam;
 
-    public VisionAimSubsystem(OpenCvCamera w) {
-        webcam = w;
+    public VisionAimSubsystem(Camera w) {
+        webcam = w.getOpenCvCamera();
         webcam.setPipeline(this);
         final boolean useWebcamWorkaround = true;
         if (useWebcamWorkaround) {
@@ -120,7 +120,7 @@ public class VisionAimSubsystem extends OpenCvPipeline implements Stated<Integer
     }
 
     @Override
-    public Integer getState() {
+    public Integer get() {
         return (int) avg;
     }
 }

@@ -24,7 +24,7 @@ public class ShooterSetSpeed2Command extends Command {
 
     @Override
     public void execute() {
-        subsystem.setVelocity(curr*(1+commandRuntime.seconds()/2));
+        subsystem.setVelocity(curr*(1+getRuntime().seconds()/2));
     }
 
     @Override

@@ -44,6 +44,7 @@ public class AutoState {
     public static final double END_ROTATION = 90;
 
 
+
     public enum StackSize{
         ZERO(0, FIRST_WOBBLE_DROP_X_0, FIRST_WOBBLE_DROP_Y_0, FIRST_WOBBLE_DROP_ROTATION_0),
         ONE(1, FIRST_WOBBLE_DROP_X_1, FIRST_WOBBLE_DROP_Y_1, FIRST_WOBBLE_DROP_ROTATION_1),

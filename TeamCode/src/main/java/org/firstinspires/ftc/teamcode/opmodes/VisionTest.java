@@ -24,11 +24,13 @@ package org.firstinspires.ftc.teamcode.opmodes;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.technototes.vision.hardware.Webcam;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.subsystems.VisionStackSubsystem;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
+import org.openftc.easyopencv.OpenCvWebcam;
 
 /*
  * This sample demonstrates a basic (but battle-tested and essentially
@@ -39,7 +41,6 @@ import org.openftc.easyopencv.OpenCvCameraFactory;
 @TeleOp
 public class VisionTest extends LinearOpMode
 {
-    OpenCvCamera webcam;
     VisionStackSubsystem pipeline;
 
     @Override
@@ -51,9 +52,7 @@ public class VisionTest extends LinearOpMode
          * you should take a look at {@link InternalCamera1Example} or its
          * webcam counterpart, {@link WebcamExample} first.
          */
-        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "webcam"), cameraMonitorViewId);
-        pipeline = new VisionStackSubsystem(webcam);
+        pipeline = new VisionStackSubsystem(new Webcam("webcam"));
 
 
 

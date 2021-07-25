@@ -1,19 +1,19 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotorImplEx;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.technototes.library.hardware.motor.EncodedMotor;
 import com.technototes.library.hardware.motor.EncodedMotorGroup;
 import com.technototes.library.hardware.motor.Motor;
 import com.technototes.library.hardware.servo.Servo;
 import com.technototes.library.subsystem.motor.EncodedMotorSubsystem;
-import com.technototes.logger.Stated;
+
+import java.util.function.Supplier;
 
 /** Shooter subsystem
  *
  */
-public class ShooterSubsystem extends EncodedMotorSubsystem implements Stated<Double> {
+public class ShooterSubsystem extends EncodedMotorSubsystem implements Supplier<Double> {
     public EncodedMotor<DcMotorEx> motor1;
     public Motor<DcMotorEx> motor2;
     public Servo flap;
@@ -55,7 +55,7 @@ public class ShooterSubsystem extends EncodedMotorSubsystem implements Stated<Do
 
 
     @Override
-    public Double getState() {
+    public Double get() {
         return getVelocity();
     }
 

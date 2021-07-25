@@ -2,13 +2,10 @@ package org.firstinspires.ftc.teamcode.opmodes;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.technototes.library.command.CommandScheduler;
 import com.technototes.library.structure.CommandOpMode;
 
 import org.firstinspires.ftc.teamcode.Robot;
-import org.firstinspires.ftc.teamcode.commands.GetStackSizeCommand;
-import org.firstinspires.ftc.teamcode.commands.autonomous.AutoState;
-import org.firstinspires.ftc.teamcode.subsystems.WobbleSubsystem;
+
 @Autonomous(name="eeeeeee")
 public class YeetOpMode extends CommandOpMode {
     public Robot robot;

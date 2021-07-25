@@ -20,7 +20,7 @@ public class GamepadAxis extends GamepadButton implements DoubleSupplier, Period
      * @param d The supplier to make the axis around
      */
     public GamepadAxis(DoubleSupplier d){
-        new GamepadAxis(d, DEFAULT_TRIGGER_THRESHOLD);
+        this(d, DEFAULT_TRIGGER_THRESHOLD);
     }
     /** Make a GamepadAxis with the supplier and the threshold for the stick to behave as a button
      *
@@ -33,20 +33,6 @@ public class GamepadAxis extends GamepadButton implements DoubleSupplier, Period
         triggerThreshold = t;
     }
 
-    protected GamepadAxis(){
-        triggerThreshold = DEFAULT_TRIGGER_THRESHOLD;
-    }
-
-    /** Set the supplier for the axis
-     *
-     * @param d The double supplier
-     * @return This
-     */
-    public GamepadButton setSupplier(DoubleSupplier d) {
-        super.setSupplier(() -> Math.abs(d.getAsDouble())>triggerThreshold);
-        doubleSupplier = d;
-        return this;
-    }
 
     /** Returns the double from the axis
      *
@@ -68,7 +54,8 @@ public class GamepadAxis extends GamepadButton implements DoubleSupplier, Period
     /** Set threshold
      * @param threshold the new threshold
      */
-    public void setTriggerThreshold(double threshold){
+    public GamepadAxis setTriggerThreshold(double threshold){
         triggerThreshold = threshold;
+        return this;
     }
 }

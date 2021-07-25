@@ -16,12 +16,9 @@ public class CommandButton extends GamepadButton implements GamepadInput<Command
         super(supplier);
     }
 
-    public CommandButton(){
-        super();
-    }
-
     @Override
     public CommandButton getInstance() {
         return this;
     }
+
 }

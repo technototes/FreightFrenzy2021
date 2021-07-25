@@ -2,12 +2,13 @@ package org.firstinspires.ftc.teamcode.subsystems;
 
 import com.technototes.library.hardware.motor.Motor;
 import com.technototes.library.subsystem.motor.MotorSubsystem;
-import com.technototes.logger.Stated;
+
+import java.util.function.Supplier;
 
 /** Intake subsystem
  *
  */
-public class IntakeSubsystem extends MotorSubsystem<Motor<?>> implements Stated<String> {
+public class IntakeSubsystem extends MotorSubsystem<Motor<?>> implements Supplier<String> {
     public Motor motor;
     /** Enum for intake speed
      *
@@ -40,7 +41,7 @@ public class IntakeSubsystem extends MotorSubsystem<Motor<?>> implements Stated<
      * @return The intake status as a String
      */
     @Override
-    public String getState() {
+    public String get() {
         return motor.getSpeed() > 0 ? "INTAKING" : motor.getSpeed() < 0 ? "EXTAKING" : "IDLE";
     }
 

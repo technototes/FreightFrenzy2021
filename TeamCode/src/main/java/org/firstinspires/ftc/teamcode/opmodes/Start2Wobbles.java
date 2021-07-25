@@ -3,16 +3,14 @@ package org.firstinspires.ftc.teamcode.opmodes;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.technototes.library.command.CommandScheduler;
-import com.technototes.library.command.InstantCommand;
+import com.technototes.library.command.OldInstantCommand;
 import com.technototes.library.command.SequentialCommandGroup;
 import com.technototes.library.structure.CommandOpMode;
 import com.technototes.logger.LogConfig;
 import com.technototes.logger.Loggable;
 
 import org.firstinspires.ftc.teamcode.Robot;
-import org.firstinspires.ftc.teamcode.commands.SplineCommand;
 import org.firstinspires.ftc.teamcode.commands.StrafeCommand;
-import org.firstinspires.ftc.teamcode.commands.TrajectoryCommand;
 import org.firstinspires.ftc.teamcode.commands.TurnCommand;
 import org.firstinspires.ftc.teamcode.commands.autonomous.AutoState;
 import org.firstinspires.ftc.teamcode.commands.autonomous.DeliverFirstWobbleCommand;
@@ -62,7 +60,7 @@ public class Start2Wobbles extends CommandOpMode implements Loggable {
                         new StrafeCommand(robot.drivebaseSubsystem, state.correctedPos(30, 0, 0)),
                         new DeliverSecondWobbleCommand(robot.drivebaseSubsystem, robot.wobbleSubsystem, state),
                         new ParkCommand(robot.drivebaseSubsystem, robot.wobbleSubsystem, state),
-                        new InstantCommand(this::terminate)
+                        new OldInstantCommand(this::terminate)
                 )
         );
     }

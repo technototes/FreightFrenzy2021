@@ -1,7 +1,5 @@
 package com.technototes.library.command;
 
-import java.util.Map;
-
 /** Command group to run commands in parallel until one finished
  * @author Alex Stedman
  */

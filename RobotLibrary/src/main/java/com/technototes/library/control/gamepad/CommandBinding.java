@@ -18,9 +18,10 @@ public class CommandBinding extends CommandButton implements Binding<CommandButt
     }
 
     public CommandBinding(Type type, CommandButton... b){
+        super(null);
         buttons = b;
         defaultType = type;
-        setSupplier(this::get);
+        booleanSupplier = this::get;
     }
 
     @Override

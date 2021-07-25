@@ -76,9 +76,6 @@ public class Logger {
                         } else if (getCustom(o) != null) {
                             set(field.getDeclaredAnnotations(), getCustom(o));
                             System.out.println("cust");
-                        } else if(o instanceof Stated) {
-                            set(field.getDeclaredAnnotations(), ((Stated) o)::getState);
-                            System.out.println("stat");
                         }
                     }
                 }
@@ -231,11 +228,16 @@ public class Logger {
      * @return The String s repeated num times
      */
     public static String repeat(String s, int num) {
+        if(num > 100) {
+            System.err.println("One of the entries is too long, make sure your scaling is correct");
+            num = 100;
+         }
         return num > 0 ? repeat(s, num - 1) + s : "";
+
     }
 
     private static Supplier<?> getCustom(Object o) {
-        if (o instanceof Supplier<?>) {
+        if (o instanceof Supplier) {
             return (Supplier<?>) o;
         } else if (o instanceof BooleanSupplier) {
             return ((BooleanSupplier) o)::getAsBoolean;

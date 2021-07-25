@@ -53,10 +53,10 @@ public abstract class CommandOpMode extends LinearOpMode {
         driverGamepad = new CommandGamepad(gamepad1);
         codriverGamepad = new CommandGamepad(gamepad2);
         HardwareDevice.hardwareMap = hardwareMap;
-        uponInit();
-        CommandScheduler.getInstance().opMode = this;
-        opModeTimer.reset();
+        CommandScheduler.resetScheduler().setOpMode(this);
         logger = new Logger(this);
+        opModeTimer.reset();
+        uponInit();
         while (!(isStarted() && additionalInitConditions()) && !terminated && !isStopRequested()) {
             initLoop();
             universalLoop();
@@ -77,8 +77,6 @@ public abstract class CommandOpMode extends LinearOpMode {
         end();
         CommandScheduler.getInstance().run();
         opModeTimer.reset();
-        CommandScheduler.resetScheduler();
-
     }
 
     /** Runs once when op mode is initialized

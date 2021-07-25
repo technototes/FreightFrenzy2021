@@ -6,10 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.technototes.library.hardware.Sensored;
 import com.technototes.library.hardware.sensor.encoder.Encoder;
-import com.technototes.library.hardware.sensor.encoder.ExternalEncoder;
 import com.technototes.library.hardware.sensor.encoder.MotorEncoder;
-import com.technototes.logger.Log;
-import com.technototes.logger.Stated;
 
 /** Class for encoded motors
  * @author Alex Stedman
@@ -28,17 +25,23 @@ public class EncodedMotor<T extends DcMotorSimple> extends Motor<T> implements S
      *
      * @param device The dcmotor object
      */
+    public EncodedMotor(T device, Encoder e) {
+        super(device);
+        encoder = e;
+    }
+    public EncodedMotor(String device, Encoder e) {
+        super(device);
+        encoder = e;
+    }
+
     public EncodedMotor(T device) {
         super(device);
-        if (device instanceof DcMotor) {
-            encoder = new MotorEncoder((DcMotor) device);
+        if (device instanceof DcMotorEx) {
+            encoder = new MotorEncoder((DcMotorEx) device);
         }
     }
 
-    public EncodedMotor<T> setEncoder(Encoder enc){
-        encoder = enc;
-        return this;
-    }
+
 
     /** Make encoded motor
      *
@@ -46,9 +49,14 @@ public class EncodedMotor<T extends DcMotorSimple> extends Motor<T> implements S
      */
     public EncodedMotor(String deviceName) {
         super(deviceName);
-        if (getDevice() instanceof DcMotor) {
-            encoder = new MotorEncoder((DcMotor) getDevice());
+        if (getDevice() instanceof DcMotorEx) {
+            encoder = new MotorEncoder((DcMotorEx) getDevice());
         }
+    }
+
+    public EncodedMotor<T> setEncoder(Encoder enc){
+        encoder = enc;
+        return this;
     }
 
     public EncodedMotor<T> setPIDFCoeffecients(double p, double i, double d, double f){
@@ -148,7 +156,7 @@ public class EncodedMotor<T extends DcMotorSimple> extends Motor<T> implements S
     }
 
     @Override
-    public Double getState() {
+    public Double get() {
         return getSensorValue();
     }
 

@@ -9,7 +9,7 @@ import java.util.function.DoubleSupplier;
 /** Simple command for driving tank drivebase
  * @author Alex Stedman
  */
-public class TankDriveCommand extends Command {
+public class TankDriveCommand implements Command {
     private TankDrivebaseSubsystem subsystem;
     private DoubleSupplier xv, yv;
 

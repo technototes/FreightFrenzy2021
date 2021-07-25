@@ -3,6 +3,10 @@ package com.technototes.control.gamepad;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.technototes.control.Periodic;
 
+import java.lang.reflect.InvocationTargetException;
+import java.util.function.BooleanSupplier;
+import java.util.function.DoubleSupplier;
+
 /** A class to extend gamepads from, it does the internal processing for you.
  * @author Alex Stedman
  * @param <T> The class for the button components on the gamepad
@@ -16,6 +20,7 @@ public abstract class AbstractGamepad<T extends GamepadButton, U extends Gamepad
      *
      */
     public T a, b, x, y, start, back, leftBumper, rightBumper,
+            cross, circle, square, triangle, share, options,
             dpadUp, dpadDown, dpadLeft, dpadRight, leftStickButton, rightStickButton;
     //axis
     /** The axis objects
@@ -50,75 +55,60 @@ public abstract class AbstractGamepad<T extends GamepadButton, U extends Gamepad
         axisClass = aClass;
         try {
             setComponents(g);
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
-        leftStick = new GamepadStick<U, T>(leftStickX, leftStickY, leftStickButton);
-        rightStick = new GamepadStick<U, T>(rightStickX, rightStickY, rightStickButton);
-        dpad = new GamepadDpad<T>(dpadUp, dpadDown, dpadLeft, dpadRight);
+        leftStick = new GamepadStick<>(leftStickX, leftStickY, leftStickButton);
+        rightStick = new GamepadStick<>(rightStickX, rightStickY, rightStickButton);
+        dpad = new GamepadDpad<>(dpadUp, dpadDown, dpadLeft, dpadRight);
         periodics = new Periodic[]{a, b, x, y, start, back, leftBumper, rightBumper,
                 leftTrigger, rightTrigger, leftStick, rightStick, dpad};
     }
 
     //to actually instantiate the objects
-    private void setComponents(Gamepad g) throws InstantiationException, IllegalAccessException {
+    private void setComponents(Gamepad g) throws InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
 
         //buttons
         //a=new T();
-        a = buttonClass.newInstance();
-        a.setSupplier(() -> g.a);
-        b = buttonClass.newInstance();
-        b.setSupplier(() -> g.b);
-        x = buttonClass.newInstance();
-        x.setSupplier(() -> g.x);
-        y = buttonClass.newInstance();
-        y.setSupplier(() -> g.y);
 
-        start = buttonClass.newInstance();
-        start.setSupplier(() -> g.start);
-        back = buttonClass.newInstance();
-        back.setSupplier(() -> g.back);
+        a = buttonInstance(()->g.a);
+        b = buttonInstance(()->g.b);
+        x = buttonInstance(()->g.x);
+        y = buttonInstance(()->g.y);
+        cross = a;
+        circle = b;
+        square = x;
+        triangle = y;
+
+        start = buttonInstance(()->g.start);
+        back = buttonInstance(()->g.back);
+        share = back;
+        options = start;
 
         //bumpers
-        leftBumper = buttonClass.newInstance();
-        leftBumper.setSupplier(() -> g.left_bumper);
-        rightBumper = buttonClass.newInstance();
-        rightBumper.setSupplier(() -> g.right_bumper);
+        leftBumper = buttonInstance(()->g.left_bumper);
+        rightBumper = buttonInstance(()->g.right_bumper);
 
         //dpad
-        dpadUp = buttonClass.newInstance();
-        dpadUp.setSupplier(() -> g.dpad_up);
-        dpadDown = buttonClass.newInstance();
-        dpadDown.setSupplier(() -> g.dpad_down);
-        dpadLeft = buttonClass.newInstance();
-        dpadLeft.setSupplier(() -> g.dpad_left);
-        dpadRight = buttonClass.newInstance();
-        dpadRight.setSupplier(() -> g.dpad_right);
+        dpadUp = buttonInstance(() -> g.dpad_up);
+        dpadDown = buttonInstance(() -> g.dpad_down);
+        dpadLeft = buttonInstance(() -> g.dpad_left);
+        dpadRight = buttonInstance(() -> g.dpad_right);
 
         //left stick
-        leftStickX = axisClass.newInstance();
-        leftStickX.setSupplier(() -> g.left_stick_x);
-        leftStickY = axisClass.newInstance();
-        leftStickY.setSupplier(() -> g.left_stick_y);
-        leftStickButton = buttonClass.newInstance();
-        leftStickButton.setSupplier(() -> g.left_stick_button);
+        leftStickX = axisInstance(() -> g.left_stick_x);
+        leftStickY = axisInstance(() -> g.left_stick_y);
+        leftStickButton = buttonInstance(() -> g.left_stick_button);
 
         //right stick
-        rightStickX = axisClass.newInstance();
-        rightStickX.setSupplier(() -> g.right_stick_x);
-        rightStickY = axisClass.newInstance();
-        rightStickY.setSupplier(() -> g.right_stick_y);
-        rightStickButton = buttonClass.newInstance();
-        rightStickButton.setSupplier(() -> g.right_stick_button);
+        rightStickX = axisInstance(() -> g.right_stick_x);
+        rightStickY = axisInstance(() -> g.right_stick_y);
+        rightStickButton = buttonInstance(() -> g.right_stick_button);
 
         //triggers
-        leftTrigger = axisClass.newInstance();
-        leftTrigger.setSupplier(() -> g.left_trigger);
-        rightTrigger = axisClass.newInstance();
-        rightTrigger.setSupplier(() -> g.right_trigger);
+        leftTrigger = axisInstance(() -> g.left_trigger);
+        rightTrigger = axisInstance(() -> g.right_trigger);
 
     }
 
@@ -128,13 +118,13 @@ public abstract class AbstractGamepad<T extends GamepadButton, U extends Gamepad
      *
      */
     public enum Button{
-        A, B, X, Y, START, BACK, LEFT_BUMPER, RIGHT_BUMPER, LEFT_STICK_BUTTON, RIGHT_STICK_BUTTON;
+        A, B, X, Y, CROSS, CIRCLE, SQUARE, TRIANGLE, SHARE, OPTIONS, START, BACK, LEFT_BUMPER, RIGHT_BUMPER, LEFT_STICK_BUTTON, RIGHT_STICK_BUTTON
     }
     /** Axis enum for all axis on gamepad
      *
      */
     public enum Axis{
-        LEFT_STICK_X, LEFT_STICK_Y, RIGHT_STICK_X, RIGHT_STICK_Y, LEFT_TRIGGER, RIGHT_TRIGGER;
+        LEFT_STICK_X, LEFT_STICK_Y, RIGHT_STICK_X, RIGHT_STICK_Y, LEFT_TRIGGER, RIGHT_TRIGGER
     }
 
     /** Returns a button
@@ -152,6 +142,18 @@ public abstract class AbstractGamepad<T extends GamepadButton, U extends Gamepad
                 return x;
             case Y:
                 return y;
+            case CROSS:
+                return cross;
+            case CIRCLE:
+                return circle;
+            case SQUARE:
+                return square;
+            case TRIANGLE:
+                return triangle;
+            case SHARE:
+                return share;
+            case OPTIONS:
+                return options;
             case BACK:
                 return back;
             case START:
@@ -252,5 +254,12 @@ public abstract class AbstractGamepad<T extends GamepadButton, U extends Gamepad
      */
     public Gamepad getGamepad(){
         return gamepad;
+    }
+
+    public T buttonInstance(BooleanSupplier b) throws InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+        return buttonClass.getConstructor(BooleanSupplier.class).newInstance(b);
+    }
+    public U axisInstance(DoubleSupplier d) throws InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+        return axisClass.getConstructor(DoubleSupplier.class).newInstance(d);
     }
 }

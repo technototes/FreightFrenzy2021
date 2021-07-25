@@ -1,17 +1,15 @@
 package com.technototes.library.control.gamepad;
 
 import com.technototes.control.gamepad.GamepadAxis;
+import com.technototes.control.gamepad.GamepadButton;
 
+import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
 /** Class for command axis for the gamepad
  * @author Alex Stedman
  */
 public class CommandAxis extends GamepadAxis implements GamepadInput<CommandAxis> {
-    public CommandAxis(){
-        super();
-    }
-
     /** Make a command axis
      *
      * @param supplier The axis supplier
@@ -34,4 +32,9 @@ public class CommandAxis extends GamepadAxis implements GamepadInput<CommandAxis
         return this;
     }
 
+    @Override
+    public CommandAxis setTriggerThreshold(double threshold) {
+        super.setTriggerThreshold(threshold);
+        return this;
+    }
 }

@@ -32,8 +32,10 @@ import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
 import com.technototes.library.hardware.HardwareDevice;
 import com.technototes.library.hardware.motor.EncodedMotor;
+import com.technototes.library.hardware.motor.MotorGroup;
 import com.technototes.library.hardware.sensor.IMU;
 import com.technototes.library.subsystem.Subsystem;
+import com.technototes.library.subsystem.SubsystemBase;
 
 import org.firstinspires.ftc.teamcode.roadrunnercode.util.LynxModuleUtil;
 
@@ -56,7 +58,7 @@ import static org.firstinspires.ftc.teamcode.subsystems.DriveConstants.kV;
 
 
 @Config
-public class DrivebaseSubsystem extends MecanumDrive {
+public class DrivebaseSubsystem extends MecanumDrive implements Subsystem<MotorGroup<EncodedMotor<DcMotorEx>>> {
     public double speed = 1;
     public static PIDCoefficients TRANSLATIONAL_PID = new PIDCoefficients(8, 0, 0);
     public static PIDCoefficients HEADING_PID = new PIDCoefficients(8, 0, 0);
@@ -69,8 +71,11 @@ public class DrivebaseSubsystem extends MecanumDrive {
 
     public static int POSE_HISTORY_LIMIT = 100;
 
-    public final Subsystem dummySubsystem = new Subsystem() {
-    };
+    @Override
+    public MotorGroup<EncodedMotor<DcMotorEx>> getDevice() {
+        return null;
+    }
+
 
     public enum Mode {
         IDLE,
@@ -95,6 +100,7 @@ public class DrivebaseSubsystem extends MecanumDrive {
 
     private EncodedMotor<DcMotorEx> leftFront, leftRear, rightRear, rightFront;
     private List<DcMotorEx> motors;
+    private MotorGroup<EncodedMotor<DcMotorEx>> motorGroup;
     public IMU imu;
 
     private VoltageSensor batteryVoltageSensor;
@@ -148,6 +154,7 @@ public class DrivebaseSubsystem extends MecanumDrive {
 
         motors = Arrays.asList(leftFront.getDevice(), leftRear.getDevice(), rightRear.getDevice(), rightFront.getDevice());
 
+        motorGroup = new MotorGroup<>(leftFront, leftRear, rightFront, rightRear);
         for (DcMotor motor : motors) {
             MotorConfigurationType motorConfigurationType = motor.getMotorType().clone();
             motorConfigurationType.setAchieveableMaxRPMFraction(1.0);
@@ -396,7 +403,7 @@ public class DrivebaseSubsystem extends MecanumDrive {
 
     @Override
     public double getRawExternalHeading() {
-        return imu.device.getAngularOrientation().firstAngle;
+        return imu.getDevice().getAngularOrientation().firstAngle;
     }
 
     @Override
@@ -419,6 +426,6 @@ public class DrivebaseSubsystem extends MecanumDrive {
         // Rotate about the z axis is the default assuming your REV Hub/Control Hub is laying
         // flat on a surface
 
-        return (double) imu.device.getAngularVelocity().zRotationRate;
+        return (double) imu.getDevice().getAngularVelocity().zRotationRate;
     }
 }

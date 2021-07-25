@@ -9,18 +9,20 @@ import com.technototes.library.hardware.servo.Servo;
  *
  * @param <T> The type of motors to group
  */
-public class MotorGroup<T extends Motor> extends Motor<DcMotorSimple> implements HardwareDeviceGroup<Motor> {
+public class MotorGroup<T extends Motor> extends Motor<DcMotorSimple> implements HardwareDeviceGroup {
     private Motor[] followers;
 
     /** Make a motor group
      *
-     * @param leader The leader motor
-     * @param followers The follower motors
+     * @param motors The motors
      */
-    public MotorGroup(Motor<DcMotorSimple> leader, Motor... followers) {
-        super(leader.getDevice());
-        this.followers = followers;
+    public MotorGroup(T... motors) {
+        super((DcMotorSimple) motors[0].getDevice());
+        followers = new Motor[motors.length-1];
+        System.arraycopy(motors, 1, followers, 0, followers.length);
     }
+
+
 
     @Override
     public Motor[] getFollowers() {

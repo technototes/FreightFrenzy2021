@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.technototes.library.hardware.HardwareDevice;
 import com.technototes.library.hardware.motor.EncodedMotor;
 import com.technototes.library.hardware.motor.EncodedMotorGroup;
 import com.technototes.library.hardware.motor.Motor;
@@ -11,15 +10,11 @@ import com.technototes.library.hardware.servo.Servo;
 import com.technototes.library.hardware.servo.ServoGroup;
 import com.technototes.logger.Loggable;
 
-import org.firstinspires.ftc.teamcode.roadrunnercode.util.AxesSigns;
-import org.firstinspires.ftc.teamcode.roadrunnercode.util.BNO055IMUUtil;
-import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.roadrunnercode.util.Encoder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-import org.openftc.easyopencv.OpenCvCamera;
-import org.openftc.easyopencv.OpenCvCameraFactory;
 
 import com.technototes.library.hardware.sensor.IMU;
+import com.technototes.vision.hardware.Webcam;
 
 /** Class for the hardware devices of the robot
  *
@@ -63,7 +58,7 @@ public class Hardware implements Loggable {
     public Servo wobbleTurretServo;
 
 
-    public OpenCvCamera webcam;
+    public Webcam webcam;
     public Servo turretServo;
     public Servo raiseServo;
 
@@ -81,8 +76,7 @@ public class Hardware implements Loggable {
         rightOdometryEncoder = new Encoder("shooter2").invert();
         frontOdometryEncoder = new Encoder("rlMotor");
 
-        imu = new IMU("imu");
-        BNO055IMUUtil.remapAxes(imu.device, AxesOrder.XYZ, AxesSigns.NNN);
+        imu = new IMU("imu").remapAxes(AxesOrder.XYZ, IMU.AxesSigns.NNN);
 
         indexArmServo = new Servo("indexarm");
 
@@ -107,10 +101,8 @@ public class Hardware implements Loggable {
         turretServo = new Servo("turret").setRange(0, 1);
         raiseServo = new Servo("raise");
 
-        webcam = OpenCvCameraFactory.getInstance().createWebcam(HardwareDevice.hardwareMap.get(WebcamName.class, "webcam"),
-                HardwareDevice.hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id",
-                        HardwareDevice.hardwareMap.appContext.getPackageName()));
-
+        webcam = new Webcam("webcam");
+        
         leftStick = new Servo("lstick").setRange(0, 1).invert();
         rightStick = new Servo("rstick").setRange(0, 0.5);
         sticks = new ServoGroup(leftStick, rightStick);

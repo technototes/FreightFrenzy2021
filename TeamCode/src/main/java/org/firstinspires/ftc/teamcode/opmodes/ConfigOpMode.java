@@ -2,7 +2,7 @@ package org.firstinspires.ftc.teamcode.opmodes;
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.technototes.library.command.InstantCommand;
+import com.technototes.library.command.OldInstantCommand;
 import com.technototes.library.hardware.servo.Servo;
 import com.technototes.library.structure.CommandOpMode;
 import com.technototes.logger.Log;
@@ -22,10 +22,10 @@ public class ConfigOpMode extends CommandOpMode implements Loggable {
         pivot = new Servo("indexpivot");
         arm = new Servo("indexarm");
         super.telemetry.setDisplayFormat(Telemetry.DisplayFormat.HTML);
-        driverGamepad.dpad.up.whenPressed(new InstantCommand(()->pivot.setPosition(pivot.getPosition()+0.05)));
-        driverGamepad.dpad.down.whenPressed(new InstantCommand(()->pivot.setPosition(pivot.getPosition()-0.05)));
-        driverGamepad.dpad.left.whenPressed(new InstantCommand(()->arm.setPosition(arm.getPosition()+0.05)));
-        driverGamepad.dpad.right.whenPressed(new InstantCommand(()->arm.setPosition(arm.getPosition()-0.05)));
+        driverGamepad.dpad.up.whenPressed(new OldInstantCommand(()->pivot.setPosition(pivot.getPosition()+0.05)));
+        driverGamepad.dpad.down.whenPressed(new OldInstantCommand(()->pivot.setPosition(pivot.getPosition()-0.05)));
+        driverGamepad.dpad.left.whenPressed(new OldInstantCommand(()->arm.setPosition(arm.getPosition()+0.05)));
+        driverGamepad.dpad.right.whenPressed(new OldInstantCommand(()->arm.setPosition(arm.getPosition()-0.05)));
     }
 
 }

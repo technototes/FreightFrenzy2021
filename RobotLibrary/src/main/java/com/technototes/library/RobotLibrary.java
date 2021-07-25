@@ -10,7 +10,7 @@ public class RobotLibrary {
      * @return Library version
      */
     public static String getVersion(){
-        return "0.3.0";
+        return "0.9.9";
     }
 
     /** Get if the library is a pre release

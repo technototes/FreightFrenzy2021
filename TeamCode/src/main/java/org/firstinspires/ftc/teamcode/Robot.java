@@ -24,8 +24,6 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
  */
 public class Robot implements Loggable {
 
-
-
     public Hardware hardware;
 
 
@@ -90,8 +88,6 @@ public class Robot implements Loggable {
         }else {
             visionAimSubsystem = new VisionAimSubsystem(hardware.webcam);
         }
-
-
 
 
         turretSubsystem = new TurretSubsystem(hardware.turretServo, hardware.raiseServo);

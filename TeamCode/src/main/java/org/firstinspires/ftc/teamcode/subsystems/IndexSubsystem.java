@@ -2,9 +2,10 @@ package org.firstinspires.ftc.teamcode.subsystems;
 
 import com.technototes.library.hardware.servo.Servo;
 import com.technototes.library.subsystem.servo.ServoSubsystem;
-import com.technototes.logger.Stated;
 
-public class IndexSubsystem extends ServoSubsystem implements Stated<String>{
+import java.util.function.Supplier;
+
+public class IndexSubsystem extends ServoSubsystem implements Supplier<String> {
 
 
 
@@ -40,7 +41,7 @@ public class IndexSubsystem extends ServoSubsystem implements Stated<String>{
 
 
     @Override
-    public String getState() {
+    public String get() {
         return "ARM: "+armPositon;
     }
 }

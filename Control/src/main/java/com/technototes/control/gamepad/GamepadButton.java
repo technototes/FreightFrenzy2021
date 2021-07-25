@@ -8,7 +8,7 @@ import java.util.function.BooleanSupplier;
  * @author Alex Stedman
  */
 public class GamepadButton implements BooleanSupplier, Periodic {
-    private BooleanSupplier booleanSupplier;
+    protected BooleanSupplier booleanSupplier;
 
     private boolean pressed = false;
     private boolean toggle = false;
@@ -22,18 +22,8 @@ public class GamepadButton implements BooleanSupplier, Periodic {
     public GamepadButton(BooleanSupplier b){
         booleanSupplier = b;
     }
-    protected GamepadButton(){
-        booleanSupplier = () -> false;
-    }
-    /** Set the boolean supplier for the button
-     *
-     * @param b The supplier
-     * @return This
-     */
-    public GamepadButton setSupplier(BooleanSupplier b){
-        booleanSupplier = b;
-        return this;
-    }
+
+
 
     @Override
     public void periodic(){
@@ -109,6 +99,6 @@ public class GamepadButton implements BooleanSupplier, Periodic {
      */
     @Override
     public boolean getAsBoolean() {
-        return isPressed();
+        return booleanSupplier.getAsBoolean();
     }
 }

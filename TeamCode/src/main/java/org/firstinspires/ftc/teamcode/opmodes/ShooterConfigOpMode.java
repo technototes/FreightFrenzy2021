@@ -1,23 +1,13 @@
 package org.firstinspires.ftc.teamcode.opmodes;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.technototes.library.command.CommandScheduler;
-import com.technototes.library.command.InstantCommand;
-import com.technototes.library.hardware.motor.EncodedMotor;
-import com.technototes.library.hardware.motor.EncodedMotorGroup;
-import com.technototes.library.hardware.servo.Servo;
+import com.technototes.library.command.OldInstantCommand;
 import com.technototes.library.structure.CommandOpMode;
 import com.technototes.logger.Log;
 import com.technototes.logger.LogConfig;
 import com.technototes.logger.Loggable;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.OperatorInterface;
 import org.firstinspires.ftc.teamcode.Robot;
-import org.firstinspires.ftc.teamcode.commands.TurnCommand;
 import org.firstinspires.ftc.teamcode.commands.drivebase.DriveCommand;
 import org.firstinspires.ftc.teamcode.commands.shooter.ShooterSetFlapCommand;
 import org.firstinspires.ftc.teamcode.commands.shooter.ShooterSetSpeedCommand;
@@ -35,8 +25,8 @@ public class ShooterConfigOpMode extends CommandOpMode implements Loggable {
         driverGamepad.dpadLeft.whenPressed(new ShooterSetFlapCommand(robot.shooterSubsystem, ()->robot.shooterSubsystem.getFlapPosition()+0.05));
         driverGamepad.dpadRight.whenPressed(new ShooterSetFlapCommand(robot.shooterSubsystem, ()->robot.shooterSubsystem.getFlapPosition()-0.05));
         driverGamepad.a.whilePressed(new DriveCommand(robot.drivebaseSubsystem, driverGamepad.leftStick, driverGamepad.rightStick));
-        driverGamepad.leftBumper.whenPressed(new InstantCommand(()->robot.drivebaseSubsystem.turn(robot.drivebaseSubsystem.getExternalHeading()-0.1)));
-        driverGamepad.rightBumper.whenPressed(new InstantCommand(()->robot.drivebaseSubsystem.turn(robot.drivebaseSubsystem.getExternalHeading()+0.1)));
+        driverGamepad.leftBumper.whenPressed(new OldInstantCommand(()->robot.drivebaseSubsystem.turn(robot.drivebaseSubsystem.getExternalHeading()-0.1)));
+        driverGamepad.rightBumper.whenPressed(new OldInstantCommand(()->robot.drivebaseSubsystem.turn(robot.drivebaseSubsystem.getExternalHeading()+0.1)));
 
     }
 

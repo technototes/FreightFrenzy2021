@@ -1,22 +1,24 @@
 package com.technototes.library.hardware.servo;
 
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.technototes.library.hardware.HardwareDeviceGroup;
+import com.technototes.library.hardware.motor.Motor;
 import com.technototes.logger.Log;
 
 /** Class for servo group
  * @author Alex Stedman
  */
-public class ServoGroup extends Servo implements HardwareDeviceGroup<Servo> {
+public class ServoGroup extends Servo implements HardwareDeviceGroup {
     private Servo[] followers;
 
     /** Create a servo group
      *
-     * @param leader The leader servo
-     * @param followers The follower servos
+     * @param servos the servos
      */
-    public ServoGroup(Servo leader, Servo... followers) {
-        super(leader.getDevice());
-        this.followers = followers;
+    public ServoGroup(Servo... servos) {
+        super(servos[0].getDevice());
+        followers = new Servo[servos.length-1];
+        System.arraycopy(servos, 1, followers, 0, followers.length);
     }
 
     @Override

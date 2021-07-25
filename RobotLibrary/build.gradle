@@ -30,6 +30,7 @@ dependencies {
     testImplementation('org.mockito:mockito-core:3.5.11')
     testImplementation "org.junit.jupiter:junit-jupiter-params:5.7.0"
 
+    testImplementation project(':Control')
 //    compileOnly 'org.firstinspires.ftc:Inspection:6.0'
 //    compileOnly 'org.firstinspires.ftc:Blocks:6.0'
 //    compileOnly 'org.firstinspires.ftc:RobotCore:6.0'
@@ -39,9 +40,10 @@ dependencies {
 //    compileOnly 'org.firstinspires.ftc:FtcCommon:6.0'
 //    compileOnly 'androidx.appcompat:appcompat:1.2.0'
 
+    //implementation 'org.openftc:easyopencv:1.4.4'
+
     compileOnly project(':Control')
     compileOnly project(':Logger')
-    compileOnly project(':Subsystem')
 
 
 }

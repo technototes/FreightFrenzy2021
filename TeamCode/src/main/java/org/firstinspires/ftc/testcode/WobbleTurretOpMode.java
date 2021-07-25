@@ -1,8 +1,7 @@
 package org.firstinspires.ftc.testcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.technototes.library.command.InstantCommand;
+import com.technototes.library.command.OldInstantCommand;
 import com.technototes.library.hardware.servo.Servo;
 import com.technototes.library.structure.CommandOpMode;
 import com.technototes.logger.Log;
@@ -27,17 +26,17 @@ public class WobbleTurretOpMode extends CommandOpMode implements Loggable {
         left.setPosition(1);
         right.setPosition(0);
 
-        driverGamepad.dpadUp.whenPressed(new InstantCommand(()->left.setPosition(1)))
-                .whenPressed(new InstantCommand(()->right.setPosition(0)));
+        driverGamepad.dpadUp.whenPressed(new OldInstantCommand(()->left.setPosition(1)))
+                .whenPressed(new OldInstantCommand(()->right.setPosition(0)));
 
-        driverGamepad.dpadDown.whenPressed(new InstantCommand(()->left.setPosition(0)))
-                .whenPressed(new InstantCommand(()->right.setPosition(1)));
+        driverGamepad.dpadDown.whenPressed(new OldInstantCommand(()->left.setPosition(0)))
+                .whenPressed(new OldInstantCommand(()->right.setPosition(1)));
 
-        driverGamepad.dpadLeft.whenPressed(new InstantCommand(()-> claw.setPosition(0)));
-        driverGamepad.dpadRight.whenPressed(new InstantCommand(()-> claw.setPosition(1)));
+        driverGamepad.dpadLeft.whenPressed(new OldInstantCommand(()-> claw.setPosition(0)));
+        driverGamepad.dpadRight.whenPressed(new OldInstantCommand(()-> claw.setPosition(1)));
 
-        driverGamepad.leftBumper.whenPressed(new InstantCommand(()-> turret.setPosition(0)));
-        driverGamepad.rightBumper.whenPressed(new InstantCommand(()-> turret.setPosition(1)));
+        driverGamepad.leftBumper.whenPressed(new OldInstantCommand(()-> turret.setPosition(0)));
+        driverGamepad.rightBumper.whenPressed(new OldInstantCommand(()-> turret.setPosition(1)));
 
         driverGamepad.a.whenPressed(new WobbleInterpolateCommand(left, right));
     }

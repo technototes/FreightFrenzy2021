@@ -16,11 +16,13 @@ apply from: '../build.common.gradle'
 apply from: '../build.dependencies.gradle'
 
 dependencies {
+
+
     implementation project(':FtcRobotController')
     implementation project(':RobotLibrary')
+    implementation project(':Vision')
     implementation project(':Control')
     implementation project(':Logger')
-    implementation project(':Subsystem')
 
     annotationProcessor files('lib/OpModeAnnotationProcessor.jar')
 

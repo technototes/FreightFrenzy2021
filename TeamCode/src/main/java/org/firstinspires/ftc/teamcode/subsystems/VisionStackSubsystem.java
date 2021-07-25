@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
-import com.technototes.logger.Stated;
+import com.technototes.vision.hardware.Camera;
 
 import org.firstinspires.ftc.teamcode.commands.autonomous.AutoState;
 import org.opencv.core.Core;
@@ -12,10 +12,9 @@ import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvPipeline;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.function.Supplier;
 
-public class VisionStackSubsystem extends OpenCvPipeline implements Stated<Integer> {
+public class VisionStackSubsystem extends OpenCvPipeline implements Supplier<Integer> {
 
     //We declare the mats ontop so we can reuse them later to avoid memory leaks
     private Mat matYCrCb = new Mat();
@@ -45,8 +44,8 @@ public class VisionStackSubsystem extends OpenCvPipeline implements Stated<Integ
 
     private OpenCvCamera webcam;
 
-    public VisionStackSubsystem(OpenCvCamera w) {
-        webcam = w;
+    public VisionStackSubsystem(Camera w) {
+        webcam = w.getOpenCvCamera();
         webcam.setPipeline(this);
 
         // See https://github.com/OpenFTC/EasyOpenCV/issues/12
@@ -146,7 +145,7 @@ public class VisionStackSubsystem extends OpenCvPipeline implements Stated<Integ
     }
 
     @Override
-    public Integer getState() {
+    public Integer get() {
         return getStackSize();
     }
 }

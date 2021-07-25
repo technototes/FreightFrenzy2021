@@ -1,11 +1,8 @@
 package org.firstinspires.ftc.samplecode.strafer;
 
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.technototes.library.command.InstantCommand;
+import com.technototes.library.command.OldInstantCommand;
 import com.technototes.library.control.gamepad.CommandGamepad;
-import com.technototes.library.hardware.motor.EncodedMotor;
-import com.technototes.library.hardware.motor.Motor;
-import com.technototes.subsystem.DrivebaseSubsystem;
+import com.technototes.library.subsystem.drivebase.DrivebaseSubsystem;
 
 public class OperatorInterface {
     public Robot robot;
@@ -21,9 +18,9 @@ public class OperatorInterface {
     }
 
     public void setDriverControls() {
-        driverGamepad.y.whenToggled(new InstantCommand(() -> robot.drivebaseSubsystem.driveSpeed = DrivebaseSubsystem.SampleDriveSpeed.TURBO))
-                .whenInverseToggled(new InstantCommand(() -> robot.drivebaseSubsystem.driveSpeed = DrivebaseSubsystem.SampleDriveSpeed.NORMAL));
-        driverGamepad.a.whenPressed(new InstantCommand(() -> {
+        driverGamepad.y.whenToggled(new OldInstantCommand(() -> robot.drivebaseSubsystem.driveSpeed = DrivebaseSubsystem.SampleDriveSpeed.TURBO))
+                .whenInverseToggled(new OldInstantCommand(() -> robot.drivebaseSubsystem.driveSpeed = DrivebaseSubsystem.SampleDriveSpeed.NORMAL));
+        driverGamepad.a.whenPressed(new OldInstantCommand(() -> {
             robot.drivebaseSubsystem.flMotor.zeroEncoder();
             robot.drivebaseSubsystem.frMotor.zeroEncoder();
             robot.drivebaseSubsystem.rlMotor.zeroEncoder();

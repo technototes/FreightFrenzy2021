@@ -2,9 +2,10 @@ package org.firstinspires.ftc.teamcode.subsystems;
 
 import com.technototes.library.hardware.servo.Servo;
 import com.technototes.library.subsystem.servo.ServoSubsystem;
-import com.technototes.logger.Stated;
 
-public class WobbleSubsystem extends ServoSubsystem implements Stated<String> {
+import java.util.function.Supplier;
+
+public class WobbleSubsystem extends ServoSubsystem implements Supplier<String> {
 
 
     public enum ArmPosition{
@@ -67,7 +68,7 @@ public class WobbleSubsystem extends ServoSubsystem implements Stated<String> {
     }
 
     @Override
-    public String getState() {
+    public String get() {
         return "CLAW: "+clawPosition+". ARM: "+armPosition;
     }
 
