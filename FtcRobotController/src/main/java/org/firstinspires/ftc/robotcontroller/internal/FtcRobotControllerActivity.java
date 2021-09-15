@@ -333,7 +333,7 @@ public class FtcRobotControllerActivity extends Activity
         });
         popupMenu.inflate(R.menu.ftc_robot_controller);
         AnnotatedHooksClassFilter.getInstance().callOnCreateMenuMethods(
-                FtcRobotControllerActivity.this, popupMenu.getMenu());
+            FtcRobotControllerActivity.this, popupMenu.getMenu());
         popupMenu.show();
       }
     });
@@ -405,7 +405,8 @@ public class FtcRobotControllerActivity extends Activity
       initWifiMute(true);
     }
 
-   // FtcAboutActivity.setBuildTimeFromBuildConfig(BuildConfig.APP_BUILD_TIME);
+    // KBF: This was commented out
+    FtcAboutActivity.setBuildTimeFromBuildConfig(BuildConfig.APP_BUILD_TIME);
 
     // check to see if there is a preferred Wi-Fi to use.
     checkPreferredChannel();
@@ -707,7 +708,7 @@ public class FtcRobotControllerActivity extends Activity
     });
 
     AnnotatedHooksClassFilter.getInstance().callWebHandlerRegistrarMethods(this,
-            service.getWebServer().getWebHandlerManager());
+        service.getWebServer().getWebHandlerManager());
   }
 
   private void updateUIAndRequestRobotSetup() {
