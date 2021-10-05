@@ -1,5 +1,6 @@
 package com.technototes.library.hardware.servo;
 
+import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 import com.technototes.library.hardware.*;
 
@@ -53,7 +54,25 @@ public class Servo extends HardwareDevice<com.qualcomm.robotcore.hardware.Servo>
     public void setPosition(double position) {
         device.setPosition(Range.clip(!inverted ? position : 1-position, 0, 1));
     }
-    public void setPosition
+    public void incrementPosition(double incAmount){
+        setPosition(getPosition()+incAmount);
+    }
+
+    private ElapsedTime t;
+    private double startingPosition;
+    public boolean setPositionAsync(double targetPos, double time){
+        if(t == null){
+            t = new ElapsedTime();
+            startingPosition = getPosition();
+        }
+        setPosition(startingPosition+(targetPos-startingPosition)*(t.seconds()/time));
+        if(Math.abs(getPosition()-targetPos)<0.01){
+            t = null;
+            return true;
+        }
+        return false;
+
+    }
 
 
     @Override
