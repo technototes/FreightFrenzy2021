@@ -113,6 +113,7 @@ import org.firstinspires.ftc.robotcore.internal.network.WifiDirectChannelChanger
 import org.firstinspires.ftc.robotcore.internal.network.WifiMuteEvent;
 import org.firstinspires.ftc.robotcore.internal.network.WifiMuteStateMachine;
 import org.firstinspires.ftc.robotcore.internal.opmode.ClassManager;
+import org.firstinspires.ftc.robotcore.internal.opmode.OnBotJavaHelper;
 import org.firstinspires.ftc.robotcore.internal.system.AppAliveNotifier;
 import org.firstinspires.ftc.robotcore.internal.system.AppUtil;
 import org.firstinspires.ftc.robotcore.internal.system.Assert;
@@ -123,7 +124,9 @@ import org.firstinspires.ftc.robotcore.internal.ui.UILocation;
 import org.firstinspires.ftc.robotcore.internal.webserver.RobotControllerWebInfo;
 import org.firstinspires.ftc.robotserver.internal.programmingmode.ProgrammingModeManager;
 import org.firstinspires.inspection.RcInspectionActivity;
+import org.xmlpull.v1.XmlPullParserException;
 
+import java.io.FileNotFoundException;
 import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -676,6 +679,11 @@ public class FtcRobotControllerActivity extends Activity
       }
 
       @Override
+      public OnBotJavaHelper getOnBotJavaHelper() {
+        return service.getOnBotJavaHelper();
+      }
+
+      @Override
       public EventLoopManager getEventLoopManager() {
         return service.getRobot().eventLoopManager;
       }
@@ -706,9 +714,13 @@ public class FtcRobotControllerActivity extends Activity
     HardwareFactory hardwareFactory = new HardwareFactory(context);
     try {
       hardwareFactory.setXmlPullParser(file.getXml());
-    } catch (Resources.NotFoundException e) {
+    } catch (FileNotFoundException | XmlPullParserException e) {
       file = RobotConfigFile.noConfig(cfgFileMgr);
-      hardwareFactory.setXmlPullParser(file.getXml());
+      try {
+        hardwareFactory.setXmlPullParser(file.getXml());
+      } catch (FileNotFoundException | XmlPullParserException fileNotFoundException) {
+        fileNotFoundException.printStackTrace();
+      }
       cfgFileMgr.setActiveConfigAndUpdateUI(false, file);
     }
 
