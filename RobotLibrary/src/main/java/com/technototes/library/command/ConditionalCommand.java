@@ -1,5 +1,7 @@
 package com.technototes.library.command;
 
+import androidx.annotation.Nullable;
+
 import java.util.function.BooleanSupplier;
 
 /** Simple class for commands that require a certain condition to be true to run
@@ -7,12 +9,13 @@ import java.util.function.BooleanSupplier;
  */
 public class ConditionalCommand implements Command {
     private BooleanSupplier supplier;
+    @Nullable
     private Command trueCommand, falseCommand;
 
     public ConditionalCommand(BooleanSupplier condition){
         supplier = condition;
-        trueCommand = this::execute;
-        falseCommand = this::execute;
+        trueCommand = null;
+        falseCommand = null;
     }
 
 
@@ -49,6 +52,7 @@ public class ConditionalCommand implements Command {
 
     @Override
     public boolean isFinished() {
+        if(trueCommand == null) return supplier.getAsBoolean();
         return trueCommand.justFinished() || falseCommand.justFinished();
     }
 }

@@ -6,7 +6,7 @@ import com.technototes.library.command.CommandScheduler;
 import com.technototes.path.subsystem.MecanumDrivebaseSubsystem;
 
 
-public class PathCommand extends Command {
+public class PathCommand implements Command {
     public MecanumDrivebaseSubsystem subsystem;
 
 

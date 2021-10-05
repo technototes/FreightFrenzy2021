@@ -4,7 +4,7 @@ import com.technototes.library.command.Command;
 
 import org.firstinspires.ftc.samplecode.clawbot.subsystems.ClawSubsystem;
 
-public class ToggleClawPositionCommand extends Command {
+public class ToggleClawPositionCommand implements Command {
     public ClawSubsystem subsystem;
     public ToggleClawPositionCommand(ClawSubsystem s){
         addRequirements(s);

@@ -53,6 +53,8 @@ public class Servo extends HardwareDevice<com.qualcomm.robotcore.hardware.Servo>
     public void setPosition(double position) {
         device.setPosition(Range.clip(!inverted ? position : 1-position, 0, 1));
     }
+    public void setPosition
+
 
     @Override
     public double getSensorValue() {
@@ -77,6 +79,8 @@ public class Servo extends HardwareDevice<com.qualcomm.robotcore.hardware.Servo>
         getDevice().scaleRange(min, max);
         return this;
     }
+
+
 
 
 }

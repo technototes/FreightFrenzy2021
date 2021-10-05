@@ -1,11 +1,14 @@
 package com.technototes.library.command;
 
+import com.technototes.library.control.gamepad.CommandGamepad;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class CommandTest {
-    
+
     Command c = this::act;
+
 
     public void act(){
         System.out.println("it do");
@@ -26,4 +29,5 @@ public class CommandTest {
             //System.out.println(e++);
         }
     }
+
 }

@@ -26,12 +26,12 @@ public interface GamepadInput<T extends GamepadButton> extends InputScheduler<T>
 
     @Override
     default T whilePressed(Command command){
-        return schedule(getInstance()::isPressed, command);
+        return schedule(getInstance()::isPressed, command.cancelUpon(getInstance()::isReleased));
     }
 
     @Override
     default T whileReleased(Command command){
-        return schedule(getInstance()::isReleased, command);
+        return schedule(getInstance()::isReleased, command.cancelUpon(getInstance()::isPressed));
     }
 
     @Override
@@ -46,12 +46,12 @@ public interface GamepadInput<T extends GamepadButton> extends InputScheduler<T>
 
     @Override
     default T whileToggled(Command command){
-        return schedule(getInstance()::isToggled, command);
+        return schedule(getInstance()::isToggled, command.cancelUpon(getInstance()::isInverseToggled));
     }
 
     @Override
     default T whileInverseToggled(Command command){
-        return schedule(getInstance()::isInverseToggled, command);
+        return schedule(getInstance()::isInverseToggled, command.cancelUpon(getInstance()::isToggled));
     }
 
     /** Return instance of class parameter

@@ -47,6 +47,9 @@ public class CommandScheduler {
     public CommandScheduler schedule(Command command){
         return schedule(command, ()->true);
     }
+    public CommandScheduler scheduleOnce(Command command){
+        return schedule(command);
+    }
     public CommandScheduler scheduleInit(Command command, BooleanSupplier supplier){
         return scheduleForState(command, supplier, CommandOpMode.OpModeState.INIT);
     }

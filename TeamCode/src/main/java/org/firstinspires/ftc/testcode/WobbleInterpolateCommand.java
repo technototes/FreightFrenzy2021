@@ -14,7 +14,7 @@ public class WobbleInterpolateCommand extends WaitCommand {
 
     @Override
     public void execute() {
-        double val = commandRuntime.seconds();
+        double val = getRuntime().seconds();
         left.setPosition(val);
         right.setPosition(1-val);
     }

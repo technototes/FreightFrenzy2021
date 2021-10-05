@@ -7,7 +7,7 @@ public class ParallelDeadlineGroup extends CommandGroup {
 
     private Command deadline;
 
-    /** Make parallel race group
+    /** Make parallel deadline group
      *
      * @param command the deadline condition
      * @param commands The commands for the group

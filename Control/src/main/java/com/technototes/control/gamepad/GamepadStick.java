@@ -2,6 +2,10 @@ package com.technototes.control.gamepad;
 
 import com.technototes.control.Periodic;
 
+import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
+import java.util.function.ToDoubleBiFunction;
+
 /** A class for gamepad sticks
  * @author Alex Stedman
  * @param <T> The class for the gamepad axis
@@ -45,4 +49,5 @@ public class GamepadStick<T extends GamepadAxis, U extends GamepadButton> implem
     public double getYAxis() {
         return yAxis.getAsDouble();
     }
+
 }

@@ -92,7 +92,7 @@ public interface Command extends Runnable{
         return new ParallelCommandGroup(c1);
     }
 
-    default ParallelDeadlineGroup deadlineWith(Command... c){
+    default ParallelDeadlineGroup deadline(Command c){
         return new ParallelDeadlineGroup(this, c);
     }
 
@@ -111,6 +111,14 @@ public interface Command extends Runnable{
      */
     default ConditionalCommand asConditional(BooleanSupplier condition){
         return new ConditionalCommand(condition, this);
+    }
+
+    default ParallelRaceGroup setTimeout(double seconds){
+        return raceWith(new WaitCommand(seconds));
+    }
+
+    default ParallelRaceGroup cancelUpon(BooleanSupplier condition){
+        return raceWith(new ConditionalCommand(condition));
     }
 
 
@@ -181,6 +189,9 @@ public interface Command extends Runnable{
 
 
     default boolean justFinished(){
+        return getState() == CommandState.FINISHED || getState() == CommandState.CANCELLED;
+    }
+    default boolean justFinishedNoCancel(){
         return getState() == CommandState.FINISHED;
     }
     default boolean justStarted() {

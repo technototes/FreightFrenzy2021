@@ -21,6 +21,7 @@ dependencies {
     implementation project(':FtcRobotController')
     implementation project(':RobotLibrary')
     implementation project(':Vision')
+    implementation project(':Path')
     implementation project(':Control')
     implementation project(':Logger')
 

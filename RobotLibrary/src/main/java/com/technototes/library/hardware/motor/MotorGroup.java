@@ -16,6 +16,7 @@ public class MotorGroup<T extends Motor> extends Motor<DcMotorSimple> implements
      *
      * @param motors The motors
      */
+    @SafeVarargs
     public MotorGroup(T... motors) {
         super((DcMotorSimple) motors[0].getDevice());
         followers = new Motor[motors.length-1];
