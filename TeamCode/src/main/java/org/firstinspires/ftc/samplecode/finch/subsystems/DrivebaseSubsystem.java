@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.finch.subsystems;
+package org.firstinspires.ftc.samplecode.finch.subsystems;
 
 import com.technototes.library.hardware.motor.Motor;
 import com.technototes.library.subsystem.Subsystem;

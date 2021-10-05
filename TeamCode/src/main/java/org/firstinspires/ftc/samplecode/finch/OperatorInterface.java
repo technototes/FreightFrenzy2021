@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.finch;
+package org.firstinspires.ftc.samplecode.finch;
 
 import com.technototes.library.command.CommandScheduler;
 import com.technototes.library.control.gamepad.CommandButton;

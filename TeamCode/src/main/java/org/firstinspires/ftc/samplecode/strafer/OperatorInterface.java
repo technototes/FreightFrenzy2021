@@ -18,8 +18,6 @@ public class OperatorInterface {
     }
 
     public void setDriverControls() {
-        driverGamepad.y.whenToggled(new OldInstantCommand(() -> robot.drivebaseSubsystem.driveSpeed = DrivebaseSubsystem.SampleDriveSpeed.TURBO))
-                .whenInverseToggled(new OldInstantCommand(() -> robot.drivebaseSubsystem.driveSpeed = DrivebaseSubsystem.SampleDriveSpeed.NORMAL));
         driverGamepad.a.whenPressed(new OldInstantCommand(() -> {
             robot.drivebaseSubsystem.flMotor.zeroEncoder();
             robot.drivebaseSubsystem.frMotor.zeroEncoder();

@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.finch;
+package org.firstinspires.ftc.samplecode.finch;
 
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.technototes.library.hardware.motor.Motor;

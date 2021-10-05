@@ -1,10 +1,10 @@
-package org.firstinspires.ftc.teamcode.finch.opmodes;
+package org.firstinspires.ftc.samplecode.finch.opmodes;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.technototes.library.structure.CommandOpMode;
 
-import org.firstinspires.ftc.teamcode.finch.OperatorInterface;
-import org.firstinspires.ftc.teamcode.finch.Robot;
+import org.firstinspires.ftc.samplecode.finch.OperatorInterface;
+import org.firstinspires.ftc.samplecode.finch.Robot;
 
 @TeleOp(name="tankop")
 public class Teleop extends CommandOpMode {
