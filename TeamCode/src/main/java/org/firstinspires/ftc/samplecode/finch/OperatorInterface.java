@@ -22,7 +22,6 @@ public class OperatorInterface {
 
         gamepad.x.whilePressed(robot.drivebaseSubsystem::forward);
 
-        CommandScheduler.getInstance().schedule(()->robot.drivebaseSubsystem
-                .tankDrive(g.leftStickX.getAsDouble(), g.rightStickY.getAsDouble()));
+        g.scheduleStick(g.leftStick, robot.drivebaseSubsystem::tankDrive);
     }
 }
