@@ -1,6 +1,4 @@
-//
-// build.gradle in Ftc3543Lib
-//
+
 apply plugin: 'com.android.library'
 
 android {
@@ -34,16 +32,6 @@ dependencies {
     testImplementation "org.junit.jupiter:junit-jupiter-params:5.7.0"
 
     testImplementation project(':Control')
-//    compileOnly 'org.firstinspires.ftc:Inspection:6.0'
-//    compileOnly 'org.firstinspires.ftc:Blocks:6.0'
-//    compileOnly 'org.firstinspires.ftc:RobotCore:6.0'
-//    compileOnly 'org.firstinspires.ftc:RobotServer:6.0'
-//    compileOnly 'org.firstinspires.ftc:OnBotJava:6.0'
-//    compileOnly 'org.firstinspires.ftc:Hardware:6.0'
-//    compileOnly 'org.firstinspires.ftc:FtcCommon:6.0'
-//    compileOnly 'androidx.appcompat:appcompat:1.2.0'
-
-    //implementation 'org.openftc:easyopencv:1.4.4'
 
     compileOnly project(':Control')
     compileOnly project(':Logger')

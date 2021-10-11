@@ -1,5 +1,5 @@
 include ':FtcRobotController'
-include ':TeamCode'
+include ':TechnoOneCode', ':TechnoTwoCode', ':TechnoCommonCode'
 include ':RobotLibrary'
 include ':Logger'
 include ':Control'
