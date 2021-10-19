@@ -1,8 +1,8 @@
 package org.firstinspires.ftc.samplecode.clawbot;
 
-import org.firstinspires.ftc.teamcode.samplecode.clawbot.subsystems.ArmSubsystem;
-import org.firstinspires.ftc.teamcode.samplecode.clawbot.subsystems.ClawSubsystem;
-import org.firstinspires.ftc.teamcode.samplecode.clawbot.subsystems.DrivebaseSubsystem;
+import org.firstinspires.ftc.samplecode.clawbot.subsystems.ArmSubsystem;
+import org.firstinspires.ftc.samplecode.clawbot.subsystems.ClawSubsystem;
+import org.firstinspires.ftc.samplecode.clawbot.subsystems.DrivebaseSubsystem;
 
 public class Robot {
     public DrivebaseSubsystem drivebaseSubsystem;

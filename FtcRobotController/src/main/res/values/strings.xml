@@ -66,5 +66,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   </integer-array>
 
   <string name="packageName">@string/packageNameRobotController</string>
+    <string name="version_name_for_manifest">hello1</string>
+    <string name="pref_ftc_season_year_of_current_rc">hello2</string>
+    <string name="openrc_variant">hello3</string>
 
 </resources>

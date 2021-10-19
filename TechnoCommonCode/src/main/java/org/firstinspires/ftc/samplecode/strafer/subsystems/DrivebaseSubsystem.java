@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.technototes.library.hardware.motor.EncodedMotor;
 
 import com.technototes.library.subsystem.drivebase.MecanumDrivebaseSubsystem;
-import com.technototes.logger.Loggable;
+import com.technototes.library.logger.Loggable;
 
 public class DrivebaseSubsystem extends MecanumDrivebaseSubsystem<EncodedMotor<DcMotor>> implements Loggable {
 ////    public enum

@@ -1,16 +1,15 @@
 package com.technototes.library.hardware.motor;
 
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.technototes.library.hardware.HardwareDeviceGroup;
-import com.technototes.library.hardware.servo.Servo;
 
 /** Class for a group of motors
  *
  * @param <T> The type of motors to group
  */
+@SuppressWarnings("unused")
 public class MotorGroup<T extends Motor> extends Motor<DcMotorSimple> implements HardwareDeviceGroup {
-    private Motor[] followers;
+    private final Motor[] followers;
 
     /** Make a motor group
      *

@@ -1,6 +1,5 @@
 package com.technototes.library.control.gamepad;
 
-import com.technototes.control.gamepad.GamepadButton;
 import com.technototes.library.command.Command;
 import com.technototes.library.command.CommandScheduler;
 import com.technototes.library.control.InputScheduler;

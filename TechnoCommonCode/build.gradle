@@ -21,8 +21,6 @@ dependencies {
     implementation project(':RobotLibrary')
     implementation project(':Vision')
     implementation project(':Path')
-    implementation project(':Control')
-    implementation project(':Logger')
 
     implementation 'org.apache.commons:commons-math3:3.6.1'
 

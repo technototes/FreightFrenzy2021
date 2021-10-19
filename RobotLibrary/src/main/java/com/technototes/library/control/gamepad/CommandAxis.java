@@ -1,12 +1,8 @@
 package com.technototes.library.control.gamepad;
 
-import com.technototes.control.gamepad.GamepadAxis;
-import com.technototes.control.gamepad.GamepadButton;
 import com.technototes.library.command.Command;
 
-import java.util.function.BooleanSupplier;
 import java.util.function.Consumer;
-import java.util.function.DoubleFunction;
 import java.util.function.DoubleSupplier;
 import java.util.function.Function;
 

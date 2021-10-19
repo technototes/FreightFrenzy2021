@@ -1,11 +1,6 @@
 package com.technototes.library.control.gamepad;
 
-import com.technototes.control.gamepad.Binding;
-import com.technototes.control.gamepad.GamepadButton;
-
-import java.util.function.BooleanSupplier;
-
-/** Command implementation of {@link com.technototes.control.gamepad.Binding}
+/** Command implementation of {@link com.technototes.library.control.gamepad.Binding}
  * @author Alex Stedman
  */
 //TODO make this less jank to use

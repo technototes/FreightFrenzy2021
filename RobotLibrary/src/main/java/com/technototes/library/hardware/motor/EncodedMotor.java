@@ -12,6 +12,7 @@ import com.technototes.library.hardware.sensor.encoder.MotorEncoder;
  * @author Alex Stedman
  * @param <T> The qualcomm motor device interface
  */
+@SuppressWarnings("unused")
 public class EncodedMotor<T extends DcMotorSimple> extends Motor<T> implements Sensored {
 
     /** Deadzone for going to positions with encoder
@@ -168,8 +169,6 @@ public class EncodedMotor<T extends DcMotorSimple> extends Motor<T> implements S
         if(getDevice() instanceof DcMotor){
             ((DcMotor) getDevice()).setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             getDevice().setPower(tps);
-        } else {
-            //TODO velo for non dcmotors
         }
     }
 

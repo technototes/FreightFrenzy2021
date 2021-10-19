@@ -31,11 +31,6 @@ dependencies {
     testImplementation('org.mockito:mockito-core:3.5.11')
     testImplementation "org.junit.jupiter:junit-jupiter-params:5.7.0"
 
-    testImplementation project(':Control')
-
-    compileOnly project(':Control')
-    compileOnly project(':Logger')
-
 
 }
 

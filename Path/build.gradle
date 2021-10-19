@@ -28,7 +28,6 @@ dependencies {
     }
 
     implementation 'com.acmerobotics.roadrunner:core:0.5.3'
-    implementation project(path: ':Control')
 
     testImplementation(platform('org.junit:junit-bom:5.7.0'))
     testImplementation('org.junit.jupiter:junit-jupiter-api:5.7.0')

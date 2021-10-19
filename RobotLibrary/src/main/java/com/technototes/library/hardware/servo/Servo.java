@@ -7,6 +7,7 @@ import com.technototes.library.hardware.*;
 /** Class for servos
  * @author Alex Stedman
  */
+@SuppressWarnings("unused")
 public class Servo extends HardwareDevice<com.qualcomm.robotcore.hardware.Servo> implements Sensored, Invertable<Servo> {
 
     private boolean inverted = false;

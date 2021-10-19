@@ -1,15 +1,13 @@
 package com.technototes.library.hardware.servo;
 
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.technototes.library.hardware.HardwareDeviceGroup;
-import com.technototes.library.hardware.motor.Motor;
-import com.technototes.logger.Log;
 
 /** Class for servo group
  * @author Alex Stedman
  */
+@SuppressWarnings("unused")
 public class ServoGroup extends Servo implements HardwareDeviceGroup {
-    private Servo[] followers;
+    private final Servo[] followers;
 
     /** Create a servo group
      *

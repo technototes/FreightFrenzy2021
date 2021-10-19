@@ -1,6 +1,6 @@
 package com.technototes.library.command.simple;
 
-import com.technototes.control.gamepad.Stick;
+import com.technototes.library.control.gamepad.Stick;
 import com.technototes.library.command.Command;
 import com.technototes.library.subsystem.drivebase.TankDrivebaseSubsystem;
 

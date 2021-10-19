@@ -11,6 +11,7 @@ import java.util.function.Supplier;
  * @author Alex Stedman
  * @param <T> The qualcomm hardware device interface
  */
+@SuppressWarnings("unused")
 public class Motor<T extends DcMotorSimple> extends HardwareDevice<T> implements Invertable<Motor<T>>, Supplier<Double> {
     private boolean invert = false;
     /** Create a motor

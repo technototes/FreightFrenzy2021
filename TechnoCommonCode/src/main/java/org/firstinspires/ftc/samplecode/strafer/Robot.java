@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.samplecode.strafer;
 
-import com.technototes.logger.Loggable;
+import com.technototes.library.logger.Loggable;
 
 import org.firstinspires.ftc.samplecode.strafer.subsystems.DrivebaseSubsystem;
 

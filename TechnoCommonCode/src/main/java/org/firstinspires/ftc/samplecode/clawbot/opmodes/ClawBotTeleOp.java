@@ -3,7 +3,7 @@ package org.firstinspires.ftc.samplecode.clawbot.opmodes;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.technototes.library.structure.CommandOpMode;
-import com.technototes.logger.Loggable;
+import com.technototes.library.logger.Loggable;
 
 import org.firstinspires.ftc.samplecode.clawbot.OperatorInterface;
 import org.firstinspires.ftc.samplecode.clawbot.Robot;

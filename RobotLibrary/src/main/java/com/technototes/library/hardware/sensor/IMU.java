@@ -1,7 +1,6 @@
 package com.technototes.library.hardware.sensor;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
-import com.technototes.library.hardware.HardwareDevice;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
@@ -11,6 +10,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 /** Class for imus
  *
  */
+@SuppressWarnings("unused")
 public class IMU extends Sensor<BNO055IMU> {
 
 

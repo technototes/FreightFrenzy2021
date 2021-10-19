@@ -1,10 +1,6 @@
 package com.technototes.library.control.gamepad;
 
 import com.qualcomm.robotcore.hardware.Gamepad;
-import com.technototes.control.gamepad.AbstractGamepad;
-import com.technototes.control.gamepad.GamepadDpad;
-import com.technototes.control.gamepad.GamepadStick;
-import com.technototes.control.gamepad.Stick;
 import com.technototes.library.command.Command;
 import com.technototes.library.command.CommandScheduler;
 

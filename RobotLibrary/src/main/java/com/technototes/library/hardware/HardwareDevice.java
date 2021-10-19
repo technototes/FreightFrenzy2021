@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
  * @author Alex Stedman
  * @param <T> The class for the default device (ones found in ftcsdk)
  */
+@SuppressWarnings("unused")
 public abstract class HardwareDevice<T> {
     /** Hardware map object for stuff
      *
@@ -25,6 +26,7 @@ public abstract class HardwareDevice<T> {
      *
      * @param deviceName The device name
      */
+    @SuppressWarnings("unchecked cast")
     protected HardwareDevice(String deviceName) {
          this(hardwareMap.get((Class<T>) Object.class /*T.class*/, deviceName));
     }

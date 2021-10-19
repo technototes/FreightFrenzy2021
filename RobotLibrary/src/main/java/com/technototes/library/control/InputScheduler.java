@@ -1,6 +1,5 @@
 package com.technototes.library.control;
 
-import com.technototes.control.gamepad.GamepadButton;
 import com.technototes.library.command.Command;
 
 public interface InputScheduler<T> {

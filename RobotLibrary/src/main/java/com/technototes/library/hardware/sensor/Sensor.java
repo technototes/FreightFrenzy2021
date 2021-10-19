@@ -7,6 +7,7 @@ import com.technototes.library.hardware.Sensored;
  * @author Alex Stedman
  * @param <T> The Sensor hardware device
  */
+@SuppressWarnings("unused")
 public abstract class Sensor<T> extends HardwareDevice<T> implements Sensored {
     /** Crease sensor
      *

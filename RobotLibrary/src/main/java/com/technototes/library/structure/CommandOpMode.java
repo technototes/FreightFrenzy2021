@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import com.technototes.library.command.CommandScheduler;
 import com.technototes.library.control.gamepad.CommandGamepad;
 import com.technototes.library.hardware.HardwareDevice;
-import com.technototes.logger.Logger;
+import com.technototes.library.logger.Logger;
 
 /** Class for command based op modes
  * @author Alex Stedman

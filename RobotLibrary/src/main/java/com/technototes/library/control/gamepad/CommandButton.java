@@ -1,12 +1,10 @@
 package com.technototes.library.control.gamepad;
 
-import com.technototes.control.gamepad.GamepadButton;
 import com.technototes.library.command.Command;
 
 import java.util.function.BooleanSupplier;
 import java.util.function.Consumer;
 import java.util.function.Function;
-import java.util.function.ToDoubleBiFunction;
 
 /** Class for command buttons for gamepad
  * @author Alex Stedman

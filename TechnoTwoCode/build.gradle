@@ -23,8 +23,6 @@ dependencies {
     implementation project(':RobotLibrary')
     implementation project(':Vision')
     implementation project(':Path')
-    implementation project(':Control')
-    implementation project(':Logger')
 
 
     annotationProcessor files('lib/OpModeAnnotationProcessor.jar')

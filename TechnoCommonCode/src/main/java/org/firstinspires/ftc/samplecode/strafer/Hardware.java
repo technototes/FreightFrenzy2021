@@ -2,11 +2,9 @@ package org.firstinspires.ftc.samplecode.strafer;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.technototes.library.hardware.motor.EncodedMotor;
-import com.technototes.library.hardware.motor.Motor;
 import com.technototes.library.hardware.sensor.IMU;
-import com.technototes.library.hardware.sensor.RangeSensor;
-import com.technototes.logger.Log;
-import com.technototes.logger.Loggable;
+import com.technototes.library.logger.Log;
+import com.technototes.library.logger.Loggable;
 
 public class Hardware implements Loggable {
     //drive motors

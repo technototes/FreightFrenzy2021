@@ -3,6 +3,7 @@ package com.technototes.library.hardware;
 /** Interface for hardware devices that can be inverted
  * @author Alex Stedman
  */
+@SuppressWarnings("unused")
 public interface Invertable<T extends Invertable>{
     /** Set the inversion on the device
      *
