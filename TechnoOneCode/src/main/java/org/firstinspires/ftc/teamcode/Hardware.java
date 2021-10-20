@@ -24,7 +24,7 @@ public class Hardware {
             liftMotor = new EncodedMotor<DcMotorEx>("lift");
         }
         if(Robot.DEPOSIT_CONNECTED) {
-            leftDepositServo = new Servo("leftDeposit");
+            leftDepositServo = new Servo("leftDeposit").invert();
             rightDepositServo = new Servo("rightDeposit");
         }
         if(Robot.DRIVE_CONNECTED) {
