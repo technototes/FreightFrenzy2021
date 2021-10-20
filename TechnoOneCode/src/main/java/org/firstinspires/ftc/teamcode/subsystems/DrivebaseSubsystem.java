@@ -54,7 +54,7 @@ import static org.firstinspires.ftc.teamcode.subsystems.DriveConstants.kA;
 import static org.firstinspires.ftc.teamcode.subsystems.DriveConstants.kStatic;
 import static org.firstinspires.ftc.teamcode.subsystems.DriveConstants.kV;
 
-@Config
+//@Config
 public class DrivebaseSubsystem extends MecanumDrive implements Subsystem<MotorGroup<EncodedMotor<DcMotorEx>>> {
     public double speed = 1;
     public static PIDCoefficients TRANSLATIONAL_PID = new PIDCoefficients(8, 0, 0);
@@ -80,7 +80,7 @@ public class DrivebaseSubsystem extends MecanumDrive implements Subsystem<MotorG
         FOLLOW_TRAJECTORY
     }
 
-    private FtcDashboard dashboard;
+//    private FtcDashboard dashboard;
     private NanoClock clock;
 
     public Mode mode;
@@ -110,8 +110,8 @@ public class DrivebaseSubsystem extends MecanumDrive implements Subsystem<MotorG
                               IMU i) {
         super(kV, kA, kStatic, TRACK_WIDTH, TRACK_WIDTH, LATERAL_MULTIPLIER);
 
-        dashboard = FtcDashboard.getInstance();
-        dashboard.setTelemetryTransmissionInterval(25);
+//        dashboard = FtcDashboard.getInstance();
+//        dashboard.setTelemetryTransmissionInterval(25);
 
         clock = NanoClock.system();
 
