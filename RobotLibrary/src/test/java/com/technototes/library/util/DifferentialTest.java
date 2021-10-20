@@ -14,7 +14,7 @@ public class DifferentialTest {
 
     @BeforeEach
     public void setup(){
-        differential = new Differential(i1, i2, Differential.DifferentialPriority.NEUTRAL);
+        differential = new Differential(i1, i2);
     }
     @Test
     public void test(){
