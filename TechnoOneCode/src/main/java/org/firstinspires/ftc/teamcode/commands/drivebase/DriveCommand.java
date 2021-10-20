@@ -14,7 +14,7 @@ public class DriveCommand implements Command {
     public DrivebaseSubsystem subsystem;
     public DoubleSupplier x, y, r;
     public DriveCommand(DrivebaseSubsystem sub, Stick stick1, Stick stick2) {
-        //addRequirements(sub.dummySubsystem);
+        addRequirements(sub);
         subsystem = sub;
         x = stick1.getXSupplier();
         y = stick1.getYSupplier();
@@ -36,6 +36,11 @@ public class DriveCommand implements Command {
         );
         subsystem.update();
 
+    }
+
+    @Override
+    public boolean isFinished() {
+        return false;
     }
 
     @Override

@@ -42,7 +42,7 @@ public class Controls {
     }
 
     public void bindDriveControls(){
-        resetGyroButton.whileReleased(new DriveCommand(robot.drivebaseSubsystem, gamepad.leftStick, gamepad.rightStick));
+        robot.drivebaseSubsystem.setDefaultCommand(new DriveCommand(robot.drivebaseSubsystem, gamepad.leftStick, gamepad.rightStick));
         resetGyroButton.whenPressed(new ResetGyroCommand(robot.drivebaseSubsystem));
     }
 }
