@@ -1,5 +1,8 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
+import static org.firstinspires.ftc.teamcode.subsystems.CarouselSubsystem.CarouselConstants.CAROUSEL_RIGHT_SPEED;
+import static org.firstinspires.ftc.teamcode.subsystems.CarouselSubsystem.CarouselConstants.CAROUSEL_STOP_SPEED;
+
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.technototes.library.hardware.motor.Motor;
@@ -24,7 +27,7 @@ public class CarouselSubsystem implements Subsystem, Supplier<Double> {
 
     public void right(){motor.setSpeed(CAROUSEL_RIGHT_SPEED);}
 
-    public void left(){motor.setSpeed(CAROUSEL_LEFT_SPEED);}
+    public void left(){motor.setSpeed(CarouselConstants.CAROUSEL_LEFT_SPEED);}
 
     public void stop(){motor.setSpeed(CAROUSEL_STOP_SPEED);}
     @Override
