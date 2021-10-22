@@ -13,6 +13,8 @@ import org.firstinspires.ftc.teamcode.commands.deposit.DumpVariableCommand;
 import org.firstinspires.ftc.teamcode.commands.drivebase.DriveCommand;
 import org.firstinspires.ftc.teamcode.commands.drivebase.ResetGyroCommand;
 import org.firstinspires.ftc.teamcode.commands.drivebase.SetSpeedCommand;
+import org.firstinspires.ftc.teamcode.commands.lift.LiftCommand;
+import org.firstinspires.ftc.teamcode.commands.lift.LiftDownCommand;
 
 import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.*;
 
@@ -77,6 +79,10 @@ public class Controls {
     }
 
     public void bindLiftControls(){
+        neutralHubButton.whenPressed(new LiftCommand(robot.liftSubsystem, 1000));
+        specificHubButton.whenPressed(new LiftCommand(robot.liftSubsystem, 6000));
+        toIntakeButton.whenPressed(new LiftDownCommand(robot.liftSubsystem));
+
     }
 
     public void bindDriveControls(){

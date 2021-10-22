@@ -12,8 +12,8 @@ import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.*;
 public class Hardware {
     public static EncodedMotor<DcMotorEx> liftMotor;
 
-    public static Servo leftDepositServo;
-    public static Servo rightDepositServo;
+    public static Servo dumpServo;
+    public static Servo armServo;
 
     public static EncodedMotor<DcMotorEx> flDriveMotor;
     public static EncodedMotor<DcMotorEx> frDriveMotor;
@@ -36,8 +36,8 @@ public class Hardware {
             liftMotor = new EncodedMotor<>("lift");
         }
         if(DEPOSIT_CONNECTED) {
-            leftDepositServo = new Servo("leftDeposit").invert();
-            rightDepositServo = new Servo("rightDeposit");
+            dumpServo = new Servo("dump");
+            armServo = new Servo("arm");
         }
         if(DRIVE_CONNECTED) {
             flDriveMotor = new EncodedMotor<>("flMotor");

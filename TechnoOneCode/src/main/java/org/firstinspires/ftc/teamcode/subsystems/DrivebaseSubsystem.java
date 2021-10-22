@@ -15,9 +15,6 @@ import org.firstinspires.ftc.teamcode.Hardware;
 
 import java.util.function.Supplier;
 
-import static org.firstinspires.ftc.teamcode.subsystems.DrivebaseSubsystem.DriveConstants.getMotorVelocityF;
-import static org.firstinspires.ftc.teamcode.subsystems.DrivebaseSubsystem.DriveConstants.rpmToVelocity;
-
 @SuppressWarnings("unused")
 
 public class DrivebaseSubsystem extends MecanumDrivebaseSubsystem implements Supplier<Pose2d> {
@@ -36,7 +33,7 @@ public class DrivebaseSubsystem extends MecanumDrivebaseSubsystem implements Sup
 
         @MotorVeloPID
         public static PIDFCoefficients MOTOR_VELO_PID = new PIDFCoefficients(30, 0, 8,
-                getMotorVelocityF(MAX_RPM / 60 * TICKS_PER_REV));
+                MecanumDriveConstants.getMotorVelocityF(MAX_RPM / 60 * TICKS_PER_REV));
 
         @WheelRadius
         public static double WHEEL_RADIUS = 1.88976; // in
@@ -45,7 +42,7 @@ public class DrivebaseSubsystem extends MecanumDrivebaseSubsystem implements Sup
         @TrackWidth
         public static double TRACK_WIDTH = 16.4; // in
         @KV
-        public static double kV = 1.0 / rpmToVelocity(MAX_RPM, WHEEL_RADIUS, GEAR_RATIO);
+        public static double kV = 1.0 / MecanumDriveConstants.rpmToVelocity(MAX_RPM, WHEEL_RADIUS, GEAR_RATIO);
         @KA
         public static double kA = 0;
         @KStatic
