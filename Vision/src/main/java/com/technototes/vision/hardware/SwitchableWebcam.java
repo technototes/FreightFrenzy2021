@@ -2,17 +2,16 @@ package com.technototes.vision.hardware;
 
 
 import com.technototes.library.hardware.HardwareDevice;
-import com.technototes.library.hardware.HardwareDeviceGroup;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvSwitchableWebcam;
 
 import java.util.Arrays;
+@SuppressWarnings("unused")
+public class SwitchableWebcam extends Camera<OpenCvSwitchableWebcam, WebcamName[]>{
 
-public class SwitchableWebcam extends Camera<OpenCvSwitchableWebcam, WebcamName[]> implements HardwareDeviceGroup {
-
-    private Webcam[] devices;
+    private final Webcam[] devices;
 
     public SwitchableWebcam(WebcamName... device) {
         super(device);
@@ -48,19 +47,12 @@ public class SwitchableWebcam extends Camera<OpenCvSwitchableWebcam, WebcamName[
 
 
     public Webcam getActiveCamera(){
-        return Arrays.stream(devices).filter((s)-> s.getDevice() == openCvCamera.getActiveCamera()).findFirst().get();
-    }
-
-
-    @Override
-    public Webcam[] getFollowers() {
-        Webcam w2 = getActiveCamera();
-        return Arrays.stream(getAllDevices()).filter((w)->w!=w2).toArray(Webcam[]::new);
-    }
-
-    @Override
-    public Webcam[] getAllDevices() {
-        return devices;
+        for(Webcam c : devices){
+            if(c.openCvCamera == openCvCamera){
+                return c;
+            }
+        }
+        return null;
     }
 
 }

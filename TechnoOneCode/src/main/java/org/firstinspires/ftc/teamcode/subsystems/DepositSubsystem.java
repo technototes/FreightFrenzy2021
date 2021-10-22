@@ -1,39 +1,70 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
+import com.acmerobotics.dashboard.config.Config;
+import com.qualcomm.robotcore.util.Range;
 import com.technototes.library.hardware.servo.Servo;
 import com.technototes.library.subsystem.Subsystem;
-import com.technototes.library.util.Differential;
 
-public class DepositSubsystem implements Subsystem {
-    public Servo servoLeft;
-    public Servo servoRight;
-    public Differential differential;
+import java.util.function.Supplier;
+
+import static org.firstinspires.ftc.teamcode.subsystems.DepositSubsystem.DepositConstants.*;
+@SuppressWarnings("unused")
+
+public class DepositSubsystem implements Subsystem, Supplier<String> {
+
+    @Config
+    public static class DepositConstants{
+        //public static double MIN = 0, MAX = 0.5;
+        public static double DUMP = 1, CARRY = 0.5, COLLECT = 0;
+        public static double IN = 1, OUT = 0;
+    }
+
+    public Servo dumpServo;
+    public Servo armServo;
+    //public Differential differential;
     public DepositSubsystem(Servo l, Servo r){
-        servoLeft = l;
-        servoRight = r;
-        differential = new Differential(l::setPosition, r::setPosition, Differential.DifferentialPriority.DIFFERENCE)
-        .setLimits(0, 0.5);
+        dumpServo = l;
+        armServo = r;
+//        differential = new Differential(l::setPosition, r::setPosition, Differential.DifferentialPriority.DIFFERENCE)
+//        .setLimits(MIN, MAX);
     }
     public void dump(){
-        differential.setDifferenceOutput(-0.1);
+        dumpServo.setPosition(DUMP);
+        //differential.setDeviationOutput(DUMP);
     }
     public void carry(){
-
-        differential.setDifferenceOutput(0);
+        dumpServo.setPosition(CARRY);
+//        differential.setDeviationOutput(CARRY);
     }
     public void collect(){
-        differential.setDifferenceOutput(0.1);
+        dumpServo.setPosition(COLLECT);
+        //differential.setDeviationOutput(COLLECT);
     }
-    public void fullyIn(){
+    public void setDump(double v){
+        dumpServo.setPosition(Range.clip(v, CARRY, DUMP));
+    }
 
-        differential.setAverageOutput(0.4);
+    public void fullyIn(){
+        armServo.setPosition(IN);
+        //differential.setAverageOutput(IN);
     }
     public void fullyOut(){
-
-        differential.setAverageOutput(0.1);
+        armServo.setPosition(OUT);
+        //differential.setAverageOutput(OUT);
     }
     public void setExtension(double v){
-
-        differential.setAverageOutput(v);
+        armServo.setPosition(Range.clip(v, OUT, IN));
+        //differential.setAverageOutput(Range.clip(v, OUT, IN));
     }
+    public void translateExtension(double v){
+        armServo.incrementPosition(v);
+    }
+
+
+    @Override
+    public String get() {
+        return "EXTENSION: "+armServo.getPosition()+", DUMP: "+dumpServo.getPosition();
+        //return "EXTENSION: "+differential.getAverage()+", DUMP: "+differential.getDeviation();
+    }
+
 }

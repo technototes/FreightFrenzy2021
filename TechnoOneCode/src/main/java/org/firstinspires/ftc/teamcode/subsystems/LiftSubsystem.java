@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.control.PIDCoefficients;
 import com.acmerobotics.roadrunner.control.PIDFController;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -8,13 +9,21 @@ import com.technototes.library.subsystem.Subsystem;
 
 import java.util.function.Supplier;
 
+import static org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem.LiftConstants.*;
+
+@SuppressWarnings("unused")
 public class LiftSubsystem implements Subsystem, Supplier<Double> {
+    @Config
+    public static class LiftConstants {
+        public static double LIFT_UPPER_LIMIT = 1000.0;
+        public static double LIFT_LOWER_LIMIT = 0.0;
+        public static double DEADZONE = 0.1;
+
+    }
     public EncodedMotor<DcMotorEx> liftMotor;
-    public static final double LIFT_UPPER_LIMIT = 1000.0;
-    public static final double LIFT_LOWER_LIMIT = 0.0;
+
     public static final PIDCoefficients pidCoefficients = new PIDCoefficients(10, 0 , 0);
     public PIDFController pidController = new PIDFController(pidCoefficients);
-    public static final double DEADZONE = 0.1;
     public boolean isFollowing = false;
 
     public LiftSubsystem(EncodedMotor<DcMotorEx> l){
@@ -34,10 +43,6 @@ public class LiftSubsystem implements Subsystem, Supplier<Double> {
         setLiftPosition(LIFT_LOWER_LIMIT);
     }
 
-    @Override
-    public Double get() {
-        return pidController.getTargetPosition();
-    }
 
     @Override
     public void periodic() {
@@ -57,4 +62,10 @@ public class LiftSubsystem implements Subsystem, Supplier<Double> {
         pidController.reset();
         isFollowing = false;
     }
+
+    @Override
+    public Double get() {
+        return liftMotor.get();
+    }
+
 }

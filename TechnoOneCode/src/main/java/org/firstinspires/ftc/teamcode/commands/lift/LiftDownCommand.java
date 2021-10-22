@@ -6,6 +6,6 @@ import org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem;
 
 public class LiftDownCommand extends LiftCommand {
     public LiftDownCommand(LiftSubsystem l){
-        super(l, LiftSubsystem.LIFT_LOWER_LIMIT);
+        super(l, LiftSubsystem.LiftConstants.LIFT_LOWER_LIMIT);
     }
 }

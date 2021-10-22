@@ -3,6 +3,8 @@ package com.technototes.library.control.gamepad;
 import com.technototes.library.command.Command;
 
 import java.util.function.Consumer;
+import java.util.function.DoubleConsumer;
+import java.util.function.DoubleFunction;
 import java.util.function.DoubleSupplier;
 import java.util.function.Function;
 
@@ -35,16 +37,13 @@ public class CommandAxis extends GamepadAxis implements GamepadInput<CommandAxis
     @Override
     public CommandAxis setTriggerThreshold(double threshold) {
         super.setTriggerThreshold(threshold);
-        schedule(this::e);
         return this;
     }
 
+    public CommandAxis schedulePressed(Function<DoubleSupplier, Command> f){
+        return whilePressed(f.apply(this));
+    }
     public CommandAxis schedule(Function<Double, Command> f){
         return schedule(f.apply(this.getAsDouble()));
-    }
-    public CommandAxis schedule(Consumer<Double> f){
-        return schedule(()->f.accept(this.getAsDouble()));
-    }
-    public void e(double v){
     }
 }

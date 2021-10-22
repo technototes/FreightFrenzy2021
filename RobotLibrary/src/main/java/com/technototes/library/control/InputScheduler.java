@@ -15,19 +15,33 @@ public interface InputScheduler<T> {
      * @return this
      */
     T whenReleased(Command command);
-    /** Schedule command when gamepad button is pressed
+    /** Schedule command when gamepad button is pressed and cancels it when released
      *
      * @param command The command
      * @return this
      */
     T whilePressed(Command command);
 
-    /** Schedule command when gamepad button is released
+    /** Schedule command when gamepad button is released and cancels it when pressed
      *
      * @param command The command
      * @return this
      */
     T whileReleased(Command command);
+
+    /** Schedule command once when gamepad button is pressed and cancels it when released
+     *
+     * @param command The command
+     * @return this
+     */
+    T whilePressedOnce(Command command);
+
+    /** Schedule command once when gamepad button is released and cancels it when pressed
+     *
+     * @param command The command
+     * @return this
+     */
+    T whileReleasedOnce(Command command);
 
     /** Schedule command when gamepad button is just toggled
      *
@@ -54,5 +68,20 @@ public interface InputScheduler<T> {
      * @return this
      */
     T whileInverseToggled(Command command);
+
+    default T whenPressedReleased(Command press, Command release){
+        whenPressed(press);
+        return whenReleased(release);
+    }
+
+    default T whilePressedReleased(Command press, Command release){
+        whilePressed(press);
+        return whileReleased(release);
+    }
+
+    default T toggle(Command toggle, Command itoggle){
+        whenToggled(toggle);
+        return whenInverseToggled(itoggle);
+    }
 
 }

@@ -1,10 +1,12 @@
 package org.firstinspires.ftc.teamcode.opmodes;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.Range;
 import com.technototes.library.hardware.servo.Servo;
 import com.technototes.library.structure.CommandOpMode;
 @TeleOp
+@Disabled
 public class DiffyOpMode extends CommandOpMode {
     public Servo left, right;
     public double x =0.2, r =0.2;

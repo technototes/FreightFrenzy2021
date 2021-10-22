@@ -1,17 +1,15 @@
 package com.technototes.vision.subsystem;
 
-import com.technototes.library.command.Command;
 import com.technototes.library.subsystem.Subsystem;
 import com.technototes.vision.hardware.Camera;
 
-import org.opencv.core.Mat;
 import org.openftc.easyopencv.OpenCvPipeline;
 
-public class VisionSubsystem extends OpenCvPipeline implements Subsystem<Camera> {
+public abstract class PipelineSubsystem extends OpenCvPipeline implements Subsystem<Camera> {
 
     protected Camera camera;
 
-    public VisionSubsystem(Camera c){
+    public PipelineSubsystem(Camera c){
         camera = c;
     }
 
@@ -20,8 +18,4 @@ public class VisionSubsystem extends OpenCvPipeline implements Subsystem<Camera>
         return camera;
     }
 
-    @Override
-    public Mat processFrame(Mat input) {
-        return input;
-    }
 }

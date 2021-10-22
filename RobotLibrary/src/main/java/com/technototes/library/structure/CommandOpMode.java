@@ -54,9 +54,10 @@ public abstract class CommandOpMode extends LinearOpMode {
         codriverGamepad = new CommandGamepad(gamepad2);
         HardwareDevice.hardwareMap = hardwareMap;
         CommandScheduler.resetScheduler().setOpMode(this);
-        logger = new Logger(this);
         opModeTimer.reset();
         uponInit();
+        //DO DASH MULTIPLETELEMETRYSTUFF HERE IN UPONINIT
+        logger = new Logger(this);
         while (!(isStarted() && additionalInitConditions()) && !terminated && !isStopRequested()) {
             initLoop();
             universalLoop();

@@ -34,6 +34,17 @@ public interface GamepadInput<T extends GamepadButton> extends InputScheduler<T>
     }
 
     @Override
+    default T whilePressedOnce(Command command){
+        return schedule(getInstance()::isJustPressed, command.cancelUpon(getInstance()::isReleased));
+    }
+
+
+    @Override
+    default T whileReleasedOnce(Command command){
+        return schedule(getInstance()::isJustReleased, command.cancelUpon(getInstance()::isPressed));
+    }
+
+    @Override
     default T whenToggled(Command command){
         return schedule(getInstance()::isJustToggled, command);
     }

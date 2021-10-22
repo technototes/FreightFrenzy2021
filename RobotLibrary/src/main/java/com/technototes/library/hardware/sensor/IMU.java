@@ -3,6 +3,7 @@ package com.technototes.library.hardware.sensor;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AngularVelocity;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
@@ -125,6 +126,14 @@ public class IMU extends Sensor<BNO055IMU> {
         }
         parameters = getDevice().getParameters();
         return this;
+    }
+
+    public AngularVelocity getAngularVelocity(){
+        return device.getAngularVelocity();
+    }
+
+    public Orientation getAngularOrientation(){
+        return device.getAngularOrientation();
     }
 
 }

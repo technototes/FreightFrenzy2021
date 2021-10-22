@@ -11,7 +11,7 @@ public class GamepadAxis extends GamepadButton implements DoubleSupplier, Period
     /** The default trigger threshold
      *
      */
-    public static final double DEFAULT_TRIGGER_THRESHOLD = 0.5;
+    public static final double DEFAULT_TRIGGER_THRESHOLD = 0.1;
     private double triggerThreshold;
     protected DoubleSupplier doubleSupplier;
 
@@ -28,7 +28,7 @@ public class GamepadAxis extends GamepadButton implements DoubleSupplier, Period
      * @param t The threshold
      */
     public GamepadAxis(DoubleSupplier d, double t){
-        super(() -> Math.abs(d.getAsDouble())>t);
+        super(() -> Math.abs(d.getAsDouble())>=t);
         doubleSupplier = d;
         triggerThreshold = t;
     }

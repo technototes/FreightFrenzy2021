@@ -3,7 +3,7 @@ package com.technototes.vision.hardware;
 
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvInternalCamera;
-
+@SuppressWarnings("unused")
 public class InternalCamera extends Camera<OpenCvInternalCamera, OpenCvInternalCamera.CameraDirection> {
 
 

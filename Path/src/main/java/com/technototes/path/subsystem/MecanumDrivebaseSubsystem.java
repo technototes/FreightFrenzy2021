@@ -2,7 +2,6 @@ package com.technototes.path.subsystem;
 
 import androidx.annotation.NonNull;
 
-import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.roadrunner.control.PIDCoefficients;
 import com.acmerobotics.roadrunner.control.PIDFController;
 import com.acmerobotics.roadrunner.drive.DriveSignal;
@@ -10,7 +9,6 @@ import com.acmerobotics.roadrunner.drive.MecanumDrive;
 import com.acmerobotics.roadrunner.followers.HolonomicPIDVAFollower;
 import com.acmerobotics.roadrunner.followers.TrajectoryFollower;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
-import com.acmerobotics.roadrunner.localization.Localizer;
 import com.acmerobotics.roadrunner.profile.MotionProfile;
 import com.acmerobotics.roadrunner.profile.MotionProfileGenerator;
 import com.acmerobotics.roadrunner.profile.MotionState;
@@ -31,9 +29,9 @@ import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
 import com.technototes.library.hardware.HardwareDevice;
 import com.technototes.library.hardware.motor.EncodedMotor;
-import com.technototes.library.hardware.motor.MotorGroup;
 import com.technototes.library.hardware.sensor.IMU;
 import com.technototes.library.subsystem.Subsystem;
+import com.technototes.path.subsystem.MecanumDriveConstants.*;
 import com.technototes.path.util.LynxModuleUtil;
 
 
@@ -42,22 +40,9 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-
-
-public class MecanumDrivebaseSubsystem extends MecanumDrive implements Subsystem<MotorGroup> {
+@SuppressWarnings("unused")
+public abstract class MecanumDrivebaseSubsystem extends MecanumDrive implements Subsystem {
     public double speed = 1;
-    public static PIDCoefficients TRANSLATIONAL_PID = new PIDCoefficients(8, 0, 0);
-    public static PIDCoefficients HEADING_PID = new PIDCoefficients(8, 0, 0);
-
-    public static double LATERAL_MULTIPLIER = 1;
-
-    public static double VX_WEIGHT = 1;
-    public static double VY_WEIGHT = 1;
-    public static double OMEGA_WEIGHT = 1;
-
-    public static int POSE_HISTORY_LIMIT = 100;
-
-
 
     public enum Mode {
         IDLE,
@@ -65,38 +50,78 @@ public class MecanumDrivebaseSubsystem extends MecanumDrive implements Subsystem
         FOLLOW_TRAJECTORY
     }
 
-    private FtcDashboard dashboard;
-    private NanoClock clock;
+    protected NanoClock clock;
 
     public Mode mode;
 
-    private PIDFController turnController;
-    private MotionProfile turnProfile;
-    private double turnStart;
+    protected PIDFController turnController;
+    protected MotionProfile turnProfile;
+    protected double turnStart;
 
-    private TrajectoryVelocityConstraint velConstraint;
-    private TrajectoryAccelerationConstraint accelConstraint;
-    private TrajectoryFollower follower;
+    protected TrajectoryVelocityConstraint velConstraint;
+    protected TrajectoryAccelerationConstraint accelConstraint;
+    protected TrajectoryFollower follower;
 
-    private LinkedList<Pose2d> poseHistory;
+    protected LinkedList<Pose2d> poseHistory;
 
-    private EncodedMotor<DcMotorEx> leftFront, leftRear, rightRear, rightFront;
-    private List<DcMotorEx> motors;
-    private MotorGroup motorgroup;
-    public IMU imu;
+    protected EncodedMotor<DcMotorEx> leftFront, leftRear, rightRear, rightFront;
+    protected List<DcMotorEx> motors;
+    protected IMU imu;
 
-    private VoltageSensor batteryVoltageSensor;
+    protected VoltageSensor batteryVoltageSensor;
 
-    private Pose2d lastPoseOnTurn;
+    protected Pose2d lastPoseOnTurn;
 
+    public final double TICKS_PER_REV,MAX_RPM;
+
+    public final boolean RUN_USING_ENCODER;
+
+    public final PIDFCoefficients MOTOR_VELO_PID;
+
+    public final double WHEEL_RADIUS, GEAR_RATIO, TRACK_WIDTH, kV, kA, kStatic;
+
+    public final double MAX_VEL, MAX_ACCEL, MAX_ANG_VEL, MAX_ANG_ACCEL;
+
+    public final PIDCoefficients TRANSLATIONAL_PID, HEADING_PID;
+
+    public final double LATERAL_MULTIPLIER, VX_WEIGHT, VY_WEIGHT, OMEGA_WEIGHT;
+
+    public final int POSE_HISTORY_LIMIT;
 
     public MecanumDrivebaseSubsystem(EncodedMotor<DcMotorEx> fl, EncodedMotor<DcMotorEx> fr,
                                      EncodedMotor<DcMotorEx> rl, EncodedMotor<DcMotorEx> rr,
-                                     IMU i, Localizer local) {
-        super(StaticDriveConstants.kV, StaticDriveConstants.kA, StaticDriveConstants.kStatic, StaticDriveConstants.TRACK_WIDTH, StaticDriveConstants.TRACK_WIDTH, LATERAL_MULTIPLIER);
+                                     IMU i, MecanumDriveConstants c) {
+        super(c.getDouble(KV.class), c.getDouble(KA.class), c.getDouble(KStatic.class), c.getDouble(TrackWidth.class), c.getDouble(LateralMult.class));
 
-        dashboard = FtcDashboard.getInstance();
-        dashboard.setTelemetryTransmissionInterval(25);
+        TICKS_PER_REV = c.getDouble(TicksPerRev.class);
+        MAX_RPM = c.getDouble(MaxRPM.class);
+
+        RUN_USING_ENCODER = c.getBoolean(UseDriveEncoder.class);
+
+        MOTOR_VELO_PID = c.getPIDF(MotorVeloPID.class);
+
+        WHEEL_RADIUS = c.getDouble(WheelRadius.class);
+        GEAR_RATIO = c.getDouble(GearRatio.class);
+        TRACK_WIDTH = c.getDouble(TrackWidth.class);
+        kV = c.getDouble(KV.class);
+        kA = c.getDouble(KA.class);
+        kStatic = c.getDouble(KStatic.class);
+
+        MAX_VEL = c.getDouble(MaxVelo.class);
+        MAX_ACCEL = c.getDouble(MaxAccel.class);
+        MAX_ANG_VEL = c.getDouble(MaxAngleVelo.class);
+        MAX_ANG_ACCEL = c.getDouble(MaxAngleAccel.class);
+
+        TRANSLATIONAL_PID = c.getPID(TransPID.class);
+        HEADING_PID = c.getPID(HeadPID.class);
+
+        LATERAL_MULTIPLIER = c.getDouble(LateralMult.class);
+        VX_WEIGHT = c.getDouble(VXWeight.class);
+        VY_WEIGHT = c.getDouble(VYWeight.class);
+        OMEGA_WEIGHT = c.getDouble(OmegaWeight.class);
+
+        POSE_HISTORY_LIMIT = c.getInt(PoseLimit.class);
+
 
         clock = NanoClock.system();
 
@@ -106,10 +131,10 @@ public class MecanumDrivebaseSubsystem extends MecanumDrive implements Subsystem
         turnController.setInputBounds(0, 2 * Math.PI);
 
         velConstraint = new MinVelocityConstraint(Arrays.asList(
-                new AngularVelocityConstraint(StaticDriveConstants.MAX_ANG_VEL),
-                new MecanumVelocityConstraint(StaticDriveConstants.MAX_VEL, StaticDriveConstants.TRACK_WIDTH)
+                new AngularVelocityConstraint(MAX_ANG_VEL),
+                new MecanumVelocityConstraint(MAX_VEL, TRACK_WIDTH)
         ));
-        accelConstraint = new ProfileAccelerationConstraint(StaticDriveConstants.MAX_ACCEL);
+        accelConstraint = new ProfileAccelerationConstraint(MAX_ACCEL);
         follower = new HolonomicPIDVAFollower(TRANSLATIONAL_PID, TRANSLATIONAL_PID, HEADING_PID,
                 new Pose2d(0.5, 0.5, Math.toRadians(5.0)), 0.5);
 
@@ -123,11 +148,7 @@ public class MecanumDrivebaseSubsystem extends MecanumDrive implements Subsystem
             module.setBulkCachingMode(LynxModule.BulkCachingMode.AUTO);
         }
 
-        // TODO: adjust the names of the following hardware devices to match your configuration
         imu = i.radians().initialize();
-        // TODO: if your hub is mounted vertically, remap the IMU axes so that the z-axis points
-        // upward (normal to the floor) using a command like the following:
-        // BNO055IMUUtil.remapAxes(imu, AxesOrder.XYZ, AxesSigns.NPN);
 
         rightFront = fr;
         leftFront = fl;
@@ -136,7 +157,6 @@ public class MecanumDrivebaseSubsystem extends MecanumDrive implements Subsystem
 
         motors = Arrays.asList(leftFront.getDevice(), leftRear.getDevice(), rightRear.getDevice(), rightFront.getDevice());
 
-        motorgroup = new MotorGroup(leftFront, leftRear, rightFront, rightRear);
 
         for (DcMotor motor : motors) {
             MotorConfigurationType motorConfigurationType = motor.getMotorType().clone();
@@ -144,30 +164,18 @@ public class MecanumDrivebaseSubsystem extends MecanumDrive implements Subsystem
             motor.setMotorType(motorConfigurationType);
         }
 
-        if (StaticDriveConstants.RUN_USING_ENCODER) {
+        if (RUN_USING_ENCODER) {
             setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         }
 
         setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        if (StaticDriveConstants.RUN_USING_ENCODER && StaticDriveConstants.MOTOR_VELO_PID != null) {
-            setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, StaticDriveConstants.MOTOR_VELO_PID);
+        if (RUN_USING_ENCODER && MOTOR_VELO_PID != null) {
+            setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, MOTOR_VELO_PID);
         }
 
-        // TODO: reverse any motors using DcMotor.setDirection()
-        leftFront.invert();
-        leftRear.invert();
-
-        // TODO: if desired, use setLocalizer() to change the localization method
-        /* for instance,*/ setLocalizer(local);
         setPoseEstimate(new Pose2d());
     }
-
-    @Override
-    public MotorGroup<EncodedMotor<DcMotorEx>> getDevice() {
-        return motorgroup;
-    }
-
 
     public TrajectoryBuilder trajectoryBuilder(Pose2d startPose) {
         return new TrajectoryBuilder(startPose, velConstraint, accelConstraint);
@@ -189,8 +197,8 @@ public class MecanumDrivebaseSubsystem extends MecanumDrive implements Subsystem
         turnProfile = MotionProfileGenerator.generateSimpleMotionProfile(
                 new MotionState(heading, 0, 0, 0),
                 new MotionState(heading + angle, 0, 0, 0),
-                StaticDriveConstants.MAX_ANG_VEL,
-                StaticDriveConstants.MAX_ANG_ACCEL
+                MAX_ANG_VEL,
+                MAX_ANG_ACCEL
         );
 
         turnStart = clock.seconds();
@@ -236,19 +244,6 @@ public class MecanumDrivebaseSubsystem extends MecanumDrive implements Subsystem
             poseHistory.removeFirst();
         }
 
-//        TelemetryPacket packet = new TelemetryPacket();
-//        Canvas fieldOverlay = packet.fieldOverlay();
-//
-//        packet.put("mode", mode);
-//
-//        packet.put("x", currentPose.getX());
-//        packet.put("y", currentPose.getY());
-//        packet.put("heading (deg)", Math.toDegrees(currentPose.getHeading()));
-//
-//        packet.put("xError", lastError.getX());
-//        packet.put("yError", lastError.getY());
-//        packet.put("headingError (deg)", Math.toDegrees(lastError.getHeading()));
-
         switch (mode) {
             case IDLE:
                 // do nothing
@@ -272,9 +267,6 @@ public class MecanumDrivebaseSubsystem extends MecanumDrive implements Subsystem
 
                 Pose2d newPose = lastPoseOnTurn.copy(lastPoseOnTurn.getX(), lastPoseOnTurn.getY(), targetState.getX());
 
-//                fieldOverlay.setStroke("#4CAF50");
-//                DashboardUtil.drawRobot(fieldOverlay, newPose);
-
                 if (t >= turnProfile.duration()) {
                     mode = Mode.IDLE;
                     setDriveSignal(new DriveSignal());
@@ -286,15 +278,6 @@ public class MecanumDrivebaseSubsystem extends MecanumDrive implements Subsystem
                 setDriveSignal(follower.update(currentPose, getPoseVelocity()));
 
                 Trajectory trajectory = follower.getTrajectory();
-//
-//                fieldOverlay.setStrokeWidth(1);
-//                fieldOverlay.setStroke("#4CAF50");
-//                DashboardUtil.drawSampledPath(fieldOverlay, trajectory.getPath());
-//                double t = follower.elapsedTime();
-//                DashboardUtil.drawRobot(fieldOverlay, trajectory.get(t));
-//
-//                fieldOverlay.setStroke("#3F51B5");
-//                DashboardUtil.drawPoseHistory(fieldOverlay, poseHistory);
 
                 if (!follower.isFollowing()) {
                     mode = Mode.IDLE;
@@ -305,10 +288,6 @@ public class MecanumDrivebaseSubsystem extends MecanumDrive implements Subsystem
             }
         }
 
-//        fieldOverlay.setStroke("#3F51B5");
-////        DashboardUtil.drawRobot(fieldOverlay, currentPose);
-////
-////        dashboard.sendTelemetryPacket(packet);
     }
 
     public void waitForIdle() {
@@ -368,7 +347,7 @@ public class MecanumDrivebaseSubsystem extends MecanumDrive implements Subsystem
     public List<Double> getWheelPositions() {
         List<Double> wheelPositions = new ArrayList<>();
         for (DcMotorEx motor : motors) {
-            wheelPositions.add(StaticDriveConstants.encoderTicksToInches(motor.getCurrentPosition()));
+            wheelPositions.add(MecanumDriveConstants.encoderTicksToInches(motor.getCurrentPosition(), WHEEL_RADIUS, GEAR_RATIO, TICKS_PER_REV));
         }
         return wheelPositions;
     }
@@ -377,7 +356,7 @@ public class MecanumDrivebaseSubsystem extends MecanumDrive implements Subsystem
     public List<Double> getWheelVelocities() {
         List<Double> wheelVelocities = new ArrayList<>();
         for (DcMotorEx motor : motors) {
-            wheelVelocities.add(StaticDriveConstants.encoderTicksToInches(motor.getVelocity()));
+            wheelVelocities.add(MecanumDriveConstants.encoderTicksToInches(motor.getVelocity(), WHEEL_RADIUS, GEAR_RATIO, TICKS_PER_REV));
         }
         return wheelVelocities;
     }
@@ -392,29 +371,11 @@ public class MecanumDrivebaseSubsystem extends MecanumDrive implements Subsystem
 
     @Override
     public double getRawExternalHeading() {
-        return imu.getDevice().getAngularOrientation().firstAngle;
+        return imu.getAngularOrientation().firstAngle;
     }
 
     @Override
     public Double getExternalHeadingVelocity() {
-        // TODO: This must be changed to match your configuration
-        //                           | Z axis
-        //                           |
-        //     (Motor Port Side)     |   / X axis
-        //                       ____|__/____
-        //          Y axis     / *   | /    /|   (IO Side)
-        //          _________ /______|/    //      I2C
-        //                   /___________ //     Digital
-        //                  |____________|/      Analog
-        //
-        //                 (Servo Port Side)
-        //
-        // The positive x axis points toward the USB port(s)
-        //
-        // Adjust the axis rotation rate as necessary
-        // Rotate about the z axis is the default assuming your REV Hub/Control Hub is laying
-        // flat on a surface
-
-        return (double) imu.getDevice().getAngularVelocity().zRotationRate;
+        return (double) imu.getAngularVelocity().zRotationRate;
     }
 }

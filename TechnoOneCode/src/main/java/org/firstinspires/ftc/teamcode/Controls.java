@@ -1,48 +1,95 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.technototes.library.command.WaitCommand;
+import com.technototes.library.control.gamepad.CommandAxis;
 import com.technototes.library.control.gamepad.CommandButton;
 import com.technototes.library.control.gamepad.CommandGamepad;
+import com.technototes.library.control.gamepad.Stick;
 
-import org.firstinspires.ftc.teamcode.commands.deposit.ArmDumpCommand;
+import org.firstinspires.ftc.teamcode.commands.deposit.ArmTranslateCommand;
 import org.firstinspires.ftc.teamcode.commands.deposit.ArmExtendCommand;
 import org.firstinspires.ftc.teamcode.commands.deposit.ArmRetractCommand;
+import org.firstinspires.ftc.teamcode.commands.deposit.DumpVariableCommand;
 import org.firstinspires.ftc.teamcode.commands.drivebase.DriveCommand;
 import org.firstinspires.ftc.teamcode.commands.drivebase.ResetGyroCommand;
+import org.firstinspires.ftc.teamcode.commands.drivebase.SetSpeedCommand;
+
+import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.*;
 
 public class Controls {
+
     public CommandGamepad gamepad;
 
     public Robot robot;
 
-    public CommandButton dumpButton;
-    public CommandButton extendButton;
+    public CommandAxis dumpAxis, toIntakeButton;
+    public CommandButton neutralHubButton, specificHubButton;
 
-    public CommandButton resetGyroButton;
+    public CommandButton liftAdjustUpButton, liftAdjustDownButton, slideAdjustInButton, slideAdjustOutButton;
+
+    public CommandButton intakeInButton, intakeOutButton;
+
+    public CommandButton carouselLeftButton, carouselRightButton;
+
+    public Stick driveLeftStick, driveRightStick;
+    public CommandButton resetGyroButton, snailSpeedButton;
 
     public Controls(CommandGamepad g, Robot r){
         gamepad = g;
         robot = r;
 
-        dumpButton = gamepad.a;
-        extendButton = gamepad.x;
-        resetGyroButton = gamepad.rightStickButton;
+        dumpAxis = gamepad.leftTrigger;
+        neutralHubButton = gamepad.leftBumper;
+        specificHubButton = gamepad.rightBumper;
+        toIntakeButton = gamepad.rightTrigger.setTriggerThreshold(0.3);
 
-        if(Robot.LIFT_CONNECTED) bindLiftControls();
-        if(Robot.DEPOSIT_CONNECTED) bindDepositControls();
-        if(Robot.DRIVE_CONNECTED) bindDriveControls();
+        liftAdjustUpButton = gamepad.dpadUp;
+        liftAdjustDownButton = gamepad.dpadDown;
+        slideAdjustInButton = gamepad.dpadRight;
+        slideAdjustOutButton = gamepad.dpadLeft;
+
+        intakeInButton = gamepad.a;
+        intakeOutButton = gamepad.b;
+
+        carouselLeftButton = gamepad.x;
+        carouselRightButton = gamepad.y;
+
+        resetGyroButton = gamepad.rightStickButton;
+        snailSpeedButton = gamepad.leftStickButton;
+
+        driveLeftStick = gamepad.leftStick;
+        driveRightStick = gamepad.rightStick;
+
+        if(LIFT_CONNECTED) bindLiftControls();
+        if(DEPOSIT_CONNECTED) bindDepositControls();
+        if(DRIVE_CONNECTED) bindDriveControls();
+        if(INTAKE_CONNECTED) bindIntakeControls();
+        if(CAROUSEL_CONNECTED) bindCarouselControls();
     }
 
     public void bindDepositControls(){
-        dumpButton.whenPressed(new ArmDumpCommand(robot.depositSubsystem))
-            .whenReleased(new ArmRetractCommand(robot.depositSubsystem));
-        extendButton.whenPressed(new ArmExtendCommand(robot.depositSubsystem));
+        dumpAxis.whilePressed(new DumpVariableCommand(robot.depositSubsystem, dumpAxis));
+        toIntakeButton.whenPressed(new ArmRetractCommand(robot.depositSubsystem));
+        specificHubButton.whenPressed(new WaitCommand(1).andThen(new ArmExtendCommand(robot.depositSubsystem)));
+        neutralHubButton.whenPressed(new WaitCommand(1).andThen(new ArmExtendCommand(robot.depositSubsystem)));
+        slideAdjustOutButton.whilePressed(new ArmTranslateCommand(robot.depositSubsystem, -0.05));
+        slideAdjustInButton.whilePressed(new ArmTranslateCommand(robot.depositSubsystem, 0.05));
     }
 
     public void bindLiftControls(){
     }
 
     public void bindDriveControls(){
-        robot.drivebaseSubsystem.setDefaultCommand(new DriveCommand(robot.drivebaseSubsystem, gamepad.leftStick, gamepad.rightStick));
+        robot.drivebaseSubsystem.setDefaultCommand(new DriveCommand(robot.drivebaseSubsystem, driveLeftStick, driveRightStick));
         resetGyroButton.whenPressed(new ResetGyroCommand(robot.drivebaseSubsystem));
+        snailSpeedButton.whilePressedOnce(new SetSpeedCommand(robot.drivebaseSubsystem));
+    }
+
+    public void bindIntakeControls(){
+
+    }
+
+    public void bindCarouselControls(){
+
     }
 }

@@ -33,9 +33,10 @@ public class Logger {
 
     public Entry<?>[] runEntries;
     public Entry<?>[] initEntries;
-    private Set<Entry<?>> unindexedRunEntries, unindexedInitEntries;
-    private Telemetry telemetry;
-    private OpMode opMode;
+    private final Set<Entry<?>> unindexedRunEntries;
+    private final Set<Entry<?>> unindexedInitEntries;
+    private final Telemetry telemetry;
+    private final OpMode opMode;
     /**
      * The divider between the tag and the entry for telemetry (default ':')
      */
@@ -50,8 +51,6 @@ public class Logger {
         opMode = op;
         telemetry = op.telemetry;
         telemetry.setDisplayFormat(Telemetry.DisplayFormat.HTML);
-//        telemetry.setDisplayFormat(Telemetry.DisplayFormat.MONOSPACE);
-
         unindexedRunEntries = new LinkedHashSet<>();
         unindexedInitEntries = new LinkedHashSet<>();
         configure(op);
@@ -129,7 +128,7 @@ public class Logger {
                         choice[i].getTag().replace('`', captionDivider) + choice[i].toString()));
             }
             telemetry.update();
-        }catch(Exception e){
+        }catch(Exception ignored){
 
         }
     }

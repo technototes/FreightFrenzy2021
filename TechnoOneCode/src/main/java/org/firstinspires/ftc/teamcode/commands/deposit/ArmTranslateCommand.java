@@ -4,20 +4,21 @@ import com.technototes.library.command.Command;
 
 import org.firstinspires.ftc.teamcode.subsystems.DepositSubsystem;
 
-public class ArmDumpCommand implements Command {
-    DepositSubsystem subsystem;
-    public ArmDumpCommand(DepositSubsystem s){
+public class ArmTranslateCommand implements Command {
+    public DepositSubsystem subsystem;
+    public double amount;
+    public ArmTranslateCommand(DepositSubsystem s, double amt){
         subsystem = s;
+        amount = amt;
         addRequirements(s);
     }
-
     @Override
     public void execute() {
-        subsystem.dump();
+        subsystem.translateExtension(amount);
     }
 
     @Override
     public boolean isFinished() {
-        return getRuntime().seconds()>1;
+        return getRuntime().seconds()>0.1;
     }
 }
