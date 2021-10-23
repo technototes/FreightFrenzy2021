@@ -26,24 +26,40 @@ public class LiftSubsystem implements Subsystem, Supplier<Double> {
     public PIDFController pidController = new PIDFController(pidCoefficients);
     public boolean isFollowing = false;
 
+    /**
+     * @param EncodedMotor
+     */
     public LiftSubsystem(EncodedMotor<DcMotorEx> l){
         liftMotor = l;
     }
 
+    /**
+     *
+     * @param double to indicate target lift position
+     */
     public void setLiftPosition(double pos){
         pidController.setTargetPosition(pos);
         isFollowing = true;
     }
 
+    /**
+     * set the lift to top, with the float constant LIFT_UPPER_LIMIT
+     */
     public void liftToTop(){
         setLiftPosition(LIFT_UPPER_LIMIT);
     }
 
+    /**
+     * set the lift to bottom, with the float constant LIFT_LOWER_LIMIT, which is 0
+     */
     public void liftToBottom(){
         setLiftPosition(LIFT_LOWER_LIMIT);
     }
 
-
+    /**
+     * basically update something every loop
+     * which is let the motor running until receive signal about stopping
+     */
     @Override
     public void periodic() {
         if (isFollowing) {
@@ -55,14 +71,26 @@ public class LiftSubsystem implements Subsystem, Supplier<Double> {
         }
     }
 
+    /**
+     * @return true when motor position reached around target position
+     * using something called dead-zone, so when the motor moved slightly over the target don't necessary go-back
+     */
     public boolean isAtTarget(){
         return Math.abs(pidController.getTargetPosition() - liftMotor.get()) < DEADZONE;
     }
+
+    /**
+     * stop the pid controller
+     * indirectly tells the periodic() method to stop update, which make the boolean isFollowing false
+     */
     public void stop(){
         pidController.reset();
         isFollowing = false;
     }
 
+    /**
+     * @return motor position in double
+     */
     @Override
     public Double get() {
         return liftMotor.get();
