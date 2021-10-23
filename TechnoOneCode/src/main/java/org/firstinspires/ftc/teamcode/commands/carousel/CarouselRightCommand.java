@@ -1,4 +1,20 @@
 package org.firstinspires.ftc.teamcode.commands.carousel;
 
-public class CarouselRightCommand {
+import com.technototes.library.command.Command;
+
+import org.firstinspires.ftc.teamcode.subsystems.CarouselSubsystem;
+
+public class CarouselRightCommand implements Command {
+
+    CarouselSubsystem subsystem;
+
+    public CarouselRightCommand(CarouselSubsystem s){
+        subsystem = s;
+        addRequirements(s);
+    }
+
+    @Override
+    public void execute(){
+        subsystem.right();
+    }
 }
