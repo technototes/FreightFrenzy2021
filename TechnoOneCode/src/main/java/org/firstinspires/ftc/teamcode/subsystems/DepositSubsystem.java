@@ -58,31 +58,46 @@ public class DepositSubsystem implements Subsystem, Supplier<String> {
     }
 
     /**
-     * Sets a servo to a custom value based off the specific position the driver wants the cup
+     * Sets a servo to a custom constant value based off the specific position the driver wants the cup
      * to be when dumping the freight
      */
     public void setDump(double v){
         dumpServo.setPosition(Range.clip(v, CARRY, DUMP));
     }
 
-    
+    /**
+     * Sets the arm servo to a constant value to retract the arm of the robot
+     */
     public void fullyIn(){
         armServo.setPosition(IN);
         //differential.setAverageOutput(IN);
     }
+    /**
+     * Sets the arm servo to a constant value to extend the arm of the robot
+     */
     public void fullyOut(){
         armServo.setPosition(OUT);
         //differential.setAverageOutput(OUT);
     }
+    /**
+     * Sets the arm servo to a custom constant value to extend the arm of the robot
+     */
     public void setExtension(double v){
         armServo.setPosition(Range.clip(v, OUT, IN));
         //differential.setAverageOutput(Range.clip(v, OUT, IN));
     }
+    /**
+     * Sets a custom value that will add to the Arm servo's value, setting it to a new position
+     * for extension
+     */
     public void translateExtension(double v){
         armServo.incrementPosition(v);
     }
 
-
+    /**
+     *Method to display the extension and dump value on the telemetry to the driver knows
+     * how much they are extending the arm and positioning the cup
+     */
     @Override
     public String get() {
         return "EXTENSION: "+armServo.getPosition()+", DUMP: "+dumpServo.getPosition();
