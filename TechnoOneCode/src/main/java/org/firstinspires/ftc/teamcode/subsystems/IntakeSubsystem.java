@@ -8,7 +8,11 @@ import com.technototes.library.subsystem.Subsystem;
 import java.util.function.Supplier;
 
 import static org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem.IntakeConstants.*;
-@SuppressWarnings("unused")
+
+/**
+ * Subsystem holding methods used for Intake commands. Intake will be responsible for bringing
+ * freight in and out of our robot
+ */
 public class IntakeSubsystem implements Subsystem, Supplier<Double> {
 
     @Config
@@ -20,18 +24,25 @@ public class IntakeSubsystem implements Subsystem, Supplier<Double> {
 
     public Motor<DcMotorEx> motor;
 
-    public IntakeSubsystem(Motor<DcMotorEx> m){
-        motor = m;
-    }
+    public IntakeSubsystem(Motor<DcMotorEx> m){motor = m;}
 
+    /**
+     * Set the intake motor to run in at a constant speed
+     */
     public void in(){
         motor.setSpeed(INTAKE_IN_SPEED);
     }
 
+    /**
+     * Set the intake motor to run out at a constant speed
+     */
     public void out(){
         motor.setSpeed(INTAKE_OUT_SPEED);
     }
 
+    /**
+     * Set the intake motor to stop running
+     */
     public void stop(){
         motor.setSpeed(INTAKE_STOP_SPEED);
     }

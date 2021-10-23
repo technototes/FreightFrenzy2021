@@ -4,7 +4,6 @@ import com.technototes.library.command.Command;
 
 import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
 
-
 public class IntakeInCommand implements Command {
     IntakeSubsystem subsystem;
 
