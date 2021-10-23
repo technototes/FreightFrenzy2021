@@ -13,6 +13,8 @@ import static org.firstinspires.ftc.teamcode.subsystems.DepositSubsystem.Deposit
 public class DepositSubsystem implements Subsystem, Supplier<String> {
     /**
      * Deposit is am arm to hold and drop freight
+     * @Config allows you to mess with variables without messing with the code
+     * Especially good when trying to set the position of different mechanisms
      */
     @Config
     public static class DepositConstants{
