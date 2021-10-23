@@ -37,7 +37,7 @@ public class Hardware {
         }
         if(DEPOSIT_CONNECTED) {
             dumpServo = new Servo("dump");
-            armServo = new Servo("arm");
+            armServo = new Servo("arm").setRange(0, 0.3).invert();
         }
         if(DRIVE_CONNECTED) {
             flDriveMotor = new EncodedMotor<>("flMotor");
@@ -53,7 +53,7 @@ public class Hardware {
             camera = new Webcam("webcam1");
         }
         if(INTAKE_CONNECTED){
-            intakeMotor = new Motor<>("intake");
+            intakeMotor = new Motor<>("carousel");
         }
     }
 }

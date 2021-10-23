@@ -4,6 +4,7 @@ import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.control.PIDCoefficients;
 import com.acmerobotics.roadrunner.control.PIDFController;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.util.Range;
 import com.technototes.library.hardware.motor.EncodedMotor;
 import com.technototes.library.subsystem.Subsystem;
 
@@ -15,10 +16,10 @@ import static org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem.LiftConsta
 public class LiftSubsystem implements Subsystem, Supplier<Double> {
     @Config
     public static class LiftConstants {
-        public static double LIFT_UPPER_LIMIT = 10000.0;
+        public static double LIFT_UPPER_LIMIT = 2000.0;
         public static double LIFT_LOWER_LIMIT = 0.0;
         public static double DEADZONE = 0.1;
-        public static final PIDCoefficients PID = new PIDCoefficients(1, 0, 0);
+        public static final PIDCoefficients PID = new PIDCoefficients(0.002, 0, 0);
 
     }
     public EncodedMotor<DcMotorEx> liftMotor;
@@ -28,12 +29,12 @@ public class LiftSubsystem implements Subsystem, Supplier<Double> {
 
     public LiftSubsystem(EncodedMotor<DcMotorEx> l){
         liftMotor = l;
-        pidController = new PIDFController(PID);
+        l.zeroEncoder();
+        pidController = new PIDFController(PID, 0, 0, 0, (x,y)->0.1);
     }
 
     public void setLiftPosition(double pos){
-        pidController.setTargetPosition(pos);
-        isFollowing = true;
+        pidController.setTargetPosition(Range.clip(pos, LIFT_LOWER_LIMIT, LIFT_UPPER_LIMIT));
     }
 
     public void liftToTop(){
@@ -46,13 +47,7 @@ public class LiftSubsystem implements Subsystem, Supplier<Double> {
 
     @Override
     public void periodic() {
-        if (isFollowing) {
-            liftMotor.setSpeed(pidController.update(liftMotor.get()));
-            isFollowing = !isAtTarget();
-        }
-        else {
-            liftMotor.setSpeed(0.0);
-        }
+        liftMotor.setSpeed(Math.max(-0.5,pidController.update(liftMotor.get())));
     }
 
     public boolean isAtTarget(){

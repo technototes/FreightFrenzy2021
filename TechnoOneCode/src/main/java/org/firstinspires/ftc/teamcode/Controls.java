@@ -13,8 +13,12 @@ import org.firstinspires.ftc.teamcode.commands.deposit.DumpVariableCommand;
 import org.firstinspires.ftc.teamcode.commands.drivebase.DriveCommand;
 import org.firstinspires.ftc.teamcode.commands.drivebase.ResetGyroCommand;
 import org.firstinspires.ftc.teamcode.commands.drivebase.SetSpeedCommand;
+import org.firstinspires.ftc.teamcode.commands.intake.IntakeInCommand;
+import org.firstinspires.ftc.teamcode.commands.intake.IntakeOutCommand;
+import org.firstinspires.ftc.teamcode.commands.intake.IntakeStopCommand;
 import org.firstinspires.ftc.teamcode.commands.lift.LiftCommand;
 import org.firstinspires.ftc.teamcode.commands.lift.LiftDownCommand;
+import org.firstinspires.ftc.teamcode.commands.lift.LiftTranslateCommand;
 
 import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.*;
 
@@ -72,15 +76,15 @@ public class Controls {
     public void bindDepositControls(){
         dumpAxis.whilePressed(new DumpVariableCommand(robot.depositSubsystem, dumpAxis));
         toIntakeButton.whenPressed(new ArmRetractCommand(robot.depositSubsystem));
-        specificHubButton.whenPressed(new WaitCommand(1).andThen(new ArmExtendCommand(robot.depositSubsystem)));
-        neutralHubButton.whenPressed(new WaitCommand(1).andThen(new ArmExtendCommand(robot.depositSubsystem)));
+        specificHubButton.whenPressed(new WaitCommand(0.1).andThen(new ArmExtendCommand(robot.depositSubsystem)));
+        neutralHubButton.whenPressed(new WaitCommand(0.1).andThen(new ArmExtendCommand(robot.depositSubsystem)));
         slideAdjustOutButton.whilePressed(new ArmTranslateCommand(robot.depositSubsystem, -0.05));
         slideAdjustInButton.whilePressed(new ArmTranslateCommand(robot.depositSubsystem, 0.05));
     }
 
     public void bindLiftControls(){
-        neutralHubButton.whenPressed(new LiftCommand(robot.liftSubsystem, 1000));
-        specificHubButton.whenPressed(new LiftCommand(robot.liftSubsystem, 6000));
+        neutralHubButton.whenPressed(new LiftCommand(robot.liftSubsystem, 300).setTimeout(2));
+        specificHubButton.whenPressed(new LiftCommand(robot.liftSubsystem, 1100).setTimeout(2));
         toIntakeButton.whenPressed(new LiftDownCommand(robot.liftSubsystem));
 
     }
@@ -92,7 +96,8 @@ public class Controls {
     }
 
     public void bindIntakeControls(){
-
+        intakeInButton.whenPressed(new IntakeInCommand(robot.intakeSubsystem));
+        intakeOutButton.whenPressedReleased(new IntakeOutCommand(robot.intakeSubsystem), new IntakeStopCommand(robot.intakeSubsystem));
     }
 
     public void bindCarouselControls(){
