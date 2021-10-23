@@ -20,9 +20,7 @@ public class IntakeSubsystem implements Subsystem, Supplier<Double> {
 
     public Motor<DcMotorEx> motor;
 
-    public IntakeSubsystem(Motor<DcMotorEx> m){
-        motor = m;
-    }
+    public IntakeSubsystem(Motor<DcMotorEx> m){motor = m;}
 
     public void in(){
         motor.setSpeed(INTAKE_IN_SPEED);
