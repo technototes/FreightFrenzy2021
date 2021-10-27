@@ -1,13 +1,17 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
+import static org.firstinspires.ftc.teamcode.subsystems.DepositSubsystem.DepositConstants.CARRY;
+import static org.firstinspires.ftc.teamcode.subsystems.DepositSubsystem.DepositConstants.COLLECT;
+import static org.firstinspires.ftc.teamcode.subsystems.DepositSubsystem.DepositConstants.DUMP;
+import static org.firstinspires.ftc.teamcode.subsystems.DepositSubsystem.DepositConstants.IN;
+import static org.firstinspires.ftc.teamcode.subsystems.DepositSubsystem.DepositConstants.OUT;
+
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.util.Range;
 import com.technototes.library.hardware.servo.Servo;
 import com.technototes.library.subsystem.Subsystem;
 
 import java.util.function.Supplier;
-
-import static org.firstinspires.ftc.teamcode.subsystems.DepositSubsystem.DepositConstants.*;
 @SuppressWarnings("unused")
 
 public class DepositSubsystem implements Subsystem, Supplier<String> {
@@ -29,6 +33,7 @@ public class DepositSubsystem implements Subsystem, Supplier<String> {
     public DepositSubsystem(Servo l, Servo r){
         dumpServo = l;
         armServo = r;
+//        Don't need differentials
 //        differential = new Differential(l::setPosition, r::setPosition, Differential.DifferentialPriority.DIFFERENCE)
 //        .setLimits(MIN, MAX);
     }
