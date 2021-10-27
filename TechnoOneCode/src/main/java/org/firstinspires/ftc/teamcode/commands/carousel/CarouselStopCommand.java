@@ -6,7 +6,7 @@ import org.firstinspires.ftc.teamcode.subsystems.CarouselSubsystem;
 
 public class CarouselStopCommand implements Command {
 
-    CarouselSubsystem subsystem;
+    public CarouselSubsystem subsystem;
 
     public CarouselStopCommand(CarouselSubsystem s) {
         subsystem = s;

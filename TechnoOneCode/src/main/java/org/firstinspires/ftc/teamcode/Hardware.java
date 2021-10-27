@@ -7,6 +7,8 @@ import com.technototes.library.hardware.sensor.IMU;
 import com.technototes.library.hardware.servo.Servo;
 import com.technototes.vision.hardware.Webcam;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+
 import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.*;
 
 public class Hardware {
@@ -36,15 +38,15 @@ public class Hardware {
             liftMotor = new EncodedMotor<>("lift");
         }
         if(DEPOSIT_CONNECTED) {
-            dumpServo = new Servo("dump");
-            armServo = new Servo("arm").setRange(0, 0.3).invert();
+            dumpServo = new Servo("dump").setRange(0, 0.6);
+            armServo = new Servo("arm").invert();
         }
         if(DRIVE_CONNECTED) {
             flDriveMotor = new EncodedMotor<>("flMotor");
             frDriveMotor = new EncodedMotor<>("frMotor");
             rlDriveMotor = new EncodedMotor<>("rlMotor");
             rrDriveMotor = new EncodedMotor<>("rrMotor");
-            imu = new IMU("imu");
+            imu = new IMU("imu").remapAxes(AxesOrder.XYZ, IMU.AxesSigns.NNN);
         }
         if(CAROUSEL_CONNECTED){
             carouselMotor = new Motor<>("carousel");

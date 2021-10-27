@@ -5,6 +5,7 @@ import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.technototes.library.hardware.HardwareDevice;
 
 import org.firstinspires.ftc.teamcode.Hardware;
 import org.firstinspires.ftc.teamcode.subsystems.DrivebaseSubsystem;
@@ -18,14 +19,17 @@ import org.firstinspires.ftc.teamcode.subsystems.DrivebaseSubsystem;
 public class SplineTest extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
+        HardwareDevice.hardwareMap = hardwareMap;
+
         DrivebaseSubsystem drive = new DrivebaseSubsystem();
+//        SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
         waitForStart();
 
         if (isStopRequested()) return;
 
         Trajectory traj = drive.trajectoryBuilder(new Pose2d())
-                .splineTo(new Vector2d(70, 30), 0)
+                .splineTo(new Vector2d(70, 10), 0)
                 .build();
 
 

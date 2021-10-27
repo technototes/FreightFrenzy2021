@@ -56,7 +56,6 @@ public abstract class CommandOpMode extends LinearOpMode {
         CommandScheduler.resetScheduler().setOpMode(this);
         opModeTimer.reset();
         uponInit();
-        //DO DASH MULTIPLETELEMETRYSTUFF HERE IN UPONINIT
         logger = new Logger(this);
         while (!(isStarted() && additionalInitConditions()) && !terminated && !isStopRequested()) {
             initLoop();
@@ -77,6 +76,7 @@ public abstract class CommandOpMode extends LinearOpMode {
         opModeState = OpModeState.END;
         end();
         CommandScheduler.getInstance().run();
+        CommandScheduler.resetScheduler();
         opModeTimer.reset();
     }
 

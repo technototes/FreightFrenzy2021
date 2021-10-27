@@ -1,14 +1,15 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
-import static org.firstinspires.ftc.teamcode.subsystems.CarouselSubsystem.CarouselConstants.CAROUSEL_RIGHT_SPEED;
-import static org.firstinspires.ftc.teamcode.subsystems.CarouselSubsystem.CarouselConstants.CAROUSEL_STOP_SPEED;
-
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.technototes.library.hardware.motor.Motor;
 import com.technototes.library.subsystem.Subsystem;
 
 import java.util.function.Supplier;
+
+import static org.firstinspires.ftc.teamcode.subsystems.CarouselSubsystem.CarouselConstants.CAROUSEL_RIGHT_SPEED;
+import static org.firstinspires.ftc.teamcode.subsystems.CarouselSubsystem.CarouselConstants.CAROUSEL_STOP_SPEED;
+
 
 @SuppressWarnings("unused")
 

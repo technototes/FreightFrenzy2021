@@ -14,6 +14,7 @@ import java.util.function.Supplier;
 @SuppressWarnings("unused")
 public class Motor<T extends DcMotorSimple> extends HardwareDevice<T> implements Invertable<Motor<T>>, Supplier<Double> {
     private boolean invert = false;
+    private double min, max;
     /** Create a motor
      *
      * @param device The hardware device
@@ -30,6 +31,11 @@ public class Motor<T extends DcMotorSimple> extends HardwareDevice<T> implements
         super(deviceName);
     }
 
+    public Motor<T> setOutputLimits(double mi, double ma){
+        min = Range.clip(mi, -1, 1);
+        max = Range.clip(ma, -1, 1);
+        return this;
+    }
 
     @Override
     public boolean getInverted() {
@@ -57,7 +63,7 @@ public class Motor<T extends DcMotorSimple> extends HardwareDevice<T> implements
      * @param speed The speed of the motor
      */
     public void setSpeed(double speed) {
-        device.setPower(Range.clip(speed, -1, 1));
+        device.setPower(Range.clip(speed, min, max));
     }
 
 

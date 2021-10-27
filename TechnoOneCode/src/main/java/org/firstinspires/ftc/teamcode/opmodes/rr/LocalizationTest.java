@@ -4,6 +4,7 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.technototes.library.hardware.HardwareDevice;
 
 import org.firstinspires.ftc.teamcode.Hardware;
 import org.firstinspires.ftc.teamcode.subsystems.DrivebaseSubsystem;
@@ -19,7 +20,10 @@ import org.firstinspires.ftc.teamcode.subsystems.DrivebaseSubsystem;
 public class LocalizationTest extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
-        DrivebaseSubsystem drive = new DrivebaseSubsystem();
+        HardwareDevice.hardwareMap = hardwareMap;
+
+        //DrivebaseSubsystem drive = new DrivebaseSubsystem();
+        SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
         drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
@@ -29,10 +33,11 @@ public class LocalizationTest extends LinearOpMode {
             drive.setWeightedDrivePower(
                     new Pose2d(
                             -gamepad1.left_stick_y,
-                            -gamepad1.left_stick_x,
+                                -gamepad1.left_stick_x,
                             -gamepad1.right_stick_x
                     )
             );
+            System.out.println(drive.leftFront.getCurrentPosition()+" "+drive.leftRear.getCurrentPosition()+" "+drive.rightFront.getCurrentPosition()+" "+drive.rightRear.getCurrentPosition());
 
             drive.update();
 

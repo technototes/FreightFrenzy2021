@@ -34,8 +34,4 @@ public class LiftCommand implements Command {
         return liftSys.isAtTarget();
     }
 
-//    @Override
-//    public void end(boolean cancel) {
-//        liftSys.stop();
-//    }
 }

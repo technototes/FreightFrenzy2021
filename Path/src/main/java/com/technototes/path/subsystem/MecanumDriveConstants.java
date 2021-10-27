@@ -19,7 +19,10 @@ public interface MecanumDriveConstants {
     default double getDouble(Class<? extends Annotation> a) {
         for (Field f : getConstant().getFields()) {
             try {
-                if (f.isAnnotationPresent(a)) return f.getDouble(null);
+                if (f.isAnnotationPresent(a)){
+                    System.out.println(a.toString()+" as "+f.getDouble(null));
+                    return f.getDouble(null);
+                }
             }catch(IllegalAccessException e){
                 System.err.println(f.getType() + " is inaccessible for some reason");
             }
@@ -30,7 +33,10 @@ public interface MecanumDriveConstants {
     default int getInt(Class<? extends Annotation> a) {
         for (Field f : getConstant().getFields()) {
             try {
-                if (f.isAnnotationPresent(a)) return f.getInt(null);
+                if (f.isAnnotationPresent(a)){
+                    System.out.println(a.toString()+" as "+f.getInt(null));
+                    return f.getInt(null);
+                }
             }catch(IllegalAccessException e){
                 System.err.println(f.getType() + " is inaccessible for some reason");
             }
@@ -41,7 +47,10 @@ public interface MecanumDriveConstants {
     default boolean getBoolean(Class<? extends Annotation> a) {
         for (Field f : getConstant().getFields()) {
             try {
-                if (f.isAnnotationPresent(a)) return f.getBoolean(null);
+                if (f.isAnnotationPresent(a)){
+                    System.out.println(a.toString()+" as "+f.getBoolean(null));
+                    return f.getBoolean(null);
+                }
             }catch(IllegalAccessException e){
                 System.err.println(f.getType() + " is inaccessible for some reason");
             }
@@ -51,7 +60,10 @@ public interface MecanumDriveConstants {
     default PIDCoefficients getPID(Class<? extends Annotation> a) {
         for (Field f : getConstant().getFields()) {
             try {
-                if (f.isAnnotationPresent(a)) return (PIDCoefficients) f.get(null);
+                if (f.isAnnotationPresent(a)){
+                    System.out.println(a.toString()+" as "+f.get(null));
+                    return (PIDCoefficients) f.get(null);
+                }
             }catch(IllegalAccessException e){
                 System.err.println(f.getType() + " is inaccessible for some reason");
             }
@@ -62,17 +74,16 @@ public interface MecanumDriveConstants {
     default PIDFCoefficients getPIDF(Class<? extends Annotation> a) {
         for (Field f : getConstant().getFields()) {
             try {
-                if (f.isAnnotationPresent(a)) return (PIDFCoefficients) f.get(null);
+                if (f.isAnnotationPresent(a)){
+                    System.out.println(a.toString()+" as "+f.get(null));
+                    return (PIDFCoefficients) f.get(null);
+                }
             }catch(IllegalAccessException e){
                 System.err.println(f.getType() + " is inaccessible for some reason");
             }
         }
         return null;
     }
-
-
-
-
 
     @Retention(RetentionPolicy.RUNTIME)
     @Target(ElementType.FIELD)
