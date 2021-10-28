@@ -49,18 +49,18 @@ public class DrivebaseSubsystem extends MecanumDrivebaseSubsystem implements Sup
         public static double kStatic = 0;
 
         @MaxVelo
-        public static double MAX_VEL = 15;
+        public static double MAX_VEL = 50;
         @MaxAccel
-        public static double MAX_ACCEL = 15;
+        public static double MAX_ACCEL = 25;
         @MaxAngleVelo
-        public static double MAX_ANG_VEL = Math.toRadians(15);
+        public static double MAX_ANG_VEL = Math.toRadians(80);
         @MaxAngleAccel
-        public static double MAX_ANG_ACCEL = Math.toRadians(15);
+        public static double MAX_ANG_ACCEL = Math.toRadians(40);
 
         @TransPID
-        public static PIDCoefficients TRANSLATIONAL_PID = new PIDCoefficients(6, 0, 0);
+        public static PIDCoefficients TRANSLATIONAL_PID = new PIDCoefficients(8, 0, 0);
         @HeadPID
-        public static PIDCoefficients HEADING_PID = new PIDCoefficients(6, 0, 0);
+        public static PIDCoefficients HEADING_PID = new PIDCoefficients(8, 0, 0);
 
         @LateralMult
         public static double LATERAL_MULTIPLIER = 1;

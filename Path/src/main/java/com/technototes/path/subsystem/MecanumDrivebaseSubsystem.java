@@ -71,12 +71,12 @@ public abstract class MecanumDrivebaseSubsystem extends MecanumDrive implements 
 
     public final int POSE_HISTORY_LIMIT;
 
-    private TrajectorySequenceRunner trajectorySequenceRunner;
+    private final TrajectorySequenceRunner trajectorySequenceRunner;
 
     private static TrajectoryVelocityConstraint VEL_CONSTRAINT;
     private static TrajectoryAccelerationConstraint ACCEL_CONSTRAINT;
 
-    private TrajectoryFollower follower;
+    private final TrajectoryFollower follower;
 
 
     protected DcMotorEx leftFront, leftRear, rightRear, rightFront;
@@ -175,7 +175,6 @@ public abstract class MecanumDrivebaseSubsystem extends MecanumDrive implements 
 
         trajectorySequenceRunner = new TrajectorySequenceRunner(follower, HEADING_PID);
 
-        setPoseEstimate(new Pose2d());
     }
 
     public TrajectoryBuilder trajectoryBuilder(Pose2d startPose) {
@@ -196,6 +195,9 @@ public abstract class MecanumDrivebaseSubsystem extends MecanumDrive implements 
                 VEL_CONSTRAINT, ACCEL_CONSTRAINT,
                 MAX_ANG_VEL, MAX_ANG_ACCEL
         );
+    }
+    public TrajectorySequenceBuilder trajectorySequenceBuilder() {
+        return trajectorySequenceBuilder(getPoseEstimate());
     }
 
     public void turnAsync(double angle) {

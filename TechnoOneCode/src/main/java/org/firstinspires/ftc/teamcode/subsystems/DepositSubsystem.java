@@ -19,7 +19,7 @@ public class DepositSubsystem implements Subsystem, Supplier<String> {
     @Config
     public static class DepositConstants{
         //public static double MIN = 0, MAX = 0.5;
-        public static double DUMP = 1, CARRY = 0.5, COLLECT = 0;
+        public static double DUMP = 0.7, CARRY = 0.1, COLLECT = 0;
         public static double IN = 1, OUT = 0.6;
     }
 
