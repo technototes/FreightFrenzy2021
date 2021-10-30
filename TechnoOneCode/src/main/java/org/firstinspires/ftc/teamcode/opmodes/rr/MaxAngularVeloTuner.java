@@ -32,7 +32,9 @@ public class MaxAngularVeloTuner extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        DrivebaseSubsystem drive = new DrivebaseSubsystem();
+        //DrivebaseSubsystem drive = new DrivebaseSubsystem();
+
+        SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
         drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 

@@ -35,6 +35,7 @@ public class CommandScheduler {
     public static synchronized CommandScheduler resetScheduler(){
         instance = null;
         Command.clear();
+        Subsystem.clear();
         return getInstance();
     }
 
@@ -62,6 +63,10 @@ public class CommandScheduler {
     public CommandScheduler scheduleForState(Command command, BooleanSupplier supplier, CommandOpMode.OpModeState... states){
         return schedule(command, ()->supplier.getAsBoolean() && opMode.getOpModeState().isState(states));
     }
+    public CommandScheduler scheduleForState(Command command, CommandOpMode.OpModeState... states){
+        return schedule(command, ()->opMode.getOpModeState().isState(states));
+    }
+
 
     public CommandScheduler scheduleAfterOther(Command dependency, Command other){
         return schedule(other, dependency::justFinished);

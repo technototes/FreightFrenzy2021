@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.samplecode.strafer;
 
-import com.technototes.library.command.OldInstantCommand;
 import com.technototes.library.control.gamepad.CommandGamepad;
 
 public class OperatorInterface {
@@ -17,12 +16,12 @@ public class OperatorInterface {
     }
 
     public void setDriverControls() {
-        driverGamepad.a.whenPressed(new OldInstantCommand(() -> {
+        driverGamepad.a.whenPressed(()->{
             robot.drivebaseSubsystem.flMotor.zeroEncoder();
             robot.drivebaseSubsystem.frMotor.zeroEncoder();
             robot.drivebaseSubsystem.rlMotor.zeroEncoder();
             robot.drivebaseSubsystem.rrMotor.zeroEncoder();
-        }));
+        });
     }
 
 }

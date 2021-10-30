@@ -5,7 +5,7 @@ import com.technototes.library.command.Command;
 import org.firstinspires.ftc.teamcode.subsystems.DepositSubsystem;
 
 public class ArmExtendCommand implements Command {
-    DepositSubsystem subsystem;
+    public DepositSubsystem subsystem;
     public ArmExtendCommand(DepositSubsystem s){
         subsystem = s;
         addRequirements(s);
@@ -16,8 +16,8 @@ public class ArmExtendCommand implements Command {
         subsystem.fullyOut();
         subsystem.carry();
     }
-    @Override
-    public boolean isFinished() {
-        return getRuntime().seconds()>1;
-    }
+//    @Override
+//    public boolean isFinished() {
+//        return getRuntime().seconds()>1;
+//    }
 }

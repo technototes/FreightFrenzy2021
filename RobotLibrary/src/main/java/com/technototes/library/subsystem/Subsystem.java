@@ -31,4 +31,7 @@ public interface Subsystem<T extends HardwareDevice> {
     default void periodic(){
 
     }
+    static void clear(){
+        map.clear();
+    }
 }
