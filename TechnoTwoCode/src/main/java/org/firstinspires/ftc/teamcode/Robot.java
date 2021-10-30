@@ -30,7 +30,7 @@ public class Robot implements Loggable {
     public Robot() {
         if (LIFT_CONNECTED) liftSubsystem = new LiftSubsystem(Hardware.liftMotor);
         if (DEPOSIT_CONNECTED) depositSubsystem = new DepositSubsystem(Hardware.leftDepositServo, Hardware.rightDepositServo);
-        if (DRIVE_CONNECTED) drivebaseSubsystem = new DrivebaseSubsystem(Hardware.flDriveMotor, Hardware.frDriveMotor, Hardware.rlDriveMotor, Hardware.rrDriveMotor);
+        if (DRIVE_CONNECTED) drivebaseSubsystem = new DrivebaseSubsystem(Hardware.flDriveMotor, Hardware.frDriveMotor, Hardware.rlDriveMotor, Hardware.rrDriveMotor, Hardware.imu);
         if (CAROUSEL_CONNECTED) carouselSubsystem = new CarouselSubsystem(Hardware.carouselMotor);
         if (INTAKE_CONNECTED) intakeSubsystem = new IntakeSubsystem(Hardware.intakeMotor);
         if (VISION_CONNECTED) visionSubsystem = new VisionSubsystem(Hardware.camera);
