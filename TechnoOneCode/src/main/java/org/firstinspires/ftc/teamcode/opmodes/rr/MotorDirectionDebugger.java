@@ -6,6 +6,7 @@ import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.technototes.library.hardware.HardwareDevice;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Hardware;
@@ -46,9 +47,13 @@ public class MotorDirectionDebugger extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
+        HardwareDevice.hardwareMap = hardwareMap;
+
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
-        DrivebaseSubsystem drive = new DrivebaseSubsystem();
+        //DrivebaseSubsystem drive = new DrivebaseSubsystem();
+
+        SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
         telemetry.addLine("Press play to begin the debugging opmode");
         telemetry.update();

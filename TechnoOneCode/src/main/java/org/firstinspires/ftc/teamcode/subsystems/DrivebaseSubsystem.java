@@ -15,7 +15,6 @@ import org.firstinspires.ftc.teamcode.Hardware;
 
 import java.util.function.Supplier;
 
-
 @SuppressWarnings("unused")
 
 public class DrivebaseSubsystem extends MecanumDrivebaseSubsystem implements Supplier<Pose2d> {
@@ -33,15 +32,15 @@ public class DrivebaseSubsystem extends MecanumDrivebaseSubsystem implements Sup
         public static final boolean RUN_USING_ENCODER = true;
 
         @MotorVeloPID
-        public static PIDFCoefficients MOTOR_VELO_PID = new PIDFCoefficients(30, 0, 8,
-               MecanumDriveConstants.getMotorVelocityF(MAX_RPM / 60 * TICKS_PER_REV));
+        public static PIDFCoefficients MOTOR_VELO_PID = new PIDFCoefficients(25, 0, 4,
+                MecanumDriveConstants.getMotorVelocityF(MAX_RPM / 60 * TICKS_PER_REV));
 
         @WheelRadius
         public static double WHEEL_RADIUS = 1.88976; // in
         @GearRatio
-        public static double GEAR_RATIO = 1 / 15.6; // output (wheel) speed / input (motor) speed
+        public static double GEAR_RATIO = 1 / 19.2; // output (wheel) speed / input (motor) speed
         @TrackWidth
-        public static double TRACK_WIDTH = 16.4; // in
+        public static double TRACK_WIDTH = 11; // in
         @KV
         public static double kV = 1.0 / MecanumDriveConstants.rpmToVelocity(MAX_RPM, WHEEL_RADIUS, GEAR_RATIO);
         @KA
@@ -50,18 +49,18 @@ public class DrivebaseSubsystem extends MecanumDrivebaseSubsystem implements Sup
         public static double kStatic = 0;
 
         @MaxVelo
-        public static double MAX_VEL = 40;
+        public static double MAX_VEL = 15;
         @MaxAccel
-        public static double MAX_ACCEL = 30;
+        public static double MAX_ACCEL = 15;
         @MaxAngleVelo
-        public static double MAX_ANG_VEL = Math.toRadians(60);
+        public static double MAX_ANG_VEL = Math.toRadians(15);
         @MaxAngleAccel
-        public static double MAX_ANG_ACCEL = Math.toRadians(60);
+        public static double MAX_ANG_ACCEL = Math.toRadians(15);
 
         @TransPID
-        public static PIDCoefficients TRANSLATIONAL_PID = new PIDCoefficients(8, 0, 0);
+        public static PIDCoefficients TRANSLATIONAL_PID = new PIDCoefficients(6, 0, 0);
         @HeadPID
-        public static PIDCoefficients HEADING_PID = new PIDCoefficients(8, 0, 0);
+        public static PIDCoefficients HEADING_PID = new PIDCoefficients(6, 0, 0);
 
         @LateralMult
         public static double LATERAL_MULTIPLIER = 1;
@@ -88,8 +87,6 @@ public class DrivebaseSubsystem extends MecanumDrivebaseSubsystem implements Sup
 
         dashboard = FtcDashboard.getInstance();
         dashboard.setTelemetryTransmissionInterval(25);
-
-        setPoseEstimate(new Pose2d());
     }
 
     public DrivebaseSubsystem(){

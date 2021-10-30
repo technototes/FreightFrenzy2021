@@ -6,6 +6,7 @@ import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.technototes.library.hardware.HardwareDevice;
 
 import org.firstinspires.ftc.teamcode.Hardware;
 import org.firstinspires.ftc.teamcode.subsystems.DrivebaseSubsystem;
@@ -30,11 +31,13 @@ import org.firstinspires.ftc.teamcode.subsystems.DrivebaseSubsystem;
 @Autonomous(group = "drive")
 public class BackAndForth extends LinearOpMode {
 
-    public static double DISTANCE = 50;
+    public static double DISTANCE = 40;
 
     @Override
     public void runOpMode() throws InterruptedException {
+        HardwareDevice.hardwareMap = hardwareMap;
         DrivebaseSubsystem drive = new DrivebaseSubsystem();
+//        SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
         Trajectory trajectoryForward = drive.trajectoryBuilder(new Pose2d())
                 .forward(DISTANCE)

@@ -20,7 +20,7 @@ public class DepositSubsystem implements Subsystem, Supplier<String> {
     public static class DepositConstants{
         //public static double MIN = 0, MAX = 0.5;
         public static double DUMP = 1, CARRY = 0.5, COLLECT = 0;
-        public static double IN = 1, OUT = 0;
+        public static double IN = 1, OUT = 0.6;
     }
 
     public Servo dumpServo;
@@ -93,7 +93,7 @@ public class DepositSubsystem implements Subsystem, Supplier<String> {
      * for extension
      */
     public void translateExtension(double v){
-        armServo.incrementPosition(v);
+        setExtension(armServo.getPosition()+v);
     }
 
     /**

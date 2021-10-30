@@ -5,7 +5,7 @@ import com.technototes.library.command.Command;
 import org.firstinspires.ftc.teamcode.subsystems.DepositSubsystem;
 
 public class ArmRetractCommand implements Command {
-    DepositSubsystem subsystem;
+    public DepositSubsystem subsystem;
     public ArmRetractCommand(DepositSubsystem s){
         subsystem = s;
         addRequirements(s);

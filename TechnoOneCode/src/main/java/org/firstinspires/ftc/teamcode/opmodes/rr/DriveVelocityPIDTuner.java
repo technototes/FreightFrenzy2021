@@ -12,6 +12,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.RobotLog;
+import com.technototes.library.hardware.HardwareDevice;
 
 import org.firstinspires.ftc.teamcode.Hardware;
 import org.firstinspires.ftc.teamcode.subsystems.DrivebaseSubsystem;
@@ -46,7 +47,7 @@ import static org.firstinspires.ftc.teamcode.subsystems.DrivebaseSubsystem.Drive
 @Config
 @Autonomous(group = "drive")
 public class DriveVelocityPIDTuner extends LinearOpMode {
-    public static double DISTANCE = 100; // in
+    public static double DISTANCE = 70; // in
 
     enum Mode {
         DRIVER_MODE,
@@ -61,12 +62,15 @@ public class DriveVelocityPIDTuner extends LinearOpMode {
 
     @Override
     public void runOpMode() {
+        HardwareDevice.hardwareMap = hardwareMap;
+
         if (!RUN_USING_ENCODER) {
             RobotLog.setGlobalErrorMsg("%s does not need to be run if the built-in motor velocity" +
                     "PID is not in use", getClass().getSimpleName());
         }
 
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
+//        SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
         DrivebaseSubsystem drive = new DrivebaseSubsystem();
 

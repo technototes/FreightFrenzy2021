@@ -21,9 +21,11 @@ import com.acmerobotics.roadrunner.trajectory.constraints.ProfileAccelerationCon
 import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryAccelerationConstraint;
 import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryVelocityConstraint;
 import com.acmerobotics.roadrunner.util.NanoClock;
+import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
@@ -32,6 +34,9 @@ import com.technototes.library.hardware.motor.EncodedMotor;
 import com.technototes.library.hardware.sensor.IMU;
 import com.technototes.library.subsystem.Subsystem;
 import com.technototes.path.subsystem.MecanumDriveConstants.*;
+import com.technototes.path.trajectorysequence.TrajectorySequence;
+import com.technototes.path.trajectorysequence.TrajectorySequenceBuilder;
+import com.technototes.path.trajectorysequence.TrajectorySequenceRunner;
 import com.technototes.path.util.LynxModuleUtil;
 
 
@@ -50,28 +55,6 @@ public abstract class MecanumDrivebaseSubsystem extends MecanumDrive implements 
         FOLLOW_TRAJECTORY
     }
 
-    protected NanoClock clock;
-
-    public Mode mode;
-
-    protected PIDFController turnController;
-    protected MotionProfile turnProfile;
-    protected double turnStart;
-
-    protected TrajectoryVelocityConstraint velConstraint;
-    protected TrajectoryAccelerationConstraint accelConstraint;
-    protected TrajectoryFollower follower;
-
-    protected LinkedList<Pose2d> poseHistory;
-
-    protected EncodedMotor<DcMotorEx> leftFront, leftRear, rightRear, rightFront;
-    protected List<DcMotorEx> motors;
-    protected IMU imu;
-
-    protected VoltageSensor batteryVoltageSensor;
-
-    protected Pose2d lastPoseOnTurn;
-
     public final double TICKS_PER_REV,MAX_RPM;
 
     public final boolean RUN_USING_ENCODER;
@@ -88,11 +71,27 @@ public abstract class MecanumDrivebaseSubsystem extends MecanumDrive implements 
 
     public final int POSE_HISTORY_LIMIT;
 
+    private TrajectorySequenceRunner trajectorySequenceRunner;
+
+    private static TrajectoryVelocityConstraint VEL_CONSTRAINT;
+    private static TrajectoryAccelerationConstraint ACCEL_CONSTRAINT;
+
+    private TrajectoryFollower follower;
+
+
+    protected DcMotorEx leftFront, leftRear, rightRear, rightFront;
+    protected List<DcMotorEx> motors;
+    protected IMU imu;
+
+    protected VoltageSensor batteryVoltageSensor;
+
+
+
+
     public MecanumDrivebaseSubsystem(EncodedMotor<DcMotorEx> fl, EncodedMotor<DcMotorEx> fr,
                                      EncodedMotor<DcMotorEx> rl, EncodedMotor<DcMotorEx> rr,
                                      IMU i, MecanumDriveConstants c) {
         super(c.getDouble(KV.class), c.getDouble(KA.class), c.getDouble(KStatic.class), c.getDouble(TrackWidth.class), c.getDouble(LateralMult.class));
-
         TICKS_PER_REV = c.getDouble(TicksPerRev.class);
         MAX_RPM = c.getDouble(MaxRPM.class);
 
@@ -122,23 +121,11 @@ public abstract class MecanumDrivebaseSubsystem extends MecanumDrive implements 
 
         POSE_HISTORY_LIMIT = c.getInt(PoseLimit.class);
 
+        VEL_CONSTRAINT = getVelocityConstraint(MAX_VEL, MAX_ANG_VEL, TRACK_WIDTH);
+        ACCEL_CONSTRAINT = getAccelerationConstraint(MAX_ACCEL);
 
-        clock = NanoClock.system();
-
-        mode = Mode.IDLE;
-
-        turnController = new PIDFController(HEADING_PID);
-        turnController.setInputBounds(0, 2 * Math.PI);
-
-        velConstraint = new MinVelocityConstraint(Arrays.asList(
-                new AngularVelocityConstraint(MAX_ANG_VEL),
-                new MecanumVelocityConstraint(MAX_VEL, TRACK_WIDTH)
-        ));
-        accelConstraint = new ProfileAccelerationConstraint(MAX_ACCEL);
         follower = new HolonomicPIDVAFollower(TRANSLATIONAL_PID, TRANSLATIONAL_PID, HEADING_PID,
                 new Pose2d(0.5, 0.5, Math.toRadians(5.0)), 0.5);
-
-        poseHistory = new LinkedList<>();
 
         LynxModuleUtil.ensureMinimumFirmwareVersion(HardwareDevice.hardwareMap);
 
@@ -148,17 +135,21 @@ public abstract class MecanumDrivebaseSubsystem extends MecanumDrive implements 
             module.setBulkCachingMode(LynxModule.BulkCachingMode.AUTO);
         }
 
+        // TODO: adjust the names of the following hardware devices to match your configuration
         imu = i.radians().initialize();
 
-        rightFront = fr;
-        leftFront = fl;
-        leftRear = rl;
-        rightRear = rr;
+        // TODO: if your hub is mounted vertically, remap the IMU axes so that the z-axis points
+        // upward (normal to the floor) using a command like the following:
+        // BNO055IMUUtil.remapAxes(imu, AxesOrder.XYZ, AxesSigns.NPN);
 
-        motors = Arrays.asList(leftFront.getDevice(), leftRear.getDevice(), rightRear.getDevice(), rightFront.getDevice());
+        leftFront = fl.getDevice();
+        leftRear = rl.getDevice();
+        rightRear = rr.getDevice();
+        rightFront = fr.getDevice();
 
+        motors = Arrays.asList(leftFront, leftRear, rightRear, rightFront);
 
-        for (DcMotor motor : motors) {
+        for (DcMotorEx motor : motors) {
             MotorConfigurationType motorConfigurationType = motor.getMotorType().clone();
             motorConfigurationType.setAchieveableMaxRPMFraction(1.0);
             motor.setMotorType(motorConfigurationType);
@@ -174,35 +165,45 @@ public abstract class MecanumDrivebaseSubsystem extends MecanumDrive implements 
             setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, MOTOR_VELO_PID);
         }
 
+        // TODO: reverse any motors using DcMotor.setDirection()
+
+        leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
+        leftRear.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        // TODO: if desired, use setLocalizer() to change the localization method
+        // for instance, setLocalizer(new ThreeTrackingWheelLocalizer(...));
+
+        trajectorySequenceRunner = new TrajectorySequenceRunner(follower, HEADING_PID);
+
         setPoseEstimate(new Pose2d());
     }
 
     public TrajectoryBuilder trajectoryBuilder(Pose2d startPose) {
-        return new TrajectoryBuilder(startPose, velConstraint, accelConstraint);
+        return new TrajectoryBuilder(startPose, VEL_CONSTRAINT, ACCEL_CONSTRAINT);
     }
 
     public TrajectoryBuilder trajectoryBuilder(Pose2d startPose, boolean reversed) {
-        return new TrajectoryBuilder(startPose, reversed, velConstraint, accelConstraint);
+        return new TrajectoryBuilder(startPose, reversed, VEL_CONSTRAINT, ACCEL_CONSTRAINT);
     }
 
     public TrajectoryBuilder trajectoryBuilder(Pose2d startPose, double startHeading) {
-        return new TrajectoryBuilder(startPose, startHeading, velConstraint, accelConstraint);
+        return new TrajectoryBuilder(startPose, startHeading, VEL_CONSTRAINT, ACCEL_CONSTRAINT);
+    }
+
+    public TrajectorySequenceBuilder trajectorySequenceBuilder(Pose2d startPose) {
+        return new TrajectorySequenceBuilder(
+                startPose,
+                VEL_CONSTRAINT, ACCEL_CONSTRAINT,
+                MAX_ANG_VEL, MAX_ANG_ACCEL
+        );
     }
 
     public void turnAsync(double angle) {
-        double heading = getPoseEstimate().getHeading();
-
-        lastPoseOnTurn = getPoseEstimate();
-
-        turnProfile = MotionProfileGenerator.generateSimpleMotionProfile(
-                new MotionState(heading, 0, 0, 0),
-                new MotionState(heading + angle, 0, 0, 0),
-                MAX_ANG_VEL,
-                MAX_ANG_ACCEL
+        trajectorySequenceRunner.followTrajectorySequenceAsync(
+                trajectorySequenceBuilder(getPoseEstimate())
+                        .turn(angle)
+                        .build()
         );
-
-        turnStart = clock.seconds();
-        mode = Mode.TURN;
     }
 
     public void turn(double angle) {
@@ -211,8 +212,11 @@ public abstract class MecanumDrivebaseSubsystem extends MecanumDrive implements 
     }
 
     public void followTrajectoryAsync(Trajectory trajectory) {
-        follower.followTrajectory(trajectory);
-        mode = Mode.FOLLOW_TRAJECTORY;
+        trajectorySequenceRunner.followTrajectorySequenceAsync(
+                trajectorySequenceBuilder(trajectory.start())
+                        .addTrajectory(trajectory)
+                        .build()
+        );
     }
 
     public void followTrajectory(Trajectory trajectory) {
@@ -220,84 +224,32 @@ public abstract class MecanumDrivebaseSubsystem extends MecanumDrive implements 
         waitForIdle();
     }
 
+    public void followTrajectorySequenceAsync(TrajectorySequence trajectorySequence) {
+        trajectorySequenceRunner.followTrajectorySequenceAsync(trajectorySequence);
+    }
+
+    public void followTrajectorySequence(TrajectorySequence trajectorySequence) {
+        followTrajectorySequenceAsync(trajectorySequence);
+        waitForIdle();
+    }
+
     public Pose2d getLastError() {
-        switch (mode) {
-            case FOLLOW_TRAJECTORY:
-                return follower.getLastError();
-            case TURN:
-                return new Pose2d(0, 0, turnController.getLastError());
-            case IDLE:
-                return new Pose2d();
-        }
-        throw new AssertionError();
+        return trajectorySequenceRunner.getLastPoseError();
     }
 
     public void update() {
         updatePoseEstimate();
-
-        Pose2d currentPose = getPoseEstimate();
-        Pose2d lastError = getLastError();
-
-        poseHistory.add(currentPose);
-
-        if (POSE_HISTORY_LIMIT > -1 && poseHistory.size() > POSE_HISTORY_LIMIT) {
-            poseHistory.removeFirst();
-        }
-
-        switch (mode) {
-            case IDLE:
-                // do nothing
-                break;
-            case TURN: {
-                double t = clock.seconds() - turnStart;
-
-                MotionState targetState = turnProfile.get(t);
-
-                turnController.setTargetPosition(targetState.getX());
-
-                double correction = turnController.update(currentPose.getHeading());
-
-                double targetOmega = targetState.getV();
-                double targetAlpha = targetState.getA();
-                setDriveSignal(new DriveSignal(new Pose2d(
-                        0, 0, targetOmega + correction
-                ), new Pose2d(
-                        0, 0, targetAlpha
-                )));
-
-                Pose2d newPose = lastPoseOnTurn.copy(lastPoseOnTurn.getX(), lastPoseOnTurn.getY(), targetState.getX());
-
-                if (t >= turnProfile.duration()) {
-                    mode = Mode.IDLE;
-                    setDriveSignal(new DriveSignal());
-                }
-
-                break;
-            }
-            case FOLLOW_TRAJECTORY: {
-                setDriveSignal(follower.update(currentPose, getPoseVelocity()));
-
-                Trajectory trajectory = follower.getTrajectory();
-
-                if (!follower.isFollowing()) {
-                    mode = Mode.IDLE;
-                    setDriveSignal(new DriveSignal());
-                }
-
-                break;
-            }
-        }
-
+        DriveSignal signal = trajectorySequenceRunner.update(getPoseEstimate(), getPoseVelocity());
+        if (signal != null) setDriveSignal(signal);
     }
 
     public void waitForIdle() {
-        while (!Thread.currentThread().isInterrupted() && isBusy()) {
+        while (!Thread.currentThread().isInterrupted() && isBusy())
             update();
-        }
     }
 
     public boolean isBusy() {
-        return mode != Mode.IDLE;
+        return trajectorySequenceRunner.isBusy();
     }
 
     public void setMode(DcMotor.RunMode runMode) {
@@ -317,6 +269,7 @@ public abstract class MecanumDrivebaseSubsystem extends MecanumDrive implements 
                 coefficients.p, coefficients.i, coefficients.d,
                 coefficients.f * 12 / batteryVoltageSensor.getVoltage()
         );
+
         for (DcMotorEx motor : motors) {
             motor.setPIDFCoefficients(runMode, compensatedCoefficients);
         }
@@ -327,7 +280,7 @@ public abstract class MecanumDrivebaseSubsystem extends MecanumDrive implements 
 
         if (Math.abs(drivePower.getX()) + Math.abs(drivePower.getY())
                 + Math.abs(drivePower.getHeading()) > 1) {
-            // re-normalize the pwers according to the weightso
+            // re-normalize the powers according to the weights
             double denom = VX_WEIGHT * Math.abs(drivePower.getX())
                     + VY_WEIGHT * Math.abs(drivePower.getY())
                     + OMEGA_WEIGHT * Math.abs(drivePower.getHeading());
@@ -363,10 +316,10 @@ public abstract class MecanumDrivebaseSubsystem extends MecanumDrive implements 
 
     @Override
     public void setMotorPowers(double v, double v1, double v2, double v3) {
-        leftFront.setSpeed(v);
-        leftRear.setSpeed(v1);
-        rightRear.setSpeed(v2);
-        rightFront.setSpeed(v3);
+        leftFront.setPower(v);
+        leftRear.setPower(v1);
+        rightRear.setPower(v2);
+        rightFront.setPower(v3);
     }
 
     @Override
@@ -376,6 +329,35 @@ public abstract class MecanumDrivebaseSubsystem extends MecanumDrive implements 
 
     @Override
     public Double getExternalHeadingVelocity() {
+        // TODO: This must be changed to match your configuration
+        //                           | Z axis
+        //                           |
+        //     (Motor Port Side)     |   / X axis
+        //                       ____|__/____
+        //          Y axis     / *   | /    /|   (IO Side)
+        //          _________ /______|/    //      I2C
+        //                   /___________ //     Digital
+        //                  |____________|/      Analog
+        //
+        //                 (Servo Port Side)
+        //
+        // The positive x axis points toward the USB port(s)
+        //
+        // Adjust the axis rotation rate as necessary
+        // Rotate about the z axis is the default assuming your REV Hub/Control Hub is laying
+        // flat on a surface
+
         return (double) imu.getAngularVelocity().zRotationRate;
+    }
+
+    public static TrajectoryVelocityConstraint getVelocityConstraint(double maxVel, double maxAngularVel, double trackWidth) {
+        return new MinVelocityConstraint(Arrays.asList(
+                new AngularVelocityConstraint(maxAngularVel),
+                new MecanumVelocityConstraint(maxVel, trackWidth)
+        ));
+    }
+
+    public static TrajectoryAccelerationConstraint getAccelerationConstraint(double maxAccel) {
+        return new ProfileAccelerationConstraint(maxAccel);
     }
 }

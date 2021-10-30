@@ -113,7 +113,7 @@ public interface Command extends Runnable{
         return new ConditionalCommand(condition, this);
     }
 
-    default ParallelRaceGroup setTimeout(double seconds){
+    default ParallelRaceGroup withTimeout(double seconds){
         return raceWith(new WaitCommand(seconds));
     }
 
