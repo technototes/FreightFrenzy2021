@@ -1,15 +1,26 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
+import static org.firstinspires.ftc.teamcode.subsystems.DepositSubsystem.DepositConstants.CARRY;
+import static org.firstinspires.ftc.teamcode.subsystems.DepositSubsystem.DepositConstants.COLLECT;
+import static org.firstinspires.ftc.teamcode.subsystems.DepositSubsystem.DepositConstants.DUMP;
+import static org.firstinspires.ftc.teamcode.subsystems.DepositSubsystem.DepositConstants.IN;
+import static org.firstinspires.ftc.teamcode.subsystems.DepositSubsystem.DepositConstants.OUT;
+
 import com.acmerobotics.dashboard.config.Config;
+import com.qualcomm.robotcore.util.Range;
+import com.technototes.library.hardware.servo.Servo;
 import com.technototes.library.subsystem.Subsystem;
 
-public class DepositSubsystem implements Subsystem {
+import java.util.function.Supplier;
+
+public class DepositSubsystem implements Subsystem, Supplier<String> {
     public Servo dumpservo;
     public Servo armservo;
     public DepositSubsystem(Servo arm, Servo dump) {
         dumpservo = dump;
         armservo = arm;
     }
+
     @Config
     public static class DepositConstants {
         public static double DUMP = 1, CARRY = 0.5, COLLECT = 0;
@@ -45,6 +56,6 @@ public class DepositSubsystem implements Subsystem {
     }
     @Override
     public String get() {
-        return "Extension: " + armoservo.getPosition() + ", Dump: " + dumpservo.getPosition();
+        return "Extension: " + armservo.getPosition() + ", Dump: " + dumpservo.getPosition();
     }
 }
