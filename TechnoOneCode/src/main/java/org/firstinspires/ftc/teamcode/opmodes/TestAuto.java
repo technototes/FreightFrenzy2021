@@ -28,7 +28,6 @@ public class TestAuto extends CommandOpMode implements Loggable {
 
     @Override
     public void uponInit() {
-        //MAYBE THIS WORKS
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
         robot = new Robot();
@@ -72,7 +71,4 @@ public class TestAuto extends CommandOpMode implements Loggable {
 
     }
 
-    @Override
-    public void uponStart() {
-    }
 }

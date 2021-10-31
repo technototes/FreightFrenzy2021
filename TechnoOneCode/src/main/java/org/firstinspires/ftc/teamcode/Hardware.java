@@ -55,7 +55,7 @@ public class Hardware {
             camera = new Webcam("webcam1");
         }
         if(INTAKE_CONNECTED){
-            intakeMotor = new Motor<>("carousel");
+            intakeMotor = new Motor<>("lift");
         }
     }
 }

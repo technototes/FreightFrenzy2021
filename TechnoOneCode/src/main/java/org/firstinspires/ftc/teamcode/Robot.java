@@ -18,10 +18,10 @@ public class Robot implements Loggable {
     @Config
     public static class RobotConstants {
         public static boolean LIFT_CONNECTED = false;
-        public static boolean DEPOSIT_CONNECTED = true;
+        public static boolean DEPOSIT_CONNECTED = false;
         public static boolean DRIVE_CONNECTED = true;
-        public static boolean CAROUSEL_CONNECTED = false;
-        public static boolean INTAKE_CONNECTED = false;
+        public static boolean CAROUSEL_CONNECTED = true;
+        public static boolean INTAKE_CONNECTED = true;
         public static boolean VISION_CONNECTED = false;
     }
 

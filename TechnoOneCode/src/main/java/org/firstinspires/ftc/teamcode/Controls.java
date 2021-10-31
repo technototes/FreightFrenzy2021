@@ -101,8 +101,10 @@ public class Controls {
     }
 
     public void bindIntakeControls(){
-        intakeInButton.whenPressed(new IntakeInCommand(robot.intakeSubsystem));
-        intakeOutButton.whilePressedOnce(new IntakeOutCommand(robot.intakeSubsystem));
+        intakeInButton.whenPressed(robot.intakeSubsystem::in).whenReleased(robot.intakeSubsystem::stop);
+//        toIntakeButton.whenPressed(new IntakeInCommand(robot.intakeSubsystem));
+//        intakeInButton.whenPressed(new IntakeInCommand(robot.intakeSubsystem));
+//        intakeOutButton.whilePressedOnce(new IntakeOutCommand(robot.intakeSubsystem));
     }
 
     public void bindCarouselControls(){

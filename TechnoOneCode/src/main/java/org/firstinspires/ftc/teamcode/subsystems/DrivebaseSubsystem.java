@@ -77,7 +77,7 @@ public class DrivebaseSubsystem extends MecanumDrivebaseSubsystem implements Sup
 
     }
 
-    protected FtcDashboard dashboard;
+//    protected FtcDashboard dashboard;
 
 
     public DrivebaseSubsystem(EncodedMotor<DcMotorEx> fl, EncodedMotor<DcMotorEx> fr,
@@ -85,8 +85,8 @@ public class DrivebaseSubsystem extends MecanumDrivebaseSubsystem implements Sup
                               IMU i) {
         super(fl, fr, rl, rr, i, () -> DriveConstants.class);
 
-        dashboard = FtcDashboard.getInstance();
-        dashboard.setTelemetryTransmissionInterval(25);
+//        dashboard = FtcDashboard.getInstance();
+//        dashboard.setTelemetryTransmissionInterval(25);
     }
 
     public DrivebaseSubsystem(){

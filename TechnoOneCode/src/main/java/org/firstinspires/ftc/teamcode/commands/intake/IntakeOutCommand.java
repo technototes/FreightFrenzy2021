@@ -16,14 +16,14 @@ public class IntakeOutCommand implements Command{
         subsystem.out();
     }
 
-    @Override
-    public boolean isFinished() {
-        return false;
-    }
-
-    @Override
-    public void end(boolean cancel) {
-        if(cancel) subsystem.stop();
-    }
+//    @Override
+//    public boolean isFinished() {
+//        return false;
+//    }
+//
+//    @Override
+//    public void end(boolean cancel) {
+//        if(cancel) subsystem.stop();
+//    }
 
 }
