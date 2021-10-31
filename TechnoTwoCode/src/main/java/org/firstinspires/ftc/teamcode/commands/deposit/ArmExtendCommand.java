@@ -1,4 +1,24 @@
 package org.firstinspires.ftc.teamcode.commands.deposit;
 
-public class ArmExtendCommand {
+import com.technototes.library.command.Command;
+
+import org.firstinspires.ftc.teamcode.subsystems.DepositSubsystem;
+
+public class ArmExtendCommand implements Command {
+    public DepositSubsystem subsystem;
+    public ArmExtendCommand(DepositSubsystem s) {
+        subsystem = s;
+        addRequirements(s);
+    }
+
+    @Override
+    public void execute() {
+        subsystem.fullyOut();
+        subsystem.collect();
+    }
+
+    @Override
+    public boolean isFinished() {
+        return getRuntime().seconds() > 1;
+    }
 }
