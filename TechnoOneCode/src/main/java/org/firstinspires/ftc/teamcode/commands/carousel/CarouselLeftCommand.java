@@ -6,7 +6,7 @@ import org.firstinspires.ftc.teamcode.subsystems.CarouselSubsystem;
 
 public class CarouselLeftCommand implements Command {
 
-    public CarouselSubsystem subsystem;
+    CarouselSubsystem subsystem;
 
     public CarouselLeftCommand(CarouselSubsystem s){
         subsystem = s;
@@ -16,16 +16,6 @@ public class CarouselLeftCommand implements Command {
     @Override
     public void execute(){
         subsystem.left();
-    }
-
-    @Override
-    public boolean isFinished() {
-        return false;
-    }
-
-    @Override
-    public void end(boolean cancel) {
-        if(cancel) subsystem.stop();
     }
 }
 

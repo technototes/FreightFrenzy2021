@@ -5,6 +5,7 @@ import com.technototes.library.logger.Color;
 import com.technototes.library.logger.Log;
 import com.technototes.library.logger.Loggable;
 
+import org.firstinspires.ftc.teamcode.subsystems.CapSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.CarouselSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.DepositSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.DrivebaseSubsystem;
@@ -23,6 +24,7 @@ public class Robot implements Loggable {
         public static boolean CAROUSEL_CONNECTED = true;
         public static boolean INTAKE_CONNECTED = true;
         public static boolean VISION_CONNECTED = false;
+        public static boolean CAP_CONNECTED = false;
     }
 
     @Log.NumberBar(name = "Lift", min = 0, max = 1100, scale = 100, completeBarColor = Color.PURPLE)
@@ -43,6 +45,8 @@ public class Robot implements Loggable {
     @Log.Number(name = "Vision", color = Color.GREEN)
     public VisionSubsystem visionSubsystem;
 
+    public CapSubsystem capSubsystem;
+
     public Robot(){
         if(LIFT_CONNECTED) liftSubsystem = new LiftSubsystem(Hardware.liftMotor);
 
@@ -52,8 +56,10 @@ public class Robot implements Loggable {
 
         if(CAROUSEL_CONNECTED) carouselSubsystem = new CarouselSubsystem(Hardware.carouselMotor);
 
-        if(INTAKE_CONNECTED) intakeSubsystem = new IntakeSubsystem(Hardware.intakeMotor);
+        if(INTAKE_CONNECTED) intakeSubsystem = new IntakeSubsystem(Hardware.intakeMotor, Hardware.intakeDistSensor);
 
         if(VISION_CONNECTED) visionSubsystem = new VisionSubsystem(Hardware.camera);
+
+        if(CAP_CONNECTED) capSubsystem = new CapSubsystem(Hardware.capServo);
     }
 }

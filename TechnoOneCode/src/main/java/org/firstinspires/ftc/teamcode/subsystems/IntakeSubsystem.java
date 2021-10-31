@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.subsystems;
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.technototes.library.hardware.motor.Motor;
+import com.technototes.library.hardware.sensor.RangeSensor;
 import com.technototes.library.subsystem.Subsystem;
 
 import java.util.function.Supplier;
@@ -20,11 +21,17 @@ public class IntakeSubsystem implements Subsystem, Supplier<Double> {
         public static double INTAKE_IN_SPEED = 1;
         public static double INTAKE_OUT_SPEED = -1;
         public static double INTAKE_STOP_SPEED = 0;
+        public static double ACCEPTABLE_DISTANCE = 5;
     }
 
     public Motor<DcMotorEx> motor;
 
-    public IntakeSubsystem(Motor<DcMotorEx> m){motor = m;}
+    public RangeSensor rangeSensor;
+
+    public IntakeSubsystem(Motor<DcMotorEx> m, RangeSensor rs){
+        motor = m;
+        rangeSensor = rs;
+    }
 
     /**
      * Set the intake motor to run in at a constant speed
@@ -46,6 +53,18 @@ public class IntakeSubsystem implements Subsystem, Supplier<Double> {
     public void stop(){
         motor.setSpeed(INTAKE_STOP_SPEED);
     }
+
+    public double getSensorDistance(){
+        return rangeSensor.getSensorValue();
+    }
+
+    public boolean isNearTarget(){
+        if (getSensorDistance() <= IntakeConstants.ACCEPTABLE_DISTANCE){
+            return true;
+        }
+        return false;
+    }
+
     @Override
     public Double get() {
         return motor.getSpeed();

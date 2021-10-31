@@ -36,7 +36,6 @@ public class LiftSubsystem implements Subsystem, Supplier<Double> {
         pidController = new PIDFController(PID, 0, 0, 0, (x,y)->0.1);
     }
 
-
     public void setLiftPosition(double pos){
         pidController.setTargetPosition(Range.clip(pos, LIFT_LOWER_LIMIT, LIFT_UPPER_LIMIT));
     }
