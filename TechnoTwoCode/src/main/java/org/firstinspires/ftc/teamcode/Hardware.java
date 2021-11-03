@@ -17,8 +17,8 @@ import com.technototes.vision.hardware.Webcam;
 public class Hardware {
     public static EncodedMotor<DcMotorEx> liftMotor;
 
-    public static Servo leftDepositServo;
-    public static Servo rightDepositServo;
+    public static Servo DumpServo;
+    //public static Servo rightDepositServo;
 
     public static EncodedMotor<DcMotorEx> flDriveMotor;
     public static EncodedMotor<DcMotorEx> frDriveMotor;
@@ -37,9 +37,9 @@ public class Hardware {
             liftMotor = new EncodedMotor<>("lift");
         }
         if(DEPOSIT_CONNECTED) {
-            leftDepositServo = new Servo("leftDeposit").invert();
+            //leftDepositServo = new Servo("leftDeposit").invert();
 
-            leftDepositServo = new Servo("rightDeposit");
+            DumpServo = new Servo("dumpServo");
         }
         if (DRIVE_CONNECTED) {
             flDriveMotor = new EncodedMotor<>("flMotor");
