@@ -15,10 +15,10 @@ import java.util.function.Supplier;
 
 public class DepositSubsystem implements Subsystem, Supplier<String> {
     public Servo dumpservo;
-    public Servo armservo;
-    public DepositSubsystem(Servo arm, Servo dump) {
+    //public Servo armservo;
+    public DepositSubsystem(Servo dump) {
         dumpservo = dump;
-        armservo = arm;
+        //armservo = arm;
     }
 
     @Config
@@ -41,21 +41,24 @@ public class DepositSubsystem implements Subsystem, Supplier<String> {
 
     public void  fullyIn() {
 
-        armservo.setPosition(IN);
+        //armservo.setPosition(IN);
 
     }
 
-    public void fullyOut() {
-        armservo.setPosition(OUT);
-    }
-    public void setExtension(double v) {
+    //public void fullyOut() {
+        //armservo.setPosition(OUT);
+
+    /*public void setExtension(double v) {
         armservo.setPosition(Range.clip(v, IN, OUT));
     }
     public void translateExtension(double v) {
         armservo.incrementPosition(v);
     }
+
+     */
     @Override
     public String get() {
-        return "Extension: " + armservo.getPosition() + ", Dump: " + dumpservo.getPosition();
+        return "Dump: " + dumpservo.getPosition();
     }
+
 }
