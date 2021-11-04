@@ -17,8 +17,8 @@ public class IntakeInCommand implements Command {
         subsystem.in();
     }
 
-//    @Override
-//    public void end(boolean cancel) {
-//        if(cancel) subsystem.stop();
-//    }
+    @Override
+    public void end(boolean cancel) {
+        if(cancel) subsystem.stop();
+    }
 }

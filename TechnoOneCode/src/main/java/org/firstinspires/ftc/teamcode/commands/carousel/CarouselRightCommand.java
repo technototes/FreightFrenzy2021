@@ -17,4 +17,14 @@ public class CarouselRightCommand implements Command {
     public void execute(){
         subsystem.right();
     }
+
+    @Override
+    public boolean isFinished() {
+        return false;
+    }
+
+    @Override
+    public void end(boolean cancel) {
+        subsystem.stop();
+    }
 }

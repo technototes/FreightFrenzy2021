@@ -17,5 +17,16 @@ public class CarouselLeftCommand implements Command {
     public void execute(){
         subsystem.left();
     }
+
+
+    @Override
+    public boolean isFinished() {
+        return false;
+    }
+
+    @Override
+    public void end(boolean cancel) {
+        subsystem.stop();
+    }
 }
 

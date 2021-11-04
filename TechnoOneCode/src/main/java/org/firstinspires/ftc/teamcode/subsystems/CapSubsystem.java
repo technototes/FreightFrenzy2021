@@ -5,9 +5,11 @@ import com.technototes.library.subsystem.Subsystem;
 
 import java.util.function.Supplier;
 
+import static org.firstinspires.ftc.teamcode.subsystems.CapSubsystem.CapConstant.RESTING;
+
 public class CapSubsystem implements Subsystem, Supplier<Double> {
     public static class CapConstant{
-        public static final double DEADZONE = 0.1;
+        public static double RESTING = 0.1;
     }
 
     public Servo capServo;
@@ -16,8 +18,12 @@ public class CapSubsystem implements Subsystem, Supplier<Double> {
         capServo = s;
     }
 
-    public void goto_position(double pos){
+    public void setCap(double pos){
         capServo.setPosition(pos);
+    }
+
+    public void restCap(){
+        setCap(RESTING);
     }
 
     @Override

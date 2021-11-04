@@ -14,6 +14,8 @@ import com.technototes.library.hardware.sensor.IMU;
 import com.technototes.library.hardware.servo.Servo;
 import com.technototes.vision.hardware.Webcam;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+
 public class Hardware {
     public static EncodedMotor<DcMotorEx> liftMotor;
 
@@ -46,6 +48,7 @@ public class Hardware {
             frDriveMotor = new EncodedMotor<>("frMotor");
             rlDriveMotor = new EncodedMotor<>("rlMotor");
             rrDriveMotor = new EncodedMotor<>("rrMotor");
+            imu = new IMU("imu").remapAxes(AxesOrder.XYZ, IMU.AxesSigns.NNN);
         }
         if(CAROUSEL_CONNECTED) {
             carouselMotor = new EncodedMotor<>("carouselMotor");

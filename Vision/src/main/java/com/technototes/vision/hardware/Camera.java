@@ -14,6 +14,7 @@ import org.openftc.easyopencv.PipelineRecordingParameters;
 public abstract class Camera<T extends OpenCvCamera, U> extends HardwareDevice<U> implements OpenCvCamera {
     protected T openCvCamera;
 
+
     protected Camera(U device) {
         super(device);
         openCvCamera = createCamera();
@@ -22,6 +23,7 @@ public abstract class Camera<T extends OpenCvCamera, U> extends HardwareDevice<U
         super(device);
         openCvCamera = createCamera();
     }
+
 
 
     public T getOpenCvCamera(){
