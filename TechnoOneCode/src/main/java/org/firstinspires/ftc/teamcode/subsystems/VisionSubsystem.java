@@ -16,14 +16,16 @@ import static org.firstinspires.ftc.teamcode.subsystems.VisionSubsystem.VisionCo
 
 public class VisionSubsystem extends PipelineSubsystem implements Loggable {
     @Config
-    public static class VisionConstants implements Loggable {
+    public static class VisionConstants{
         public static int WIDTH = 320;
         public static int HEIGHT = 240;
         public static OpenCvCameraRotation ROTATION = OpenCvCameraRotation.UPRIGHT;
-        @LogConfig.Run(duringRun = false, duringInit = true)
-        @Log.Number(name = "Barcode", color = Color.GREEN)
-        public static BarcodePipeline BARCODE_PIPELINE = new BarcodePipeline();
+
     }
+
+    @LogConfig.Run(duringRun = false, duringInit = true)
+    @Log.Number(name = "Barcode", color = Color.GREEN)
+    public BarcodePipeline barcodePipeline = new BarcodePipeline();
 
     public VisionSubsystem(Camera c) {
         super(c);

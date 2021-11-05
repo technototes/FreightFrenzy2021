@@ -106,8 +106,14 @@ public class Controls {
     }
 
     public void bindIntakeControls(){
-        toIntakeButton.whenPressed(new IntakeSafeCommand(robot.intakeSubsystem).andThen(new ConditionalCommand(()->DEPOSIT_CONNECTED, new CarryCommand(robot.depositSubsystem))));
-        intakeInButton.whilePressedContinuous(new IntakeSafeCommand(robot.intakeSubsystem).andThen(new ConditionalCommand(()->DEPOSIT_CONNECTED, new CarryCommand(robot.depositSubsystem))));
+        if(DEPOSIT_CONNECTED) {
+            toIntakeButton.whenPressed(new IntakeSafeCommand(robot.intakeSubsystem, robot.depositSubsystem));
+            intakeInButton.whilePressedContinuous(new IntakeSafeCommand(robot.intakeSubsystem, robot.depositSubsystem));
+        }else{
+            toIntakeButton.whenPressed(new IntakeInCommand(robot.intakeSubsystem));
+            intakeInButton.whilePressedContinuous(new IntakeInCommand(robot.intakeSubsystem));
+
+        }
 
         intakeOutButton.whilePressedOnce(new IntakeOutCommand(robot.intakeSubsystem));
     }

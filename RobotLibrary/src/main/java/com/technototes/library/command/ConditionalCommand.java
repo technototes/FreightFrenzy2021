@@ -28,7 +28,7 @@ public class ConditionalCommand implements Command {
         supplier = condition;
         CommandScheduler.getInstance().scheduleWithOther(this, command, condition);
         trueCommand = command;
-        falseCommand = this::execute;
+        falseCommand = this;
     }
 
     /** Make a conditional command
