@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.technototes.library.command.ConditionalCommand;
 import com.technototes.library.command.WaitCommand;
 import com.technototes.library.control.gamepad.CommandAxis;
 import com.technototes.library.control.gamepad.CommandButton;
@@ -11,12 +12,14 @@ import org.firstinspires.ftc.teamcode.commands.carousel.CarouselRightCommand;
 import org.firstinspires.ftc.teamcode.commands.deposit.ArmTranslateCommand;
 import org.firstinspires.ftc.teamcode.commands.deposit.ArmExtendCommand;
 import org.firstinspires.ftc.teamcode.commands.deposit.ArmRetractCommand;
+import org.firstinspires.ftc.teamcode.commands.deposit.CarryCommand;
 import org.firstinspires.ftc.teamcode.commands.deposit.DumpVariableCommand;
 import org.firstinspires.ftc.teamcode.commands.drivebase.DriveCommand;
 import org.firstinspires.ftc.teamcode.commands.drivebase.ResetGyroCommand;
 import org.firstinspires.ftc.teamcode.commands.drivebase.SetSpeedCommand;
 import org.firstinspires.ftc.teamcode.commands.intake.IntakeInCommand;
 import org.firstinspires.ftc.teamcode.commands.intake.IntakeOutCommand;
+import org.firstinspires.ftc.teamcode.commands.intake.IntakeSafeCommand;
 import org.firstinspires.ftc.teamcode.commands.intake.IntakeStopCommand;
 import org.firstinspires.ftc.teamcode.commands.lift.LiftCommand;
 import org.firstinspires.ftc.teamcode.commands.lift.LiftCollectCommand;
@@ -58,11 +61,11 @@ public class Controls {
         slideAdjustInButton = gamepad.dpadRight;
         slideAdjustOutButton = gamepad.dpadLeft;
 
-        intakeInButton = gamepad.a;
-        intakeOutButton = gamepad.b;
+        intakeInButton = gamepad.cross;
+        intakeOutButton = gamepad.circle;
 
-        carouselLeftButton = gamepad.x;
-        carouselRightButton = gamepad.y;
+        carouselLeftButton = gamepad.square;
+        carouselRightButton = gamepad.triangle;
 
         resetGyroButton = gamepad.rightStickButton;
         snailSpeedButton = gamepad.leftStickButton;
@@ -75,7 +78,9 @@ public class Controls {
         if(DRIVE_CONNECTED) bindDriveControls();
         if(INTAKE_CONNECTED) bindIntakeControls();
         if(CAROUSEL_CONNECTED) bindCarouselControls();
+        if(CAP_CONNECTED) bindCapControls();
     }
+
 
     public void bindDepositControls(){
         dumpAxis.whilePressed(new DumpVariableCommand(robot.depositSubsystem, dumpAxis));
@@ -101,14 +106,18 @@ public class Controls {
     }
 
     public void bindIntakeControls(){
-        intakeInButton.whenPressed(robot.intakeSubsystem::in).whenReleased(robot.intakeSubsystem::stop);
-//        toIntakeButton.whenPressed(new IntakeInCommand(robot.intakeSubsystem));
-//        intakeInButton.whenPressed(new IntakeInCommand(robot.intakeSubsystem));
-//        intakeOutButton.whilePressedOnce(new IntakeOutCommand(robot.intakeSubsystem));
+        toIntakeButton.whenPressed(new IntakeSafeCommand(robot.intakeSubsystem).andThen(new ConditionalCommand(()->DEPOSIT_CONNECTED, new CarryCommand(robot.depositSubsystem))));
+        intakeInButton.whilePressedContinuous(new IntakeSafeCommand(robot.intakeSubsystem).andThen(new ConditionalCommand(()->DEPOSIT_CONNECTED, new CarryCommand(robot.depositSubsystem))));
+
+        intakeOutButton.whilePressedOnce(new IntakeOutCommand(robot.intakeSubsystem));
     }
 
     public void bindCarouselControls(){
         carouselLeftButton.whilePressedOnce(new CarouselLeftCommand(robot.carouselSubsystem));
         carouselRightButton.whilePressedOnce(new CarouselRightCommand(robot.carouselSubsystem));
+    }
+
+    public void bindCapControls() {
+
     }
 }

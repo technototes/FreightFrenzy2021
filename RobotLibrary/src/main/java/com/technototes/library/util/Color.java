@@ -1,4 +1,4 @@
-package com.technototes.library.logger;
+package com.technototes.library.util;
 
 /** Enum for Colors and some formatting
  * @author Alex Stedman

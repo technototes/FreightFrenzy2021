@@ -33,8 +33,9 @@ public abstract class Camera<T extends OpenCvCamera, U> extends HardwareDevice<U
     abstract T createCamera();
 
     @Override
-    public void openCameraDevice() {
-        getOpenCvCamera().openCameraDevice();
+    @Deprecated
+    public int openCameraDevice() {
+        return getOpenCvCamera().openCameraDevice();
     }
 
     @Override

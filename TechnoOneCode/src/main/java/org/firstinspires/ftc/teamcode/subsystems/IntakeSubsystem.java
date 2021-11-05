@@ -21,7 +21,7 @@ public class IntakeSubsystem implements Subsystem, Supplier<Double> {
         public static double INTAKE_IN_SPEED = 1;
         public static double INTAKE_OUT_SPEED = -1;
         public static double INTAKE_STOP_SPEED = 0;
-        public static double ACCEPTABLE_DISTANCE = 5;
+        public static double DETECTION_DISTANCE = 1;
     }
 
     public Motor<DcMotorEx> motor;
@@ -59,10 +59,7 @@ public class IntakeSubsystem implements Subsystem, Supplier<Double> {
     }
 
     public boolean isNearTarget(){
-        if (getSensorDistance() <= IntakeConstants.ACCEPTABLE_DISTANCE){
-            return true;
-        }
-        return false;
+        return getSensorDistance() < IntakeConstants.DETECTION_DISTANCE;
     }
 
     @Override

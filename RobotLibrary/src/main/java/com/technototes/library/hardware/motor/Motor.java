@@ -14,7 +14,7 @@ import java.util.function.Supplier;
 @SuppressWarnings("unused")
 public class Motor<T extends DcMotorSimple> extends HardwareDevice<T> implements Invertable<Motor<T>>, Supplier<Double> {
     private boolean invert = false;
-    private double min, max;
+    private double min = -1, max = 1;
     /** Create a motor
      *
      * @param device The hardware device

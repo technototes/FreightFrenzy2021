@@ -5,19 +5,4 @@
     <style name="AppThemeRedRC" parent="AppTheme.Red">
     </style>
 
-    <style name="AppThemeGreenRC" parent="AppTheme.Green">
-    </style>
-
-    <style name="AppThemeBlueRC" parent="AppTheme.Blue">
-    </style>
-
-    <style name="AppThemePurpleRC" parent="AppTheme.Purple">
-    </style>
-
-    <style name="AppThemeOrangeRC" parent="AppTheme.Orange">
-    </style>
-
-    <style name="AppThemeTealRC" parent="AppTheme.Teal">
-    </style>
-
 </resources>

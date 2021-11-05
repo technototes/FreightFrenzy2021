@@ -1,7 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.acmerobotics.dashboard.config.Config;
-import com.technototes.library.logger.Color;
+import com.technototes.library.util.Color;
 import com.technototes.library.logger.Log;
 import com.technototes.library.logger.Loggable;
 
@@ -19,7 +19,7 @@ public class Robot implements Loggable {
     @Config
     public static class RobotConstants {
         public static boolean LIFT_CONNECTED = false;
-        public static boolean DEPOSIT_CONNECTED = false;
+        public static boolean DEPOSIT_CONNECTED = true;
         public static boolean DRIVE_CONNECTED = true;
         public static boolean CAROUSEL_CONNECTED = true;
         public static boolean INTAKE_CONNECTED = true;
@@ -42,15 +42,15 @@ public class Robot implements Loggable {
     @Log.NumberSlider(name = "Intake", sliderBackground = Color.RED, slider = Color.ORANGE)
     public IntakeSubsystem intakeSubsystem;
 
-    @Log.Number(name = "Vision", color = Color.GREEN)
     public VisionSubsystem visionSubsystem;
 
+    @Log.NumberSlider(name = "Cap", color = Color.MAGENTA)
     public CapSubsystem capSubsystem;
 
     public Robot(){
         if(LIFT_CONNECTED) liftSubsystem = new LiftSubsystem(Hardware.liftMotor);
 
-        if(DEPOSIT_CONNECTED) depositSubsystem = new DepositSubsystem(Hardware.dumpServo, Hardware.armServo);
+        if(DEPOSIT_CONNECTED) depositSubsystem = new DepositSubsystem(Hardware.dumpServos, Hardware.armServo);
 
         if(DRIVE_CONNECTED) drivebaseSubsystem = new DrivebaseSubsystem(Hardware.flDriveMotor, Hardware.frDriveMotor, Hardware.rlDriveMotor, Hardware.rrDriveMotor, Hardware.imu);
 

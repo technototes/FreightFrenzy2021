@@ -1,17 +1,18 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
-import static org.firstinspires.ftc.teamcode.subsystems.DepositSubsystem.DepositConstants.CARRY;
-import static org.firstinspires.ftc.teamcode.subsystems.DepositSubsystem.DepositConstants.COLLECT;
-import static org.firstinspires.ftc.teamcode.subsystems.DepositSubsystem.DepositConstants.DUMP;
-import static org.firstinspires.ftc.teamcode.subsystems.DepositSubsystem.DepositConstants.IN;
-import static org.firstinspires.ftc.teamcode.subsystems.DepositSubsystem.DepositConstants.OUT;
-
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.util.Range;
 import com.technototes.library.hardware.servo.Servo;
 import com.technototes.library.subsystem.Subsystem;
 
 import java.util.function.Supplier;
+
+import static org.firstinspires.ftc.teamcode.subsystems.DepositSubsystem.DepositConstants.CARRY;
+import static org.firstinspires.ftc.teamcode.subsystems.DepositSubsystem.DepositConstants.COLLECT;
+import static org.firstinspires.ftc.teamcode.subsystems.DepositSubsystem.DepositConstants.DUMP;
+import static org.firstinspires.ftc.teamcode.subsystems.DepositSubsystem.DepositConstants.IN;
+import static org.firstinspires.ftc.teamcode.subsystems.DepositSubsystem.DepositConstants.OUT;
+
 @SuppressWarnings("unused")
 
 public class DepositSubsystem implements Subsystem, Supplier<String> {
@@ -23,7 +24,7 @@ public class DepositSubsystem implements Subsystem, Supplier<String> {
     @Config
     public static class DepositConstants{
         //public static double MIN = 0, MAX = 0.5;
-        public static double DUMP = 0.7, CARRY = 0.1, COLLECT = 0;
+        public static double DUMP = 1, CARRY = 0.5, COLLECT = 0.05;
         public static double IN = 1, OUT = 0.6;
     }
 

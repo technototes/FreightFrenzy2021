@@ -36,6 +36,8 @@ public interface InputScheduler<T> {
      */
     T whilePressedOnce(Command command);
 
+    T whilePressedContinuous(Command command);
+
     /** Schedule command once when gamepad button is released and cancels it when pressed
      *
      * @param command The command

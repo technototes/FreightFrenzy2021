@@ -21,7 +21,6 @@ public class DepositSubsystem implements Subsystem, Supplier<String> {
         //armservo = arm;
     }
 
-    @Config
     public static class DepositConstants {
         public static double DUMP = 1, CARRY = 0.5, COLLECT = 0;
         public static double IN = 1, OUT = 0;
@@ -39,23 +38,23 @@ public class DepositSubsystem implements Subsystem, Supplier<String> {
         dumpservo.setPosition(Range.clip(v, CARRY, DUMP));
     }
 
-    public void  fullyIn() {
+    public void fullyIn() {
 
         //armservo.setPosition(IN);
 
     }
 
-    //public void fullyOut() {
-        //armservo.setPosition(OUT);
+    public void fullyOut() {
+//        armservo.setPosition(OUT);
+    }
 
-    /*public void setExtension(double v) {
-        armservo.setPosition(Range.clip(v, IN, OUT));
+    public void setExtension(double v) {
+       // armservo.setPosition(Range.clip(v, IN, OUT));
     }
     public void translateExtension(double v) {
-        armservo.incrementPosition(v);
+        //armservo.incrementPosition(v);
     }
 
-     */
     @Override
     public String get() {
         return "Dump: " + dumpservo.getPosition();

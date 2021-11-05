@@ -66,7 +66,7 @@ public class TrajectorySequenceRunner {
         clock = NanoClock.system();
 
         dashboard = FtcDashboard.getInstance();
-        dashboard.setTelemetryTransmissionInterval(25);
+        if(dashboard!=null) dashboard.setTelemetryTransmissionInterval(25);
     }
 
     public void followTrajectorySequenceAsync(TrajectorySequence trajectorySequence) {
@@ -192,9 +192,9 @@ public class TrajectorySequenceRunner {
         packet.put("yError", getLastPoseError().getY());
         packet.put("headingError (deg)", Math.toDegrees(getLastPoseError().getHeading()));
 
-        draw(fieldOverlay, currentTrajectorySequence, currentSegment, targetPose, poseEstimate);
+        if(dashboard!=null) draw(fieldOverlay, currentTrajectorySequence, currentSegment, targetPose, poseEstimate);
 
-        dashboard.sendTelemetryPacket(packet);
+        if(dashboard!=null) dashboard.sendTelemetryPacket(packet);
 
         return driveSignal;
     }

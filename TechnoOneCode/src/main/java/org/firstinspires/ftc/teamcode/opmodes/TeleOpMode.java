@@ -18,7 +18,7 @@ public class TeleOpMode extends CommandOpMode implements Loggable {
     @Override
     public void uponInit() {
         //MAYBE THIS WORKS
-        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
+        //telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
         robot = new Robot();
         controls = new Controls(driverGamepad, robot);

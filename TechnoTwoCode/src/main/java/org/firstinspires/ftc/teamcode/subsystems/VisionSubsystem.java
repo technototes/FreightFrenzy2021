@@ -18,8 +18,4 @@ public class VisionSubsystem extends PipelineSubsystem implements Supplier<Integ
     return null;
   }
 
-  @Override
-  public Mat processFrame(Mat input) {
-    return null;
-  }
 }

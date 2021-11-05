@@ -4,6 +4,8 @@ import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.technototes.library.hardware.motor.Motor;
 import com.technototes.library.hardware.sensor.RangeSensor;
+import com.technototes.library.subsystem.Subsystem;
+
 import static org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem.IntakeConstants.*;
 
 public class IntakeSubsystem implements Subsystem {
@@ -16,11 +18,9 @@ public class IntakeSubsystem implements Subsystem {
   }
   public Motor<DcMotorEx> motor;
 
-  public RangeSensor rangeSensor;
 
-  public IntakeSubsystem(Motor<DcMotorEx> m, RangeSensor rs) {
+  public IntakeSubsystem(Motor<DcMotorEx> m) {
     motor = m;
-    rangeSensor = rs;
   }
   public void in() {
     motor.setSpeed(INTAKE_IN_SPEED);
