@@ -19,8 +19,6 @@ public class ArmSubsystem implements Subsystem, Supplier<Double> {
         public static double LEVEL_TWO = 500;
         public static double LEVEL_THREE = 750;
         public static double COLLECT = 100;
-
-
     }
     EncodedMotor<DcMotorEx> liftMotor;
     public static final PIDCoefficients PID = new PIDCoefficients(0.002, 0, 0);
