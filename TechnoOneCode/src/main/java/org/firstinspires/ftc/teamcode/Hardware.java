@@ -99,7 +99,7 @@ public class Hardware {
             dumpLeftServo = new Servo(L_DUMP).invert();
             dumpRightServo = new Servo(R_DUMP);
             dumpServos = new ServoGroup(dumpLeftServo, dumpRightServo);
-            armServo = new Servo(ARM).invert();
+            armServo = new Servo(ARM);
         }
         if(DRIVE_CONNECTED) {
             flDriveMotor = new EncodedMotor<>(FL_MOTOR);

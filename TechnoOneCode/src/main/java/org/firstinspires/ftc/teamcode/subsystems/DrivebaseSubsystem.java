@@ -13,6 +13,7 @@ import com.technototes.path.subsystem.MecanumDriveConstants;
 import com.technototes.path.subsystem.MecanumDrivebaseSubsystem;
 
 import org.firstinspires.ftc.teamcode.Hardware;
+import org.firstinspires.ftc.teamcode.commands.autonomous.AutonomousConstants;
 
 import java.util.function.Supplier;
 
@@ -39,9 +40,9 @@ public class DrivebaseSubsystem extends MecanumDrivebaseSubsystem implements Sup
         @WheelRadius
         public static double WHEEL_RADIUS = 1.88976; // in
         @GearRatio
-        public static double GEAR_RATIO = 1 / 19.2; // output (wheel) speed / input (motor) speed
+        public static double GEAR_RATIO = 1 / 13.7; // output (wheel) speed / input (motor) speed
         @TrackWidth
-        public static double TRACK_WIDTH = 11; // in
+        public static double TRACK_WIDTH = 9.5; // in
         @KV
         public static double kV = 1.0 / MecanumDriveConstants.rpmToVelocity(MAX_RPM, WHEEL_RADIUS, GEAR_RATIO);
         @KA

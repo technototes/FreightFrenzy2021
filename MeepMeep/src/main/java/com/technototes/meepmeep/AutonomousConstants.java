@@ -25,7 +25,7 @@ public class AutonomousConstants {
 
     }
 
-    public static Alliance ALLIANCE = Alliance.BLUE;
+    public static Alliance ALLIANCE = Alliance.RED;
 
     public static final Supplier<Pose2d>
             START_SELECT = ()->Alliance.Selector.selectOf(ALLIANCE, RedConstants.START, BlueConstants.START),

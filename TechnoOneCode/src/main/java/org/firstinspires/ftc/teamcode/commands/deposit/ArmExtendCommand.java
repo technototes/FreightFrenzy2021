@@ -13,11 +13,12 @@ public class ArmExtendCommand implements Command {
 
     @Override
     public void execute() {
-        subsystem.fullyOut();
         subsystem.carry();
+        if(getRuntime().seconds()>0.2) subsystem.fullyOut();
+
     }
-//    @Override
-//    public boolean isFinished() {
-//        return getRuntime().seconds()>1;
-//    }
+    @Override
+    public boolean isFinished() {
+        return getRuntime().seconds()>0.5;
+    }
 }

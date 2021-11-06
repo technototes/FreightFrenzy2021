@@ -13,6 +13,8 @@ import com.technototes.library.structure.CommandOpMode;
 import com.technototes.path.command.NewTrajectoryCommand;
 
 import org.firstinspires.ftc.teamcode.Robot;
+import org.firstinspires.ftc.teamcode.commands.autonomous.AutonomousCommand;
+import org.firstinspires.ftc.teamcode.commands.autonomous.AutonomousConstants;
 import org.firstinspires.ftc.teamcode.commands.deposit.ArmExtendCommand;
 import org.firstinspires.ftc.teamcode.commands.deposit.ArmRetractCommand;
 import org.firstinspires.ftc.teamcode.commands.deposit.DumpCommand;
@@ -29,40 +31,14 @@ public class WoodAuto extends CommandOpMode implements Loggable {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
         robot = new Robot();
+        robot.drivebaseSubsystem.setPoseEstimate(AutonomousConstants.START_SELECT.get());
 
-        Trajectory toDeliverPreload = robot.drivebaseSubsystem.trajectoryBuilder(new Pose2d())
-                .strafeTo(new Vector2d(15, 15))
-                .build();
-
-
-        Trajectory toCollect = robot.drivebaseSubsystem.trajectoryBuilder(robot.drivebaseSubsystem.getPoseEstimate(), true)
-                .splineTo(new Vector2d(2, -20), Math.toRadians(270))
-                .splineTo(new Vector2d(6, -30), Math.toRadians(70))
-                .build();
-
-        Trajectory toDeposit = robot.drivebaseSubsystem.trajectoryBuilder(robot.drivebaseSubsystem.getPoseEstimate())
-                .splineTo(new Vector2d(2, -20), Math.toRadians(-90))
-                .splineTo(new Vector2d(15, 10), Math.toRadians(20))
-                .build();
-
-        Trajectory toPark = robot.drivebaseSubsystem.trajectoryBuilder(robot.drivebaseSubsystem.getPoseEstimate(), true)
-                .splineTo(new Vector2d(2, -10), Math.toRadians(-90))
-                .splineTo(new Vector2d(2, -20), Math.toRadians(-90))
-                .build();
 
         CommandScheduler.getInstance().scheduleForState(new SequentialCommandGroup(
-                new NewTrajectoryCommand(robot.drivebaseSubsystem, toDeliverPreload).alongWith(new ArmExtendCommand(robot.depositSubsystem)),
-                new DumpCommand(robot.depositSubsystem),
-                new NewTrajectoryCommand(robot.drivebaseSubsystem, toCollect).alongWith(new ArmRetractCommand(robot.depositSubsystem)),
-                new NewTrajectoryCommand(robot.drivebaseSubsystem, toDeposit).alongWith(new ArmExtendCommand(robot.depositSubsystem)),
-                new DumpCommand(robot.depositSubsystem),
-                new NewTrajectoryCommand(robot.drivebaseSubsystem, toPark).alongWith(new ArmRetractCommand(robot.depositSubsystem)),
+                new AutonomousCommand(robot.drivebaseSubsystem, robot.intakeSubsystem, robot.liftSubsystem, robot.depositSubsystem, robot.visionSubsystem),
                 this::terminate
         ), OpModeState.RUN);
 
     }
 
-    @Override
-    public void uponStart() {
-    }
 }

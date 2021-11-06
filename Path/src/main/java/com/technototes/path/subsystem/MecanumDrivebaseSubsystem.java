@@ -92,6 +92,14 @@ public abstract class MecanumDrivebaseSubsystem extends MecanumDrive implements 
                                      EncodedMotor<DcMotorEx> rl, EncodedMotor<DcMotorEx> rr,
                                      IMU i, MecanumDriveConstants c) {
         super(c.getDouble(KV.class), c.getDouble(KA.class), c.getDouble(KStatic.class), c.getDouble(TrackWidth.class), c.getDouble(LateralMult.class));
+        leftFront = fl.getDevice();
+        leftRear = rl.getDevice();
+        rightRear = rr.getDevice();
+        rightFront = fr.getDevice();
+
+        motors = Arrays.asList(leftFront, leftRear, rightRear, rightFront);
+
+
         TICKS_PER_REV = c.getDouble(TicksPerRev.class);
         MAX_RPM = c.getDouble(MaxRPM.class);
 
@@ -142,12 +150,6 @@ public abstract class MecanumDrivebaseSubsystem extends MecanumDrive implements 
         // upward (normal to the floor) using a command like the following:
         // BNO055IMUUtil.remapAxes(imu, AxesOrder.XYZ, AxesSigns.NPN);
 
-        leftFront = fl.getDevice();
-        leftRear = rl.getDevice();
-        rightRear = rr.getDevice();
-        rightFront = fr.getDevice();
-
-        motors = Arrays.asList(leftFront, leftRear, rightRear, rightFront);
 
         for (DcMotorEx motor : motors) {
             MotorConfigurationType motorConfigurationType = motor.getMotorType().clone();
