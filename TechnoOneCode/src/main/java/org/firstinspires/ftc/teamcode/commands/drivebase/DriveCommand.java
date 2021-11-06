@@ -23,7 +23,7 @@ public class DriveCommand implements Command {
 
     @Override
     public void execute() {
-             Vector2d input = new Vector2d(
+        Vector2d input = new Vector2d(
                 y.getAsDouble()*subsystem.speed,
                 x.getAsDouble()*subsystem.speed
         ).rotated(-subsystem.getExternalHeading());
