@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.ARM_CONNECTED;
 import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.CAROUSEL_CONNECTED;
 import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.DEPOSIT_CONNECTED;
 import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.DRIVE_CONNECTED;
@@ -34,6 +35,8 @@ public class Hardware {
 
     public static Webcam camera;
 
+    public static EncodedMotor<DcMotorEx> armMotor;
+
     static {
         if(LIFT_CONNECTED) {
             liftMotor = new EncodedMotor<>("lift");
@@ -60,5 +63,8 @@ public class Hardware {
             intakeMotor = new Motor<>("intake");
         }
 
+        if(ARM_CONNECTED) {
+            armMotor = new EncodedMotor<>("arm");
+        }
     }
 }
