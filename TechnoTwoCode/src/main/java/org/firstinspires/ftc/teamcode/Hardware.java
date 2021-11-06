@@ -59,7 +59,6 @@ public class Hardware {
         public static String INTAKE_RANGE = "irange";
 
         public static String CAP = "cap";
-
     }
 
     public static EncodedMotor<DcMotorEx> liftMotor;
@@ -85,6 +84,8 @@ public class Hardware {
     public static RangeSensor intakeDistSensor;
 
     public static Servo capServo;
+
+    public static Servo DumpServo;
 
     static {
         if(LIFT_CONNECTED) {
@@ -115,7 +116,7 @@ public class Hardware {
         }
 
         if(ARM_CONNECTED) {
-            armMotor = new EncodedMotor<>("arm");
+            armMotor = new EncodedMotor<>(ARM);
         }
         if(CAP_CONNECTED){
             capServo = new Servo(CAP);
