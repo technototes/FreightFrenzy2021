@@ -31,18 +31,6 @@ public class PathCommand implements Command {
         subsystem.setDriveSignal(new DriveSignal());
     }
 
-    public PathCommand turn(double degrees){
-        return path(new TurnCommand(subsystem, degrees));
-    }
-
-    public PathCommand spline(double x, double y, double end, double rot){
-        return path(new SplineCommand(subsystem, x, y, end, rot));
-    }
-
-    public PathCommand strafe(double x, double y, double rot){
-        return path(new StrafeCommand(subsystem, x, y, rot));
-    }
-
     public PathCommand path(PathCommand c){
         CommandScheduler.getInstance().scheduleAfterOther(this, c);
         return c;

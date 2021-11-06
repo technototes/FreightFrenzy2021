@@ -8,6 +8,6 @@ public class CollectCommand extends DumpVariableCommand {
     }
     @Override
     public boolean isFinished() {
-        return true;
+        return getRuntime().seconds()>0.5;
     }
 }
