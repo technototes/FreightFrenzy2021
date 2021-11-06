@@ -21,6 +21,7 @@ public class DepositSubsystem implements Subsystem, Supplier<String> {
     public static class DepositConstants {
         public static double DUMP = 1, CARRY = 0.5, COLLECT = 0;
         //public static double IN = 1, OUT = 0;
+        public static double IN = 0, OUT = 0;
     }
     public void dump() {
         dumpservo.setPosition(DUMP);

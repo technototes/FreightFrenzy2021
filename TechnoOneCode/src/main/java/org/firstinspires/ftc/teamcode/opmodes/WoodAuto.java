@@ -34,10 +34,7 @@ public class WoodAuto extends CommandOpMode implements Loggable {
         robot.drivebaseSubsystem.setPoseEstimate(AutonomousConstants.START_SELECT.get());
 
 
-        CommandScheduler.getInstance().scheduleForState(new SequentialCommandGroup(
-                new AutonomousCommand(robot.drivebaseSubsystem, robot.intakeSubsystem, robot.liftSubsystem, robot.depositSubsystem, robot.visionSubsystem),
-                this::terminate
-        ), OpModeState.RUN);
+        CommandScheduler.getInstance().scheduleForState(new AutonomousCommand(robot.drivebaseSubsystem, robot.intakeSubsystem, robot.liftSubsystem, robot.depositSubsystem, robot.visionSubsystem)  , OpModeState.RUN);
 
     }
 

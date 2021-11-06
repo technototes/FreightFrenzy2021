@@ -127,6 +127,7 @@ public interface Command extends Runnable{
      */
     @Override
     default void run() {
+        System.out.print(getState()+"  " +getClass()+"");
         switch (getState()) {
             case RESET:
                 getRuntime().reset();
