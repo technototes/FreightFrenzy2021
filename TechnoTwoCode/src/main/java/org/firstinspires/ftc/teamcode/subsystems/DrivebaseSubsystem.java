@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
-import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.control.PIDCoefficients;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
@@ -8,7 +7,6 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.technototes.library.hardware.motor.EncodedMotor;
 import com.technototes.library.hardware.sensor.IMU;
-import com.technototes.library.hardware.sensor.RangeSensor;
 import com.technototes.path.subsystem.MecanumDriveConstants;
 import com.technototes.path.subsystem.MecanumDrivebaseSubsystem;
 
@@ -78,24 +76,24 @@ public class DrivebaseSubsystem extends MecanumDrivebaseSubsystem implements Sup
 
   }
 
-  public RangeSensor left, right;
+ // public RangeSensor left, right;
 //    protected FtcDashboard dashboard;
 
 
   public DrivebaseSubsystem(EncodedMotor<DcMotorEx> fl, EncodedMotor<DcMotorEx> fr,
                             EncodedMotor<DcMotorEx> rl, EncodedMotor<DcMotorEx> rr,
-                            IMU i, RangeSensor l, RangeSensor r) {
+                            IMU i) {
     super(fl, fr, rl, rr, i, () -> DriveConstants.class);
 
-    left = l;
-    right = r;
+   // left = l;
+   // right = r;
 
 //        dashboard = FtcDashboard.getInstance();
 //        dashboard.setTelemetryTransmissionInterval(25);
   }
 
   public DrivebaseSubsystem(){
-    this(Hardware.flDriveMotor, Hardware.frDriveMotor, Hardware.rlDriveMotor, Hardware.rrDriveMotor, Hardware.imu, Hardware.leftRangeSensor, Hardware.rightRangeSensor);
+    this(Hardware.flDriveMotor, Hardware.frDriveMotor, Hardware.rlDriveMotor, Hardware.rrDriveMotor, Hardware.imu);
   }
 
 

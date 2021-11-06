@@ -1,24 +1,5 @@
 package org.firstinspires.ftc.teamcode;
 
-import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.CAROUSEL_CONNECTED;
-import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.DEPOSIT_CONNECTED;
-import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.DRIVE_CONNECTED;
-import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.INTAKE_CONNECTED;
-import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.LIFT_CONNECTED;
-import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.VISION_CONNECTED;
-
-import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.technototes.library.hardware.motor.EncodedMotor;
-import com.technototes.library.hardware.motor.Motor;
-import com.technototes.library.hardware.sensor.IMU;
-import com.technototes.library.hardware.sensor.RangeSensor;
-import com.technototes.library.hardware.servo.Servo;
-import com.technototes.library.hardware.servo.ServoGroup;
-import com.technototes.vision.hardware.Webcam;
-
-import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-
 import static org.firstinspires.ftc.teamcode.Hardware.HardwareConstants.ARM;
 import static org.firstinspires.ftc.teamcode.Hardware.HardwareConstants.CAMERA;
 import static org.firstinspires.ftc.teamcode.Hardware.HardwareConstants.CAP;
@@ -32,8 +13,27 @@ import static org.firstinspires.ftc.teamcode.Hardware.HardwareConstants.INTAKE_R
 import static org.firstinspires.ftc.teamcode.Hardware.HardwareConstants.LIFT;
 import static org.firstinspires.ftc.teamcode.Hardware.HardwareConstants.RL_MOTOR;
 import static org.firstinspires.ftc.teamcode.Hardware.HardwareConstants.RR_MOTOR;
-import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.*;
+import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.ARM_CONNECTED;
 import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.CAP_CONNECTED;
+import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.CAROUSEL_CONNECTED;
+import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.DEPOSIT_CONNECTED;
+import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.DRIVE_CONNECTED;
+import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.INTAKE_CONNECTED;
+import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.LIFT_CONNECTED;
+import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.VISION_CONNECTED;
+
+import com.acmerobotics.dashboard.config.Config;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.technototes.library.hardware.motor.EncodedMotor;
+import com.technototes.library.hardware.motor.Motor;
+import com.technototes.library.hardware.sensor.IMU;
+import com.technototes.library.hardware.sensor.RangeSensor;
+import com.technototes.library.hardware.servo.Servo;
+import com.technototes.library.hardware.servo.ServoGroup;
+import com.technototes.vision.hardware.Webcam;
+
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 public class Hardware {
     @Config
