@@ -21,8 +21,8 @@ public class CarouselSubsystem implements Subsystem, Supplier<Double> {
 
     @Config
     public static class CarouselConstants{
-        public static double CAROUSEL_RIGHT_SPEED = 1;
-        public static double CAROUSEL_LEFT_SPEED = -1;
+        public static double CAROUSEL_RIGHT_SPEED = 0.7;
+        public static double CAROUSEL_LEFT_SPEED = -0.7;
         public static double CAROUSEL_STOP_SPEED = 0;
     }
 

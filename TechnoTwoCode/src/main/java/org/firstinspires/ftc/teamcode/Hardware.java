@@ -1,6 +1,12 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.acmerobotics.dashboard.config.Config;
+import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.CAROUSEL_CONNECTED;
+import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.DEPOSIT_CONNECTED;
+import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.DRIVE_CONNECTED;
+import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.INTAKE_CONNECTED;
+import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.LIFT_CONNECTED;
+import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.VISION_CONNECTED;
+
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.technototes.library.hardware.motor.EncodedMotor;
 import com.technototes.library.hardware.motor.Motor;
@@ -74,6 +80,8 @@ public class Hardware {
 
     public static Webcam camera;
 
+    public static EncodedMotor<DcMotorEx> armMotor;
+
     public static RangeSensor intakeDistSensor;
 
     public static Servo capServo;
@@ -105,9 +113,12 @@ public class Hardware {
             intakeMotor = new Motor<>(INTAKE);
             intakeDistSensor = new RangeSensor(INTAKE_RANGE).setDistanceUnit(DistanceUnit.INCH);
         }
+
+        if(ARM_CONNECTED) {
+            armMotor = new EncodedMotor<>("arm");
+        }
         if(CAP_CONNECTED){
             capServo = new Servo(CAP);
         }
     }
 }
-

@@ -1,21 +1,15 @@
-package org.firstinspires.ftc.teamcode.commands.autonomous;
+package com.technototes.meepmeep;
 
-import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
-import com.technototes.library.util.Alliance;
-import com.technototes.path.trajectorysequence.TrajectorySequence;
-import com.technototes.path.trajectorysequence.TrajectorySequenceBuilder;
+import com.noahbres.meepmeep.roadrunner.trajectorysequence.TrajectorySequence;
+import com.noahbres.meepmeep.roadrunner.trajectorysequence.TrajectorySequenceBuilder;
 
-import java.util.function.BiFunction;
-import java.util.function.DoubleSupplier;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
 import static java.lang.Math.toRadians;
 
-@Config
 public class AutonomousConstants {
-    @Config
     public static class RedConstants {
         public static Pose2d START = new Pose2d(0, -65, toRadians(90));
         public static Pose2d DEPOSIT = new Pose2d(0, -40, toRadians(120));
@@ -23,8 +17,6 @@ public class AutonomousConstants {
         public static Pose2d COLLECT = new Pose2d(44, -64.5, toRadians(0));
 
     }
-
-    @Config
     public static class BlueConstants {
         public static Pose2d START = new Pose2d(0, 65, toRadians(-90));
         public static Pose2d DEPOSIT = new Pose2d(0, 40, toRadians(-120));
@@ -36,15 +28,15 @@ public class AutonomousConstants {
     public static Alliance ALLIANCE = Alliance.BLUE;
 
     public static final Supplier<Pose2d>
-            START_SELECT = () -> Alliance.Selector.selectOf(ALLIANCE, RedConstants.START, BlueConstants.START),
-            DEPOSIT_SELECT = () -> Alliance.Selector.selectOf(ALLIANCE, RedConstants.DEPOSIT, BlueConstants.DEPOSIT),
-            GAP_SELECT = () -> Alliance.Selector.selectOf(ALLIANCE, RedConstants.GAP, BlueConstants.GAP),
-            COLLECT_SELECT = () -> Alliance.Selector.selectOf(ALLIANCE, RedConstants.COLLECT, BlueConstants.COLLECT);
+            START_SELECT = ()->Alliance.Selector.selectOf(ALLIANCE, RedConstants.START, BlueConstants.START),
+            DEPOSIT_SELECT = ()->Alliance.Selector.selectOf(ALLIANCE, RedConstants.DEPOSIT, BlueConstants.DEPOSIT),
+            GAP_SELECT = ()->Alliance.Selector.selectOf(ALLIANCE, RedConstants.GAP, BlueConstants.GAP),
+            COLLECT_SELECT = ()->Alliance.Selector.selectOf(ALLIANCE, RedConstants.COLLECT, BlueConstants.COLLECT);
 
     public static final Function<Function<Pose2d, TrajectorySequenceBuilder>, TrajectorySequence>
             START_TO_DEPOSIT = b -> b.apply(START_SELECT.get())
-                    .lineToSplineHeading(DEPOSIT_SELECT.get())
-                    .build(),
+                .lineToSplineHeading(DEPOSIT_SELECT.get())
+                .build(),
             DEPOSIT_TO_COLLECT = b -> b.apply(DEPOSIT_SELECT.get())
                     .setReversed(true)
                     .splineTo(GAP_SELECT.get().vec(), GAP_SELECT.get().getHeading())
