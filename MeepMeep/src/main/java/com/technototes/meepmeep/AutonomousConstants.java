@@ -7,21 +7,22 @@ import com.noahbres.meepmeep.roadrunner.trajectorysequence.TrajectorySequenceBui
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+import static java.lang.Math.tan;
 import static java.lang.Math.toRadians;
 
 public class AutonomousConstants {
     public static class RedConstants {
         public static Pose2d START = new Pose2d(0, -63, toRadians(90));
-        public static Pose2d DEPOSIT = new Pose2d(-1, -39, toRadians(120));
-        public static Pose2d GAP = new Pose2d(32, -64.5, toRadians(0));
-        public static Pose2d COLLECT = new Pose2d(44, -64.5, toRadians(180));
+        public static Pose2d DEPOSIT = new Pose2d(0, -44, toRadians(120));
+        public static Pose2d GAP = new Pose2d(25, -64, toRadians(0));
+        public static Pose2d COLLECT = new Pose2d(50, -64.5, toRadians(0));;
 
     }
     public static class BlueConstants {
         public static Pose2d START = new Pose2d(0, 63, toRadians(-90));
-        public static Pose2d DEPOSIT = new Pose2d(0, 40, toRadians(-120));
-        public static Pose2d GAP = new Pose2d(32, 64.5, toRadians(0));
-        public static Pose2d COLLECT = new Pose2d(44, 64.5, toRadians(0));
+        public static Pose2d DEPOSIT = new Pose2d(0, 42, toRadians(-120));
+        public static Pose2d GAP = new Pose2d(25, 64.5, toRadians(0));
+        public static Pose2d COLLECT = new Pose2d(50, 65, toRadians(180));
 
     }
 

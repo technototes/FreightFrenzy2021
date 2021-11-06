@@ -12,7 +12,7 @@ public class SetSpeedCommand implements Command {
     }
     @Override
     public void execute() {
-        subsystem.speed = 0.5;
+        subsystem.speed = 0.7;
     }
 
     @Override

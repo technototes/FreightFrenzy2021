@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.technototes.library.hardware.motor.EncodedMotor;
 import com.technototes.library.hardware.sensor.IMU;
 import com.technototes.library.hardware.sensor.RangeSensor;
+import com.technototes.library.util.Alliance;
 import com.technototes.path.subsystem.MecanumDriveConstants;
 import com.technototes.path.subsystem.MecanumDrivebaseSubsystem;
 
@@ -51,9 +52,9 @@ public class DrivebaseSubsystem extends MecanumDrivebaseSubsystem implements Sup
         public static double kStatic = 0;
 
         @MaxVelo
-        public static double MAX_VEL = 60;
+        public static double MAX_VEL = 50;
         @MaxAccel
-        public static double MAX_ACCEL = 45;
+        public static double MAX_ACCEL = 40;
         @MaxAngleVelo
         public static double MAX_ANG_VEL = Math.toRadians(180);
         @MaxAngleAccel
@@ -99,6 +100,11 @@ public class DrivebaseSubsystem extends MecanumDrivebaseSubsystem implements Sup
         this(Hardware.flDriveMotor, Hardware.frDriveMotor, Hardware.rlDriveMotor, Hardware.rrDriveMotor, Hardware.imu, Hardware.leftRangeSensor, Hardware.rightRangeSensor);
     }
 
+    public void relocalizePose(Alliance alliance){
+        setPoseEstimate(new Pose2d(getPoseEstimate().getX(),
+                alliance == Alliance.RED ? right.getSensorValue()-64 : 64-left.getSensorValue(),
+                getExternalHeading()));
+    }
 
     @Override
     public Pose2d get() {

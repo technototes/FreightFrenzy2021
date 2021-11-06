@@ -16,13 +16,13 @@ import static org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem.LiftConsta
 public class LiftSubsystem implements Subsystem, Supplier<Double> {
     @Config
     public static class LiftConstants {
-        public static double LIFT_UPPER_LIMIT = 2100.0;
+        public static double LIFT_UPPER_LIMIT = 650.0;
         public static double LIFT_LOWER_LIMIT = 0.0;
-        public static double COLLECT = 0, LEVEL_1 = 300, LEVEL_2 = 1100, LEVEL_3 = 1800, CAP = 1900;
+        public static double COLLECT = 0, LEVEL_1 = 100, LEVEL_2 = 300, LEVEL_3 = 600;
 
-        public static double DEADZONE = 20;
+        public static double DEADZONE = 5;
 
-        public static final PIDCoefficients PID = new PIDCoefficients(0.004, 0, 0);
+        public static PIDCoefficients PID = new PIDCoefficients(0.004, 0, 0.0002);
 
     }
     public EncodedMotor<DcMotorEx> liftMotor;
@@ -32,8 +32,8 @@ public class LiftSubsystem implements Subsystem, Supplier<Double> {
     public LiftSubsystem(EncodedMotor<DcMotorEx> l){
         liftMotor = l;
         l.zeroEncoder();
-        l.setOutputLimits(-0.5, 1);
-        pidController = new PIDFController(PID, 0, 0, 0, (x,y)->0.2);
+        l.setOutputLimits(-0.1, 1);
+        pidController = new PIDFController(PID, 0, 0, 0, (x,y)->0.1);
     }
 
     public void setLiftPosition(double pos){

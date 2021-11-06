@@ -8,7 +8,7 @@ public class ArmRetractCommand implements Command {
     public DepositSubsystem subsystem;
     public ArmRetractCommand(DepositSubsystem s){
         subsystem = s;
-        addRequirements(s);
+//        addRequirements(s);
     }
 
     @Override

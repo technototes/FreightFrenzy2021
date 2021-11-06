@@ -12,6 +12,7 @@ import com.technototes.vision.hardware.Webcam;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.teamcode.subsystems.DepositSubsystem;
 
 import static org.firstinspires.ftc.teamcode.Hardware.HardwareConstants.ARM;
 import static org.firstinspires.ftc.teamcode.Hardware.HardwareConstants.CAMERA;
@@ -98,7 +99,7 @@ public class Hardware {
         if(DEPOSIT_CONNECTED) {
             dumpLeftServo = new Servo(L_DUMP).invert();
             dumpRightServo = new Servo(R_DUMP);
-            dumpServos = new ServoGroup(dumpLeftServo, dumpRightServo);
+            dumpServos = new ServoGroup(dumpLeftServo, dumpRightServo).setStartingPosition(DepositSubsystem.DepositConstants.CARRY);
             armServo = new Servo(ARM);
         }
         if(DRIVE_CONNECTED) {

@@ -18,9 +18,13 @@ public class CommandScheduler {
     private Map<Subsystem, Command> defaultMap;
 
 
-    public CommandOpMode opMode;
+    private CommandOpMode opMode;
     public CommandScheduler setOpMode(CommandOpMode c){
         opMode = c;
+        return this;
+    }
+    public CommandScheduler terminateOpMode(){
+        opMode.terminate();
         return this;
     }
 
@@ -112,7 +116,7 @@ public class CommandScheduler {
     public void run() {
 
             for(Command c1 : commandMap.keySet()){
-                if(c1.justStarted()) {
+                if(c1.isRunning()) {
                     for (Subsystem s : c1.getRequirements()) {
                         for(Command c2 : requirementMap.get(s)){
                             if(c1 != c2) c2.cancel();
@@ -123,7 +127,6 @@ public class CommandScheduler {
 
             commandMap.forEach(this::run);
             requirementMap.keySet().forEach(Subsystem::periodic);
-            System.out.println();
     }
     public void run(Command command, BooleanSupplier supplier){
         if(supplier.getAsBoolean() || command.isRunning()) command.run();

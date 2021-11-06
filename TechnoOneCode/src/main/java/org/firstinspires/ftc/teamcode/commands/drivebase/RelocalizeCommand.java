@@ -14,12 +14,6 @@ public class RelocalizeCommand implements Command {
     }
     @Override
     public void execute() {
-        subsystem.setPoseEstimate(new Pose2d(
-                subsystem.getPoseEstimate().getX(),
-                AutonomousConstants.ALLIANCE == Alliance.RED ?
-                        -65+subsystem.right.getSensorValue() :
-                        65-subsystem.left.getSensorValue(),
-                subsystem.getExternalHeading()
-        ));
+        subsystem.relocalizePose(AutonomousConstants.ALLIANCE);
     }
 }

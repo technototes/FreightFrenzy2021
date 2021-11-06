@@ -10,9 +10,12 @@ public class IntakeSafeCommand implements Command {
     DepositSubsystem deposit;
 
     public IntakeSafeCommand(IntakeSubsystem s, DepositSubsystem d){
+        this(s, d, true);
+    }
+    public IntakeSafeCommand(IntakeSubsystem s, DepositSubsystem d, boolean require){
         intake = s;
         deposit = d;
-        addRequirements(s, d);
+        if(require) addRequirements(s);
     }
 
     @Override

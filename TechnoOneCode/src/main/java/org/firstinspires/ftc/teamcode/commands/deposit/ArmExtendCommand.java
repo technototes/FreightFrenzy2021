@@ -8,7 +8,7 @@ public class ArmExtendCommand implements Command {
     public DepositSubsystem subsystem;
     public ArmExtendCommand(DepositSubsystem s){
         subsystem = s;
-        addRequirements(s);
+//        addRequirements(s);
     }
 
     @Override

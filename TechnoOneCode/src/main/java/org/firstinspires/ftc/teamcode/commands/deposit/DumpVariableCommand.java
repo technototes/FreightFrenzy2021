@@ -20,7 +20,7 @@ public class DumpVariableCommand implements Command {
 
     @Override
     public void execute() {
-        subsystem.setDump(supplier.getAsDouble());
+        subsystem.setDump(supplier.getAsDouble()/1.5 + 0.3);
     }
 
     @Override

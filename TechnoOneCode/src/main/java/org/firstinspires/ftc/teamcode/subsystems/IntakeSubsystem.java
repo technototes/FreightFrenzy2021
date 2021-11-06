@@ -21,7 +21,7 @@ public class IntakeSubsystem implements Subsystem, Supplier<Double> {
         public static double INTAKE_IN_SPEED = 1;
         public static double INTAKE_OUT_SPEED = -1;
         public static double INTAKE_STOP_SPEED = 0;
-        public static double DETECTION_DISTANCE = 1;
+        public static double DETECTION_DISTANCE = 0.8;
     }
 
     public Motor<DcMotorEx> motor;
