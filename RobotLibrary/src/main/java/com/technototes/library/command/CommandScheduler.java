@@ -120,9 +120,10 @@ public class CommandScheduler {
                     }
                 }
             }
+
             commandMap.forEach(this::run);
             requirementMap.keySet().forEach(Subsystem::periodic);
-
+            System.out.println();
     }
     public void run(Command command, BooleanSupplier supplier){
         if(supplier.getAsBoolean() || command.isRunning()) command.run();

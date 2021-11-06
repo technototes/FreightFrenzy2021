@@ -83,7 +83,7 @@ public class Controls {
 
 
     public void bindDepositControls(){
-        dumpAxis.whilePressed(new DumpVariableCommand(robot.depositSubsystem, dumpAxis));
+        dumpAxis.whilePressedOnce(new DumpVariableCommand(robot.depositSubsystem, dumpAxis));
         toIntakeButton.whenPressed(new ArmRetractCommand(robot.depositSubsystem));
         specificHubButton.whenPressed(new WaitCommand(0.1).andThen(new ArmExtendCommand(robot.depositSubsystem)));
         neutralHubButton.whenPressed(new WaitCommand(0.1).andThen(new ArmExtendCommand(robot.depositSubsystem)));

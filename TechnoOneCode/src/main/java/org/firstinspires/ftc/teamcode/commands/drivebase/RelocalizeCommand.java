@@ -1,7 +1,10 @@
 package org.firstinspires.ftc.teamcode.commands.drivebase;
 
+import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.technototes.library.command.Command;
+import com.technototes.library.util.Alliance;
 
+import org.firstinspires.ftc.teamcode.commands.autonomous.AutonomousConstants;
 import org.firstinspires.ftc.teamcode.subsystems.DrivebaseSubsystem;
 
 public class RelocalizeCommand implements Command {
@@ -11,6 +14,12 @@ public class RelocalizeCommand implements Command {
     }
     @Override
     public void execute() {
-
+        subsystem.setPoseEstimate(new Pose2d(
+                subsystem.getPoseEstimate().getX(),
+                AutonomousConstants.ALLIANCE == Alliance.RED ?
+                        -65+subsystem.right.getSensorValue() :
+                        65-subsystem.left.getSensorValue(),
+                subsystem.getExternalHeading()
+        ));
     }
 }

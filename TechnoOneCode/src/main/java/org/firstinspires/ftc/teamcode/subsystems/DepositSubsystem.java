@@ -25,7 +25,7 @@ public class DepositSubsystem implements Subsystem, Supplier<String> {
     public static class DepositConstants{
         //public static double MIN = 0, MAX = 0.5;
         public static double DUMP = 1, CARRY = 0.5, COLLECT = 0.1, AUTO_DUMP = 0.7;
-        public static double IN = 0, OUT = 0.3;
+        public static double IN = 0.17, OUT = 0.6;
     }
 
     public Servo dumpServo;
