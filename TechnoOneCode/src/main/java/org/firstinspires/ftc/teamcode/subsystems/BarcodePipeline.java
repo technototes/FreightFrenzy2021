@@ -156,12 +156,29 @@ public class BarcodePipeline extends OpenCvPipeline implements Supplier<Integer>
     public double getRectArea(){ return maxRect.area(); }
 
 
+    private int last = -1;
     @Override
     public Integer get() {
-        if(getRectArea()<MIN_AREA) return -1;
-        Point p = getRectMidpointXY();
-        if(Math.abs(p.x-LEFT.x)<VARIANCE && Math.abs(p.y-LEFT.y) < VARIANCE) return 0;
-        if(Math.abs(p.x-CENTER.x)<VARIANCE && Math.abs(p.y-CENTER.y) < VARIANCE) return 1;
-        if(Math.abs(p.x-RIGHT.x)<VARIANCE && Math.abs(p.y-RIGHT.y) < VARIANCE) return 2;
-        else return -1;    }
+        if(getRectArea()>MIN_AREA) {
+            Point p = getRectMidpointXY();
+            if (Math.abs(p.x - LEFT.x) < VARIANCE && Math.abs(p.y - LEFT.y) < VARIANCE) last = 0;
+            if (Math.abs(p.x - CENTER.x) < VARIANCE && Math.abs(p.y - CENTER.y) < VARIANCE) last = 1;
+            if (Math.abs(p.x - RIGHT.x) < VARIANCE && Math.abs(p.y - RIGHT.y) < VARIANCE) last = 2;
+        }
+        return last;
+    }
+
+    public boolean none(){
+        return get() == -1;
+    }
+    public boolean zero(){
+        return get() == 0;
+    }
+    public boolean one(){
+        return get() == 1;
+    }
+    public boolean two(){
+        return get() == 2;
+    }
+
 }

@@ -4,21 +4,15 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
-import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.technototes.library.command.CommandScheduler;
 import com.technototes.library.command.SequentialCommandGroup;
 import com.technototes.library.logger.Loggable;
 import com.technototes.library.structure.CommandOpMode;
-import com.technototes.path.command.NewNewTrajectoryCommand;
-import com.technototes.path.command.NewTrajectoryCommand;
+import com.technototes.path.command.TrajectorySequenceCommand;
 import com.technototes.path.trajectorysequence.TrajectorySequence;
-import com.technototes.path.trajectorysequence.TrajectorySequenceBuilder;
 
 import org.firstinspires.ftc.teamcode.Robot;
-import org.firstinspires.ftc.teamcode.commands.deposit.ArmExtendCommand;
-import org.firstinspires.ftc.teamcode.commands.deposit.ArmRetractCommand;
-import org.firstinspires.ftc.teamcode.commands.deposit.DumpCommand;
 
 @Autonomous(name="test")
 @SuppressWarnings("unused")
@@ -65,7 +59,7 @@ public class TestAuto extends CommandOpMode implements Loggable {
                 .build();
 
         CommandScheduler.getInstance().scheduleForState(new SequentialCommandGroup(
-                new NewNewTrajectoryCommand(robot.drivebaseSubsystem, s),
+                new TrajectorySequenceCommand(robot.drivebaseSubsystem, s),
                 this::terminate
         ), OpModeState.RUN);
 

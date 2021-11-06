@@ -2,15 +2,19 @@ package com.technototes.meepmeep;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
+import com.acmerobotics.roadrunner.trajectory.Trajectory;
+import com.acmerobotics.roadrunner.trajectory.TrajectoryBuilder;
 import com.noahbres.meepmeep.MeepMeep;
 import com.noahbres.meepmeep.core.colorscheme.scheme.ColorSchemeRedDark;
 
+import java.util.function.Function;
+import java.util.function.Supplier;
+
+import static com.technototes.meepmeep.AutonomousConstants.*;
+
 public class MeepMeepTesting {
+
     public static void main(String[] args) {
-        Pose2d startPose = new Pose2d(0, -65, Math.toRadians(90));
-        Pose2d depositPose = new Pose2d(0, -40, Math.toRadians(120));
-        Pose2d gapPose = new Pose2d(32, -64.5, Math.toRadians(0));
-        Pose2d collectPose = new Pose2d(44, -64.5, Math.toRadians(0));
         MeepMeep mm = new MeepMeep(800)
                 // Set field image
                 .setBackground(MeepMeep.Background.FIELD_FREIGHT_FRENZY)
@@ -37,48 +41,52 @@ public class MeepMeepTesting {
 //                                        .lineToLinearHeading(new Pose2d(-24, -40, Math.toRadians(60)))
 //                                        .lineToLinearHeading(new Pose2d(-60, -37, Math.toRadians(90)))
 //                                        .build()
-                                drive.trajectorySequenceBuilder(startPose)
-                                        .lineToSplineHeading(depositPose)
+
+                                drive.trajectorySequenceBuilder(START_SELECT.get())
+                                        .lineToSplineHeading(DEPOSIT_SELECT.get())
                                         .setReversed(true)
-                                        .splineTo(gapPose.vec(), gapPose.getHeading())
-                                        .lineTo(collectPose.vec())
+                                        .splineTo(GAP_SELECT.get().vec(), GAP_SELECT.get().getHeading())
+                                        .lineTo(COLLECT_SELECT.get().vec())
                                         .setReversed(false)
-                                        .lineTo(gapPose.vec())
-                                        .splineTo(depositPose.vec(), depositPose.getHeading())
+                                        .lineTo(GAP_SELECT.get().vec())
+                                        .splineTo(DEPOSIT_SELECT.get().vec(), DEPOSIT_SELECT.get().getHeading())
                                         .setReversed(true)
-                                        .splineTo(gapPose.vec(), gapPose.getHeading())
-                                        .lineTo(collectPose.vec())
+                                        .splineTo(GAP_SELECT.get().vec(), GAP_SELECT.get().getHeading())
+                                        .lineTo(COLLECT_SELECT.get().vec())
                                         .setReversed(false)
-                                        .lineTo(gapPose.vec())
-                                        .splineTo(depositPose.vec(), depositPose.getHeading())
+                                        .lineTo(GAP_SELECT.get().vec())
+                                        .splineTo(DEPOSIT_SELECT.get().vec(), DEPOSIT_SELECT.get().getHeading())
                                         .setReversed(true)
-                                        .splineTo(gapPose.vec(), gapPose.getHeading())
-                                        .lineTo(collectPose.vec())
+                                        .splineTo(GAP_SELECT.get().vec(), GAP_SELECT.get().getHeading())
+                                        .lineTo(COLLECT_SELECT.get().vec())
                                         .setReversed(false)
-                                        .lineTo(gapPose.vec())
-                                        .splineTo(depositPose.vec(), depositPose.getHeading())
+                                        .lineTo(GAP_SELECT.get().vec())
+                                        .splineTo(DEPOSIT_SELECT.get().vec(), DEPOSIT_SELECT.get().getHeading())
                                         .setReversed(true)
-                                        .splineTo(gapPose.vec(), gapPose.getHeading())
-                                        .lineTo(collectPose.vec())
+                                        .splineTo(GAP_SELECT.get().vec(), GAP_SELECT.get().getHeading())
+                                        .lineTo(COLLECT_SELECT.get().vec())
                                         .setReversed(false)
-                                        .lineTo(gapPose.vec())
-                                        .splineTo(depositPose.vec(), depositPose.getHeading())
+                                        .lineTo(GAP_SELECT.get().vec())
+                                        .splineTo(DEPOSIT_SELECT.get().vec(), DEPOSIT_SELECT.get().getHeading())
                                         .setReversed(true)
-                                        .splineTo(gapPose.vec(), gapPose.getHeading())
-                                        .lineTo(collectPose.vec())
+                                        .splineTo(GAP_SELECT.get().vec(), GAP_SELECT.get().getHeading())
+                                        .lineTo(COLLECT_SELECT.get().vec())
                                         .setReversed(false)
-                                        .lineTo(gapPose.vec())
-                                        .splineTo(depositPose.vec(), depositPose.getHeading())
+                                        .lineTo(GAP_SELECT.get().vec())
+                                        .splineTo(DEPOSIT_SELECT.get().vec(), DEPOSIT_SELECT.get().getHeading())
                                         .setReversed(true)
-                                        .splineTo(gapPose.vec(), gapPose.getHeading())
-                                        .lineTo(collectPose.vec())
+                                        .splineTo(GAP_SELECT.get().vec(), GAP_SELECT.get().getHeading())
+                                        .lineTo(COLLECT_SELECT.get().vec())
                                         .setReversed(false)
-                                        .lineTo(gapPose.vec())
-                                        .splineTo(depositPose.vec(), depositPose.getHeading())
+                                        .lineTo(GAP_SELECT.get().vec())
+                                        .splineTo(DEPOSIT_SELECT.get().vec(), DEPOSIT_SELECT.get().getHeading())
                                         .setReversed(true)
-                                        .splineTo(gapPose.vec(), gapPose.getHeading())
-                                        .lineTo(collectPose.vec())
+                                        .splineTo(GAP_SELECT.get().vec(), GAP_SELECT.get().getHeading())
+                                        .lineTo(COLLECT_SELECT.get().vec())
                                         .build()
+
+
+//                        COLLECT_TO_DEPOSIT.apply(drive::trajectorySequenceBuilder)
 //                                drive.trajectorySequenceBuilder(new Pose2d(-10, -65, Math.toRadians(90)))
 //                                        .lineToSplineHeading(new Pose2d(-10, -55, Math.toRadians(130)))
 //                                        .splineToConstantHeading(new Vector2d(0, -40), Math.toRadians(-50))
