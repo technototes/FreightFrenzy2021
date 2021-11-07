@@ -9,6 +9,7 @@ import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.LIFT_CONNECTED
 import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.VISION_CONNECTED;
 import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.CAP_CONNECTED;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.technototes.library.hardware.motor.EncodedMotor;
 import com.technototes.library.hardware.motor.Motor;
@@ -67,6 +68,9 @@ public class Hardware {
     public static EncodedMotor<DcMotorEx> rlDriveMotor;
     public static EncodedMotor<DcMotorEx> rrDriveMotor;
     public static IMU imu;
+    public static RangeSensor leftRangeSensor;
+    public static RangeSensor rightRangeSensor;
+
 
     public static Motor<DcMotorEx> intakeMotor;
 

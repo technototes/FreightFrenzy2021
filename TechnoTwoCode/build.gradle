@@ -23,6 +23,8 @@ dependencies {
     implementation project(':RobotLibrary')
     implementation project(':Vision')
     implementation project(':Path')
+    // We don't need Team two depending on Team one's code. Bad Things (tm) happen
+    // implementation project(path: ':TechnoOneCode')
 
     annotationProcessor files('lib/OpModeAnnotationProcessor.jar')
 
@@ -31,6 +33,8 @@ dependencies {
     implementation 'com.acmerobotics.roadrunner:core:0.5.4'
 
     implementation 'org.openftc:easyopencv:1.5.0'
+
+    implementation 'com.acmerobotics.dashboard:dashboard:0.4.3'
 
     //implementation 'com.github.technototes:TechnoLib:0.9.11'
 }
