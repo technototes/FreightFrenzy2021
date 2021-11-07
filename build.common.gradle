@@ -137,6 +137,13 @@ android {
         jniLibs.srcDir rootProject.file('libs')
     }
     ndkVersion '21.3.6528147'
+
+    /*
+    dexOptions {
+        javaMaxHeapSize "8G"
+    }
+    */
+
 }
 
 repositories {
