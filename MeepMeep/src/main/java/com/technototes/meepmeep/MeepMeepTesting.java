@@ -1,14 +1,7 @@
 package com.technototes.meepmeep;
 
-import com.acmerobotics.roadrunner.geometry.Pose2d;
-import com.acmerobotics.roadrunner.geometry.Vector2d;
-import com.acmerobotics.roadrunner.trajectory.Trajectory;
-import com.acmerobotics.roadrunner.trajectory.TrajectoryBuilder;
 import com.noahbres.meepmeep.MeepMeep;
 import com.noahbres.meepmeep.core.colorscheme.scheme.ColorSchemeRedDark;
-
-import java.util.function.Function;
-import java.util.function.Supplier;
 
 import static com.technototes.meepmeep.AutonomousConstants.*;
 
@@ -86,7 +79,7 @@ public class MeepMeepTesting {
 //                                        .build()
 
 
-                        DEPOSIT_TO_COLLECT.apply(drive::trajectorySequenceBuilder)
+                        DUCK_START_TO_DEPOSIT.apply(drive::trajectorySequenceBuilder)
 //                                drive.trajectorySequenceBuilder(new Pose2d(-10, -65, Math.toRadians(90)))
 //                                        .lineToSplineHeading(new Pose2d(-10, -55, Math.toRadians(130)))
 //                                        .splineToConstantHeading(new Vector2d(0, -40), Math.toRadians(-50))

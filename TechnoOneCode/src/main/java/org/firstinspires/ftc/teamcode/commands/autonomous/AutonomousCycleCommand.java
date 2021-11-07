@@ -21,44 +21,41 @@ import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.VisionSubsystem;
 
-public class AutonomousCommand extends SequentialCommandGroup {
-    public AutonomousCommand(DrivebaseSubsystem drive, IntakeSubsystem intake, LiftSubsystem lift, DepositSubsystem deposit, VisionSubsystem vision){
-//        super(new DepositPreloadCommand(drive, deposit, lift, vision),
-//                new IntakeDepotCommand(drive, intake, lift, deposit),
-//                new DepositFreightCommand(drive, intake, lift, deposit),
-//                new ParkCommand(drive, lift, deposit));
-          super(new TrajectorySequenceCommand(drive, AutonomousConstants.START_TO_DEPOSIT)
+public class AutonomousCycleCommand extends SequentialCommandGroup {
+    public AutonomousCycleCommand(DrivebaseSubsystem drive, IntakeSubsystem intake, LiftSubsystem lift, DepositSubsystem deposit, VisionSubsystem vision){
+        //3 cycle
+          super(new TrajectorySequenceCommand(drive, AutonomousConstants.CYCLE_START_TO_DEPOSIT)
                   .alongWith(new LiftLevel3Command(lift), new ArmExtendCommand(deposit)),
                   new DumpCommand(deposit),
-                  new ParallelCommandGroup(new TrajectorySequenceCommand(drive, AutonomousConstants.DEPOSIT_TO_COLLECT),
+//                  new ParallelCommandGroup(new TrajectorySequenceCommand(drive, AutonomousConstants.CYCLE_DEPOSIT_TO_COLLECT),
+//                          new ArmRetractCommand(deposit).andThen(new LiftCollectCommand(lift)))
+//                          .deadline(new WaitCommand(1).andThen(new IntakeSafeCommand(intake, deposit, false))),
+//                  new RelocalizeCommand(drive),
+//                  new TrajectorySequenceCommand(drive, AutonomousConstants.CYCLE_COLLECT_TO_DEPOSIT)
+//                          .alongWith(new ArmExtendCommand(deposit), new LiftLevel3Command(lift), new IntakeOutCommand(intake).withTimeout(1)),
+//                  new DumpCommand(deposit),
+                  new ParallelCommandGroup(new TrajectorySequenceCommand(drive, AutonomousConstants.CYCLE_DEPOSIT_TO_COLLECT),
                           new ArmRetractCommand(deposit).andThen(new LiftCollectCommand(lift)))
                           .deadline(new WaitCommand(1).andThen(new IntakeSafeCommand(intake, deposit, false))),
                   new RelocalizeCommand(drive),
-                  new TrajectorySequenceCommand(drive, AutonomousConstants.COLLECT_TO_DEPOSIT)
+                  new TrajectorySequenceCommand(drive, AutonomousConstants.CYCLE_COLLECT_TO_DEPOSIT)
                           .alongWith(new ArmExtendCommand(deposit), new LiftLevel3Command(lift), new IntakeOutCommand(intake).withTimeout(1)),
                   new DumpCommand(deposit),
-                  new ParallelCommandGroup(new TrajectorySequenceCommand(drive, AutonomousConstants.DEPOSIT_TO_COLLECT),
-                          new ArmRetractCommand(deposit).andThen(new LiftCollectCommand(lift)))
-                          .deadline(new WaitCommand(1).andThen(new IntakeSafeCommand(intake, deposit, false))),
-                  new RelocalizeCommand(drive),
-                  new TrajectorySequenceCommand(drive, AutonomousConstants.COLLECT_TO_DEPOSIT)
-                          .alongWith(new ArmExtendCommand(deposit), new LiftLevel3Command(lift), new IntakeOutCommand(intake).withTimeout(1)),
-                  new DumpCommand(deposit),
-                  new ParallelCommandGroup(new TrajectorySequenceCommand(drive, AutonomousConstants.DEPOSIT_TO_COLLECT),
+                  new ParallelCommandGroup(new TrajectorySequenceCommand(drive, AutonomousConstants.CYCLE_DEPOSIT_TO_COLLECT),
                           new ArmRetractCommand(deposit).andThen(new LiftCollectCommand(lift)))
                           .deadline(new IntakeSafeCommand(intake, deposit, false)),
                   new RelocalizeCommand(drive),
-                  new TrajectorySequenceCommand(drive, AutonomousConstants.COLLECT_TO_DEPOSIT)
+                  new TrajectorySequenceCommand(drive, AutonomousConstants.CYCLE_COLLECT_TO_DEPOSIT)
                           .alongWith(new ArmExtendCommand(deposit), new LiftLevel3Command(lift), new IntakeOutCommand(intake).withTimeout(1)),
                   new DumpCommand(deposit),
-                  new ParallelCommandGroup(new TrajectorySequenceCommand(drive, AutonomousConstants.DEPOSIT_TO_COLLECT),
+                  new ParallelCommandGroup(new TrajectorySequenceCommand(drive, AutonomousConstants.CYCLE_DEPOSIT_TO_COLLECT),
                           new ArmRetractCommand(deposit).andThen(new LiftCollectCommand(lift)))
                           .deadline(new IntakeSafeCommand(intake, deposit, false)),
                   new RelocalizeCommand(drive),
-                  new TrajectorySequenceCommand(drive, AutonomousConstants.COLLECT_TO_DEPOSIT)
+                  new TrajectorySequenceCommand(drive, AutonomousConstants.CYCLE_COLLECT_TO_DEPOSIT)
                           .alongWith(new ArmExtendCommand(deposit), new LiftLevel3Command(lift), new IntakeOutCommand(intake).withTimeout(1)),
                   new DumpCommand(deposit),
-                  new TrajectorySequenceCommand(drive, AutonomousConstants.DEPOSIT_TO_COLLECT)
+                  new TrajectorySequenceCommand(drive, AutonomousConstants.CYCLE_DEPOSIT_TO_COLLECT)
                           .alongWith(new ArmRetractCommand(deposit).andThen(new LiftCollectCommand(lift))),
                   CommandScheduler.getInstance()::terminateOpMode);
     }

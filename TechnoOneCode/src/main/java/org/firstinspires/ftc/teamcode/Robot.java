@@ -6,6 +6,7 @@ import com.technototes.library.util.Color;
 import com.technototes.library.logger.Log;
 import com.technototes.library.logger.Loggable;
 
+import org.firstinspires.ftc.teamcode.opmodes.TeleOpMode;
 import org.firstinspires.ftc.teamcode.subsystems.CapSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.CarouselSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.DepositSubsystem;
