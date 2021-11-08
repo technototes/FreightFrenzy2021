@@ -14,7 +14,7 @@ import org.firstinspires.ftc.teamcode.subsystems.VisionSubsystem;
 
 public class DepositPreloadCommand extends SequentialCommandGroup {
     public DepositPreloadCommand(DrivebaseSubsystem drive, DepositSubsystem depot, LiftSubsystem lift, VisionSubsystem vision) {
-        super(new TrajectorySequenceCommand(drive, AutonomousConstants.START_TO_DEPOSIT)
+        super(new TrajectorySequenceCommand(drive, AutonomousConstants.CYCLE_START_TO_DEPOSIT)
                 //.alongWith(new LiftBarcodeSelectCommand(lift, vision)
                 .alongWith(new LiftLevel3Command(lift), new ArmExtendCommand(depot)),
                 new DumpCommand(depot));
