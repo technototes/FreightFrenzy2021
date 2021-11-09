@@ -19,9 +19,6 @@ public class ParallelCommandGroup extends CommandGroup {
         CommandScheduler.getInstance().scheduleWithOther(this, c);
     }
 
-
-
-
     /** Is this finished
      *
      * @return If all of the commands are finished

@@ -127,7 +127,6 @@ public interface Command extends Runnable{
      */
     @Override
     default void run() {
-        System.out.print(getState()+"  " +getClass()+"");
         switch (getState()) {
             case RESET:
                 getRuntime().reset();
@@ -219,5 +218,30 @@ public interface Command extends Runnable{
         requirementMap.clear();
     }
 
+    default Command clone(){
+        Command d = this;
+        return new Command() {
+
+            @Override
+            public void init() {
+                d.init();
+            }
+
+            @Override
+            public void execute() {
+                d.execute();
+            }
+
+            @Override
+            public boolean isFinished() {
+                return d.isFinished();
+            }
+
+            @Override
+            public void end(boolean cancel) {
+                d.end(cancel);
+            }
+        }.addRequirements(getRequirements().toArray(new Subsystem[]{}));
+    }
 
 }

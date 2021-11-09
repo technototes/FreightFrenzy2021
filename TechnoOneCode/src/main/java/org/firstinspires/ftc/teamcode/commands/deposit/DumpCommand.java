@@ -10,6 +10,6 @@ public class DumpCommand extends DumpVariableCommand {
     }
     @Override
     public boolean isFinished() {
-        return getRuntime().seconds() > 0.4;
+        return getRuntime().seconds() > 0.1;
     }
 }

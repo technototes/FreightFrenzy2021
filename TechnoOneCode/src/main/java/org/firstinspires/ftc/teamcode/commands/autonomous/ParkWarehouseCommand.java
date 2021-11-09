@@ -11,9 +11,9 @@ import org.firstinspires.ftc.teamcode.subsystems.DrivebaseSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem;
 
-public class ParkCommand extends SequentialCommandGroup {
-    public ParkCommand(DrivebaseSubsystem drive, LiftSubsystem lift, DepositSubsystem deposit){
-        super(new TrajectorySequenceCommand(drive, AutonomousConstants.DEPOSIT_TO_COLLECT)
+public class ParkWarehouseCommand extends SequentialCommandGroup {
+    public ParkWarehouseCommand(DrivebaseSubsystem drive, LiftSubsystem lift, DepositSubsystem deposit){
+        super(new TrajectorySequenceCommand(drive, AutonomousConstants.CYCLE_DEPOSIT_TO_COLLECT)
                 .alongWith(new LiftCollectCommand(lift), new ArmRetractCommand(deposit)));
     }
 }
