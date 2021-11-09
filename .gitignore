@@ -89,3 +89,6 @@ lint/tmp/
 .DS_Store
 .idea
 *.hprof
+.project
+**/.settings
+**/.classpath
