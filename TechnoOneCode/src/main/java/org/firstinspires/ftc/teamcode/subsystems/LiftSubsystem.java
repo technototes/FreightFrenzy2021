@@ -18,11 +18,11 @@ public class LiftSubsystem implements Subsystem, Supplier<Double> {
     public static class LiftConstants {
         public static double LIFT_UPPER_LIMIT = 650.0;
         public static double LIFT_LOWER_LIMIT = 0.0;
-        public static double COLLECT = 0, LEVEL_1 = 0, LEVEL_2 = 300, LEVEL_3 = 650;
+        public static double COLLECT = 0, LEVEL_1 = 0, LEVEL_2 = 350, LEVEL_3 = 650;
 
-        public static double DEADZONE = 5;
+        public static double DEADZONE = 10;
 
-        public static PIDCoefficients PID = new PIDCoefficients(0.004, 0, 0.0004);
+        public static PIDCoefficients PID = new PIDCoefficients(0.005, 0, 0.0004);
 
     }
     public EncodedMotor<DcMotorEx> liftMotor;

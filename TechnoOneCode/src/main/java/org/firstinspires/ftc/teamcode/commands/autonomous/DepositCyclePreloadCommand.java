@@ -16,7 +16,7 @@ public class DepositCyclePreloadCommand extends SequentialCommandGroup {
     public DepositCyclePreloadCommand(DrivebaseSubsystem drive, DepositSubsystem depot, LiftSubsystem lift, VisionSubsystem vision) {
         super(new TrajectorySequenceCommand(drive, AutonomousConstants.CYCLE_START_TO_DEPOSIT)
                 //.alongWith(new LiftBarcodeSelectCommand(lift, vision)
-                .alongWith(new LiftLevel3Command(lift), new ArmExtendCommand(depot)),
+                .alongWith(new LiftBarcodeSelectCommand(lift, vision), new ArmExtendCommand(depot)),
                 new DumpCommand(depot));
     }
 }

@@ -11,6 +11,9 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvPipeline;
 import org.openftc.easyopencv.PipelineRecordingParameters;
 
+import java.util.function.IntConsumer;
+import java.util.function.IntFunction;
+
 public abstract class Camera<T extends OpenCvCamera, U> extends HardwareDevice<U> implements OpenCvCamera {
     protected T openCvCamera;
 
@@ -40,7 +43,27 @@ public abstract class Camera<T extends OpenCvCamera, U> extends HardwareDevice<U
 
     @Override
     public void openCameraDeviceAsync(AsyncCameraOpenListener cameraOpenListener) {
+
         getOpenCvCamera().openCameraDeviceAsync(cameraOpenListener);
+    }
+
+    public void openCameraDeviceAsync(Runnable open, IntConsumer error) {
+        getOpenCvCamera().openCameraDeviceAsync(new AsyncCameraOpenListener() {
+            @Override
+            public void onOpened() {
+                open.run();
+            }
+
+            @Override
+            public void onError(int errorCode) {
+                error.accept(errorCode);
+            }
+
+
+        });
+    }
+    public void openCameraDeviceAsync(Runnable open) {
+       openCameraDeviceAsync(open, i->{});
     }
 
     @Override

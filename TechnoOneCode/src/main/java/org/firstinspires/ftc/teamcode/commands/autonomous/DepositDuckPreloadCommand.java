@@ -5,6 +5,7 @@ import com.technototes.path.command.TrajectorySequenceCommand;
 
 import org.firstinspires.ftc.teamcode.commands.deposit.ArmExtendCommand;
 import org.firstinspires.ftc.teamcode.commands.deposit.DumpCommand;
+import org.firstinspires.ftc.teamcode.commands.lift.LiftBarcodeSelectCommand;
 import org.firstinspires.ftc.teamcode.commands.lift.LiftLevel3Command;
 import org.firstinspires.ftc.teamcode.subsystems.DepositSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.DrivebaseSubsystem;
@@ -15,7 +16,7 @@ public class DepositDuckPreloadCommand extends SequentialCommandGroup {
     public DepositDuckPreloadCommand(DrivebaseSubsystem drive, DepositSubsystem depot, LiftSubsystem lift, VisionSubsystem vision) {
         super(new TrajectorySequenceCommand(drive, AutonomousConstants.DUCK_START_TO_DEPOSIT)
                 //.alongWith(new LiftBarcodeSelectCommand(lift, vision)
-                .alongWith(new LiftLevel3Command(lift), new ArmExtendCommand(depot)),
+                .alongWith(new LiftBarcodeSelectCommand(lift, vision), new ArmExtendCommand(depot)),
                 new DumpCommand(depot));
     }
 }

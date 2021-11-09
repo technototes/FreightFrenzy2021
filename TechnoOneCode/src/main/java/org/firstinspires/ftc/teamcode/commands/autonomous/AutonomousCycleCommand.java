@@ -14,6 +14,10 @@ public class AutonomousCycleCommand extends SequentialCommandGroup {
         super(new DepositCyclePreloadCommand(drive, deposit, lift, vision),
                 new IntakeDepotCommand(drive, intake, lift, deposit),
                 new DepositFreightCommand(drive, intake, lift, deposit),
+                new IntakeDepotCommand(drive, intake, lift, deposit),
+                new DepositFreightCommand(drive, intake, lift, deposit),
+                new IntakeDepotCommand(drive, intake, lift, deposit),
+                new DepositFreightCommand(drive, intake, lift, deposit),
                 new ParkWarehouseCommand(drive, lift, deposit),
                 CommandScheduler.getInstance()::terminateOpMode);
     }

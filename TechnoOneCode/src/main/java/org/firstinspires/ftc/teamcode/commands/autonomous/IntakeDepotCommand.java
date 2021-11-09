@@ -17,6 +17,6 @@ public class IntakeDepotCommand extends SequentialCommandGroup {
     public IntakeDepotCommand(DrivebaseSubsystem drive, IntakeSubsystem intake, LiftSubsystem lift, DepositSubsystem deposit){
         super(new TrajectorySequenceCommand(drive, AutonomousConstants.CYCLE_DEPOSIT_TO_COLLECT)
                 .alongWith(new ArmRetractCommand(deposit), new LiftCollectCommand(lift))
-                .raceWith(new WaitCommand(1).andThen(new IntakeSafeCommand(intake, deposit))));
+                .deadline(new WaitCommand(1).andThen(new IntakeSafeCommand(intake, deposit))));
     }
 }

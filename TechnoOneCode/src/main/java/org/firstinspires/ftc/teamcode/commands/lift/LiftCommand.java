@@ -34,4 +34,8 @@ public class LiftCommand implements Command {
         return liftSys.isAtTarget() || getRuntime().seconds()>1.5;
     }
 
+    @Override
+    public void end(boolean cancel) {
+        liftSys.stop();
+    }
 }

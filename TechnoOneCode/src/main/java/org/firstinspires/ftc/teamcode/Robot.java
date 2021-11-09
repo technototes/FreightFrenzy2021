@@ -25,7 +25,7 @@ public class Robot implements Loggable {
         public static boolean DRIVE_CONNECTED = true;
         public static boolean CAROUSEL_CONNECTED = true;
         public static boolean INTAKE_CONNECTED = true;
-        public static boolean VISION_CONNECTED = false;
+        public static boolean VISION_CONNECTED = true;
         public static boolean CAP_CONNECTED = false;
     }
 
@@ -44,7 +44,6 @@ public class Robot implements Loggable {
     @Log.NumberSlider(name = "Intake", sliderBackground = Color.RED, slider = Color.ORANGE)
     public IntakeSubsystem intakeSubsystem;
 
-    @LogConfig.Disabled
     public VisionSubsystem visionSubsystem;
 
     @Log.NumberSlider(name = "Cap", color = Color.MAGENTA)

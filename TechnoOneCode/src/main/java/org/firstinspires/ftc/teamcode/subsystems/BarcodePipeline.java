@@ -139,7 +139,7 @@ public class BarcodePipeline extends OpenCvPipeline implements Supplier<Integer>
             debug = e;
             boolean error = true;
         }
-        if(telemetry != null) {
+        if(telemetry != null){
             telemetry.addLine(get().toString());
             telemetry.update();
         }
@@ -154,7 +154,6 @@ public class BarcodePipeline extends OpenCvPipeline implements Supplier<Integer>
     public double getRectMidpointY(){ return getRectY() + (getRectHeight()/2.0); }
     public Point getRectMidpointXY(){ return new Point(getRectMidpointX(), getRectMidpointY());}
     public double getRectArea(){ return maxRect.area(); }
-
 
     private int last = -1;
     @Override

@@ -58,7 +58,7 @@ public class Hardware {
 
         public static String CAROUSEL = "carousel";
 
-        public static String CAMERA = "webcam1";
+        public static String CAMERA = "webcam";
 
         public static String INTAKE = "intake";
         public static String INTAKE_RANGE = "irange";

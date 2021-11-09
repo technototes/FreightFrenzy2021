@@ -13,11 +13,11 @@ import static java.lang.Math.toRadians;
 @Config
 public class AutonomousConstants {
     public static class RedConstants {
-        public static Pose2d CYCLE_START = new Pose2d(0, -63, toRadians(90));
-        public static Pose2d CYCLE_DEPOSIT = new Pose2d(-2, -45, toRadians(110));
+        public static Pose2d CYCLE_START = new Pose2d(12, -63, toRadians(90));
+        public static Pose2d CYCLE_DEPOSIT = new Pose2d(0, -43, toRadians(110));
         public static Pose2d GAP = new Pose2d(30, -64, toRadians(0));
-        public static Pose2d CYCLE_COLLECT = new Pose2d(52, -64, toRadians(180));
-        public static Pose2d DUCK_START = new Pose2d(-24, -63, toRadians(90));
+        public static Pose2d CYCLE_COLLECT = new Pose2d(45, -64, toRadians(180));
+        public static Pose2d DUCK_START = new Pose2d(-36, -63, toRadians(90));
         public static Pose2d DUCK_DEPOSIT = new Pose2d(-24, -44, toRadians(60));
         public static Pose2d CAROUSEL = new Pose2d(-60, -60, toRadians(0));
         public static Pose2d PARK = new Pose2d(-62, -36, toRadians(0));

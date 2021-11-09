@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
 import com.acmerobotics.dashboard.config.Config;
+import com.technototes.library.command.CommandScheduler;
+import com.technototes.library.structure.CommandOpMode;
 import com.technototes.library.util.Color;
 import com.technototes.library.logger.Log;
 import com.technototes.library.logger.LogConfig;
@@ -8,6 +10,8 @@ import com.technototes.library.logger.Loggable;
 import com.technototes.vision.hardware.Camera;
 import com.technototes.vision.subsystem.PipelineSubsystem;
 
+import org.firstinspires.ftc.teamcode.commands.vision.VisionBarcodeCommand;
+import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 
 import static org.firstinspires.ftc.teamcode.subsystems.VisionSubsystem.VisionConstants.*;
@@ -29,10 +33,21 @@ public class VisionSubsystem extends PipelineSubsystem implements Loggable {
 
     public VisionSubsystem(Camera c) {
         super(c);
+        CommandScheduler.getInstance().scheduleForState(new VisionBarcodeCommand(this), CommandOpMode.OpModeState.INIT);
+        c.openCameraDeviceAsync(this::startStreaming, System.out::println);
+
     }
 
-    public PipelineSubsystem startStreaming(){
-        return startStreaming(WIDTH, HEIGHT, ROTATION);
+    public VisionSubsystem startStreaming(){
+        return (VisionSubsystem) startStreaming(WIDTH, HEIGHT, ROTATION);
     }
 
+    public VisionSubsystem startBarcodePipeline(){
+        setActivePipeline(barcodePipeline);
+        return this;
+    }
+    public VisionSubsystem stopBarcodePipeline(){
+        camera.closeCameraDeviceAsync(camera::stopStreaming);
+        return this;
+    }
 }
