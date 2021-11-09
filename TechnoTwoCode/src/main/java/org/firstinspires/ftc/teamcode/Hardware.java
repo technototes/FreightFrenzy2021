@@ -8,6 +8,7 @@ import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.INTAKE_CONNECT
 import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.LIFT_CONNECTED;
 import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.VISION_CONNECTED;
 import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.CAP_CONNECTED;
+import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.BUCKET_CONNECTED;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -30,6 +31,7 @@ import static org.firstinspires.ftc.teamcode.Hardware.HardwareConstants.DUMP;
 import static org.firstinspires.ftc.teamcode.Hardware.HardwareConstants.FL_MOTOR;
 import static org.firstinspires.ftc.teamcode.Hardware.HardwareConstants.FR_MOTOR;
 import static org.firstinspires.ftc.teamcode.Hardware.HardwareConstants.INTAKE;
+import static org.firstinspires.ftc.teamcode.Hardware.HardwareConstants.BUCKET;
 
 import static org.firstinspires.ftc.teamcode.Hardware.HardwareConstants.RL_MOTOR;
 import static org.firstinspires.ftc.teamcode.Hardware.HardwareConstants.RR_MOTOR;
@@ -56,6 +58,8 @@ public class Hardware {
         public static String INTAKE = "intake";
 
         public static String CAP = "cap";
+
+        public static String BUCKET = "bucket";
     }
 
     public static EncodedMotor<DcMotorEx> liftMotor;
@@ -85,6 +89,9 @@ public class Hardware {
     public static Servo capServo;
 
     public static Servo dumpServo;
+
+    public static Servo bucketServo;
+    public static EncodedMotor<DcMotorEx> bucketMotor;
 
     static {
         if(LIFT_CONNECTED) {
@@ -119,6 +126,11 @@ public class Hardware {
         }
         if (DEPOSIT_CONNECTED){
             dumpServo = new Servo(DUMP);
+        }
+
+        if (BUCKET_CONNECTED){
+            bucketServo = new Servo(BUCKET);
+            bucketMotor = new EncodedMotor<DcMotorEx>(BUCKET);
         }
     }
 }

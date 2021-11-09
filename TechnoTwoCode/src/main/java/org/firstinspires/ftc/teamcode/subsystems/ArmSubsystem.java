@@ -48,7 +48,7 @@ public class ArmSubsystem implements Subsystem, Supplier<Double> {
     }
 
     public boolean isAtTarget(){
-        return Math.abs(pidController.getTargetPosition() - get()) < ArmConstant.DEADZONE;
+        return Math.abs(pidController.getTargetPosition() - liftMotor.get()) < ArmConstant.DEADZONE;
     }
 
     @Override
