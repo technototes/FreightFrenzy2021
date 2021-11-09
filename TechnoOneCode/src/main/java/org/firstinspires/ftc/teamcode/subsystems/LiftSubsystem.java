@@ -18,11 +18,11 @@ public class LiftSubsystem implements Subsystem, Supplier<Double> {
     public static class LiftConstants {
         public static double LIFT_UPPER_LIMIT = 650.0;
         public static double LIFT_LOWER_LIMIT = 0.0;
-        public static double COLLECT = 0, LEVEL_1 = 100, LEVEL_2 = 300, LEVEL_3 = 600;
+        public static double COLLECT = 0, LEVEL_1 = 0, LEVEL_2 = 300, LEVEL_3 = 650;
 
         public static double DEADZONE = 5;
 
-        public static PIDCoefficients PID = new PIDCoefficients(0.004, 0, 0.0002);
+        public static PIDCoefficients PID = new PIDCoefficients(0.004, 0, 0.0004);
 
     }
     public EncodedMotor<DcMotorEx> liftMotor;
@@ -33,7 +33,7 @@ public class LiftSubsystem implements Subsystem, Supplier<Double> {
         liftMotor = l;
         l.zeroEncoder();
         l.setOutputLimits(-0.1, 1);
-        pidController = new PIDFController(PID, 0, 0, 0, (x,y)->0.1);
+        pidController = new PIDFController(PID, 0, 0, 0, (x,y)->0.05);
     }
 
     public void setLiftPosition(double pos){

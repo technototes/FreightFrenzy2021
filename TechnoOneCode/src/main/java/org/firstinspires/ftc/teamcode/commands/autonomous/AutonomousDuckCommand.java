@@ -24,13 +24,9 @@ import org.firstinspires.ftc.teamcode.subsystems.VisionSubsystem;
 
 public class AutonomousDuckCommand extends SequentialCommandGroup {
     public AutonomousDuckCommand(DrivebaseSubsystem drive, IntakeSubsystem intake, LiftSubsystem lift, DepositSubsystem deposit, VisionSubsystem vision, CarouselSubsystem carousel){
-          super(new TrajectorySequenceCommand(drive, AutonomousConstants.DUCK_START_TO_DEPOSIT)
-                  .alongWith(new LiftLevel3Command(lift), new ArmExtendCommand(deposit)),
-                  new DumpCommand(deposit),
-                  new ParallelCommandGroup(new TrajectorySequenceCommand(drive, AutonomousConstants.DUCK_DEPOSIT_TO_CAROUSEL),
-                          new ArmRetractCommand(deposit).andThen(new LiftCollectCommand(lift))),
-                  new CarouselSpinCommand(carousel).withTimeout(3),
-                  new TrajectorySequenceCommand(drive, AutonomousConstants.DUCK_CAROUSEL_TO_PARK),
+          super(new DepositDuckPreloadCommand(drive, deposit, lift, vision),
+                  new ToCarouselCommand(drive, lift, deposit, carousel),
+                  new ParkSquareCommand(drive),
                   CommandScheduler.getInstance()::terminateOpMode);
-    }
+    }  
 }

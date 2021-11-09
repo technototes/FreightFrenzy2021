@@ -14,13 +14,13 @@ import static java.lang.Math.toRadians;
 public class AutonomousConstants {
     public static class RedConstants {
         public static Pose2d CYCLE_START = new Pose2d(0, -63, toRadians(90));
-        public static Pose2d CYCLE_DEPOSIT = new Pose2d(0, -44, toRadians(120));
+        public static Pose2d CYCLE_DEPOSIT = new Pose2d(-2, -45, toRadians(110));
         public static Pose2d GAP = new Pose2d(30, -64, toRadians(0));
-        public static Pose2d CYCLE_COLLECT = new Pose2d(55, -64, toRadians(180));
+        public static Pose2d CYCLE_COLLECT = new Pose2d(52, -64, toRadians(180));
         public static Pose2d DUCK_START = new Pose2d(-24, -63, toRadians(90));
         public static Pose2d DUCK_DEPOSIT = new Pose2d(-24, -44, toRadians(60));
         public static Pose2d CAROUSEL = new Pose2d(-60, -60, toRadians(0));
-        public static Pose2d PARK = new Pose2d(-60, -36, toRadians(0));
+        public static Pose2d PARK = new Pose2d(-62, -36, toRadians(0));
 
     }
 
@@ -28,11 +28,11 @@ public class AutonomousConstants {
         public static Pose2d CYCLE_START = new Pose2d(0, 63, toRadians(-90));
         public static Pose2d CYCLE_DEPOSIT = new Pose2d(0, 44, toRadians(-120));
         public static Pose2d GAP = new Pose2d(30, 64, toRadians(0));
-        public static Pose2d CYCLE_COLLECT = new Pose2d(55, 64, toRadians(-180));
+        public static Pose2d CYCLE_COLLECT = new Pose2d(52, 64, toRadians(-180));
         public static Pose2d DUCK_START = new Pose2d(-24, 63, toRadians(-90));
         public static Pose2d DUCK_DEPOSIT = new Pose2d(-24, 44, toRadians(-60));
-        public static Pose2d CAROUSEL = new Pose2d(-60, 60, toRadians(-90));
-        public static Pose2d PARK = new Pose2d(-60, 36, toRadians(0));
+        public static Pose2d CAROUSEL = new Pose2d(-62, 60, toRadians(-90));
+        public static Pose2d PARK = new Pose2d(-62, 36, toRadians(0));
 
     }
 
@@ -57,7 +57,7 @@ public class AutonomousConstants {
             CYCLE_DEPOSIT_TO_COLLECT = b -> b.apply(CYCLE_DEPOSIT_SELECT.get())
                     .setReversed(true)
                     .splineTo(GAP_SELECT.get().vec(), GAP_SELECT.get().getHeading())
-                    .setVelConstraint((a, e, c, d) -> 15)
+                    .setVelConstraint((a, e, c, d) -> 10)
                     .lineTo(CYCLE_COLLECT_SELECT.get().vec())
                     .build(),
             CYCLE_COLLECT_TO_DEPOSIT = b -> b.apply(CYCLE_COLLECT_SELECT.get())

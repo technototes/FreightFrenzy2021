@@ -26,8 +26,8 @@ public abstract class CommandGroup implements Command {
      */
     public CommandGroup addCommands(Command... commands){
         for(Command c : commands){
-            commandMap.put(c, false);
             schedule(c);
+            commandMap.put(c, false);
         }
         return this;
     }

@@ -216,7 +216,8 @@ public abstract class MecanumDrivebaseSubsystem extends MecanumDrive implements 
     }
 
     public void followTrajectoryAsync(Trajectory trajectory) {
-        trajectorySequenceRunner.followTrajectorySequenceAsync(
+        if(trajectory == null) trajectorySequenceRunner.followTrajectorySequenceAsync(null);
+        else trajectorySequenceRunner.followTrajectorySequenceAsync(
                 trajectorySequenceBuilder(trajectory.start())
                         .addTrajectory(trajectory)
                         .build()
@@ -245,6 +246,12 @@ public abstract class MecanumDrivebaseSubsystem extends MecanumDrive implements 
         updatePoseEstimate();
         DriveSignal signal = trajectorySequenceRunner.update(getPoseEstimate(), getPoseVelocity());
         if (signal != null) setDriveSignal(signal);
+    }
+
+    public void stop(){
+        followTrajectorySequenceAsync(null);
+        followTrajectory(null);
+
     }
 
     public void waitForIdle() {

@@ -14,11 +14,11 @@ public class ArmRetractCommand implements Command {
     @Override
     public void execute() {
         subsystem.fullyIn();
-        subsystem.collect();
+        if(getRuntime().seconds()>0.3) subsystem.collect();
     }
     @Override
     public boolean isFinished() {
-        return getRuntime().seconds()>1;
+        return getRuntime().seconds()>0.5;
     }
 }
 

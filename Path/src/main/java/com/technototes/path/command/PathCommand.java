@@ -28,7 +28,7 @@ public class PathCommand implements Command {
 
     @Override
     public void end(boolean cancel) {
-        if(cancel) subsystem.setDriveSignal(new DriveSignal());
+        subsystem.setDriveSignal(new DriveSignal());
     }
 
     public PathCommand path(PathCommand c){

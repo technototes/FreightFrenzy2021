@@ -4,19 +4,20 @@ import com.technototes.library.command.SequentialCommandGroup;
 import com.technototes.library.command.WaitCommand;
 import com.technototes.path.command.TrajectorySequenceCommand;
 
+import org.firstinspires.ftc.teamcode.commands.carousel.CarouselSpinCommand;
 import org.firstinspires.ftc.teamcode.commands.deposit.ArmRetractCommand;
-import org.firstinspires.ftc.teamcode.commands.deposit.CollectCommand;
 import org.firstinspires.ftc.teamcode.commands.intake.IntakeSafeCommand;
 import org.firstinspires.ftc.teamcode.commands.lift.LiftCollectCommand;
+import org.firstinspires.ftc.teamcode.subsystems.CarouselSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.DepositSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.DrivebaseSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem;
 
-public class IntakeDepotCommand extends SequentialCommandGroup {
-    public IntakeDepotCommand(DrivebaseSubsystem drive, IntakeSubsystem intake, LiftSubsystem lift, DepositSubsystem deposit){
-        super(new TrajectorySequenceCommand(drive, AutonomousConstants.CYCLE_DEPOSIT_TO_COLLECT)
-                .alongWith(new ArmRetractCommand(deposit), new LiftCollectCommand(lift))
-                .raceWith(new WaitCommand(1).andThen(new IntakeSafeCommand(intake, deposit))));
+public class ToCarouselCommand extends SequentialCommandGroup {
+    public ToCarouselCommand(DrivebaseSubsystem drive, LiftSubsystem lift, DepositSubsystem deposit, CarouselSubsystem carousel){
+        super(new TrajectorySequenceCommand(drive, AutonomousConstants.DUCK_DEPOSIT_TO_CAROUSEL)
+                .alongWith(new ArmRetractCommand(deposit), new LiftCollectCommand(lift)),
+                new CarouselSpinCommand(carousel).withTimeout(3));
     }
 }
