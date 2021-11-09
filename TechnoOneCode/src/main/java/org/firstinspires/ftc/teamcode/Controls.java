@@ -86,7 +86,7 @@ public class Controls {
 
     public void bindDepositControls() {
         dumpAxis.whilePressedOnce(new DumpVariableCommand(robot.depositSubsystem, dumpAxis));
-        toIntakeButton.whilePressed(new ArmRetractCommand(robot.depositSubsystem));
+        toIntakeButton.whilePressedContinuous(new ArmRetractCommand(robot.depositSubsystem));
         specificHubButton.whenPressed(new WaitCommand(0.1).andThen(new ArmExtendCommand(robot.depositSubsystem)));
         neutralHubButton.whenPressed(new WaitCommand(0.1).andThen(new ArmExtendCommand(robot.depositSubsystem)));
         slideAdjustOutButton.whilePressed(new ArmTranslateCommand(robot.depositSubsystem, -0.01));
@@ -97,8 +97,8 @@ public class Controls {
         neutralHubButton.whenPressed(new LiftLevel1Command(robot.liftSubsystem));
         specificHubButton.whenPressed(new LiftLevel3Command(robot.liftSubsystem));
         toIntakeButton.whenPressed(new LiftCollectCommand(robot.liftSubsystem));
-        liftAdjustUpButton.whilePressed(new LiftTranslateCommand(robot.liftSubsystem, 30));
-        liftAdjustDownButton.whilePressed(new LiftTranslateCommand(robot.liftSubsystem, -30));
+        liftAdjustUpButton.whilePressed(new LiftTranslateCommand(robot.liftSubsystem, 10));
+        liftAdjustDownButton.whilePressed(new LiftTranslateCommand(robot.liftSubsystem, -10));
     }
 
     public void bindDriveControls() {

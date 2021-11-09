@@ -25,4 +25,8 @@ public class TrajectorySequenceCommand extends PathCommand {
         subsystem.followTrajectorySequenceAsync(trajectory);
     }
 
+    @Override
+    public void end(boolean cancel) {
+        subsystem.followTrajectorySequenceAsync(null);
+    }
 }
