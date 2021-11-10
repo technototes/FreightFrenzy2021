@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.subsystems;
 import com.acmerobotics.roadrunner.control.PIDCoefficients;
 import com.acmerobotics.roadrunner.control.PIDFController;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.qualcomm.robotcore.util.Range;
 import com.technototes.library.hardware.motor.EncodedMotor;
 import com.technototes.library.hardware.servo.Servo;
@@ -20,6 +21,10 @@ public class BucketSubsystem implements Subsystem, Supplier<Double> {
 
         public static double MOTOR_LOWER_LIMIT = 0;
         public static double MOTOR_UPPER_LIMIT = 100;
+        public static double SERVO_LOWER_LIMIT = 0;
+        public static double SERVO_UPPER_LIMIT = 100;
+
+        public static PIDCoefficients pidCoefficients_motor = new PIDCoefficients(0.002, 0, 0);
 
         /**
          * because this subsystem requires motor and servo cooperate together
@@ -45,7 +50,25 @@ public class BucketSubsystem implements Subsystem, Supplier<Double> {
         public static double[] COMBINATION_LEVEL3 = {0, 0};
         public static double[] COMBINATION_LEVEL2 = {0, 0};
         public static double[] COMBINATION_LEVEL1 = {0, 0};
+//        public static Combination COLLECT = new Combination(0, 0);
     }
+
+    /**
+     * something like enum might easier to configure in dash
+     */
+//    public static class Combination{
+//        public double arm, bucket;
+//        public Combination(double a, double s) {
+//            arm = a;
+//            bucket = s;
+//        }
+//        public double getArm(){
+//            return arm;
+//        }
+//        public double getBucket(){
+//            return bucket;
+//        }
+//    }
 
     EncodedMotor<DcMotorEx> bucketMotor;
     Servo bucketServo;
@@ -55,7 +78,6 @@ public class BucketSubsystem implements Subsystem, Supplier<Double> {
      */
     public double bucketServo_targetPosition;
 
-    public static final PIDCoefficients pidCoefficients_motor = new PIDCoefficients(0.002, 0, 0);
     public PIDFController pidController_motor;
 
     public BucketSubsystem (EncodedMotor<DcMotorEx> motor, Servo servo) {
@@ -75,6 +97,11 @@ public class BucketSubsystem implements Subsystem, Supplier<Double> {
         setMotorPosition(motor_pos);
         setServoPosition(servo_pos);
     }
+
+//    public void setCombination(Combination c){
+//        setMotorPosition(c.getArm());
+//        setServoPosition(c.getBucket());
+//    }
     /**
      * just overloaded, so can simply throw in a constant
      * ideally the Command(s) will use this method with these pre-made constant(s)

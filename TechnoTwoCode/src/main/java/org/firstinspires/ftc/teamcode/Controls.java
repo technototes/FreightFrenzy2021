@@ -1,20 +1,22 @@
 package org.firstinspires.ftc.teamcode;
 
+import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.BUCKET_CONNECTED;
 import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.CAP_CONNECTED;
 import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.CAROUSEL_CONNECTED;
 import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.DEPOSIT_CONNECTED;
 import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.DRIVE_CONNECTED;
 import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.INTAKE_CONNECTED;
-import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.LIFT_CONNECTED;
 
 import com.technototes.library.control.gamepad.CommandAxis;
 import com.technototes.library.control.gamepad.CommandButton;
 import com.technototes.library.control.gamepad.CommandGamepad;
 import com.technototes.library.control.gamepad.Stick;
 
-import org.firstinspires.ftc.teamcode.commands.arm.ArmCollectCommand;
-import org.firstinspires.ftc.teamcode.commands.arm.ArmLevel1Command;
-import org.firstinspires.ftc.teamcode.commands.arm.ArmLevel3Command;
+import org.firstinspires.ftc.teamcode.commands.bucket.BucketCollectedCommand;
+import org.firstinspires.ftc.teamcode.commands.bucket.BucketCollectingCommand;
+import org.firstinspires.ftc.teamcode.commands.bucket.BucketUnloadLevel1Command;
+import org.firstinspires.ftc.teamcode.commands.bucket.BucketUnloadLevel2Command;
+import org.firstinspires.ftc.teamcode.commands.bucket.BucketUnloadLevel3Command;
 import org.firstinspires.ftc.teamcode.commands.carousel.CarouselLeftCommand;
 import org.firstinspires.ftc.teamcode.commands.carousel.CarouselRightCommand;
 import org.firstinspires.ftc.teamcode.commands.deposit.DumpVariableCommand;
@@ -69,12 +71,13 @@ public class Controls {
         driveLeftStick = gamepad.leftStick;
         driveRightStick = gamepad.rightStick;
 
-        if(LIFT_CONNECTED) bindArmControls();
+//        if(LIFT_CONNECTED) bindArmControls();
         if(DEPOSIT_CONNECTED) bindDepositControls();
         if(DRIVE_CONNECTED) bindDriveControls();
         if(INTAKE_CONNECTED) bindIntakeControls();
         if(CAROUSEL_CONNECTED) bindCarouselControls();
         if(CAP_CONNECTED) bindCapControls();
+        if(BUCKET_CONNECTED) bindBucketControls();
     }
 
 
@@ -87,10 +90,19 @@ public class Controls {
         // slideAdjustInButton.whilePressed(new ArmTranslateCommand(robot.depositSubsystem, 0.01));
     }
 
-    public void bindArmControls(){
-        neutralHubButton.whenPressed(new ArmLevel1Command(robot.armSubsystem));
-        specificHubButton.whenPressed(new ArmLevel3Command(robot.armSubsystem));
-        toIntakeButton.whenPressed(new ArmCollectCommand(robot.armSubsystem));
+//    public void bindArmControls(){
+//        neutralHubButton.whenPressed(new ArmLevel1Command(robot.armSubsystem));
+//        specificHubButton.whenPressed(new ArmLevel3Command(robot.armSubsystem));
+//        toIntakeButton.whenPressed(new ArmCollectCommand(robot.armSubsystem));
+//    }
+
+    public void bindBucketControls(){
+        neutralHubButton.whenPressed(new BucketUnloadLevel1Command(robot.bucketSubsystem));
+        specificHubButton.whenPressed(new BucketUnloadLevel3Command(robot.bucketSubsystem));
+        toIntakeButton.whenPressed(new BucketCollectedCommand(robot.bucketSubsystem)
+                                .andThen(new BucketCollectingCommand(robot.bucketSubsystem))
+                                .andThen(new BucketCollectedCommand(robot.bucketSubsystem))
+        );
     }
 
     public void bindDriveControls(){
