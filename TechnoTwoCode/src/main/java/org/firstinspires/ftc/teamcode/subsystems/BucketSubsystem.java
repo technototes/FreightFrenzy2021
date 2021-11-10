@@ -24,21 +24,35 @@ public class BucketSubsystem implements Subsystem, Supplier<Double> {
         /**
          * because this subsystem requires motor and servo cooperate together
          * motor [0] servo [1]
+         * feel free to add more constants if needed and pass them to setPositionCombination()
+         * some constants just used for transition purpose, between intake and unload, because always want the bucket facing upward
+         *
+         * here's the explanation to these constants:
+         * COMBINATION_COLLECTING the bucket touch ground and the intake running
+         * COMBINATION_COLLECTED the bucket have block inside, and tilt-up little so the arm ready to lifting
+         * COMBINATION_0_DEGREE the arm is 180-degree leveled to the ground
+         * COMBINATION_45_DEGREE the arm is 45-degree from the horizontal axis, but the bucket will tilt a little
+         * COMBINATION_TOP the arm is 90-degree from the horizontal axis that forms a right-angle
+         * COMBINATION_LEVEL3 unload the block to level 3 of the shelf
+         * COMBINATION_LEVEL2 unload the block to level 2 of the shelf
+         * COMBINATION_LEVEL1 unload the block to level 1 of the shelf
          */
         public static double[] COMBINATION_COLLECTING = {0, 0};
         public static double[] COMBINATION_COLLECTED = {0, 0};
-        public static double[] COMBINATION_0 = {0, 0};
-        public static double[] COMBINATION_45 = {0, 0};
+        public static double[] COMBINATION_0_DEGREE = {0, 0};
+        public static double[] COMBINATION_45_DEGREE = {0, 0};
         public static double[] COMBINATION_TOP = {0, 0};
         public static double[] COMBINATION_LEVEL3 = {0, 0};
         public static double[] COMBINATION_LEVEL2 = {0, 0};
         public static double[] COMBINATION_LEVEL1 = {0, 0};
-        public static double[] COMBINATION_IDLE = {0, 0};
     }
 
     EncodedMotor<DcMotorEx> bucketMotor;
     Servo bucketServo;
 
+    /**
+     * serve isServoAtTarget() since the servo doesn't have a PID controller so need something to store the target position and to the comparison
+     */
     public double bucketServo_targetPosition;
 
     public static final PIDCoefficients pidCoefficients_motor = new PIDCoefficients(0.002, 0, 0);
@@ -50,20 +64,23 @@ public class BucketSubsystem implements Subsystem, Supplier<Double> {
         pidController_motor = new PIDFController(pidCoefficients_motor);
     }
 
-    /**
-     * using more detailed method name so you know what's you using
-     * @param position
-     */
-    private void setMotorPosition(double pos){
-        pidController_motor.setTargetPosition(Range.clip(pos, MOTOR_LOWER_LIMIT, MOTOR_UPPER_LIMIT));
+    private void setMotorPosition(double position){
+        pidController_motor.setTargetPosition(Range.clip(position, MOTOR_LOWER_LIMIT, MOTOR_UPPER_LIMIT));
     }
-    private void setServoPosition(double pos){
-        bucketServo.setPosition(pos);
-        bucketServo_targetPosition = pos;
+    private void setServoPosition(double position){
+        bucketServo.setPosition(position);
+        bucketServo_targetPosition = position;
     }
     public void setPositionCombination(double motor_pos, double servo_pos){
         setMotorPosition(motor_pos);
         setServoPosition(servo_pos);
+    }
+    /**
+     * just overloaded, so can simply throw in a constant
+     * ideally the Command(s) will use this method with these pre-made constant(s)
+     */
+    public void setPositionCombination(double[] positionCombo){
+        setPositionCombination(positionCombo[0], positionCombo[1]);
     }
 
     /**
@@ -73,7 +90,6 @@ public class BucketSubsystem implements Subsystem, Supplier<Double> {
     private boolean isMotorAtTarget(){
         return Math.abs(pidController_motor.getTargetPosition() - bucketMotor.get()) < TOLERANCE_ZONE;
     }
-
     /**
      * @return true when motor position reached around target position
      * using something called dead-zone, so when the motor moved slightly over the target don't necessary go-back
