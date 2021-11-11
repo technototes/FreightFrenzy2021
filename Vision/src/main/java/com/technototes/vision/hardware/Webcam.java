@@ -21,6 +21,7 @@ public class Webcam extends Camera<OpenCvWebcam, WebcamName> {
         return OpenCvCameraFactory.getInstance().createWebcam(getDevice(),
                 hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id",
                         hardwareMap.appContext.getPackageName()));
+
     }
 
 }

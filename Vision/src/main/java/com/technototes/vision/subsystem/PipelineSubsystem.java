@@ -10,9 +10,6 @@ public class PipelineSubsystem implements Subsystem<Camera> {
 
     protected Camera camera;
 
-
-
-
     public PipelineSubsystem(Camera c){
         camera = c;
     }
@@ -20,11 +17,6 @@ public class PipelineSubsystem implements Subsystem<Camera> {
     @Override
     public Camera getDevice() {
         return camera;
-    }
-
-    public PipelineSubsystem setActivePipeline(OpenCvPipeline pipeline){
-        camera.setPipeline(pipeline);
-        return this;
     }
 
 

@@ -49,19 +49,19 @@ public class Robot implements Loggable {
     @Log.NumberSlider(name = "Cap", color = Color.MAGENTA)
     public CapSubsystem capSubsystem;
 
-    public Robot(){
-        if(LIFT_CONNECTED) liftSubsystem = new LiftSubsystem(Hardware.liftMotor);
+    public Robot(Hardware hardware){
+        if(LIFT_CONNECTED) liftSubsystem = new LiftSubsystem(hardware.liftMotor);
 
-        if(DEPOSIT_CONNECTED) depositSubsystem = new DepositSubsystem(Hardware.dumpServos, Hardware.armServo);
+        if(DEPOSIT_CONNECTED) depositSubsystem = new DepositSubsystem(hardware.dumpServos, hardware.armServo);
 
-        if(DRIVE_CONNECTED) drivebaseSubsystem = new DrivebaseSubsystem(Hardware.flDriveMotor, Hardware.frDriveMotor, Hardware.rlDriveMotor, Hardware.rrDriveMotor, Hardware.imu, Hardware.leftRangeSensor, Hardware.rightRangeSensor);
+        if(DRIVE_CONNECTED) drivebaseSubsystem = new DrivebaseSubsystem(hardware.flDriveMotor, hardware.frDriveMotor, hardware.rlDriveMotor, hardware.rrDriveMotor, hardware.imu, hardware.leftRangeSensor, hardware.rightRangeSensor);
 
-        if(CAROUSEL_CONNECTED) carouselSubsystem = new CarouselSubsystem(Hardware.carouselMotor);
+        if(CAROUSEL_CONNECTED) carouselSubsystem = new CarouselSubsystem(hardware.carouselMotor);
 
-        if(INTAKE_CONNECTED) intakeSubsystem = new IntakeSubsystem(Hardware.intakeMotor, Hardware.intakeDistSensor);
+        if(INTAKE_CONNECTED) intakeSubsystem = new IntakeSubsystem(hardware.intakeMotor, hardware.intakeDistSensor);
 
-        if(VISION_CONNECTED) visionSubsystem = new VisionSubsystem(Hardware.camera);
+        if(VISION_CONNECTED) visionSubsystem = new VisionSubsystem(hardware.camera);
 
-        if(CAP_CONNECTED) capSubsystem = new CapSubsystem(Hardware.capServo);
+        if(CAP_CONNECTED) capSubsystem = new CapSubsystem(hardware.capServo);
     }
 }

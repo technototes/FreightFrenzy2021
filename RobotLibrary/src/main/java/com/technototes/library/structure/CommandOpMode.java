@@ -50,6 +50,7 @@ public abstract class CommandOpMode extends LinearOpMode {
 
     @Override
     public final void runOpMode() {
+        opModeState = OpModeState.INIT;
         driverGamepad = new CommandGamepad(gamepad1);
         codriverGamepad = new CommandGamepad(gamepad2);
         HardwareDevice.hardwareMap = hardwareMap;
@@ -64,6 +65,7 @@ public abstract class CommandOpMode extends LinearOpMode {
             logger.initUpdate();
         }
         opModeState = OpModeState.RUN;
+        CommandScheduler.getInstance().run();
         uponStart();
         while (opModeIsActive() && !terminated && !isStopRequested()) {
             runLoop();

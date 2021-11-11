@@ -21,7 +21,7 @@ public class TurnTest extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         HardwareDevice.hardwareMap = hardwareMap;
 
-        DrivebaseSubsystem drive = new DrivebaseSubsystem();
+        DrivebaseSubsystem drive = new DrivebaseSubsystem(new Hardware());
 //        SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
         waitForStart();

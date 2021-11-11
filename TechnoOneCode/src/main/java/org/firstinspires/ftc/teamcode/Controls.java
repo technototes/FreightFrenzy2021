@@ -1,12 +1,10 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.technototes.library.command.CommandScheduler;
 import com.technototes.library.command.WaitCommand;
 import com.technototes.library.control.gamepad.CommandAxis;
 import com.technototes.library.control.gamepad.CommandButton;
 import com.technototes.library.control.gamepad.CommandGamepad;
 import com.technototes.library.control.gamepad.Stick;
-import com.technototes.library.structure.CommandOpMode;
 
 import org.firstinspires.ftc.teamcode.commands.carousel.CarouselLeftCommand;
 import org.firstinspires.ftc.teamcode.commands.carousel.CarouselRightCommand;
@@ -20,12 +18,10 @@ import org.firstinspires.ftc.teamcode.commands.drivebase.SetSpeedCommand;
 import org.firstinspires.ftc.teamcode.commands.intake.IntakeInCommand;
 import org.firstinspires.ftc.teamcode.commands.intake.IntakeOutCommand;
 import org.firstinspires.ftc.teamcode.commands.intake.IntakeSafeCommand;
-import org.firstinspires.ftc.teamcode.commands.intake.IntakeStopCommand;
 import org.firstinspires.ftc.teamcode.commands.lift.LiftCollectCommand;
 import org.firstinspires.ftc.teamcode.commands.lift.LiftLevel1Command;
 import org.firstinspires.ftc.teamcode.commands.lift.LiftLevel3Command;
 import org.firstinspires.ftc.teamcode.commands.lift.LiftTranslateCommand;
-import org.firstinspires.ftc.teamcode.commands.vision.VisionBarcodeCommand;
 
 import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.CAP_CONNECTED;
 import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.CAROUSEL_CONNECTED;
@@ -33,7 +29,6 @@ import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.DEPOSIT_CONNEC
 import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.DRIVE_CONNECTED;
 import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.INTAKE_CONNECTED;
 import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.LIFT_CONNECTED;
-import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.VISION_CONNECTED;
 
 public class Controls {
 
@@ -93,8 +88,8 @@ public class Controls {
     public void bindDepositControls() {
         dumpAxis.whilePressedOnce(new DumpVariableCommand(robot.depositSubsystem, dumpAxis));
         toIntakeButton.whilePressedContinuous(new ArmRetractCommand(robot.depositSubsystem));
-        specificHubButton.whenPressed(new WaitCommand(0.1).andThen(new ArmExtendCommand(robot.depositSubsystem)));
-        neutralHubButton.whenPressed(new WaitCommand(0.1).andThen(new ArmExtendCommand(robot.depositSubsystem)));
+        specificHubButton.whenPressed(new ArmExtendCommand(robot.depositSubsystem));
+        neutralHubButton.whenPressed(new ArmExtendCommand(robot.depositSubsystem));
         slideAdjustOutButton.whilePressed(new ArmTranslateCommand(robot.depositSubsystem, -0.01));
         slideAdjustInButton.whilePressed(new ArmTranslateCommand(robot.depositSubsystem, 0.01));
     }
@@ -115,7 +110,7 @@ public class Controls {
     }
 
     public void bindIntakeControls() {
-        toIntakeButton.whilePressedContinuous(DEPOSIT_CONNECTED ? new IntakeSafeCommand(robot.intakeSubsystem, robot.depositSubsystem) : new IntakeInCommand(robot.intakeSubsystem));
+        toIntakeButton.whilePressedContinuous(DEPOSIT_CONNECTED ? new WaitCommand(1).andThen(new IntakeSafeCommand(robot.intakeSubsystem, robot.depositSubsystem)) : new IntakeInCommand(robot.intakeSubsystem));
         intakeInButton.whilePressedContinuous(new IntakeInCommand(robot.intakeSubsystem));
         intakeOutButton.whilePressedOnce(new IntakeOutCommand(robot.intakeSubsystem));
         specificHubButton.whenPressed(new IntakeOutCommand(robot.intakeSubsystem).withTimeout(0.2));

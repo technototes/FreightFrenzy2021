@@ -97,13 +97,13 @@ public class DrivebaseSubsystem extends MecanumDrivebaseSubsystem implements Sup
 //        dashboard.setTelemetryTransmissionInterval(25);
     }
 
-    public DrivebaseSubsystem(){
-        this(Hardware.flDriveMotor, Hardware.frDriveMotor, Hardware.rlDriveMotor, Hardware.rrDriveMotor, Hardware.imu, Hardware.leftRangeSensor, Hardware.rightRangeSensor);
+    public DrivebaseSubsystem(Hardware hardware){
+        this(hardware.flDriveMotor, hardware.frDriveMotor, hardware.rlDriveMotor, hardware.rrDriveMotor, hardware.imu, hardware.leftRangeSensor, hardware.rightRangeSensor);
     }
 
     public void relocalizePose(Alliance alliance){
         setPoseEstimate(new Pose2d(getPoseEstimate().getX(),
-                alliance == Alliance.RED ? right.getSensorValue()-64 : 64-left.getSensorValue(),
+                alliance == Alliance.RED ? right.getSensorValue()-63.5 : 63.5-left.getSensorValue(),
                 getExternalHeading()));
     }
 

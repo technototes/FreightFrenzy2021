@@ -16,7 +16,7 @@ import org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem;
 public class IntakeDepotCommand extends SequentialCommandGroup {
     public IntakeDepotCommand(DrivebaseSubsystem drive, IntakeSubsystem intake, LiftSubsystem lift, DepositSubsystem deposit){
         super(new TrajectorySequenceCommand(drive, AutonomousConstants.CYCLE_DEPOSIT_TO_COLLECT)
-                .alongWith(new ArmRetractCommand(deposit), new LiftCollectCommand(lift))
-                .deadline(new WaitCommand(1).andThen(new IntakeSafeCommand(intake, deposit))));
+                .alongWith(new ArmRetractCommand(deposit), new WaitCommand(0.5).andThen(new LiftCollectCommand(lift)))
+                .raceWith(new WaitCommand(1.5).andThen(new IntakeSafeCommand(intake, deposit))));
     }
 }

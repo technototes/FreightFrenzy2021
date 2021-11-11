@@ -8,12 +8,21 @@ import com.technototes.library.hardware.sensor.IMU;
 import com.technototes.library.hardware.sensor.RangeSensor;
 import com.technototes.library.hardware.servo.Servo;
 import com.technototes.library.hardware.servo.ServoGroup;
+import com.technototes.library.subsystem.Subsystem;
 import com.technototes.vision.hardware.Webcam;
 
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.subsystems.DepositSubsystem;
+import org.openftc.easyopencv.OpenCvCameraFactory;
+import org.openftc.easyopencv.OpenCvWebcam;
 
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.technototes.library.hardware.HardwareDevice.hardwareMap;
 import static org.firstinspires.ftc.teamcode.Hardware.HardwareConstants.ARM;
 import static org.firstinspires.ftc.teamcode.Hardware.HardwareConstants.CAMERA;
 import static org.firstinspires.ftc.teamcode.Hardware.HardwareConstants.CAP;
@@ -67,32 +76,32 @@ public class Hardware {
 
     }
 
-    public static EncodedMotor<DcMotorEx> liftMotor;
+    public EncodedMotor<DcMotorEx> liftMotor;
 
-    public static Servo dumpLeftServo, dumpRightServo;
-    public static ServoGroup dumpServos;
-    public static Servo armServo;
+    public Servo dumpLeftServo, dumpRightServo;
+    public ServoGroup dumpServos;
+    public Servo armServo;
 
-    public static EncodedMotor<DcMotorEx> flDriveMotor;
-    public static EncodedMotor<DcMotorEx> frDriveMotor;
-    public static EncodedMotor<DcMotorEx> rlDriveMotor;
-    public static EncodedMotor<DcMotorEx> rrDriveMotor;
-    public static IMU imu;
-    public static RangeSensor leftRangeSensor;
-    public static RangeSensor rightRangeSensor;
+    public EncodedMotor<DcMotorEx> flDriveMotor;
+    public EncodedMotor<DcMotorEx> frDriveMotor;
+    public EncodedMotor<DcMotorEx> rlDriveMotor;
+    public EncodedMotor<DcMotorEx> rrDriveMotor;
+    public IMU imu;
+    public RangeSensor leftRangeSensor;
+    public RangeSensor rightRangeSensor;
 
 
-    public static Motor<DcMotorEx> intakeMotor;
+    public Motor<DcMotorEx> intakeMotor;
 
-    public static Motor<DcMotorEx> carouselMotor;
+    public Motor<DcMotorEx> carouselMotor;
 
-    public static Webcam camera;
+    public RangeSensor intakeDistSensor;
 
-    public static RangeSensor intakeDistSensor;
+    public Servo capServo;
 
-    public static Servo capServo;
+    public Webcam camera;
 
-    static {
+    public Hardware() {
         if(LIFT_CONNECTED) {
             liftMotor = new EncodedMotor<>(LIFT);
         }

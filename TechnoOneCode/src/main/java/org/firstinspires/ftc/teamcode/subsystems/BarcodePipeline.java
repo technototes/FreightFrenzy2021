@@ -21,7 +21,7 @@ import static org.firstinspires.ftc.teamcode.subsystems.BarcodePipeline.BarcodeC
 public class BarcodePipeline extends OpenCvPipeline implements Supplier<Integer> {
     @Config
     public static class BarcodeConstants {
-        public static boolean DISPLAY = true;
+        public static boolean DISPLAY = false;
         public static Scalar DISPLAY_COLOR = new Scalar(200, 0, 0);
         public static Scalar LOWER_LIMIT = new Scalar(  100.0, 0.0, 0.0, 0.0);
         public static Scalar UPPER_LIMIT = new Scalar(255.0, 80.0, 80.0, 255.0);
@@ -157,7 +157,7 @@ public class BarcodePipeline extends OpenCvPipeline implements Supplier<Integer>
 
     private int last = -1;
     @Override
-    public Integer get() {
+    public synchronized Integer get() {
         if(getRectArea()>MIN_AREA) {
             Point p = getRectMidpointXY();
             if (Math.abs(p.x - LEFT.x) < VARIANCE && Math.abs(p.y - LEFT.y) < VARIANCE) last = 0;
@@ -179,5 +179,10 @@ public class BarcodePipeline extends OpenCvPipeline implements Supplier<Integer>
     public boolean two(){
         return get() == 2;
     }
+
+    public boolean twoOrDefault(){
+        return none() || two();
+    }
+
 
 }

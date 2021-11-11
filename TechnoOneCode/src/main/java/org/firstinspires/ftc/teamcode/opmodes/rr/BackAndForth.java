@@ -36,7 +36,7 @@ public class BackAndForth extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         HardwareDevice.hardwareMap = hardwareMap;
-        DrivebaseSubsystem drive = new DrivebaseSubsystem();
+        DrivebaseSubsystem drive = new DrivebaseSubsystem(new Hardware());
 //        SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
         Trajectory trajectoryForward = drive.trajectoryBuilder(new Pose2d())

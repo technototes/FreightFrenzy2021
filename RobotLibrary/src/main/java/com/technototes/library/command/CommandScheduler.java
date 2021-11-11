@@ -130,7 +130,6 @@ public class CommandScheduler {
         for (Command c1 : commandMap.keySet()) {
             if (c1.justStarted()) {
                 for (Subsystem s : c1.getRequirements()) {
-                    //ITS SAFE
                     for (Command c2 : requirementMap.get(s)) {
                         if (c1 != c2) c2.cancel();
                     }
@@ -142,10 +141,7 @@ public class CommandScheduler {
         requirementMap.keySet().forEach(Subsystem::periodic);
     }
 
-    public Command run(Command command, BooleanSupplier supplier) {
+    public void run(Command command, BooleanSupplier supplier) {
         if (supplier.getAsBoolean() || command.isRunning()) command.run();
-        return command;
     }
-
-
 }

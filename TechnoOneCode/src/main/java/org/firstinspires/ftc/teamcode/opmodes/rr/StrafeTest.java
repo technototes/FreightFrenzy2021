@@ -28,7 +28,7 @@ public class StrafeTest extends LinearOpMode {
 
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
-        DrivebaseSubsystem drive = new DrivebaseSubsystem();
+        DrivebaseSubsystem drive = new DrivebaseSubsystem(new Hardware());
 //        SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
         Trajectory trajectory = drive.trajectoryBuilder(new Pose2d())

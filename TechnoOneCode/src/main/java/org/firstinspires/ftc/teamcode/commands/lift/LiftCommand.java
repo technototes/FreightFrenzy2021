@@ -20,22 +20,13 @@ public class LiftCommand implements Command {
 
 
     @Override
-    public void init() {
+    public void execute() {
         liftSys.setLiftPosition(doubleSupplier.getAsDouble());
     }
 
     @Override
-    public void execute() {
-
-    }
-
-    @Override
     public boolean isFinished() {
-        return liftSys.isAtTarget() || getRuntime().seconds()>1.5;
+        return liftSys.isAtTarget() || getRuntime().seconds() > 1;
     }
 
-    @Override
-    public void end(boolean cancel) {
-        liftSys.stop();
-    }
 }

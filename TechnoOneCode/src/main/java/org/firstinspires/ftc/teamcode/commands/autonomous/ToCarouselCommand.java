@@ -17,7 +17,7 @@ import org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem;
 public class ToCarouselCommand extends SequentialCommandGroup {
     public ToCarouselCommand(DrivebaseSubsystem drive, LiftSubsystem lift, DepositSubsystem deposit, CarouselSubsystem carousel){
         super(new TrajectorySequenceCommand(drive, AutonomousConstants.DUCK_DEPOSIT_TO_CAROUSEL)
-                .alongWith(new ArmRetractCommand(deposit), new LiftCollectCommand(lift)),
+                .alongWith(new ArmRetractCommand(deposit), new WaitCommand(0.5).andThen(new LiftCollectCommand(lift))),
                 new CarouselSpinCommand(carousel).withTimeout(3));
     }
 }

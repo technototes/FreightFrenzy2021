@@ -130,12 +130,13 @@ public interface Command extends Runnable{
         switch (getState()) {
             case RESET:
                 getRuntime().reset();
-                setState(CommandState.INITILAIZING);
+                setState(CommandState.INITIALIZING);
                 return;
-            case INITILAIZING:
+            case INITIALIZING:
                 init();
                 setState(CommandState.EXECUTING);
                 //THERE IS NO RETURN HERE SO IT FALLS THROUGH TO POST-INITIALIZATION
+                return;
             case EXECUTING:
                 execute();
                 if(isFinished()) setState(CommandState.FINISHED);
@@ -152,7 +153,7 @@ public interface Command extends Runnable{
      *
      */
     enum CommandState {
-        RESET, INITILAIZING, EXECUTING, FINISHED, CANCELLED
+        RESET, INITIALIZING, EXECUTING, FINISHED, CANCELLED
     }
 
 
@@ -195,7 +196,7 @@ public interface Command extends Runnable{
         return getState() == CommandState.FINISHED;
     }
     default boolean justStarted() {
-        return getState() == CommandState.INITILAIZING;
+        return getState() == CommandState.INITIALIZING;
     }
 
 

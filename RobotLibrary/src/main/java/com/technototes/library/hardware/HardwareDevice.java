@@ -32,8 +32,7 @@ public abstract class HardwareDevice<T> {
     }
 
     /** Get encapsulated device
-     *
-     * @return The device
+      * @return The device
      */
     public T getDevice() {
         return device;

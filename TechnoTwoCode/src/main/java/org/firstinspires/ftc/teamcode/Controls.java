@@ -7,6 +7,7 @@ import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.DRIVE_CONNECTE
 import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.INTAKE_CONNECTED;
 import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.LIFT_CONNECTED;
 
+import com.technototes.library.command.WaitCommand;
 import com.technototes.library.control.gamepad.CommandAxis;
 import com.technototes.library.control.gamepad.CommandButton;
 import com.technototes.library.control.gamepad.CommandGamepad;
@@ -101,7 +102,7 @@ public class Controls {
 
     public void bindIntakeControls(){
         if(DEPOSIT_CONNECTED) {
-            toIntakeButton.whenPressed(new IntakeSafeCommand(robot.intakeSubsystem, robot.depositSubsystem));
+            toIntakeButton.whenPressed(new WaitCommand(1).andThen(new IntakeSafeCommand(robot.intakeSubsystem, robot.depositSubsystem)));
             intakeInButton.whilePressedContinuous(new IntakeSafeCommand(robot.intakeSubsystem, robot.depositSubsystem));
         }else{
             toIntakeButton.whenPressed(new IntakeInCommand(robot.intakeSubsystem));

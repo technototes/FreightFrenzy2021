@@ -13,6 +13,10 @@ public class LiftTranslateCommand extends LiftCommand {
     }
 
     @Override
+    public void execute() {
+    }
+
+    @Override
     public boolean isFinished() {
         return super.isFinished() && getRuntime().seconds()>0.1;
     }
