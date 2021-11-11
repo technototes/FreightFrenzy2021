@@ -1,5 +1,5 @@
 /**
- * equivalent to CycleBlueAuto.java
+ * copy from BlueDuckAuto.java
  */
 package org.firstinspires.ftc.teamcode.opmodes;
 import com.acmerobotics.dashboard.FtcDashboard;
@@ -14,13 +14,13 @@ import org.firstinspires.ftc.teamcode.Robot;
 import org.firstinspires.ftc.teamcode.commands.autonomous.AutonomousConstants;
 import org.firstinspires.ftc.teamcode.commands.autonomous.AutonomousPhaseCommand;
 
-@Autonomous(name = "Blue Duck")
-public class BlueDuckAuto extends CommandOpMode implements Loggable{
+@Autonomous(name = "Red Duck")
+public class RedDuckAuto extends CommandOpMode implements Loggable{
     public Robot robot;
 
     @Override
     public void uponInit() {
-        AutonomousConstants.ALLIANCE = Alliance.BLUE;
+        AutonomousConstants.ALLIANCE = Alliance.RED;
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
         robot = new Robot();
