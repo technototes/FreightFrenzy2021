@@ -1,4 +1,15 @@
 package org.firstinspires.ftc.teamcode.commands.autonomous;
 
-public class ShelfUnloadingLevel2Command {
+import com.technototes.library.command.Command;
+
+public class ShelfUnloadingLevel2Command implements Command {
+    @Override
+    public void init() {
+
+    }
+
+    @Override
+    public void execute() {
+
+    }
 }
