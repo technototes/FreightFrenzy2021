@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.acmerobotics.dashboard.config.Config;
+
 import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.CAROUSEL_CONNECTED;
 import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.DEPOSIT_CONNECTED;
 import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.DRIVE_CONNECTED;
@@ -39,7 +40,7 @@ import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.*;
 
 public class Hardware {
     @Config
-    public static class HardwareConstants{
+    public static class HardwareConstants {
         public static String LIFT = "lift";
 
         public static String DUMP = "dump";
@@ -61,73 +62,73 @@ public class Hardware {
         public static String BUCKET = "bucket";
     }
 
-    public static EncodedMotor<DcMotorEx> liftMotor;
+    public EncodedMotor<DcMotorEx> liftMotor;
 
 
-    public static Servo armServo;
+    public Servo armServo;
 
-    public static EncodedMotor<DcMotorEx> flDriveMotor;
-    public static EncodedMotor<DcMotorEx> frDriveMotor;
-    public static EncodedMotor<DcMotorEx> rlDriveMotor;
-    public static EncodedMotor<DcMotorEx> rrDriveMotor;
-    public static IMU imu;
-    public static RangeSensor leftRangeSensor;
-    public static RangeSensor rightRangeSensor;
+    public EncodedMotor<DcMotorEx> flDriveMotor;
+    public EncodedMotor<DcMotorEx> frDriveMotor;
+    public EncodedMotor<DcMotorEx> rlDriveMotor;
+    public EncodedMotor<DcMotorEx> rrDriveMotor;
+    public IMU imu;
+    public RangeSensor leftRangeSensor;
+    public RangeSensor rightRangeSensor;
 
 
-    public static Motor<DcMotorEx> intakeMotor;
+    public Motor<DcMotorEx> intakeMotor;
 
-    public static Motor<DcMotorEx> carouselMotor;
+    public Motor<DcMotorEx> carouselMotor;
 
-    public static Webcam camera;
+    public Webcam camera;
 
-    public static EncodedMotor<DcMotorEx> armMotor;
+    public EncodedMotor<DcMotorEx> armMotor;
 
-    public static RangeSensor intakeDistSensor;
+    public RangeSensor intakeDistSensor;
 
-    public static Servo capServo;
+    public Servo capServo;
 
-    public static Servo dumpServo;
+    public Servo dumpServo;
 
-    public static Servo bucketServo;
-    public static EncodedMotor<DcMotorEx> bucketMotor;
+    public Servo bucketServo;
+    public EncodedMotor<DcMotorEx> bucketMotor;
 
-    static {
-        if(LIFT_CONNECTED) {
+    public Hardware() {
+        if (LIFT_CONNECTED) {
             liftMotor = new EncodedMotor<>(LIFT);
         }
-        if(DEPOSIT_CONNECTED) {
+        if (DEPOSIT_CONNECTED) {
 
             armServo = new Servo(LIFT).invert();
         }
-        if(DRIVE_CONNECTED) {
+        if (DRIVE_CONNECTED) {
             flDriveMotor = new EncodedMotor<>(FL_MOTOR);
             frDriveMotor = new EncodedMotor<>(FR_MOTOR);
             rlDriveMotor = new EncodedMotor<>(RL_MOTOR);
             rrDriveMotor = new EncodedMotor<>(RR_MOTOR);
             imu = new IMU(HardwareConstants.IMU).remapAxes(AxesOrder.YXZ, IMU.AxesSigns.NNN);
         }
-        if(CAROUSEL_CONNECTED){
+        if (CAROUSEL_CONNECTED) {
             carouselMotor = new Motor<>(CAROUSEL);
         }
-        if(VISION_CONNECTED){
+        if (VISION_CONNECTED) {
             camera = new Webcam(CAMERA);
         }
-        if(INTAKE_CONNECTED){
+        if (INTAKE_CONNECTED) {
             intakeMotor = new Motor<>(INTAKE);
-                    }
+        }
 
-        if(ARM_CONNECTED) {
+        if (ARM_CONNECTED) {
             armMotor = new EncodedMotor<>(LIFT);
         }
-        if(CAP_CONNECTED){
+        if (CAP_CONNECTED) {
             capServo = new Servo(CAP);
         }
-        if (DEPOSIT_CONNECTED){
+        if (DEPOSIT_CONNECTED) {
             dumpServo = new Servo(DUMP);
         }
 
-        if (BUCKET_CONNECTED){
+        if (BUCKET_CONNECTED) {
             bucketServo = new Servo(BUCKET);
             bucketMotor = new EncodedMotor<DcMotorEx>(BUCKET);
         }
