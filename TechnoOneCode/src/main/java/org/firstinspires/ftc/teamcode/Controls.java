@@ -95,9 +95,9 @@ public class Controls {
     }
 
     public void bindLiftControls() {
-        neutralHubButton.whenPressed(new LiftLevel1Command(robot.liftSubsystem));
-        specificHubButton.whenPressed(new LiftLevel3Command(robot.liftSubsystem));
-        toIntakeButton.whenPressed(new LiftCollectCommand(robot.liftSubsystem));
+        neutralHubButton.whenPressed(new LiftLevel1Command(robot.liftSubsystem).withTimeout(1.5));
+        specificHubButton.whenPressed(new LiftLevel3Command(robot.liftSubsystem).withTimeout(1.5));
+        toIntakeButton.whenPressed(new LiftCollectCommand(robot.liftSubsystem).withTimeout(1.5));
         liftAdjustUpButton.whilePressed(new LiftTranslateCommand(robot.liftSubsystem, 10));
         liftAdjustDownButton.whilePressed(new LiftTranslateCommand(robot.liftSubsystem, -10));
     }
