@@ -26,7 +26,7 @@ public class LiftCommand implements Command {
 
     @Override
     public boolean isFinished() {
-        return liftSys.isAtTarget() || getRuntime().seconds() > 1;
+        return liftSys.isAtTarget();
     }
 
 }

@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.commands.autonomous;
 
 import com.technototes.library.command.SequentialCommandGroup;
+import com.technototes.library.command.WaitCommand;
 import com.technototes.path.command.TrajectorySequenceCommand;
 
 import org.firstinspires.ftc.teamcode.commands.deposit.ArmExtendCommand;
@@ -17,9 +18,9 @@ import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem;
 
 public class DepositFreightCommand extends SequentialCommandGroup {
-    public DepositFreightCommand(DrivebaseSubsystem drive, IntakeSubsystem intake, LiftSubsystem lift, DepositSubsystem deposit){
-        super(new TrajectorySequenceCommand(drive, AutonomousConstants.CYCLE_COLLECT_TO_DEPOSIT)
-                .alongWith(new ArmExtendCommand(deposit), new LiftLevel3Command(lift), new IntakeOutCommand(intake).withTimeout(1)),
+    public DepositFreightCommand(DrivebaseSubsystem drive, IntakeSubsystem intake, LiftSubsystem lift, DepositSubsystem deposit, int cycle){
+        super(new TrajectorySequenceCommand(drive, AutonomousConstants.CYCLE_COLLECT_TO_DEPOSIT, cycle)
+                .alongWith(new WaitCommand(1).alongWith(new ArmExtendCommand(deposit), new LiftLevel3Command(lift).withTimeout(1.5)), new IntakeOutCommand(intake).withTimeout(1)),
                 new DumpCommand(deposit));
     }
 }

@@ -16,7 +16,7 @@ public class DepositDuckPreloadCommand extends SequentialCommandGroup {
     public DepositDuckPreloadCommand(DrivebaseSubsystem drive, DepositSubsystem depot, LiftSubsystem lift, VisionSubsystem vision) {
         super(new TrajectorySequenceCommand(drive, AutonomousConstants.DUCK_START_TO_DEPOSIT)
                 //.alongWith(new LiftBarcodeSelectCommand(lift, vision)
-                .alongWith(new LiftBarcodeSelectCommand(lift, vision), new ArmExtendCommand(depot)),
+                .alongWith(new LiftBarcodeSelectCommand(lift, vision).withTimeout(1.5), new ArmExtendCommand(depot)),
                 new DumpCommand(depot));
     }
 }

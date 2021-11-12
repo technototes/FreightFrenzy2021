@@ -19,6 +19,8 @@ import org.firstinspires.ftc.teamcode.commands.autonomous.AutonomousConstants;
 
 import java.util.function.Supplier;
 
+import static org.firstinspires.ftc.teamcode.subsystems.DrivebaseSubsystem.DriveConstants.SENSOR_DISTANCE;
+
 @SuppressWarnings("unused")
 
 public class DrivebaseSubsystem extends MecanumDrivebaseSubsystem implements Supplier<Pose2d> {
@@ -79,6 +81,8 @@ public class DrivebaseSubsystem extends MecanumDrivebaseSubsystem implements Sup
         @PoseLimit
         public static int POSE_HISTORY_LIMIT = 100;
 
+        public static double SENSOR_DISTANCE = 65.5;
+
     }
 
     public RangeSensor left, right;
@@ -103,7 +107,7 @@ public class DrivebaseSubsystem extends MecanumDrivebaseSubsystem implements Sup
 
     public void relocalizePose(Alliance alliance){
         setPoseEstimate(new Pose2d(getPoseEstimate().getX(),
-                alliance == Alliance.RED ? right.getSensorValue()-63.5 : 63.5-left.getSensorValue(),
+                alliance == Alliance.RED ? right.getSensorValue()-SENSOR_DISTANCE : SENSOR_DISTANCE-left.getSensorValue(),
                 getExternalHeading()));
     }
 

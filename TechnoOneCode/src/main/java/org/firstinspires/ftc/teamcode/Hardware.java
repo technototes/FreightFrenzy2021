@@ -5,46 +5,18 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.technototes.library.hardware.motor.EncodedMotor;
 import com.technototes.library.hardware.motor.Motor;
 import com.technototes.library.hardware.sensor.IMU;
+import com.technototes.library.hardware.sensor.IMU.AxesSigns;
 import com.technototes.library.hardware.sensor.RangeSensor;
 import com.technototes.library.hardware.servo.Servo;
 import com.technototes.library.hardware.servo.ServoGroup;
-import com.technototes.library.subsystem.Subsystem;
 import com.technototes.vision.hardware.Webcam;
 
-import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.subsystems.DepositSubsystem;
-import org.openftc.easyopencv.OpenCvCameraFactory;
-import org.openftc.easyopencv.OpenCvWebcam;
 
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.List;
-
-import static com.technototes.library.hardware.HardwareDevice.hardwareMap;
-import static org.firstinspires.ftc.teamcode.Hardware.HardwareConstants.ARM;
-import static org.firstinspires.ftc.teamcode.Hardware.HardwareConstants.CAMERA;
-import static org.firstinspires.ftc.teamcode.Hardware.HardwareConstants.CAP;
-import static org.firstinspires.ftc.teamcode.Hardware.HardwareConstants.CAROUSEL;
-import static org.firstinspires.ftc.teamcode.Hardware.HardwareConstants.FL_MOTOR;
-import static org.firstinspires.ftc.teamcode.Hardware.HardwareConstants.FR_MOTOR;
-import static org.firstinspires.ftc.teamcode.Hardware.HardwareConstants.INTAKE;
-import static org.firstinspires.ftc.teamcode.Hardware.HardwareConstants.INTAKE_RANGE;
-import static org.firstinspires.ftc.teamcode.Hardware.HardwareConstants.LIFT;
-import static org.firstinspires.ftc.teamcode.Hardware.HardwareConstants.L_DUMP;
-import static org.firstinspires.ftc.teamcode.Hardware.HardwareConstants.L_RANGE;
-import static org.firstinspires.ftc.teamcode.Hardware.HardwareConstants.RL_MOTOR;
-import static org.firstinspires.ftc.teamcode.Hardware.HardwareConstants.RR_MOTOR;
-import static org.firstinspires.ftc.teamcode.Hardware.HardwareConstants.R_DUMP;
-import static org.firstinspires.ftc.teamcode.Hardware.HardwareConstants.R_RANGE;
-import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.CAP_CONNECTED;
-import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.CAROUSEL_CONNECTED;
-import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.DEPOSIT_CONNECTED;
-import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.DRIVE_CONNECTED;
-import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.INTAKE_CONNECTED;
-import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.LIFT_CONNECTED;
-import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.VISION_CONNECTED;
+import static org.firstinspires.ftc.teamcode.Hardware.HardwareConstants.*;
+import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.*;
 
 public class Hardware {
     @Config
@@ -116,7 +88,7 @@ public class Hardware {
             frDriveMotor = new EncodedMotor<>(FR_MOTOR);
             rlDriveMotor = new EncodedMotor<>(RL_MOTOR);
             rrDriveMotor = new EncodedMotor<>(RR_MOTOR);
-            imu = new IMU(HardwareConstants.IMU).remapAxes(AxesOrder.YXZ, IMU.AxesSigns.NNN);
+            imu = new IMU(HardwareConstants.IMU).remapAxes(AxesOrder.YXZ, AxesSigns.NNN);
             leftRangeSensor = new RangeSensor(L_RANGE).setDistanceUnit(DistanceUnit.INCH);
             rightRangeSensor = new RangeSensor(R_RANGE).setDistanceUnit(DistanceUnit.INCH);
         }

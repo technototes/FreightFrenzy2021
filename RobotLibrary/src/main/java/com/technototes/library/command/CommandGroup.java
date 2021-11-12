@@ -53,8 +53,6 @@ public abstract class CommandGroup implements Command {
 
     @Override
     public void end(boolean cancel) {
-        commandMap.forEach((c, b) -> {
-            if(!b) c.cancel();
-        });
+        commandMap.keySet().forEach(Command::cancel);
     }
 }
