@@ -12,19 +12,20 @@ import com.technototes.library.structure.CommandOpMode;
 import com.technototes.path.command.TrajectorySequenceCommand;
 import com.technototes.path.trajectorysequence.TrajectorySequence;
 
+import org.firstinspires.ftc.teamcode.Hardware;
 import org.firstinspires.ftc.teamcode.Robot;
 
 @Autonomous(name="test")
 @SuppressWarnings("unused")
 public class TestAuto extends CommandOpMode implements Loggable {
     public Robot robot;
-
+    public Hardware hardware;
 
     @Override
     public void uponInit() {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
-
-        robot = new Robot();
+        hardware = new Hardware();
+        robot = new Robot(hardware);
         robot.drivebaseSubsystem.setPoseEstimate(new Pose2d(0, -65, Math.toRadians(90)));
 
         TrajectorySequence s = robot.drivebaseSubsystem.trajectorySequenceBuilder()
