@@ -1,12 +1,10 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
-import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.control.PIDCoefficients;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
-import com.technototes.library.command.Command;
 import com.technototes.library.hardware.motor.EncodedMotor;
 import com.technototes.library.hardware.sensor.IMU;
 import com.technototes.library.hardware.sensor.RangeSensor;
@@ -15,11 +13,12 @@ import com.technototes.path.subsystem.MecanumDriveConstants;
 import com.technototes.path.subsystem.MecanumDrivebaseSubsystem;
 
 import org.firstinspires.ftc.teamcode.Hardware;
-import org.firstinspires.ftc.teamcode.commands.autonomous.AutonomousConstants;
 
 import java.util.function.Supplier;
 
-import static org.firstinspires.ftc.teamcode.subsystems.DrivebaseSubsystem.DriveConstants.SENSOR_DISTANCE;
+import static org.firstinspires.ftc.teamcode.subsystems.DrivebaseSubsystem.DriveConstants.FRONT_SENSOR_DISTANCE;
+import static org.firstinspires.ftc.teamcode.subsystems.DrivebaseSubsystem.DriveConstants.LEFT_SENSOR_DISTANCE;
+import static org.firstinspires.ftc.teamcode.subsystems.DrivebaseSubsystem.DriveConstants.RIGHT_SENSOR_DISTANCE;
 
 @SuppressWarnings("unused")
 
@@ -81,33 +80,37 @@ public class DrivebaseSubsystem extends MecanumDrivebaseSubsystem implements Sup
         @PoseLimit
         public static int POSE_HISTORY_LIMIT = 100;
 
-        public static double SENSOR_DISTANCE = 65.5;
+        public static double LEFT_SENSOR_DISTANCE = 65.5;
+        public static double RIGHT_SENSOR_DISTANCE = 65.5;
+        public static double FRONT_SENSOR_DISTANCE = 65.5;
+
 
     }
 
-    public RangeSensor left, right;
+    public RangeSensor left, right, front;
 //    protected FtcDashboard dashboard;
 
 
     public DrivebaseSubsystem(EncodedMotor<DcMotorEx> fl, EncodedMotor<DcMotorEx> fr,
                               EncodedMotor<DcMotorEx> rl, EncodedMotor<DcMotorEx> rr,
-                              IMU i, RangeSensor l, RangeSensor r) {
+                              IMU i, RangeSensor l, RangeSensor r, RangeSensor f) {
         super(fl, fr, rl, rr, i, () -> DriveConstants.class);
 
         left = l;
         right = r;
+        front = f;
 
 //        dashboard = FtcDashboard.getInstance();
 //        dashboard.setTelemetryTransmissionInterval(25);
     }
 
     public DrivebaseSubsystem(Hardware hardware){
-        this(hardware.flDriveMotor, hardware.frDriveMotor, hardware.rlDriveMotor, hardware.rrDriveMotor, hardware.imu, hardware.leftRangeSensor, hardware.rightRangeSensor);
+        this(hardware.flDriveMotor, hardware.frDriveMotor, hardware.rlDriveMotor, hardware.rrDriveMotor, hardware.imu, hardware.leftRangeSensor, hardware.rightRangeSensor, hardware.frontRangeSensor);
     }
 
     public void relocalizePose(Alliance alliance){
-        setPoseEstimate(new Pose2d(getPoseEstimate().getX(),
-                alliance == Alliance.RED ? right.getSensorValue()-SENSOR_DISTANCE : SENSOR_DISTANCE-left.getSensorValue(),
+        setPoseEstimate(new Pose2d(FRONT_SENSOR_DISTANCE-front.getSensorValue(),
+                alliance == Alliance.RED ? right.getSensorValue()-RIGHT_SENSOR_DISTANCE : LEFT_SENSOR_DISTANCE -left.getSensorValue(),
                 getExternalHeading()));
     }
 

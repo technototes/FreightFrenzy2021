@@ -35,6 +35,8 @@ public class Hardware {
         public static String IMU = "imu";
         public static String L_RANGE = "ldistance";
         public static String R_RANGE = "rdistance";
+        public static String F_RANGE = "fdistance";
+
 
 
         public static String CAROUSEL = "carousel";
@@ -61,6 +63,7 @@ public class Hardware {
     public IMU imu;
     public RangeSensor leftRangeSensor;
     public RangeSensor rightRangeSensor;
+    public RangeSensor frontRangeSensor;
 
 
     public Motor<DcMotorEx> intakeMotor;
@@ -91,6 +94,7 @@ public class Hardware {
             imu = new IMU(HardwareConstants.IMU).remapAxes(AxesOrder.YXZ, AxesSigns.NNN);
             leftRangeSensor = new RangeSensor(L_RANGE).setDistanceUnit(DistanceUnit.INCH);
             rightRangeSensor = new RangeSensor(R_RANGE).setDistanceUnit(DistanceUnit.INCH);
+            frontRangeSensor = new RangeSensor(F_RANGE).setDistanceUnit(DistanceUnit.INCH);
         }
         if(CAROUSEL_CONNECTED){
             carouselMotor = new Motor<>(CAROUSEL);
