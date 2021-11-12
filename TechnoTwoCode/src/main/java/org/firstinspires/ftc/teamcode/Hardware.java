@@ -17,6 +17,7 @@ import com.technototes.library.hardware.motor.EncodedMotor;
 import com.technototes.library.hardware.motor.Motor;
 import com.technototes.library.hardware.sensor.IMU;
 import com.technototes.library.hardware.sensor.RangeSensor;
+import com.technototes.library.hardware.sensor.encoder.Encoder;
 import com.technototes.library.hardware.servo.Servo;
 
 import com.technototes.vision.hardware.Webcam;
@@ -33,6 +34,7 @@ import static org.firstinspires.ftc.teamcode.Hardware.HardwareConstants.FL_MOTOR
 import static org.firstinspires.ftc.teamcode.Hardware.HardwareConstants.FR_MOTOR;
 import static org.firstinspires.ftc.teamcode.Hardware.HardwareConstants.INTAKE;
 import static org.firstinspires.ftc.teamcode.Hardware.HardwareConstants.BUCKET;
+import static org.firstinspires.ftc.teamcode.Hardware.HardwareConstants.ARM;
 
 import static org.firstinspires.ftc.teamcode.Hardware.HardwareConstants.RL_MOTOR;
 import static org.firstinspires.ftc.teamcode.Hardware.HardwareConstants.RR_MOTOR;
@@ -61,6 +63,7 @@ public class Hardware {
         public static String CAP = "cap";
 
         public static String BUCKET = "bucket";
+        public static String ARM = "arm";
     }
 
     public EncodedMotor<DcMotorEx> liftMotor;
@@ -83,7 +86,7 @@ public class Hardware {
 
     public Webcam camera;
 
-    public EncodedMotor<DcMotorEx> armMotor;
+    // public EncodedMotor<DcMotorEx> armMotor;
 
     public RangeSensor intakeDistSensor;
 
@@ -93,6 +96,7 @@ public class Hardware {
 
     public Servo bucketServo;
     public EncodedMotor<DcMotorEx> bucketMotor;
+    //public Encoder encoder;
 
     public Hardware() {
         if (LIFT_CONNECTED) {
@@ -119,9 +123,9 @@ public class Hardware {
             intakeMotor = new Motor<>(INTAKE);
         }
 
-        if (ARM_CONNECTED) {
-            armMotor = new EncodedMotor<>(LIFT);
-        }
+//        if (ARM_CONNECTED) {
+ //           armMotor = new EncodedMotor<>(LIFT);
+  //      }
         if (CAP_CONNECTED) {
             capServo = new Servo(CAP);
         }
@@ -131,7 +135,7 @@ public class Hardware {
 
         if (BUCKET_CONNECTED) {
             bucketServo = new Servo(BUCKET);
-            bucketMotor = new EncodedMotor<DcMotorEx>(BUCKET);
+            bucketMotor = new EncodedMotor<DcMotorEx>(ARM);
         }
     }
 }

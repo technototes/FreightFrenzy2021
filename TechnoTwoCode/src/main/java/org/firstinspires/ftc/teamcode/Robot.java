@@ -23,7 +23,7 @@ public class Robot implements Loggable {
         public static boolean VISION_CONNECTED = false;
         public static boolean ARM_CONNECTED = false;
         public static boolean CAP_CONNECTED = false;
-        public static boolean BUCKET_CONNECTED = false;
+        public static boolean BUCKET_CONNECTED = true;
     }
     public DepositSubsystem depositSubsystem;
     public DrivebaseSubsystem drivebaseSubsystem;
@@ -39,7 +39,7 @@ public class Robot implements Loggable {
         if (CAROUSEL_CONNECTED) carouselSubsystem = new CarouselSubsystem(hardware.carouselMotor);
         if (INTAKE_CONNECTED) intakeSubsystem = new IntakeSubsystem(hardware.intakeMotor, hardware.intakeDistSensor);
         if (VISION_CONNECTED) visionSubsystem = new VisionSubsystem(hardware.camera);
-        if (ARM_CONNECTED) armSubsystem = new ArmSubsystem(hardware.armMotor);
+        //if (ARM_CONNECTED) armSubsystem = new ArmSubsystem(hardware.armMotor);
         if (BUCKET_CONNECTED) bucketSubsystem = new BucketSubsystem(hardware.bucketMotor, hardware.bucketServo);
     }
 }

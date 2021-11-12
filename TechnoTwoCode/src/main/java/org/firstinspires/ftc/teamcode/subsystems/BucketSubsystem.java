@@ -7,12 +7,16 @@ import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.qualcomm.robotcore.util.Range;
 import com.technototes.library.hardware.motor.EncodedMotor;
 import com.technototes.library.hardware.servo.Servo;
+import com.technototes.library.logger.Log;
+import com.technototes.library.logger.Loggable;
 import com.technototes.library.subsystem.Subsystem;
 import static org.firstinspires.ftc.teamcode.subsystems.BucketSubsystem.BucketConstant.*;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+
 import java.util.function.Supplier;
 
-public class BucketSubsystem implements Subsystem, Supplier<Double> {
+public class BucketSubsystem implements Subsystem, Supplier<Double>, Loggable {
     public static class BucketConstant{
         /**
          * so called dead-zone
@@ -69,8 +73,9 @@ public class BucketSubsystem implements Subsystem, Supplier<Double> {
 //            return bucket;
 //        }
 //    }
-
+    @Log (name = "Bucket motor")
     EncodedMotor<DcMotorEx> bucketMotor;
+    @Log (name = "Bucket Servo")
     Servo bucketServo;
 
     /**
@@ -147,7 +152,7 @@ public class BucketSubsystem implements Subsystem, Supplier<Double> {
      */
     @Override
     public void periodic() {
-        bucketMotor.setSpeed(pidController_motor.update(bucketMotor.get()));
+        bucketMotor.setSpeed(pidController_motor.update(bucketMotor.getEncoder().getPosition()));
     }
 
     /**
