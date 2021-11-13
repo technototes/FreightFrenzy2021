@@ -22,6 +22,10 @@ import org.firstinspires.ftc.teamcode.commands.carousel.CarouselRightCommand;
 import org.firstinspires.ftc.teamcode.commands.drivebase.DriveCommand;
 import org.firstinspires.ftc.teamcode.commands.drivebase.ResetGyroCommand;
 import org.firstinspires.ftc.teamcode.commands.drivebase.SetSpeedCommand;
+import org.firstinspires.ftc.teamcode.commands.dump.DumpCarryCommand;
+import org.firstinspires.ftc.teamcode.commands.dump.DumpCollectCommand;
+import org.firstinspires.ftc.teamcode.commands.dump.DumpUnloadBottomLevelCommand;
+import org.firstinspires.ftc.teamcode.commands.dump.DumpUnloadTopLevelCommand;
 import org.firstinspires.ftc.teamcode.commands.intake.IntakeInCommand;
 import org.firstinspires.ftc.teamcode.commands.intake.IntakeOutCommand;
 import org.firstinspires.ftc.teamcode.commands.intake.IntakeSafeCommand;
@@ -33,9 +37,8 @@ public class Controls {
     public Robot robot;
 
     public CommandAxis toIntakeButton;
-    public CommandAxis collectButton;
-    public CommandButton carryButton, topDepositButton;
-    public CommandAxis bottomDepositButton;
+    public CommandButton carryButton, collectButton, topDepositButton,
+            middleDepositButton, bottomDepositButton;
 
     public CommandButton liftAdjustUpButton, liftAdjustDownButton, slideAdjustInButton, slideAdjustOutButton;
 
@@ -50,15 +53,11 @@ public class Controls {
         gamepad = g;
         robot = r;
 
-        collectButton = gamepad.leftTrigger.setTriggerThreshold(0.5);
-        carryButton = gamepad.leftBumper;
-        topDepositButton = gamepad.rightBumper;
-        bottomDepositButton = gamepad.rightTrigger.setTriggerThreshold(0.5);
-
-        liftAdjustUpButton = gamepad.dpadUp;
-        liftAdjustDownButton = gamepad.dpadDown;
-        slideAdjustInButton = gamepad.dpadRight;
-        slideAdjustOutButton = gamepad.dpadLeft;
+        collectButton = gamepad.leftBumper;
+        carryButton = gamepad.rightBumper;
+        bottomDepositButton = gamepad.dpadDown;
+        middleDepositButton = gamepad.dpadRight;
+        topDepositButton = gamepad.dpadUp;
 
         intakeInButton = gamepad.cross;
         intakeOutButton = gamepad.circle;
@@ -80,10 +79,11 @@ public class Controls {
     }
 
     public void bindBucketControls(){
-        carryButton.whilePressedOnce(new BucketCarryCommand(robot.dumpSubsystem));
-        collectButton.whenPressed(new BucketCollectCommand(robot.dumpSubsystem));
-        topDepositButton.whenPressed(new BucketUnloadTopLevelCommand(robot.dumpSubsystem));
-        bottomDepositButton.whenPressed(new BucketUnloadBottomLevelCommand(robot.dumpSubsystem));
+        carryButton.whilePressedOnce(new DumpCarryCommand(robot.dumpSubsystem));
+        collectButton.whenPressed(new DumpCollectCommand(robot.dumpSubsystem));
+        topDepositButton.whenPressed(new DumpUnloadTopLevelCommand(robot.dumpSubsystem));
+        bottomDepositButton.whenPressed(new DumpUnloadBottomLevelCommand(robot.dumpSubsystem));
+
     }
 
     public void bindDriveControls(){
