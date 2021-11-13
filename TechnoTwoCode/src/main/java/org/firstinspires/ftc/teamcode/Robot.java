@@ -18,7 +18,7 @@ public class Robot implements Loggable {
         public static boolean DEPOSIT_CONNECTED = false;
         public static boolean DRIVE_CONNECTED = false;
         public static boolean CAROUSEL_CONNECTED = true;
-        public static boolean INTAKE_CONNECTED = false;
+        public static boolean INTAKE_CONNECTED = true;
         public static boolean VISION_CONNECTED = false;
         public static boolean CAP_CONNECTED = false;
         public static boolean DUMP_CONNECTED = true;
@@ -34,7 +34,7 @@ public class Robot implements Loggable {
         if (DEPOSIT_CONNECTED) depositSubsystem = new DepositSubsystem(hardware.dumpServo);
         if (DRIVE_CONNECTED) drivebaseSubsystem = new DrivebaseSubsystem(hardware.flDriveMotor, hardware.frDriveMotor, hardware.rlDriveMotor, hardware.rrDriveMotor, hardware.imu);
         if (CAROUSEL_CONNECTED) carouselSubsystem = new CarouselSubsystem(hardware.carouselMotor);
-        if (INTAKE_CONNECTED) intakeSubsystem = new IntakeSubsystem(hardware.intakeMotor, hardware.intakeDistSensor);
+        if (INTAKE_CONNECTED) intakeSubsystem = new IntakeSubsystem(hardware.intakeMotor);
         if (VISION_CONNECTED) visionSubsystem = new VisionSubsystem(hardware.camera);
         if (DUMP_CONNECTED) dumpSubsystem = new DumpSubsystem(hardware.bucketMotor, hardware.bucketServo);
     }

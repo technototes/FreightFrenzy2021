@@ -85,10 +85,6 @@ public class Hardware {
 
     public Webcam camera;
 
-    // public EncodedMotor<DcMotorEx> armMotor;
-
-    public RangeSensor intakeDistSensor;
-
     public Servo capServo;
 
     public Servo dumpServo;
@@ -122,9 +118,6 @@ public class Hardware {
             intakeMotor = new Motor<>(INTAKE);
         }
 
-//        if (ARM_CONNECTED) {
- //           armMotor = new EncodedMotor<>(LIFT);
-  //      }
         if (CAP_CONNECTED) {
             capServo = new Servo(CAP);
         }
