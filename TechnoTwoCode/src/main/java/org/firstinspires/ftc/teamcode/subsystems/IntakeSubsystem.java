@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode.subsystems;
 
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.technototes.library.hardware.motor.Motor;
-import com.technototes.library.hardware.sensor.RangeSensor;
 import com.technototes.library.subsystem.Subsystem;
 
 import java.util.function.Supplier;

@@ -15,8 +15,6 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.technototes.library.hardware.motor.EncodedMotor;
 import com.technototes.library.hardware.motor.Motor;
 import com.technototes.library.hardware.sensor.IMU;
-import com.technototes.library.hardware.sensor.RangeSensor;
-import com.technototes.library.hardware.sensor.encoder.Encoder;
 import com.technototes.library.hardware.servo.Servo;
 
 import com.technototes.vision.hardware.Webcam;
@@ -37,8 +35,6 @@ import static org.firstinspires.ftc.teamcode.Hardware.HardwareConstants.ARM;
 
 import static org.firstinspires.ftc.teamcode.Hardware.HardwareConstants.RL_MOTOR;
 import static org.firstinspires.ftc.teamcode.Hardware.HardwareConstants.RR_MOTOR;
-import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.*;
-
 
 public class Hardware {
     @Config
@@ -75,9 +71,6 @@ public class Hardware {
     public EncodedMotor<DcMotorEx> rlDriveMotor;
     public EncodedMotor<DcMotorEx> rrDriveMotor;
     public IMU imu;
-    public RangeSensor leftRangeSensor;
-    public RangeSensor rightRangeSensor;
-
 
     public Motor<DcMotorEx> intakeMotor;
 
@@ -91,7 +84,6 @@ public class Hardware {
 
     public Servo bucketServo;
     public EncodedMotor<DcMotorEx> bucketMotor;
-    //public Encoder encoder;
 
     public Hardware() {
         if (LIFT_CONNECTED) {
