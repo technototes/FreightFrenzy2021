@@ -23,18 +23,19 @@ public class BucketSubsystem implements Subsystem, Supplier<Double>, Loggable {
          */
         public static double TOLERANCE_ZONE = 0.1;
 
-        public static double MOTOR_LOWER_LIMIT = 0;
+        public static double MOTOR_LOWER_LIMIT = -100;
         public static double MOTOR_UPPER_LIMIT = 100;
         public static double SERVO_LOWER_LIMIT = 0;
         public static double SERVO_UPPER_LIMIT = 100;
 
-        public static PIDCoefficients pidCoefficients_motor = new PIDCoefficients(0.002, 0, 0);
+        public static PIDCoefficients pidCoefficients_motor = new PIDCoefficients(0.001, 0, 0);
 
         /**
          * because this subsystem requires motor and servo cooperate together
          * motor [0] servo [1]
          * feel free to add more constants if needed and pass them to setPositionCombination()
          * some constants just used for transition purpose, between intake and unload, because always want the bucket facing upward
+         * for the motor position might need be negative number for up, invert the motor does not work
          *
          * here's the explanation to these constants:
          * COMBINATION_COLLECTING the bucket touch ground and the intake running
@@ -45,15 +46,21 @@ public class BucketSubsystem implements Subsystem, Supplier<Double>, Loggable {
          * COMBINATION_LEVEL3 unload the block to level 3 of the shelf
          * COMBINATION_LEVEL2 unload the block to level 2 of the shelf
          * COMBINATION_LEVEL1 unload the block to level 1 of the shelf
+         *
+         * for just bare servo
+         * 0.25 is 45 degree
+         * 0.5 is 135 degrees
+         * 0.75 is 180 degrees
+         * 1 is 270 degree
          */
         public static double[] COMBINATION_COLLECTING = {0, 0};
         public static double[] COMBINATION_COLLECTED = {0, 0};
         public static double[] COMBINATION_0_DEGREE = {0, 0};
         public static double[] COMBINATION_45_DEGREE = {0, 0};
         public static double[] COMBINATION_TOP = {0, 0};
-        public static double[] COMBINATION_LEVEL3 = {0, 0};
+        public static double[] COMBINATION_LEVEL3 = {-0.46, 0};
         public static double[] COMBINATION_LEVEL2 = {0, 0};
-        public static double[] COMBINATION_LEVEL1 = {0, 0};
+        public static double[] COMBINATION_LEVEL1 = {10, 0};
 //        public static Combination COLLECT = new Combination(0, 0);
     }
 
@@ -73,10 +80,13 @@ public class BucketSubsystem implements Subsystem, Supplier<Double>, Loggable {
 //            return bucket;
 //        }
 //    }
-    @Log (name = "Bucket motor")
-    EncodedMotor<DcMotorEx> bucketMotor;
-    @Log (name = "Bucket Servo")
-    Servo bucketServo;
+    @Log.Number (name = "Bucket motor")
+    public EncodedMotor<DcMotorEx> bucketMotor;
+    @Log.Number (name = "Bucket Servo")
+    public Servo bucketServo;
+
+    Telemetry telemetry;
+
 
     /**
      * serve isServoAtTarget() since the servo doesn't have a PID controller so need something to store the target position and to the comparison
@@ -88,13 +98,14 @@ public class BucketSubsystem implements Subsystem, Supplier<Double>, Loggable {
     public BucketSubsystem (EncodedMotor<DcMotorEx> motor, Servo servo) {
         this.bucketMotor = motor;
         this.bucketServo = servo;
-        pidController_motor = new PIDFController(pidCoefficients_motor);
+        pidController_motor = new PIDFController(pidCoefficients_motor, 0, 0, 0, (x, y)->0.05);
+        this.bucketMotor.zeroEncoder();
     }
 
-    private void setMotorPosition(double position){
-        pidController_motor.setTargetPosition(Range.clip(position, MOTOR_LOWER_LIMIT, MOTOR_UPPER_LIMIT));
+    public void setMotorPosition(double position){
+        pidController_motor.setTargetPosition(Range.clip(position, MOTOR_LOWER_LIMIT, MOTOR_UPPER_LIMIT)*(19.2*28*(108.0/20)));
     }
-    private void setServoPosition(double position){
+    public void setServoPosition(double position){
         bucketServo.setPosition(position);
         bucketServo_targetPosition = position;
     }
@@ -152,8 +163,13 @@ public class BucketSubsystem implements Subsystem, Supplier<Double>, Loggable {
      */
     @Override
     public void periodic() {
-        bucketMotor.setSpeed(pidController_motor.update(bucketMotor.getEncoder().getPosition()));
+        bucketMotor.setSpeed(pidController_motor.update(bucketMotor.getEncoder().getPosition())*0.3);
+        if (telemetry != null){
+            telemetry.addLine(get().toString());
+            telemetry.update();
+        }
     }
+
 
     /**
      * only need to stop the motor

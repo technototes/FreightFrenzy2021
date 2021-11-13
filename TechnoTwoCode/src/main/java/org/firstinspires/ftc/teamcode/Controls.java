@@ -15,7 +15,8 @@ import com.technototes.library.control.gamepad.Stick;
 
 import org.firstinspires.ftc.teamcode.commands.bucket.BucketCollectedCommand;
 import org.firstinspires.ftc.teamcode.commands.bucket.BucketCollectingCommand;
-import org.firstinspires.ftc.teamcode.commands.bucket.BucketTestComand;
+import org.firstinspires.ftc.teamcode.commands.bucket.BucketServoTestCommand;
+import org.firstinspires.ftc.teamcode.commands.bucket.BucketTestCommand;
 import org.firstinspires.ftc.teamcode.commands.bucket.BucketUnloadLevel1Command;
 import org.firstinspires.ftc.teamcode.commands.bucket.BucketUnloadLevel2Command;
 import org.firstinspires.ftc.teamcode.commands.bucket.BucketUnloadLevel3Command;
@@ -99,12 +100,12 @@ public class Controls {
 //    }
 
     public void bindBucketControls(){
-        neutralHubButton.whenPressed(new BucketTestComand(robot.bucketSubsystem));
+        neutralHubButton.whilePressedOnce(new BucketServoTestCommand(robot.bucketSubsystem));
         specificHubButton.whenPressed(new BucketUnloadLevel3Command(robot.bucketSubsystem));
-        toIntakeButton.whenPressed(new BucketCollectedCommand(robot.bucketSubsystem)
-                                .andThen(new BucketCollectingCommand(robot.bucketSubsystem))
-                                .andThen(new BucketCollectedCommand(robot.bucketSubsystem))
-        );
+//        toIntakeButton.whenPressed(new BucketCollectedCommand(robot.bucketSubsystem)
+//                                .andThen(new BucketCollectingCommand(robot.bucketSubsystem))
+//                                .andThen(new BucketCollectedCommand(robot.bucketSubsystem))
+//        );
     }
 
     public void bindDriveControls(){

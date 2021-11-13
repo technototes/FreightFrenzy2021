@@ -134,7 +134,7 @@ public class Hardware {
 
         if (BUCKET_CONNECTED) {
             bucketServo = new Servo(BUCKET);
-            bucketMotor = new EncodedMotor<DcMotorEx>(ARM);
+            bucketMotor = new EncodedMotor<DcMotorEx>(ARM).invert();
         }
     }
 }
