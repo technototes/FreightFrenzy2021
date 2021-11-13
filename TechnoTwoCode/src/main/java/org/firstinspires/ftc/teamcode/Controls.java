@@ -13,13 +13,8 @@ import com.technototes.library.control.gamepad.CommandButton;
 import com.technototes.library.control.gamepad.CommandGamepad;
 import com.technototes.library.control.gamepad.Stick;
 
-import org.firstinspires.ftc.teamcode.commands.bucket.BucketCollectedCommand;
-import org.firstinspires.ftc.teamcode.commands.bucket.BucketCollectingCommand;
 import org.firstinspires.ftc.teamcode.commands.bucket.BucketServoTestCommand;
-import org.firstinspires.ftc.teamcode.commands.bucket.BucketTestCommand;
-import org.firstinspires.ftc.teamcode.commands.bucket.BucketUnloadLevel1Command;
-import org.firstinspires.ftc.teamcode.commands.bucket.BucketUnloadLevel2Command;
-import org.firstinspires.ftc.teamcode.commands.bucket.BucketUnloadLevel3Command;
+import org.firstinspires.ftc.teamcode.commands.bucket.BucketUnloadBottomLevelCommand;
 import org.firstinspires.ftc.teamcode.commands.carousel.CarouselLeftCommand;
 import org.firstinspires.ftc.teamcode.commands.carousel.CarouselRightCommand;
 import org.firstinspires.ftc.teamcode.commands.deposit.DumpVariableCommand;
@@ -101,7 +96,7 @@ public class Controls {
 
     public void bindBucketControls(){
         neutralHubButton.whilePressedOnce(new BucketServoTestCommand(robot.bucketSubsystem));
-        specificHubButton.whenPressed(new BucketUnloadLevel3Command(robot.bucketSubsystem));
+        specificHubButton.whenPressed(new BucketUnloadBottomLevelCommand(robot.bucketSubsystem));
 //        toIntakeButton.whenPressed(new BucketCollectedCommand(robot.bucketSubsystem)
 //                                .andThen(new BucketCollectingCommand(robot.bucketSubsystem))
 //                                .andThen(new BucketCollectedCommand(robot.bucketSubsystem))

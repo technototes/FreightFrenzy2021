@@ -28,7 +28,7 @@ public class BucketSubsystem implements Subsystem, Supplier<Double>, Loggable {
         public static double SERVO_LOWER_LIMIT = 0;
         public static double SERVO_UPPER_LIMIT = 100;
 
-        public static PIDCoefficients pidCoefficients_motor = new PIDCoefficients(0.001, 0, 0);
+        public static PIDCoefficients pidCoefficients_motor = new PIDCoefficients(0.002, 0, 0);
 
         /**
          * because this subsystem requires motor and servo cooperate together
@@ -54,13 +54,13 @@ public class BucketSubsystem implements Subsystem, Supplier<Double>, Loggable {
          * 1 is 270 degree
          */
         public static double[] COMBINATION_COLLECTING = {0, 0};
-        public static double[] COMBINATION_COLLECTED = {0, 0};
+        public static double[] COMBINATION_COLLECTED = {-0.1, 0};
         public static double[] COMBINATION_0_DEGREE = {0, 0};
         public static double[] COMBINATION_45_DEGREE = {0, 0};
-        public static double[] COMBINATION_TOP = {0, 0};
-        public static double[] COMBINATION_LEVEL3 = {-0.46, 0};
-        public static double[] COMBINATION_LEVEL2 = {0, 0};
-        public static double[] COMBINATION_LEVEL1 = {10, 0};
+        public static double[] COMBINATION_TOP = {-0.45, 0};
+        public static double[] COMBINATION_TOP_LEVEL = {-0.5, 0};
+        public static double[] COMBINATION_MIDDLE_LEVEL = {-0.55, 0};
+        public static double[] COMBINATION_BOTTOM_LEVEL = {-0.7, 0};
 //        public static Combination COLLECT = new Combination(0, 0);
     }
 
@@ -87,7 +87,6 @@ public class BucketSubsystem implements Subsystem, Supplier<Double>, Loggable {
 
     Telemetry telemetry;
 
-
     /**
      * serve isServoAtTarget() since the servo doesn't have a PID controller so need something to store the target position and to the comparison
      */
@@ -103,7 +102,9 @@ public class BucketSubsystem implements Subsystem, Supplier<Double>, Loggable {
     }
 
     public void setMotorPosition(double position){
-        pidController_motor.setTargetPosition(Range.clip(position, MOTOR_LOWER_LIMIT, MOTOR_UPPER_LIMIT)*(19.2*28*(108.0/20)));
+        // This is the value to get our position to a 0-1 range
+        double scale = (19.2*28*(108.0/20));
+        pidController_motor.setTargetPosition(Range.clip(position, MOTOR_LOWER_LIMIT, MOTOR_UPPER_LIMIT)*scale);
     }
     public void setServoPosition(double position){
         bucketServo.setPosition(position);
