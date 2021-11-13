@@ -15,9 +15,9 @@ public class ArmSubsystem implements Subsystem, Supplier<Double> {
         public static double LIFT_LOWER_LIMIT = 0;
         public static double DEADZONE = 0.1;
 
-        public static double LEVEL_ONE = 250;
-        public static double LEVEL_TWO = 500;
-        public static double LEVEL_THREE = 750;
+        public static double TOP_LEVEL = .5;
+        public static double MIDDLE_LEVEL = .4;
+        public static double BOTTOM_LEVEL = .3;
         public static double COLLECT = 100;
     }
     EncodedMotor<DcMotorEx> liftMotor;

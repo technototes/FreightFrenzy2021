@@ -4,6 +4,6 @@ import org.firstinspires.ftc.teamcode.subsystems.ArmSubsystem;
 
 public class ArmMiddleLevelCommand extends ArmCommand{
     public ArmMiddleLevelCommand(ArmSubsystem arm){
-        super(arm, ArmSubsystem.ArmConstant.LEVEL_TWO);
+        super(arm, ArmSubsystem.ArmConstant.MIDDLE_LEVEL);
     }
 }

@@ -1,11 +1,11 @@
 package org.firstinspires.ftc.teamcode.commands.bucket;
 
-import org.firstinspires.ftc.teamcode.subsystems.BucketSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.DumpSubsystem;
 
-import static org.firstinspires.ftc.teamcode.subsystems.BucketSubsystem.BucketConstant.COMBINATION_MIDDLE_LEVEL;
+import static org.firstinspires.ftc.teamcode.subsystems.DumpSubsystem.BucketConstant.COMBINATION_MIDDLE_LEVEL;
 
 public class BucketUnloadMiddleLevelCommand extends BucketCommand{
-    public BucketUnloadMiddleLevelCommand(BucketSubsystem bs) {
+    public BucketUnloadMiddleLevelCommand(DumpSubsystem bs) {
         super(bs, COMBINATION_MIDDLE_LEVEL);
     }
 }

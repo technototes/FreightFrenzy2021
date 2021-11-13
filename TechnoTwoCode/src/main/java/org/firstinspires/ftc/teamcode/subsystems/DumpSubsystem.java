@@ -3,20 +3,19 @@ package org.firstinspires.ftc.teamcode.subsystems;
 import com.acmerobotics.roadrunner.control.PIDCoefficients;
 import com.acmerobotics.roadrunner.control.PIDFController;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.qualcomm.robotcore.util.Range;
 import com.technototes.library.hardware.motor.EncodedMotor;
 import com.technototes.library.hardware.servo.Servo;
 import com.technototes.library.logger.Log;
 import com.technototes.library.logger.Loggable;
 import com.technototes.library.subsystem.Subsystem;
-import static org.firstinspires.ftc.teamcode.subsystems.BucketSubsystem.BucketConstant.*;
+import static org.firstinspires.ftc.teamcode.subsystems.DumpSubsystem.BucketConstant.*;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 import java.util.function.Supplier;
 
-public class BucketSubsystem implements Subsystem, Supplier<Double>, Loggable {
+public class DumpSubsystem implements Subsystem, Supplier<Double>, Loggable {
     public static class BucketConstant{
         /**
          * so called dead-zone
@@ -53,15 +52,22 @@ public class BucketSubsystem implements Subsystem, Supplier<Double>, Loggable {
          * 0.75 is 180 degrees
          * 1 is 270 degree
          */
-        public static double[] COMBINATION_COLLECTING = {0, 0.2};
-        public static double[] COMBINATION_COLLECTED = {-0.15, 0};
-        public static double[] COMBINATION_0_DEGREE = {0, 0};
-        public static double[] COMBINATION_45_DEGREE = {0, 0};
-        public static double[] COMBINATION_TOP = {-0.45, 0};
+
+        public static double[] COMBINATION_COLLECT = {0, 0.2};
+        public static double[] COMBINATION_CARRY = {-0.15, 0};
         public static double[] COMBINATION_TOP_LEVEL = {-0.46, 0.5};
         public static double[] COMBINATION_MIDDLE_LEVEL = {-0.52, 0.5};
         public static double[] COMBINATION_BOTTOM_LEVEL = {-0.6, 0.5};
 //        public static Combination COLLECT = new Combination(0, 0);
+    }
+    public static class ArmConstant {
+        public static double DEADZONE = 0.01;
+
+        public static double TOP_LEVEL = -0.46;
+        public static double MIDDLE_LEVEL = -0.52;
+        public static double BOTTOM_LEVEL = -0.6;
+        public static double COLLECT = 0;
+        public static double CARRY = -.15;
     }
 
     /**
@@ -94,7 +100,7 @@ public class BucketSubsystem implements Subsystem, Supplier<Double>, Loggable {
 
     public PIDFController pidController_motor;
 
-    public BucketSubsystem (EncodedMotor<DcMotorEx> motor, Servo servo) {
+    public DumpSubsystem(EncodedMotor<DcMotorEx> motor, Servo servo) {
         this.bucketMotor = motor;
         this.bucketServo = servo;
         pidController_motor = new PIDFController(pidCoefficients_motor, 0, 0, 0, (x, y)->0.05);

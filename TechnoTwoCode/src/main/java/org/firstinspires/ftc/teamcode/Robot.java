@@ -4,7 +4,7 @@ import com.acmerobotics.dashboard.config.Config;
 import com.technototes.library.logger.Loggable;
 
 import org.firstinspires.ftc.teamcode.subsystems.ArmSubsystem;
-import org.firstinspires.ftc.teamcode.subsystems.BucketSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.DumpSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.DepositSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.DrivebaseSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
@@ -21,17 +21,15 @@ public class Robot implements Loggable {
         public static boolean CAROUSEL_CONNECTED = true;
         public static boolean INTAKE_CONNECTED = false;
         public static boolean VISION_CONNECTED = false;
-        public static boolean ARM_CONNECTED = false;
         public static boolean CAP_CONNECTED = false;
-        public static boolean BUCKET_CONNECTED = true;
+        public static boolean DUMP_CONNECTED = true;
     }
     public DepositSubsystem depositSubsystem;
     public DrivebaseSubsystem drivebaseSubsystem;
     public CarouselSubsystem carouselSubsystem;
     public IntakeSubsystem intakeSubsystem;
     public VisionSubsystem visionSubsystem;
-    public ArmSubsystem armSubsystem;
-    public BucketSubsystem bucketSubsystem;
+    public DumpSubsystem dumpSubsystem;
 
     public Robot(Hardware hardware) {
         if (DEPOSIT_CONNECTED) depositSubsystem = new DepositSubsystem(hardware.dumpServo);
@@ -39,7 +37,6 @@ public class Robot implements Loggable {
         if (CAROUSEL_CONNECTED) carouselSubsystem = new CarouselSubsystem(hardware.carouselMotor);
         if (INTAKE_CONNECTED) intakeSubsystem = new IntakeSubsystem(hardware.intakeMotor, hardware.intakeDistSensor);
         if (VISION_CONNECTED) visionSubsystem = new VisionSubsystem(hardware.camera);
-        //if (ARM_CONNECTED) armSubsystem = new ArmSubsystem(hardware.armMotor);
-        if (BUCKET_CONNECTED) bucketSubsystem = new BucketSubsystem(hardware.bucketMotor, hardware.bucketServo);
+        if (DUMP_CONNECTED) dumpSubsystem = new DumpSubsystem(hardware.bucketMotor, hardware.bucketServo);
     }
 }

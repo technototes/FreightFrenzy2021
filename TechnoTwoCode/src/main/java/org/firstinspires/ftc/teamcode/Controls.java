@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
-import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.BUCKET_CONNECTED;
+import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.DUMP_CONNECTED;
 import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.CAP_CONNECTED;
 import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.CAROUSEL_CONNECTED;
 import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.DEPOSIT_CONNECTED;
@@ -13,8 +13,8 @@ import com.technototes.library.control.gamepad.CommandButton;
 import com.technototes.library.control.gamepad.CommandGamepad;
 import com.technototes.library.control.gamepad.Stick;
 
-import org.firstinspires.ftc.teamcode.commands.bucket.BucketCollectedCommand;
-import org.firstinspires.ftc.teamcode.commands.bucket.BucketCollectingCommand;
+import org.firstinspires.ftc.teamcode.commands.bucket.BucketCarryCommand;
+import org.firstinspires.ftc.teamcode.commands.bucket.BucketCollectCommand;
 import org.firstinspires.ftc.teamcode.commands.bucket.BucketUnloadBottomLevelCommand;
 import org.firstinspires.ftc.teamcode.commands.bucket.BucketUnloadTopLevelCommand;
 import org.firstinspires.ftc.teamcode.commands.carousel.CarouselLeftCommand;
@@ -76,14 +76,14 @@ public class Controls {
         if(INTAKE_CONNECTED) bindIntakeControls();
         if(CAROUSEL_CONNECTED) bindCarouselControls();
         if(CAP_CONNECTED) bindCapControls();
-        if(BUCKET_CONNECTED) bindBucketControls();
+        if(DUMP_CONNECTED) bindBucketControls();
     }
 
     public void bindBucketControls(){
-        collectedButton.whilePressedOnce(new BucketCollectedCommand(robot.bucketSubsystem));
-        collectingButton.whenPressed(new BucketCollectingCommand(robot.bucketSubsystem));
-        topDepositButton.whenPressed(new BucketUnloadTopLevelCommand(robot.bucketSubsystem));
-        bottomDepositButton.whenPressed(new BucketUnloadBottomLevelCommand(robot.bucketSubsystem));
+        collectedButton.whilePressedOnce(new BucketCarryCommand(robot.dumpSubsystem));
+        collectingButton.whenPressed(new BucketCollectCommand(robot.dumpSubsystem));
+        topDepositButton.whenPressed(new BucketUnloadTopLevelCommand(robot.dumpSubsystem));
+        bottomDepositButton.whenPressed(new BucketUnloadBottomLevelCommand(robot.dumpSubsystem));
     }
 
     public void bindDriveControls(){

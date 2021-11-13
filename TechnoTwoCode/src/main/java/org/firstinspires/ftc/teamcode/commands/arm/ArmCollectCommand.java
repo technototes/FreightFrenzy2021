@@ -2,9 +2,9 @@ package org.firstinspires.ftc.teamcode.commands.arm;
 
 import org.firstinspires.ftc.teamcode.subsystems.ArmSubsystem;
 
-public class ArmCollectedCommand extends ArmCommand{
-    public ArmCollectedCommand(ArmSubsystem arm, double amt){
-        super(arm,amt);
+public class ArmCollectCommand extends ArmCommand{
+    public ArmCollectCommand(ArmSubsystem arm, double amt){
+        super(arm,ArmSubsystem.ArmConstant.COLLECT);
     }
 
     @Override
