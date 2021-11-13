@@ -13,11 +13,12 @@ import com.technototes.library.control.gamepad.CommandButton;
 import com.technototes.library.control.gamepad.CommandGamepad;
 import com.technototes.library.control.gamepad.Stick;
 
-import org.firstinspires.ftc.teamcode.commands.bucket.BucketServoTestCommand;
+import org.firstinspires.ftc.teamcode.commands.bucket.BucketCollectedCommand;
+import org.firstinspires.ftc.teamcode.commands.bucket.BucketCollectingCommand;
 import org.firstinspires.ftc.teamcode.commands.bucket.BucketUnloadBottomLevelCommand;
+import org.firstinspires.ftc.teamcode.commands.bucket.BucketUnloadTopLevelCommand;
 import org.firstinspires.ftc.teamcode.commands.carousel.CarouselLeftCommand;
 import org.firstinspires.ftc.teamcode.commands.carousel.CarouselRightCommand;
-import org.firstinspires.ftc.teamcode.commands.deposit.DumpVariableCommand;
 import org.firstinspires.ftc.teamcode.commands.drivebase.DriveCommand;
 import org.firstinspires.ftc.teamcode.commands.drivebase.ResetGyroCommand;
 import org.firstinspires.ftc.teamcode.commands.drivebase.SetSpeedCommand;
@@ -31,8 +32,10 @@ public class Controls {
 
     public Robot robot;
 
-    public CommandAxis dumpAxis, toIntakeButton;
-    public CommandButton neutralHubButton, specificHubButton;
+    public CommandAxis toIntakeButton;
+    public CommandAxis collectingButton;
+    public CommandButton collectedButton, topDepositButton;
+    public CommandAxis bottomDepositButton;
 
     public CommandButton liftAdjustUpButton, liftAdjustDownButton, slideAdjustInButton, slideAdjustOutButton;
 
@@ -47,10 +50,10 @@ public class Controls {
         gamepad = g;
         robot = r;
 
-        dumpAxis = gamepad.leftTrigger.setTriggerThreshold(0.5);
-        neutralHubButton = gamepad.leftBumper;
-        specificHubButton = gamepad.rightBumper;
-        toIntakeButton = gamepad.rightTrigger.setTriggerThreshold(0.3);
+        collectingButton = gamepad.leftTrigger.setTriggerThreshold(0.5);
+        collectedButton = gamepad.leftBumper;
+        topDepositButton = gamepad.rightBumper;
+        bottomDepositButton = gamepad.rightTrigger.setTriggerThreshold(0.5);
 
         liftAdjustUpButton = gamepad.dpadUp;
         liftAdjustDownButton = gamepad.dpadDown;
@@ -69,8 +72,6 @@ public class Controls {
         driveLeftStick = gamepad.leftStick;
         driveRightStick = gamepad.rightStick;
 
-//        if(LIFT_CONNECTED) bindArmControls();
-        if(DEPOSIT_CONNECTED) bindDepositControls();
         if(DRIVE_CONNECTED) bindDriveControls();
         if(INTAKE_CONNECTED) bindIntakeControls();
         if(CAROUSEL_CONNECTED) bindCarouselControls();
@@ -78,29 +79,11 @@ public class Controls {
         if(BUCKET_CONNECTED) bindBucketControls();
     }
 
-
-    public void bindDepositControls(){
-        dumpAxis.whilePressed(new DumpVariableCommand(robot.depositSubsystem, dumpAxis));
-        // toIntakeButton.whenPressed(new ArmRetractCommand(robot.depositSubsystem));
-        // specificHubButton.whenPressed(new WaitCommand(0.1).andThen(new ArmExtendCommand(robot.depositSubsystem)));
-        // neutralHubButton.whenPressed(new WaitCommand(0.1).andThen(new ArmExtendCommand(robot.depositSubsystem)));
-        // slideAdjustOutButton.whilePressed(new ArmTranslateCommand(robot.depositSubsystem, -0.01));
-        // slideAdjustInButton.whilePressed(new ArmTranslateCommand(robot.depositSubsystem, 0.01));
-    }
-
-//    public void bindArmControls(){
-//        neutralHubButton.whenPressed(new ArmLevel1Command(robot.armSubsystem));
-//        specificHubButton.whenPressed(new ArmLevel3Command(robot.armSubsystem));
-//        toIntakeButton.whenPressed(new ArmCollectCommand(robot.armSubsystem));
-//    }
-
     public void bindBucketControls(){
-        neutralHubButton.whilePressedOnce(new BucketServoTestCommand(robot.bucketSubsystem));
-        specificHubButton.whenPressed(new BucketUnloadBottomLevelCommand(robot.bucketSubsystem));
-//        toIntakeButton.whenPressed(new BucketCollectedCommand(robot.bucketSubsystem)
-//                                .andThen(new BucketCollectingCommand(robot.bucketSubsystem))
-//                                .andThen(new BucketCollectedCommand(robot.bucketSubsystem))
-//        );
+        collectedButton.whilePressedOnce(new BucketCollectedCommand(robot.bucketSubsystem));
+        collectingButton.whenPressed(new BucketCollectingCommand(robot.bucketSubsystem));
+        topDepositButton.whenPressed(new BucketUnloadTopLevelCommand(robot.bucketSubsystem));
+        bottomDepositButton.whenPressed(new BucketUnloadBottomLevelCommand(robot.bucketSubsystem));
     }
 
     public void bindDriveControls(){

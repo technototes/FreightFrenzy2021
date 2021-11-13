@@ -53,14 +53,14 @@ public class BucketSubsystem implements Subsystem, Supplier<Double>, Loggable {
          * 0.75 is 180 degrees
          * 1 is 270 degree
          */
-        public static double[] COMBINATION_COLLECTING = {0, 0};
-        public static double[] COMBINATION_COLLECTED = {-0.1, 0};
+        public static double[] COMBINATION_COLLECTING = {0, 0.2};
+        public static double[] COMBINATION_COLLECTED = {-0.15, 0};
         public static double[] COMBINATION_0_DEGREE = {0, 0};
         public static double[] COMBINATION_45_DEGREE = {0, 0};
         public static double[] COMBINATION_TOP = {-0.45, 0};
-        public static double[] COMBINATION_TOP_LEVEL = {-0.5, 0};
-        public static double[] COMBINATION_MIDDLE_LEVEL = {-0.55, 0};
-        public static double[] COMBINATION_BOTTOM_LEVEL = {-0.7, 0};
+        public static double[] COMBINATION_TOP_LEVEL = {-0.46, 0.5};
+        public static double[] COMBINATION_MIDDLE_LEVEL = {-0.52, 0.5};
+        public static double[] COMBINATION_BOTTOM_LEVEL = {-0.6, 0.5};
 //        public static Combination COLLECT = new Combination(0, 0);
     }
 
