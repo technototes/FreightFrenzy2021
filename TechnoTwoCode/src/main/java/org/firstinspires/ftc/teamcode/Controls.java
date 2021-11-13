@@ -33,8 +33,8 @@ public class Controls {
     public Robot robot;
 
     public CommandAxis toIntakeButton;
-    public CommandAxis collectingButton;
-    public CommandButton collectedButton, topDepositButton;
+    public CommandAxis collectButton;
+    public CommandButton carryButton, topDepositButton;
     public CommandAxis bottomDepositButton;
 
     public CommandButton liftAdjustUpButton, liftAdjustDownButton, slideAdjustInButton, slideAdjustOutButton;
@@ -50,8 +50,8 @@ public class Controls {
         gamepad = g;
         robot = r;
 
-        collectingButton = gamepad.leftTrigger.setTriggerThreshold(0.5);
-        collectedButton = gamepad.leftBumper;
+        collectButton = gamepad.leftTrigger.setTriggerThreshold(0.5);
+        carryButton = gamepad.leftBumper;
         topDepositButton = gamepad.rightBumper;
         bottomDepositButton = gamepad.rightTrigger.setTriggerThreshold(0.5);
 
@@ -80,8 +80,8 @@ public class Controls {
     }
 
     public void bindBucketControls(){
-        collectedButton.whilePressedOnce(new BucketCarryCommand(robot.dumpSubsystem));
-        collectingButton.whenPressed(new BucketCollectCommand(robot.dumpSubsystem));
+        carryButton.whilePressedOnce(new BucketCarryCommand(robot.dumpSubsystem));
+        collectButton.whenPressed(new BucketCollectCommand(robot.dumpSubsystem));
         topDepositButton.whenPressed(new BucketUnloadTopLevelCommand(robot.dumpSubsystem));
         bottomDepositButton.whenPressed(new BucketUnloadBottomLevelCommand(robot.dumpSubsystem));
     }

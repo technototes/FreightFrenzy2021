@@ -52,13 +52,11 @@ public class DumpSubsystem implements Subsystem, Supplier<Double>, Loggable {
          * 0.75 is 180 degrees
          * 1 is 270 degree
          */
-
-        public static double[] COMBINATION_COLLECT = {0, 0.2};
-        public static double[] COMBINATION_CARRY = {-0.15, 0};
-        public static double[] COMBINATION_TOP_LEVEL = {-0.46, 0.5};
-        public static double[] COMBINATION_MIDDLE_LEVEL = {-0.52, 0.5};
-        public static double[] COMBINATION_BOTTOM_LEVEL = {-0.6, 0.5};
-//        public static Combination COLLECT = new Combination(0, 0);
+        public static double BUCKET_COLLECT = 0.2;
+        public static double BUCKET_CARRY = 0;
+        public static double BUCKET_TOP_LEVEL = 0.5;
+        public static double BUCKET_MIDDLE_LEVEL = 0.55;
+        public static double BUCKET_BOTTOM_LEVEL = 0.65;
     }
     public static class ArmConstant {
         public static double DEADZONE = 0.01;
