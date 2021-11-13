@@ -1,9 +1,11 @@
 package org.firstinspires.ftc.teamcode.commands.arm;
 
-import org.firstinspires.ftc.teamcode.subsystems.ArmSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.DumpSubsystem;
+
+import static org.firstinspires.ftc.teamcode.subsystems.DumpSubsystem.ArmConstant.TOP_LEVEL;
 
 public class ArmTopLevelCommand extends ArmCommand{
-    public ArmTopLevelCommand(ArmSubsystem arm){
-        super(arm,ArmSubsystem.ArmConstant.TOP_LEVEL);
+    public ArmTopLevelCommand(DumpSubsystem arm){
+        super(arm,TOP_LEVEL);
     }
 }

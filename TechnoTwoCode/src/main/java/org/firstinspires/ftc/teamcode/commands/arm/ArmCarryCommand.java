@@ -1,9 +1,9 @@
 package org.firstinspires.ftc.teamcode.commands.arm;
 
-import org.firstinspires.ftc.teamcode.subsystems.ArmSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.DumpSubsystem;
 
-public class ArmCarryCommand extends ArmCommand{
-    public ArmCarryCommand(ArmSubsystem arm){
-        super(arm,ArmSubsystem.ArmConstant.COLLECT);
+public class ArmCarryCommand extends ArmCommand {
+    public ArmCarryCommand(DumpSubsystem arm) {
+        super(arm, DumpSubsystem.ArmConstant.COLLECT);
     }
 }
