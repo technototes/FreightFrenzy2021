@@ -20,7 +20,7 @@ public class DumpSubsystem implements Subsystem, Supplier<Double>, Loggable {
         /**
          * so called dead-zone
          */
-        public static double TOLERANCE_ZONE = 0.1;
+        public static double TOLERANCE_ZONE = 1;
 
         public static double MOTOR_LOWER_LIMIT = -100;
         public static double MOTOR_UPPER_LIMIT = 100;
@@ -54,18 +54,18 @@ public class DumpSubsystem implements Subsystem, Supplier<Double>, Loggable {
          */
         public static double BUCKET_COLLECT = 0.2;
         public static double BUCKET_CARRY = 0;
-        public static double BUCKET_TOP_LEVEL = 0.5;
+        public static double BUCKET_TOP_LEVEL = 0.1;
         public static double BUCKET_MIDDLE_LEVEL = 0.55;
         public static double BUCKET_BOTTOM_LEVEL = 0.65;
     }
     public static class ArmConstant {
         public static double DEADZONE = 0.01;
 
+        public static double COLLECT = 0;
+        public static double CARRY = -.15;
         public static double TOP_LEVEL = -0.46;
         public static double MIDDLE_LEVEL = -0.52;
         public static double BOTTOM_LEVEL = -0.6;
-        public static double COLLECT = 0;
-        public static double CARRY = -.15;
     }
 
     /**

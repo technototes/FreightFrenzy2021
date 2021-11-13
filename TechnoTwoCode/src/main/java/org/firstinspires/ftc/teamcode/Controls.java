@@ -11,6 +11,7 @@ import com.technototes.library.control.gamepad.CommandButton;
 import com.technototes.library.control.gamepad.CommandGamepad;
 import com.technototes.library.control.gamepad.Stick;
 
+import org.firstinspires.ftc.teamcode.commands.arm.DummyRequirementCommand;
 import org.firstinspires.ftc.teamcode.commands.bucket.BucketCarryCommand;
 import org.firstinspires.ftc.teamcode.commands.bucket.BucketCollectCommand;
 import org.firstinspires.ftc.teamcode.commands.bucket.BucketUnloadBottomLevelCommand;
@@ -35,11 +36,8 @@ public class Controls {
 
     public Robot robot;
 
-    public CommandAxis toIntakeButton;
     public CommandButton carryButton, collectButton, topDepositButton,
-            middleDepositButton, bottomDepositButton;
-
-    public CommandButton liftAdjustUpButton, liftAdjustDownButton, slideAdjustInButton, slideAdjustOutButton;
+              middleDepositButton, bottomDepositButton;
 
     public CommandButton intakeInButton, intakeOutButton;
 
@@ -47,8 +45,9 @@ public class Controls {
 
     public Stick driveLeftStick, driveRightStick;
     public CommandButton resetGyroButton, snailSpeedButton;
+    public DummyRequirementCommand dummy;
 
-    public Controls(CommandGamepad g, Robot r){
+    public Controls(CommandGamepad g, Robot r) {
         gamepad = g;
         robot = r;
 
@@ -70,28 +69,29 @@ public class Controls {
         driveLeftStick = gamepad.leftStick;
         driveRightStick = gamepad.rightStick;
 
-        if(DRIVE_CONNECTED) bindDriveControls();
-        if(INTAKE_CONNECTED) bindIntakeControls();
-        if(CAROUSEL_CONNECTED) bindCarouselControls();
-        if(CAP_CONNECTED) bindCapControls();
-        if(DUMP_CONNECTED) bindBucketControls();
+        if (DRIVE_CONNECTED) bindDriveControls();
+        if (INTAKE_CONNECTED) bindIntakeControls();
+        if (CAROUSEL_CONNECTED) bindCarouselControls();
+        if (CAP_CONNECTED) bindCapControls();
+        if (DUMP_CONNECTED) bindBucketControls();
+        dummy = new DummyRequirementCommand(robot.dumpSubsystem);
     }
 
-    public void bindBucketControls(){
-        carryButton.whilePressedOnce(new DumpCarryCommand(robot.dumpSubsystem));
-        collectButton.whenPressed(new DumpCollectCommand(robot.dumpSubsystem));
-        topDepositButton.whenPressed(new DumpUnloadTopLevelCommand(robot.dumpSubsystem));
-        middleDepositButton.whenPressed(new DumpUnloadMiddleLevelCommand(robot.dumpSubsystem));
-        bottomDepositButton.whenPressed(new DumpUnloadBottomLevelCommand(robot.dumpSubsystem));
+    public void bindBucketControls() {
+        carryButton.whenPressed(new DumpCarryCommand(robot.dumpSubsystem).withTimeout(1));
+        collectButton.whenPressed(new DumpCollectCommand(robot.dumpSubsystem).withTimeout(1));
+        topDepositButton.whenPressed(new DumpUnloadTopLevelCommand(robot.dumpSubsystem).withTimeout(1));
+        middleDepositButton.whenPressed(new DumpUnloadMiddleLevelCommand(robot.dumpSubsystem).withTimeout(1));
+        bottomDepositButton.whenPressed(new DumpUnloadBottomLevelCommand(robot.dumpSubsystem).withTimeout(1));
     }
 
-    public void bindDriveControls(){
+    public void bindDriveControls() {
         robot.drivebaseSubsystem.setDefaultCommand(new DriveCommand(robot.drivebaseSubsystem, driveLeftStick, driveRightStick));
         resetGyroButton.whenPressed(new ResetGyroCommand(robot.drivebaseSubsystem));
         snailSpeedButton.whilePressedOnce(new SetSpeedCommand(robot.drivebaseSubsystem));
     }
 
-    public void bindIntakeControls(){
+    public void bindIntakeControls() {
         intakeInButton.whenPressed(new IntakeInCommand(robot.intakeSubsystem));
         intakeInButton.whenReleased(new IntakeStopCommand(robot.intakeSubsystem));
 
@@ -100,7 +100,7 @@ public class Controls {
 
     }
 
-    public void bindCarouselControls(){
+    public void bindCarouselControls() {
         carouselLeftButton.whilePressedOnce(new CarouselLeftCommand(robot.carouselSubsystem));
         carouselRightButton.whilePressedOnce(new CarouselRightCommand(robot.carouselSubsystem));
     }

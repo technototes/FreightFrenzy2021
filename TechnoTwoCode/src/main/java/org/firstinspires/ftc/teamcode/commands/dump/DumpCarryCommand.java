@@ -9,8 +9,6 @@ import org.firstinspires.ftc.teamcode.subsystems.DumpSubsystem;
 
 public class DumpCarryCommand extends SequentialCommandGroup {
     public DumpCarryCommand(DumpSubsystem dump) {
-        super(new ArmCarryCommand(dump),
-                new BucketCarryCommand(dump),
-                CommandScheduler.getInstance()::terminateOpMode);
+        super(new ArmCarryCommand(dump), new BucketCarryCommand(dump));
     }
 }

@@ -10,7 +10,6 @@ import org.firstinspires.ftc.teamcode.subsystems.DumpSubsystem;
 public class DumpUnloadMiddleLevelCommand extends SequentialCommandGroup {
     public DumpUnloadMiddleLevelCommand(DumpSubsystem dump) {
         super(new ArmMiddleLevelCommand(dump),
-                new BucketUnloadMiddleLevelCommand(dump),
-                CommandScheduler.getInstance()::terminateOpMode);
+                new BucketUnloadMiddleLevelCommand(dump));
     }
 }

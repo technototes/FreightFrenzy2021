@@ -10,7 +10,6 @@ import org.firstinspires.ftc.teamcode.subsystems.DumpSubsystem;
 public class DumpCollectCommand extends SequentialCommandGroup {
     public DumpCollectCommand(DumpSubsystem dump) {
         super(new ArmCollectCommand(dump),
-                new BucketCollectCommand(dump),
-                CommandScheduler.getInstance()::terminateOpMode);
+                new BucketCollectCommand(dump));
     }
 }
