@@ -23,6 +23,7 @@ import org.firstinspires.ftc.teamcode.commands.drivebase.SetSpeedCommand;
 import org.firstinspires.ftc.teamcode.commands.dump.DumpCarryCommand;
 import org.firstinspires.ftc.teamcode.commands.dump.DumpCollectCommand;
 import org.firstinspires.ftc.teamcode.commands.dump.DumpUnloadBottomLevelCommand;
+import org.firstinspires.ftc.teamcode.commands.dump.DumpUnloadMiddleLevelCommand;
 import org.firstinspires.ftc.teamcode.commands.dump.DumpUnloadTopLevelCommand;
 import org.firstinspires.ftc.teamcode.commands.intake.IntakeInCommand;
 import org.firstinspires.ftc.teamcode.commands.intake.IntakeOutCommand;
@@ -80,8 +81,8 @@ public class Controls {
         carryButton.whilePressedOnce(new DumpCarryCommand(robot.dumpSubsystem));
         collectButton.whenPressed(new DumpCollectCommand(robot.dumpSubsystem));
         topDepositButton.whenPressed(new DumpUnloadTopLevelCommand(robot.dumpSubsystem));
+        middleDepositButton.whenPressed(new DumpUnloadMiddleLevelCommand(robot.dumpSubsystem));
         bottomDepositButton.whenPressed(new DumpUnloadBottomLevelCommand(robot.dumpSubsystem));
-
     }
 
     public void bindDriveControls(){
