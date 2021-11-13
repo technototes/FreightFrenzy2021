@@ -30,7 +30,7 @@ public class BlueDuckAuto extends CommandOpMode implements Loggable {
         robot.drivebaseSubsystem.setPoseEstimate(AutonomousConstants.DUCK_START_SELECT.get());
 
         CommandScheduler.getInstance().scheduleForState(
-                new AutonomousPhaseCommand(robot.drivebaseSubsystem, robot.carouselSubsystem, robot.bucketSubsystem),
+                new AutonomousPhaseCommand(robot.drivebaseSubsystem, robot.carouselSubsystem, robot.dumpSubsystem),
                 OpModeState.RUN);
     }
 }

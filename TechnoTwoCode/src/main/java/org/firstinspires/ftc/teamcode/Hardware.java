@@ -9,7 +9,7 @@ import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.INTAKE_CONNECT
 import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.LIFT_CONNECTED;
 import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.VISION_CONNECTED;
 import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.CAP_CONNECTED;
-import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.BUCKET_CONNECTED;
+import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.DUMP_CONNECTED;
 
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.technototes.library.hardware.motor.EncodedMotor;
@@ -132,7 +132,7 @@ public class Hardware {
             dumpServo = new Servo(DUMP);
         }
 
-        if (BUCKET_CONNECTED) {
+        if (DUMP_CONNECTED) {
             bucketServo = new Servo(BUCKET);
             bucketMotor = new EncodedMotor<DcMotorEx>(ARM).invert();
         }

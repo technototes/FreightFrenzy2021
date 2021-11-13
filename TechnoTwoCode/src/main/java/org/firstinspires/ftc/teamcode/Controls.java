@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
-import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.BUCKET_CONNECTED;
+import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.DUMP_CONNECTED;
 import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.CAP_CONNECTED;
 import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.CAROUSEL_CONNECTED;
 import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.DEPOSIT_CONNECTED;
@@ -13,10 +13,8 @@ import com.technototes.library.control.gamepad.CommandButton;
 import com.technototes.library.control.gamepad.CommandGamepad;
 import com.technototes.library.control.gamepad.Stick;
 
-import org.firstinspires.ftc.teamcode.commands.arm.ArmCollectedCommand;
-import org.firstinspires.ftc.teamcode.commands.arm.ArmCollectingCommand;
-import org.firstinspires.ftc.teamcode.commands.bucket.BucketCollectedCommand;
-import org.firstinspires.ftc.teamcode.commands.bucket.BucketCollectingCommand;
+import org.firstinspires.ftc.teamcode.commands.bucket.BucketCarryCommand;
+import org.firstinspires.ftc.teamcode.commands.bucket.BucketCollectCommand;
 import org.firstinspires.ftc.teamcode.commands.bucket.BucketUnloadBottomLevelCommand;
 import org.firstinspires.ftc.teamcode.commands.bucket.BucketUnloadTopLevelCommand;
 import org.firstinspires.ftc.teamcode.commands.carousel.CarouselLeftCommand;
@@ -35,8 +33,8 @@ public class Controls {
     public Robot robot;
 
     public CommandAxis toIntakeButton;
-    public CommandAxis collectingButton;
-    public CommandButton collectedButton, topDepositButton;
+    public CommandAxis collectButton;
+    public CommandButton carryButton, topDepositButton;
     public CommandAxis bottomDepositButton;
 
     public CommandButton liftAdjustUpButton, liftAdjustDownButton, slideAdjustInButton, slideAdjustOutButton;
@@ -52,8 +50,8 @@ public class Controls {
         gamepad = g;
         robot = r;
 
-        collectingButton = gamepad.leftTrigger.setTriggerThreshold(0.5);
-        collectedButton = gamepad.leftBumper;
+        collectButton = gamepad.leftTrigger.setTriggerThreshold(0.5);
+        carryButton = gamepad.leftBumper;
         topDepositButton = gamepad.rightBumper;
         bottomDepositButton = gamepad.rightTrigger.setTriggerThreshold(0.5);
 
@@ -78,14 +76,14 @@ public class Controls {
         if(INTAKE_CONNECTED) bindIntakeControls();
         if(CAROUSEL_CONNECTED) bindCarouselControls();
         if(CAP_CONNECTED) bindCapControls();
-        if(BUCKET_CONNECTED) bindBucketControls();
+        if(DUMP_CONNECTED) bindBucketControls();
     }
 
     public void bindBucketControls(){
-        collectedButton.whilePressedOnce(new ArmCollectedCommand(robot.armSubsystem).andThen(new BucketCollectedCommand(robot.bucketSubsystem)));
-        collectingButton.whenPressed(new BucketCollectingCommand(robot.bucketSubsystem).andThen(new ArmCollectingCommand(robot.armSubsystem)));
-        topDepositButton.whenPressed(new BucketUnloadTopLevelCommand(robot.bucketSubsystem));
-        bottomDepositButton.whenPressed(new BucketUnloadBottomLevelCommand(robot.bucketSubsystem));
+        carryButton.whilePressedOnce(new BucketCarryCommand(robot.dumpSubsystem));
+        collectButton.whenPressed(new BucketCollectCommand(robot.dumpSubsystem));
+        topDepositButton.whenPressed(new BucketUnloadTopLevelCommand(robot.dumpSubsystem));
+        bottomDepositButton.whenPressed(new BucketUnloadBottomLevelCommand(robot.dumpSubsystem));
     }
 
     public void bindDriveControls(){

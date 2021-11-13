@@ -5,14 +5,13 @@ package org.firstinspires.ftc.teamcode.commands.autonomous;
 
 import com.technototes.library.command.CommandScheduler;
 import com.technototes.library.command.SequentialCommandGroup;
-import com.technototes.path.command.TrajectorySequenceCommand;
 
-import org.firstinspires.ftc.teamcode.subsystems.BucketSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.DumpSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.CarouselSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.DrivebaseSubsystem;
 
 public class AutonomousPhaseCommand extends SequentialCommandGroup {
-    public AutonomousPhaseCommand(DrivebaseSubsystem drivebaseSystem, CarouselSubsystem carouselSystem, BucketSubsystem bucketSystem){
+    public AutonomousPhaseCommand(DrivebaseSubsystem drivebaseSystem, CarouselSubsystem carouselSystem, DumpSubsystem bucketSystem){
         super(new AutonomousDuckCommandGroup(drivebaseSystem, carouselSystem), //goto carousel and spin it
 //                new TrajectorySequenceCommand(), //duck goto shipping hub
                 new ShelfUnloadingLevel3Command(), //unload the preloaded cube
