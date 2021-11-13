@@ -3,10 +3,8 @@ package org.firstinspires.ftc.teamcode;
 import com.acmerobotics.dashboard.config.Config;
 
 import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.CAROUSEL_CONNECTED;
-import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.DEPOSIT_CONNECTED;
 import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.DRIVE_CONNECTED;
 import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.INTAKE_CONNECTED;
-import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.LIFT_CONNECTED;
 import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.VISION_CONNECTED;
 import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.CAP_CONNECTED;
 import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.DUMP_CONNECTED;
@@ -86,13 +84,6 @@ public class Hardware {
     public EncodedMotor<DcMotorEx> bucketMotor;
 
     public Hardware() {
-        if (LIFT_CONNECTED) {
-            liftMotor = new EncodedMotor<>(LIFT);
-        }
-        if (DEPOSIT_CONNECTED) {
-
-            armServo = new Servo(LIFT).invert();
-        }
         if (DRIVE_CONNECTED) {
             flDriveMotor = new EncodedMotor<>(FL_MOTOR);
             frDriveMotor = new EncodedMotor<>(FR_MOTOR);
@@ -112,9 +103,6 @@ public class Hardware {
 
         if (CAP_CONNECTED) {
             capServo = new Servo(CAP);
-        }
-        if (DEPOSIT_CONNECTED) {
-            dumpServo = new Servo(DUMP);
         }
 
         if (DUMP_CONNECTED) {
