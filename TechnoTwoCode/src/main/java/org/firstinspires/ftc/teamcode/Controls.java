@@ -13,6 +13,8 @@ import com.technototes.library.control.gamepad.CommandButton;
 import com.technototes.library.control.gamepad.CommandGamepad;
 import com.technototes.library.control.gamepad.Stick;
 
+import org.firstinspires.ftc.teamcode.commands.arm.ArmCollectedCommand;
+import org.firstinspires.ftc.teamcode.commands.arm.ArmCollectingCommand;
 import org.firstinspires.ftc.teamcode.commands.bucket.BucketCollectedCommand;
 import org.firstinspires.ftc.teamcode.commands.bucket.BucketCollectingCommand;
 import org.firstinspires.ftc.teamcode.commands.bucket.BucketUnloadBottomLevelCommand;
@@ -80,8 +82,8 @@ public class Controls {
     }
 
     public void bindBucketControls(){
-        collectedButton.whilePressedOnce(new BucketCollectedCommand(robot.bucketSubsystem));
-        collectingButton.whenPressed(new BucketCollectingCommand(robot.bucketSubsystem));
+        collectedButton.whilePressedOnce(new ArmCollectedCommand(robot.armSubsystem).andThen(new BucketCollectedCommand(robot.bucketSubsystem)));
+        collectingButton.whenPressed(new BucketCollectingCommand(robot.bucketSubsystem).andThen(new ArmCollectingCommand(robot.armSubsystem)));
         topDepositButton.whenPressed(new BucketUnloadTopLevelCommand(robot.bucketSubsystem));
         bottomDepositButton.whenPressed(new BucketUnloadBottomLevelCommand(robot.bucketSubsystem));
     }
