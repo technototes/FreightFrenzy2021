@@ -3,11 +3,9 @@ package org.firstinspires.ftc.teamcode;
 import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.DUMP_CONNECTED;
 import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.CAP_CONNECTED;
 import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.CAROUSEL_CONNECTED;
-import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.DEPOSIT_CONNECTED;
 import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.DRIVE_CONNECTED;
 import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.INTAKE_CONNECTED;
 
-import com.technototes.library.command.WaitCommand;
 import com.technototes.library.control.gamepad.CommandAxis;
 import com.technototes.library.control.gamepad.CommandButton;
 import com.technototes.library.control.gamepad.CommandGamepad;
@@ -24,7 +22,7 @@ import org.firstinspires.ftc.teamcode.commands.drivebase.ResetGyroCommand;
 import org.firstinspires.ftc.teamcode.commands.drivebase.SetSpeedCommand;
 import org.firstinspires.ftc.teamcode.commands.intake.IntakeInCommand;
 import org.firstinspires.ftc.teamcode.commands.intake.IntakeOutCommand;
-import org.firstinspires.ftc.teamcode.commands.intake.IntakeSafeCommand;
+import org.firstinspires.ftc.teamcode.commands.intake.IntakeStopCommand;
 
 public class Controls {
 
@@ -93,16 +91,12 @@ public class Controls {
     }
 
     public void bindIntakeControls(){
-        if(DEPOSIT_CONNECTED) {
-            toIntakeButton.whenPressed(new WaitCommand(1).andThen(new IntakeSafeCommand(robot.intakeSubsystem, robot.depositSubsystem)));
-            intakeInButton.whilePressedContinuous(new IntakeSafeCommand(robot.intakeSubsystem, robot.depositSubsystem));
-        }else{
-            toIntakeButton.whenPressed(new IntakeInCommand(robot.intakeSubsystem));
-            intakeInButton.whilePressedContinuous(new IntakeInCommand(robot.intakeSubsystem));
+        intakeInButton.whenPressed(new IntakeInCommand(robot.intakeSubsystem));
+        intakeInButton.whenReleased(new IntakeStopCommand(robot.intakeSubsystem));
 
-        }
+        intakeOutButton.whenPressed(new IntakeOutCommand(robot.intakeSubsystem));
+        intakeOutButton.whenReleased(new IntakeStopCommand(robot.intakeSubsystem));
 
-        intakeOutButton.whilePressedOnce(new IntakeOutCommand(robot.intakeSubsystem));
     }
 
     public void bindCarouselControls(){
