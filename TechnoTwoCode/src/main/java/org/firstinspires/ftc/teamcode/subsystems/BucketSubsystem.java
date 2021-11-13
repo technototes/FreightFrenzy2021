@@ -115,10 +115,6 @@ public class BucketSubsystem implements Subsystem, Supplier<Double>, Loggable {
         setServoPosition(servo_pos);
     }
 
-//    public void setCombination(Combination c){
-//        setMotorPosition(c.getArm());
-//        setServoPosition(c.getBucket());
-//    }
     /**
      * just overloaded, so can simply throw in a constant
      * ideally the Command(s) will use this method with these pre-made constant(s)
