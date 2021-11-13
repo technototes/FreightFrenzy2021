@@ -106,9 +106,10 @@ public class CommandScheduler {
         return this;
     }
 
+
     @Nullable
     public Command getDefault(Subsystem s) {
-        return defaultMap.get(s);
+        return opMode.getOpModeState() == CommandOpMode.OpModeState.RUN ? defaultMap.get(s) : null;
     }
 
     @Nullable

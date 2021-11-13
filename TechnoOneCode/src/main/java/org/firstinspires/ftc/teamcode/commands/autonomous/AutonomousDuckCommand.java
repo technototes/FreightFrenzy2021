@@ -26,7 +26,9 @@ public class AutonomousDuckCommand extends SequentialCommandGroup {
     public AutonomousDuckCommand(DrivebaseSubsystem drive, IntakeSubsystem intake, LiftSubsystem lift, DepositSubsystem deposit, VisionSubsystem vision, CarouselSubsystem carousel){
           super(new DepositDuckPreloadCommand(drive, deposit, lift, vision),
                   new ToCarouselCommand(drive, lift, deposit, carousel),
-                  new ParkSquareCommand(drive),
+                  new IntakeDuckCommand(drive, intake),
+                  new DepositDuckCommand(drive, deposit, lift, intake),
+                  new ParkSquareCommand(drive, lift, deposit),
                   CommandScheduler.getInstance()::terminateOpMode);
     }  
 }

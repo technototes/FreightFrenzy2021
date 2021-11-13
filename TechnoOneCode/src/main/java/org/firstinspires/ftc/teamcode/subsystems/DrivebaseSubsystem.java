@@ -110,7 +110,7 @@ public class DrivebaseSubsystem extends MecanumDrivebaseSubsystem implements Sup
 
     public void relocalizePose(Alliance alliance){
         //to make sure all sensors are valid
-        if(FRONT_SENSOR_DISTANCE > 70 || ((Alliance.RED == alliance) ? RIGHT_SENSOR_DISTANCE : LEFT_SENSOR_DISTANCE) > 10) return;
+        if(front.getSensorValue() > 90 || ((Alliance.RED == alliance) ? right.getSensorValue() : left.getSensorValue()) > 10) return;
         setPoseEstimate(new Pose2d(FRONT_SENSOR_DISTANCE-front.getSensorValue(),
                 alliance == Alliance.RED ? right.getSensorValue()-RIGHT_SENSOR_DISTANCE : LEFT_SENSOR_DISTANCE -left.getSensorValue(),
                 getExternalHeading()));

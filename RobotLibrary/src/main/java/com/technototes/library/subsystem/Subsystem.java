@@ -3,6 +3,7 @@ package com.technototes.library.subsystem;
 import com.technototes.library.command.Command;
 import com.technototes.library.command.CommandScheduler;
 import com.technototes.library.hardware.HardwareDevice;
+import com.technototes.library.structure.CommandOpMode;
 
 import java.util.HashMap;
 import java.util.Map;
