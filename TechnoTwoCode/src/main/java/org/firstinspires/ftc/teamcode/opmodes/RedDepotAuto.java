@@ -14,6 +14,7 @@ import org.firstinspires.ftc.teamcode.commands.autonomous.AutonomousConstants;
 import org.firstinspires.ftc.teamcode.commands.autonomous.AutonomousShippingHubCommandGroup;
 
 @Autonomous(name = "Red Depot")
+@SuppressWarnings("unused")
 public class RedDepotAuto extends CommandOpMode implements Loggable {
     public Robot robot;
     public Hardware hardware;
