@@ -54,16 +54,16 @@ public class DumpSubsystem implements Subsystem, Supplier<Double>, Loggable {
          */
         public static double BUCKET_COLLECT = 0.1;
         public static double BUCKET_CARRY = 0.3;
-        public static double BUCKET_TOP_LEVEL = 0.55;
-        public static double BUCKET_MIDDLE_LEVEL = 0.55;
-        public static double BUCKET_BOTTOM_LEVEL = 0.55;
+        public static double BUCKET_TOP_LEVEL = 0.78;
+        public static double BUCKET_MIDDLE_LEVEL = 0.78;
+        public static double BUCKET_BOTTOM_LEVEL = 0.78;
     }
     public static class ArmConstant {
         public static double COLLECT = 0;
         public static double CARRY = -.2;
-        public static double TOP_LEVEL = -0.46;
-        public static double MIDDLE_LEVEL = -0.52;
-        public static double BOTTOM_LEVEL = -0.6;
+        public static double TOP_LEVEL = -0.42;
+        public static double MIDDLE_LEVEL = -0.56;
+        public static double BOTTOM_LEVEL = -0.64;
     }
 
     /**

@@ -78,11 +78,11 @@ public class Controls {
     }
 
     public void bindBucketControls() {
-        carryButton.whenPressed(new DumpCarryCommand(robot.dumpSubsystem).withTimeout(1));
-        collectButton.whenPressed(new DumpCollectCommand(robot.dumpSubsystem).withTimeout(1));
-        topDepositButton.whenPressed(new DumpUnloadTopLevelCommand(robot.dumpSubsystem).withTimeout(1));
-        middleDepositButton.whenPressed(new DumpUnloadMiddleLevelCommand(robot.dumpSubsystem).withTimeout(1));
-        bottomDepositButton.whenPressed(new DumpUnloadBottomLevelCommand(robot.dumpSubsystem).withTimeout(1));
+        carryButton.whenPressed(new DumpCarryCommand(robot.dumpSubsystem));
+        collectButton.whenPressed(new DumpCollectCommand(robot.dumpSubsystem));
+        topDepositButton.whenPressed(new DumpUnloadTopLevelCommand(robot.dumpSubsystem));
+        middleDepositButton.whenPressed(new DumpUnloadMiddleLevelCommand(robot.dumpSubsystem));
+        bottomDepositButton.whenPressed(new DumpUnloadBottomLevelCommand(robot.dumpSubsystem));
     }
 
     public void bindDriveControls() {

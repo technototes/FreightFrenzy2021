@@ -32,6 +32,6 @@ public class BucketCommand implements Command {
 
     @Override
     public boolean isFinished() {
-        return bucketSys.isAtTarget();
+        return true;
     }
 }

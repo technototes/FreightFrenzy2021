@@ -9,6 +9,7 @@ import java.util.function.DoubleSupplier;
 public class ArmCommand implements Command {
     DumpSubsystem dump;
     DoubleSupplier doubleSupplier;
+    long startTime = 0;
 
     public ArmCommand(DumpSubsystem a, DoubleSupplier d){
         dump = a;
@@ -22,12 +23,14 @@ public class ArmCommand implements Command {
 
     @Override
     public void init() {
+        startTime = System.currentTimeMillis();
         dump.setMotorPosition(doubleSupplier.getAsDouble());
+
     }
 
     @Override
     public boolean isFinished() {
-        return dump.isAtTarget();
+        return dump.isAtTarget() || System.currentTimeMillis() > startTime+1000;
     }
 
     @Override

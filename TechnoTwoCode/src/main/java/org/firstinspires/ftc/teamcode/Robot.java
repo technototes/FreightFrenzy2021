@@ -13,7 +13,7 @@ import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.*;
 public class Robot implements Loggable {
     @Config
     public static class RobotConstants {
-        public static boolean DRIVE_CONNECTED = false;
+        public static boolean DRIVE_CONNECTED = true;
         public static boolean CAROUSEL_CONNECTED = true;
         public static boolean INTAKE_CONNECTED = true;
         public static boolean VISION_CONNECTED = false;
