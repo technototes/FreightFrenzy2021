@@ -47,22 +47,20 @@ public class DumpSubsystem implements Subsystem, Supplier<Double>, Loggable {
          * COMBINATION_LEVEL1 unload the block to level 1 of the shelf
          *
          * for just bare servo
-         * 0.25 is 45 degree
+         * 0.25 is 45 degrees
          * 0.5 is 135 degrees
          * 0.75 is 180 degrees
-         * 1 is 270 degree
+         * 1 is 270 degrees
          */
-        public static double BUCKET_COLLECT = 0.2;
-        public static double BUCKET_CARRY = 0;
-        public static double BUCKET_TOP_LEVEL = 0.1;
+        public static double BUCKET_COLLECT = 0.1;
+        public static double BUCKET_CARRY = 0.3;
+        public static double BUCKET_TOP_LEVEL = 0.55;
         public static double BUCKET_MIDDLE_LEVEL = 0.55;
-        public static double BUCKET_BOTTOM_LEVEL = 0.65;
+        public static double BUCKET_BOTTOM_LEVEL = 0.55;
     }
     public static class ArmConstant {
-        public static double DEADZONE = 0.01;
-
         public static double COLLECT = 0;
-        public static double CARRY = -.15;
+        public static double CARRY = -.2;
         public static double TOP_LEVEL = -0.46;
         public static double MIDDLE_LEVEL = -0.52;
         public static double BOTTOM_LEVEL = -0.6;
