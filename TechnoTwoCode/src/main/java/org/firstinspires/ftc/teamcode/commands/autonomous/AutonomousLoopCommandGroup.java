@@ -4,12 +4,13 @@ import com.technototes.library.command.SequentialCommandGroup;
 
 import org.firstinspires.ftc.teamcode.subsystems.DumpSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.DrivebaseSubsystem;
+import com.technototes.path.command.TrajectorySequenceCommand;
 
 public class AutonomousLoopCommandGroup extends SequentialCommandGroup {
     public AutonomousLoopCommandGroup(DrivebaseSubsystem drivebaseSystem, DumpSubsystem bucketSystem){
-//        new TrajectorySequenceCommand(); //from shelf to depot
+ //    new TrajectorySequenceCommand(drivebaseSystem, AutonomousConstants.SHIPPING_HUB_TO_DEPOT); //from shelf to depot
         new DepotLoadingBlockCommand();
-//        new TrajectorySequenceCommand(); //from depot to shelf
+//      new TrajectorySequenceCommand(drivebaseSystem, AutonomousConstants.); //from depot to shelf
         new ShelfUnloadingLevel3Command();
     }
 }

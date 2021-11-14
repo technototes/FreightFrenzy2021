@@ -14,6 +14,7 @@ import com.technototes.library.util.Alliance;
 import org.firstinspires.ftc.teamcode.Hardware;
 import org.firstinspires.ftc.teamcode.Robot;
 import org.firstinspires.ftc.teamcode.commands.autonomous.AutonomousConstants;
+import org.firstinspires.ftc.teamcode.commands.autonomous.AutonomousDuckCommandGroup;
 import org.firstinspires.ftc.teamcode.commands.autonomous.AutonomousPhaseCommand;
 
 @Autonomous(name = "Blue Duck")
@@ -30,7 +31,7 @@ public class BlueDuckAuto extends CommandOpMode implements Loggable {
         robot.drivebaseSubsystem.setPoseEstimate(AutonomousConstants.DUCK_START_SELECT.get());
 
         CommandScheduler.getInstance().scheduleForState(
-                new AutonomousPhaseCommand(robot.drivebaseSubsystem, robot.carouselSubsystem, robot.dumpSubsystem),
+                new AutonomousDuckCommandGroup(robot.drivebaseSubsystem, robot.carouselSubsystem),
                 OpModeState.RUN);
     }
 }
