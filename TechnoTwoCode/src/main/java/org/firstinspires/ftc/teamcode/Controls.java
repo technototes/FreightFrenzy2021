@@ -6,16 +6,10 @@ import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.CAROUSEL_CONNE
 import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.DRIVE_CONNECTED;
 import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.INTAKE_CONNECTED;
 
-import com.technototes.library.control.gamepad.CommandAxis;
 import com.technototes.library.control.gamepad.CommandButton;
 import com.technototes.library.control.gamepad.CommandGamepad;
 import com.technototes.library.control.gamepad.Stick;
 
-import org.firstinspires.ftc.teamcode.commands.arm.DummyRequirementCommand;
-import org.firstinspires.ftc.teamcode.commands.bucket.BucketCarryCommand;
-import org.firstinspires.ftc.teamcode.commands.bucket.BucketCollectCommand;
-import org.firstinspires.ftc.teamcode.commands.bucket.BucketUnloadBottomLevelCommand;
-import org.firstinspires.ftc.teamcode.commands.bucket.BucketUnloadTopLevelCommand;
 import org.firstinspires.ftc.teamcode.commands.carousel.CarouselLeftCommand;
 import org.firstinspires.ftc.teamcode.commands.carousel.CarouselRightCommand;
 import org.firstinspires.ftc.teamcode.commands.drivebase.DriveCommand;
@@ -45,7 +39,6 @@ public class Controls {
 
     public Stick driveLeftStick, driveRightStick;
     public CommandButton resetGyroButton, snailSpeedButton;
-    public DummyRequirementCommand dummy;
 
     public Controls(CommandGamepad g, Robot r) {
         gamepad = g;
@@ -74,7 +67,6 @@ public class Controls {
         if (CAROUSEL_CONNECTED) bindCarouselControls();
         if (CAP_CONNECTED) bindCapControls();
         if (DUMP_CONNECTED) bindBucketControls();
-        dummy = new DummyRequirementCommand(robot.dumpSubsystem);
     }
 
     public void bindBucketControls() {
