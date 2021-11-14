@@ -26,7 +26,7 @@ public class BlueDuckAuto extends CommandOpMode implements Loggable {
     @Override
     public void uponInit() {
         AutonomousConstants.ALLIANCE = Alliance.BLUE;
-        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
+//        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         hardware = new Hardware();
         robot = new Robot(hardware);
         robot.drivebaseSubsystem.setPoseEstimate(AutonomousConstants.DUCK_START_SELECT.get());
