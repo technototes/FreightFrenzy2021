@@ -15,11 +15,11 @@ import org.firstinspires.ftc.teamcode.commands.carousel.CarouselRightCommand;
 import org.firstinspires.ftc.teamcode.commands.drivebase.DriveCommand;
 import org.firstinspires.ftc.teamcode.commands.drivebase.ResetGyroCommand;
 import org.firstinspires.ftc.teamcode.commands.drivebase.SetSpeedCommand;
-import org.firstinspires.ftc.teamcode.commands.dump.DumpCarryCommand;
-import org.firstinspires.ftc.teamcode.commands.dump.DumpCollectCommand;
-import org.firstinspires.ftc.teamcode.commands.dump.DumpUnloadBottomLevelCommand;
-import org.firstinspires.ftc.teamcode.commands.dump.DumpUnloadMiddleLevelCommand;
-import org.firstinspires.ftc.teamcode.commands.dump.DumpUnloadTopLevelCommand;
+import org.firstinspires.ftc.teamcode.commands.dump.DumpCarryCommand2;
+import org.firstinspires.ftc.teamcode.commands.dump.DumpCollectCommand2;
+import org.firstinspires.ftc.teamcode.commands.dump.DumpUnloadBottomLevelCommand2;
+import org.firstinspires.ftc.teamcode.commands.dump.DumpUnloadMiddleLevelCommand2;
+import org.firstinspires.ftc.teamcode.commands.dump.DumpUnloadTopLevelCommand2;
 import org.firstinspires.ftc.teamcode.commands.intake.IntakeInCommand;
 import org.firstinspires.ftc.teamcode.commands.intake.IntakeOutCommand;
 import org.firstinspires.ftc.teamcode.commands.intake.IntakeStopCommand;
@@ -70,11 +70,11 @@ public class Controls {
     }
 
     public void bindBucketControls() {
-        carryButton.whenPressed(new DumpCarryCommand(robot.dumpSubsystem));
-        collectButton.whenPressed(new DumpCollectCommand(robot.dumpSubsystem));
-        topDepositButton.whenPressed(new DumpUnloadTopLevelCommand(robot.dumpSubsystem));
-        middleDepositButton.whenPressed(new DumpUnloadMiddleLevelCommand(robot.dumpSubsystem));
-        bottomDepositButton.whenPressed(new DumpUnloadBottomLevelCommand(robot.dumpSubsystem));
+        carryButton.whenPressed(new DumpCarryCommand2(robot.dumpSubsystem));
+        collectButton.whenPressed(new DumpCollectCommand2(robot.dumpSubsystem));
+        topDepositButton.whenPressed(new DumpUnloadTopLevelCommand2(robot.dumpSubsystem));
+        middleDepositButton.whenPressed(new DumpUnloadMiddleLevelCommand2(robot.dumpSubsystem));
+        bottomDepositButton.whenPressed(new DumpUnloadBottomLevelCommand2(robot.dumpSubsystem));
     }
 
     public void bindDriveControls() {

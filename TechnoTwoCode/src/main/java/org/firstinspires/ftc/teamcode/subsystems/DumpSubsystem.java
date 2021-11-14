@@ -59,29 +59,13 @@ public class DumpSubsystem implements Subsystem, Supplier<Double>, Loggable {
         public static double BUCKET_BOTTOM_LEVEL = 0.78;
     }
     public static class ArmConstant {
-        public static double COLLECT = 0;
-        public static double CARRY = -.2;
-        public static double TOP_LEVEL = -0.42;
-        public static double MIDDLE_LEVEL = -0.56;
-        public static double BOTTOM_LEVEL = -0.64;
+        public static double ARM_COLLECT = 0;
+        public static double ARM_CARRY = -.2;
+        public static double ARM_TOP_LEVEL = -0.42;
+        public static double ARM_MIDDLE_LEVEL = -0.56;
+        public static double ARM_BOTTOM_LEVEL = -0.64;
     }
 
-    /**
-     * something like enum might easier to configure in dash
-     */
-//    public static class Combination{
-//        public double arm, bucket;
-//        public Combination(double a, double s) {
-//            arm = a;
-//            bucket = s;
-//        }
-//        public double getArm(){
-//            return arm;
-//        }
-//        public double getBucket(){
-//            return bucket;
-//        }
-//    }
     @Log.Number (name = "Bucket motor")
     public EncodedMotor<DcMotorEx> bucketMotor;
     @Log.Number (name = "Bucket Servo")
@@ -129,14 +113,14 @@ public class DumpSubsystem implements Subsystem, Supplier<Double>, Loggable {
      * @return true when motor position reached around target position
      * using something called dead-zone, so when the motor moved slightly over the target don't necessary go-back
      */
-    private boolean isMotorAtTarget(){
+    public boolean isMotorAtTarget(){
         return Math.abs(pidController_motor.getTargetPosition() - bucketMotor.get()) < TOLERANCE_ZONE;
     }
     /**
      * @return true when motor position reached around target position
      * using something called dead-zone, so when the motor moved slightly over the target don't necessary go-back
      */
-    private boolean isServoAtTarget(){
+    public boolean isServoAtTarget(){
         return Math.abs(bucketServo_targetPosition - bucketServo.getPosition()) < TOLERANCE_ZONE;
     }
 

@@ -4,6 +4,6 @@ import org.firstinspires.ftc.teamcode.subsystems.DumpSubsystem;
 
 public class ArmBottomLevelCommand extends ArmCommand{
     public ArmBottomLevelCommand(DumpSubsystem arm){
-        super(arm,DumpSubsystem.ArmConstant.BOTTOM_LEVEL);
+        super(arm,DumpSubsystem.ArmConstant.ARM_BOTTOM_LEVEL);
     }
 }
