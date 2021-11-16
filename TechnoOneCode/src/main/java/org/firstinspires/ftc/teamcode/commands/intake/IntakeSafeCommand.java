@@ -15,7 +15,7 @@ public class IntakeSafeCommand implements Command {
     public IntakeSafeCommand(IntakeSubsystem s, DepositSubsystem d, boolean require){
         intake = s;
         deposit = d;
-        if(require) addRequirements(s, d);
+        if(require) addRequirements(s);
     }
 
     @Override

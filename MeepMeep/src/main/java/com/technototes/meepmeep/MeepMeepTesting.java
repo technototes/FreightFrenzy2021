@@ -1,9 +1,11 @@
 package com.technototes.meepmeep;
 
+import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.noahbres.meepmeep.MeepMeep;
 import com.noahbres.meepmeep.core.colorscheme.scheme.ColorSchemeRedDark;
 
 import static com.technototes.meepmeep.AutonomousConstants.*;
+import static java.lang.Math.toRadians;
 
 public class MeepMeepTesting {
 
@@ -78,8 +80,8 @@ public class MeepMeepTesting {
 //                                        .splineTo(COLLECT_SELECT.get().vec(), COLLECT_SELECT.get().getHeading())
 //                                        .build()
 
-drive.trajectorySequenceBuilder(drive.getPoseEstimate()).waitSeconds(0.01).build()
-//                        DUCK_START_TO_DEPOSIT.apply(drive::trajectorySequenceBuilder)
+//drive.trajectorySequenceBuilder(drive.getPoseEstimate()).waitSeconds(0.01).build()
+                        ALL.apply(drive::trajectorySequenceBuilder)
 //                                drive.trajectorySequenceBuilder(new Pose2d(-10, -65, Math.toRadians(90)))
 //                                        .lineToSplineHeading(new Pose2d(-10, -55, Math.toRadians(130)))
 //                                        .splineToConstantHeading(new Vector2d(0, -40), Math.toRadians(-50))

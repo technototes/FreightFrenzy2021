@@ -60,11 +60,12 @@ public class Servo extends HardwareDevice<com.qualcomm.robotcore.hardware.Servo>
     }
 
     private ElapsedTime t;
-    private double startingPosition;
+    private double startingPosition, startTargetPos;
     public boolean setPositionAsync(double targetPos, double time){
-        if(t == null){
+        if(t == null || startTargetPos != targetPos){
             t = new ElapsedTime();
             startingPosition = getPosition();
+            startTargetPos = targetPos;
         }
         setPosition(startingPosition+(targetPos-startingPosition)*(t.seconds()/time));
         if(Math.abs(getPosition()-targetPos)<0.01){

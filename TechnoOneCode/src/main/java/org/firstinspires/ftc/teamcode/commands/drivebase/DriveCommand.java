@@ -34,8 +34,6 @@ public class DriveCommand implements Command {
                         -Math.pow(r.getAsDouble()*subsystem.speed, 5)
                 )
         );
-        subsystem.update();
-
     }
 
     @Override

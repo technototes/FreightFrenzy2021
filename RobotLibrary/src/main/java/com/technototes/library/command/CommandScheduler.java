@@ -27,6 +27,9 @@ public class CommandScheduler {
         opMode.terminate();
         return this;
     }
+    public double getOpModeRuntime() {
+        return opMode.getOpModeRuntime();
+    }
 
     private static CommandScheduler instance;
 

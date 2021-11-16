@@ -13,6 +13,7 @@ import com.technototes.vision.hardware.Webcam;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.teamcode.subsystems.CapSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.DepositSubsystem;
 
 import static org.firstinspires.ftc.teamcode.Hardware.HardwareConstants.*;
@@ -107,7 +108,7 @@ public class Hardware {
             intakeDistSensor = new RangeSensor(INTAKE_RANGE).setDistanceUnit(DistanceUnit.INCH);
         }
         if(CAP_CONNECTED){
-            capServo = new Servo(CAP);
+            capServo = new Servo(CAP).setStartingPosition(CapSubsystem.CapConstants.COLLECT );
         }
     }
 }

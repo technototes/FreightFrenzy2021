@@ -6,30 +6,25 @@ import org.firstinspires.ftc.teamcode.subsystems.CapSubsystem;
 
 import java.util.function.DoubleSupplier;
 
-public class CapVariableCommand implements Command {
+public class CapCommand implements Command {
     public CapSubsystem subsystem;
     public DoubleSupplier supplier;
-    public CapVariableCommand(CapSubsystem s, DoubleSupplier pos){
+    public CapCommand(CapSubsystem s, DoubleSupplier pos){
         subsystem = s;
         supplier = pos;
         addRequirements(s);
     }
-    public CapVariableCommand(CapSubsystem s, double pos){
+    public CapCommand(CapSubsystem s, double pos){
         this(s, ()->pos);
     }
 
     @Override
     public void execute() {
-        subsystem.setCap(supplier.getAsDouble());
     }
 
     @Override
     public boolean isFinished() {
-        return false;
+        return subsystem.setCap(supplier.getAsDouble());
     }
 
-    @Override
-    public void end(boolean cancel) {
-        if(cancel) subsystem.restCap();
-    }
 }
