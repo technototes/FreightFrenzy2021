@@ -14,9 +14,11 @@ import com.technototes.library.util.Alliance;
 import org.firstinspires.ftc.teamcode.Hardware;
 import org.firstinspires.ftc.teamcode.Robot;
 import org.firstinspires.ftc.teamcode.commands.autonomous.AutonomousConstants;
+import org.firstinspires.ftc.teamcode.commands.autonomous.AutonomousDuckCommandGroup;
 import org.firstinspires.ftc.teamcode.commands.autonomous.AutonomousPhaseCommand;
 
 @Autonomous(name = "Blue Duck")
+@SuppressWarnings("unused")
 public class BlueDuckAuto extends CommandOpMode implements Loggable {
     public Robot robot;
     public Hardware hardware;
@@ -24,13 +26,13 @@ public class BlueDuckAuto extends CommandOpMode implements Loggable {
     @Override
     public void uponInit() {
         AutonomousConstants.ALLIANCE = Alliance.BLUE;
-        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
+//        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         hardware = new Hardware();
         robot = new Robot(hardware);
         robot.drivebaseSubsystem.setPoseEstimate(AutonomousConstants.DUCK_START_SELECT.get());
 
         CommandScheduler.getInstance().scheduleForState(
-                new AutonomousPhaseCommand(robot.drivebaseSubsystem, robot.carouselSubsystem, robot.bucketSubsystem),
+                new AutonomousDuckCommandGroup(robot.drivebaseSubsystem, robot.carouselSubsystem),
                 OpModeState.RUN);
     }
 }

@@ -3,20 +3,16 @@ package org.firstinspires.ftc.teamcode;
 import com.acmerobotics.dashboard.config.Config;
 
 import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.CAROUSEL_CONNECTED;
-import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.DEPOSIT_CONNECTED;
 import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.DRIVE_CONNECTED;
 import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.INTAKE_CONNECTED;
-import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.LIFT_CONNECTED;
 import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.VISION_CONNECTED;
 import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.CAP_CONNECTED;
-import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.BUCKET_CONNECTED;
+import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.DUMP_CONNECTED;
 
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.technototes.library.hardware.motor.EncodedMotor;
 import com.technototes.library.hardware.motor.Motor;
 import com.technototes.library.hardware.sensor.IMU;
-import com.technototes.library.hardware.sensor.RangeSensor;
-import com.technototes.library.hardware.sensor.encoder.Encoder;
 import com.technototes.library.hardware.servo.Servo;
 
 import com.technototes.vision.hardware.Webcam;
@@ -37,8 +33,6 @@ import static org.firstinspires.ftc.teamcode.Hardware.HardwareConstants.ARM;
 
 import static org.firstinspires.ftc.teamcode.Hardware.HardwareConstants.RL_MOTOR;
 import static org.firstinspires.ftc.teamcode.Hardware.HardwareConstants.RR_MOTOR;
-import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.*;
-
 
 public class Hardware {
     @Config
@@ -75,9 +69,6 @@ public class Hardware {
     public EncodedMotor<DcMotorEx> rlDriveMotor;
     public EncodedMotor<DcMotorEx> rrDriveMotor;
     public IMU imu;
-    public RangeSensor leftRangeSensor;
-    public RangeSensor rightRangeSensor;
-
 
     public Motor<DcMotorEx> intakeMotor;
 
@@ -85,26 +76,14 @@ public class Hardware {
 
     public Webcam camera;
 
-    // public EncodedMotor<DcMotorEx> armMotor;
-
-    public RangeSensor intakeDistSensor;
-
     public Servo capServo;
 
     public Servo dumpServo;
 
     public Servo bucketServo;
     public EncodedMotor<DcMotorEx> bucketMotor;
-    //public Encoder encoder;
 
     public Hardware() {
-        if (LIFT_CONNECTED) {
-            liftMotor = new EncodedMotor<>(LIFT);
-        }
-        if (DEPOSIT_CONNECTED) {
-
-            armServo = new Servo(LIFT).invert();
-        }
         if (DRIVE_CONNECTED) {
             flDriveMotor = new EncodedMotor<>(FL_MOTOR);
             frDriveMotor = new EncodedMotor<>(FR_MOTOR);
@@ -122,19 +101,13 @@ public class Hardware {
             intakeMotor = new Motor<>(INTAKE);
         }
 
-//        if (ARM_CONNECTED) {
- //           armMotor = new EncodedMotor<>(LIFT);
-  //      }
         if (CAP_CONNECTED) {
             capServo = new Servo(CAP);
         }
-        if (DEPOSIT_CONNECTED) {
-            dumpServo = new Servo(DUMP);
-        }
 
-        if (BUCKET_CONNECTED) {
+        if (DUMP_CONNECTED) {
             bucketServo = new Servo(BUCKET);
-            bucketMotor = new EncodedMotor<DcMotorEx>(ARM);
+            bucketMotor = new EncodedMotor<DcMotorEx>(ARM).invert();
         }
     }
 }

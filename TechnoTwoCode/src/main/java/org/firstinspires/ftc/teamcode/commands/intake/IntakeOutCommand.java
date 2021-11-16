@@ -15,12 +15,4 @@ public class IntakeOutCommand implements Command {
     public void execute() {
         subsystem.out();
     }
-    @Override
-    public boolean isFinished() {
-        return false;
-    }
-    @Override
-    public void end(boolean cancel) {
-        subsystem.stop();
-    }
 }
