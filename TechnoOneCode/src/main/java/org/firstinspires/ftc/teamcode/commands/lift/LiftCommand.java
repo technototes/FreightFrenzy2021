@@ -18,10 +18,14 @@ public class LiftCommand implements Command {
         this(ls, ()->ds);
     }
 
+    @Override
+    public void init() {
+        liftSys.setLiftPosition(doubleSupplier.getAsDouble());
+    }
 
     @Override
     public void execute() {
-        liftSys.setLiftPosition(doubleSupplier.getAsDouble());
+
     }
 
     @Override

@@ -58,6 +58,9 @@ public class SimpleCommandTest {
         CommandScheduler.getInstance().run();
 
         // ?? The first run after scheduling a command doesn't do anything for the command
+        // Yes because the first one puts the command into the state of intialization,
+        // so that other commands can be scheduled off this command just starting
+        // for parallel groups
         assertEquals(0, command.initialized);
         assertEquals(0, command.executed);
         assertEquals(0, command.ended);
@@ -66,6 +69,7 @@ public class SimpleCommandTest {
         CommandScheduler.getInstance().run();
 
         // ?? The second run after scheduling a command initializes the command
+        // see above
         assertEquals(1, command.initialized);
         assertEquals(0, command.executed);
         assertEquals(0, command.ended);
@@ -97,6 +101,10 @@ public class SimpleCommandTest {
         CommandScheduler.getInstance().run();
         // An ended command doesn't get scheduled anymore
         // ?? But it does get initialized
+        // when you schedule a command, its added to a loop.
+        // just scheduling means the command will run again the moment it is finished
+        // it might be smart to change this at some point because of larger loops in the loop set,
+        // but would mean you have to loop anything that schedules a command, so same problem i think
         assertEquals(2, command.initialized);
         assertEquals(1, command.executed);
         assertEquals(1, command.ended);
