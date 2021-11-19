@@ -19,6 +19,6 @@ public class IntakeDepotCommand extends SequentialCommandGroup {
         super(new TrajectorySequenceCommand(drive, AutonomousConstants.CYCLE_DEPOSIT_TO_COLLECT, cycle)
                         .alongWith(new WaitCommand(0.5).andThen(new LiftCollectCommand(lift).withTimeout(1.5),
                                 new ArmRetractCommand(deposit)),
-                                new WaitCommand(1.5).andThen(new IntakeInCommand(intake))));
+                                new WaitCommand(2).andThen(new IntakeInCommand(intake))));
     }
 }

@@ -27,8 +27,8 @@ public class BarcodePipeline extends OpenCvPipeline implements Supplier<Integer>
         public static Scalar UPPER_LIMIT = new Scalar(255.0, 80.0, 80.0, 255.0);
         public static int BORDER_LEFT_X = 0;   //amount of pixels from the left side of the cam to skip
         public static int BORDER_RIGHT_X = 0;   //amount of pixels from the right of the cam to skip
-        public static int BORDER_TOP_Y = 0;   //amount of pixels from the top of the cam to skip
-        public static int BORDER_BOTTOM_Y = 0;   //amount of pixels from the bottom of the cam to skip
+        public static int BORDER_TOP_Y = 70;   //amount of pixels from the top of the cam to skip
+        public static int BORDER_BOTTOM_Y = 70;   //amount of pixels from the bottom of the cam to skip
 
         //y is fot the outpiut
         public static Point LEFT = new Point(50, 120);
@@ -142,6 +142,11 @@ public class BarcodePipeline extends OpenCvPipeline implements Supplier<Integer>
         if(telemetry != null){
             telemetry.addLine(get().toString());
             telemetry.update();
+        }
+
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException ignored) {
         }
 
         return output;

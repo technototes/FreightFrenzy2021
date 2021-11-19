@@ -21,7 +21,7 @@ public class LiftSubsystem implements Subsystem, Supplier<Double> {
         public static double LIFT_LOWER_LIMIT = 0.0;
         public static double COLLECT = 0, LEVEL_1 = 100, LEVEL_2 = 350, LEVEL_3 = 700;
 
-        public static double DEADZONE = 10;
+        public static double DEADZONE = 15;
 
         public static PIDCoefficients PID = new PIDCoefficients(0.005, 0, 0.0004);
 
@@ -88,4 +88,7 @@ public class LiftSubsystem implements Subsystem, Supplier<Double> {
         return pidController.getTargetPosition();
     }
 
+    public boolean isLifted(){
+        return pidController.getTargetPosition()>10;
+    }
 }

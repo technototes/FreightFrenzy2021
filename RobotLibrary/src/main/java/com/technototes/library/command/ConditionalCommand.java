@@ -26,9 +26,9 @@ public class ConditionalCommand implements Command {
      */
     public ConditionalCommand(BooleanSupplier condition, Command command) {
         supplier = condition;
-        CommandScheduler.getInstance().scheduleWithOther(this, command, condition);
         trueCommand = command;
-        falseCommand = this;
+        CommandScheduler.getInstance().scheduleWithOther(this, trueCommand, condition);
+        falseCommand = null;
     }
 
     /** Make a conditional command
@@ -39,10 +39,11 @@ public class ConditionalCommand implements Command {
      */
     public ConditionalCommand(BooleanSupplier condition, Command trueC, Command falseC) {
         supplier = condition;
-        CommandScheduler.getInstance().scheduleWithOther(this, trueC, condition);
-        CommandScheduler.getInstance().scheduleWithOther(this, falseC, ()->!condition.getAsBoolean());
         trueCommand = trueC;
         falseCommand = falseC;
+        CommandScheduler.getInstance().scheduleWithOther(this, trueCommand, condition);
+        CommandScheduler.getInstance().scheduleWithOther(this, falseCommand, ()->!condition.getAsBoolean());
+
     }
 
     @Override
@@ -53,6 +54,7 @@ public class ConditionalCommand implements Command {
     @Override
     public boolean isFinished() {
         if(trueCommand == null) return supplier.getAsBoolean();
+        if(falseCommand == null) return trueCommand.justFinished();
         return trueCommand.justFinished() || falseCommand.justFinished();
     }
 }

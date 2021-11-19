@@ -80,7 +80,7 @@ public class DrivebaseSubsystem extends MecanumDrivebaseSubsystem implements Sup
         @PoseLimit
         public static int POSE_HISTORY_LIMIT = 100;
 
-        public static double LEFT_SENSOR_DISTANCE = 65.5;
+        public static double LEFT_SENSOR_DISTANCE = 66;
         public static double RIGHT_SENSOR_DISTANCE = 65.5;
         public static double FRONT_SENSOR_DISTANCE = 65.5;
 

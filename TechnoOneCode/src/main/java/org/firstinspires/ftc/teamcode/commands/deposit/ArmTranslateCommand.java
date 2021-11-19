@@ -12,9 +12,15 @@ public class ArmTranslateCommand implements Command {
         amount = amt;
         addRequirements(s);
     }
+
+    @Override
+    public void init() {
+        subsystem.translateExtension(amount);
+    }
+
     @Override
     public void execute() {
-        subsystem.translateExtension(amount);
+
     }
 
     @Override

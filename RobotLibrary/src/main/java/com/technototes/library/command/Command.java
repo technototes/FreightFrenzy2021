@@ -135,12 +135,10 @@ public interface Command extends Runnable{
             case INITIALIZING:
                 init();
                 setState(CommandState.EXECUTING);
-                //THERE IS NO RETURN HERE SO IT FALLS THROUGH TO POST-INITIALIZATION
                 return;
             case EXECUTING:
                 execute();
                 if(isFinished()) setState(CommandState.FINISHED);
-                //allow one cycle to run so other dependent commands can schedule
                 return;
             case CANCELLED:
             case FINISHED:
@@ -201,7 +199,7 @@ public interface Command extends Runnable{
 
 
     default boolean isRunning(){
-        return getState() != CommandState.RESET ;
+        return getState() != CommandState.RESET;
     }
 
     default boolean isCancelled(){
@@ -210,7 +208,7 @@ public interface Command extends Runnable{
 
 
     default void cancel(){
-        if(isRunning()) setState(CommandState.CANCELLED);
+        if(getState()==CommandState.EXECUTING) setState(CommandState.CANCELLED);
     }
 
     static void clear(){

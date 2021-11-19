@@ -1,33 +1,36 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.technototes.library.hardware.servo.Servo;
 import com.technototes.library.subsystem.Subsystem;
 
+import org.firstinspires.ftc.teamcode.commands.cap.CapTimeCommand;
+
 import java.util.function.Supplier;
 
-import static org.firstinspires.ftc.teamcode.subsystems.CapSubsystem.CapConstant.RESTING;
 
 public class CapSubsystem implements Subsystem, Supplier<Double> {
-    public static class CapConstant{
-        public static double RESTING = 0.1;
+    @Config
+    public static class CapConstants {
+        public static double TOP = 0.7;
+        public static double CARRY = 0.4;
+        public static double COLLECT = 0.04;
+
     }
 
     public Servo capServo;
 
     public CapSubsystem(Servo s){
         capServo = s;
+        setDefaultCommand(new CapTimeCommand(this));
     }
 
-    public void setCap(double pos){
-        capServo.setPosition(pos);
-    }
-
-    public void restCap(){
-        setCap(RESTING);
+    public boolean setCap(double pos){
+        return capServo.setPositionAsync(pos, 1);
     }
 
     @Override
     public Double get() {
-        return null;
+        return capServo.getPosition();
     }
 }

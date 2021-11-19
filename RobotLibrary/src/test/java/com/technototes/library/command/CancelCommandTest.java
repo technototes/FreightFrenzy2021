@@ -10,7 +10,7 @@ public class CancelCommandTest {
 
         @Override
         public void execute() {
-        System.out.println(getRuntime().seconds());
+//        System.out.println(getRuntime().seconds());
         }
 
         @Override
@@ -27,8 +27,8 @@ public class CancelCommandTest {
         Command c = new cmd();
         ElapsedTime t = new ElapsedTime();
         t.reset();
-        CommandScheduler.getInstance().scheduleOnce(c.cancelUpon(()->c.getRuntime().seconds()>2));
-        while(t.seconds()<5){
+        CommandScheduler.getInstance().scheduleOnce(c.cancelUpon(()->c.getRuntime().seconds()>1));
+        while(t.seconds()<5.5){
             CommandScheduler.getInstance().run();
             if(c.justFinished()) System.out.println("finish");
             //System.out.println(e++);

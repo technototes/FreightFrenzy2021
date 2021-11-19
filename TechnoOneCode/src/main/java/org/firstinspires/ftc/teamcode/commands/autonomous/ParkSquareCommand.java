@@ -13,8 +13,8 @@ import org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem;
 
 public class ParkSquareCommand extends SequentialCommandGroup {
     public ParkSquareCommand(DrivebaseSubsystem drive, LiftSubsystem lift, DepositSubsystem deposit){
-        super(new TrajectorySequenceCommand(drive, AutonomousConstants.DUCK_DEPOSIT_TO_PARK).alongWith(
-                new WaitCommand(0.5).andThen(new LiftCollectCommand(lift)), new ArmRetractCommand(deposit)
+        super(new WaitCommand(0.2).andThen(new TrajectorySequenceCommand(drive, AutonomousConstants.DUCK_DEPOSIT_TO_PARK).alongWith(
+                new WaitCommand(0.5).andThen(new LiftCollectCommand(lift)), new ArmRetractCommand(deposit))
         ));
     }
 }

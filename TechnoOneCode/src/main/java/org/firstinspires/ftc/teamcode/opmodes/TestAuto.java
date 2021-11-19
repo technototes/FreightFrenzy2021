@@ -15,6 +15,8 @@ import com.technototes.path.trajectorysequence.TrajectorySequence;
 
 import org.firstinspires.ftc.teamcode.Hardware;
 import org.firstinspires.ftc.teamcode.Robot;
+import org.firstinspires.ftc.teamcode.commands.autonomous.AutonomousConstants;
+
 @Disabled
 @Autonomous(name="test")
 @SuppressWarnings("unused")
@@ -30,36 +32,38 @@ public class TestAuto extends CommandOpMode implements Loggable {
         robot = new Robot(hardware);
         robot.drivebaseSubsystem.setPoseEstimate(new Pose2d(0, -65, Math.toRadians(90)));
 
-        TrajectorySequence s = robot.drivebaseSubsystem.trajectorySequenceBuilder()
-                .lineToSplineHeading(new Pose2d(0, -40, Math.toRadians(120)))
-                .setReversed(true)
-                .splineTo(new Vector2d(30, -64), Math.toRadians(0))
-                .strafeTo(new Vector2d(44, -64))
-                .setReversed(false)
-                .strafeTo(new Vector2d(30, -64))
-                .splineTo(new Vector2d(0, -40), Math.toRadians(120))
-                .setReversed(true)
-                .splineTo(new Vector2d(30, -64), Math.toRadians(0))
-                .strafeTo(new Vector2d(46, -64))
-                .setReversed(false)
-                .strafeTo(new Vector2d(30, -64))
-                .splineTo(new Vector2d(0, -40), Math.toRadians(120))
-                .setReversed(true)
-                .splineTo(new Vector2d(30, -64), Math.toRadians(0))
-                .strafeTo(new Vector2d(48, -64))
-                .setReversed(false)
-                .strafeTo(new Vector2d(30, -64))
-                .splineTo(new Vector2d(0, -40), Math.toRadians(120))
-                .setReversed(true)
-                .splineTo(new Vector2d(30, -64), Math.toRadians(0))
-                .strafeTo(new Vector2d(50, -64))
-                .setReversed(false)
-                .strafeTo(new Vector2d(30, -64))
-                .splineTo(new Vector2d(0, -40), Math.toRadians(120))
-                .setReversed(true)
-                .splineTo(new Vector2d(30, -64), Math.toRadians(0))
-                .strafeTo(new Vector2d(35, -64))
-                .build();
+        TrajectorySequence s =
+                AutonomousConstants.CYCLE_COLLECT_TO_DEPOSIT.apply(robot.drivebaseSubsystem::trajectorySequenceBuilder, 0);
+                //robot.drivebaseSubsystem.trajectorySequenceBuilder()
+//                .lineToSplineHeading(new Pose2d(0, -40, Math.toRadians(120)))
+//                .setReversed(true)
+//                .splineTo(new Vector2d(30, -64), Math.toRadians(0))
+//                .strafeTo(new Vector2d(44, -64))
+//                .setReversed(false)
+//                .strafeTo(new Vector2d(30, -64))
+//                .splineTo(new Vector2d(0, -40), Math.toRadians(120))
+//                .setReversed(true)
+//                .splineTo(new Vector2d(30, -64), Math.toRadians(0))
+//                .strafeTo(new Vector2d(46, -64))
+//                .setReversed(false)
+//                .strafeTo(new Vector2d(30, -64))
+//                .splineTo(new Vector2d(0, -40), Math.toRadians(120))
+//                .setReversed(true)
+//                .splineTo(new Vector2d(30, -64), Math.toRadians(0))
+//                .strafeTo(new Vector2d(48, -64))
+//                .setReversed(false)
+//                .strafeTo(new Vector2d(30, -64))
+//                .splineTo(new Vector2d(0, -40), Math.toRadians(120))
+//                .setReversed(true)
+//                .splineTo(new Vector2d(30, -64), Math.toRadians(0))
+//                .strafeTo(new Vector2d(50, -64))
+//                .setReversed(false)
+//                .strafeTo(new Vector2d(30, -64))
+//                .splineTo(new Vector2d(0, -40), Math.toRadians(120))
+//                .setReversed(true)
+//                .splineTo(new Vector2d(30, -64), Math.toRadians(0))
+//                .strafeTo(new Vector2d(35, -64))
+//                .build();
 
         CommandScheduler.getInstance().scheduleForState(new SequentialCommandGroup(
                 new TrajectorySequenceCommand(robot.drivebaseSubsystem, s),

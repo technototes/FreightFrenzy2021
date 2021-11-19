@@ -21,9 +21,9 @@ import org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem;
 public class DepositFreightCommand extends SequentialCommandGroup {
     public DepositFreightCommand(DrivebaseSubsystem drive, IntakeSubsystem intake, LiftSubsystem lift, DepositSubsystem deposit, int cycle){
         super(new RelocalizeCommand(drive),
-                new TrajectorySequenceCommand(drive, AutonomousConstants.CYCLE_COLLECT_TO_DEPOSIT, cycle)
+                new TrajectorySequenceCommand(drive, AutonomousConstants.CYCLE_COLLECT_TO_DEPOSIT/*.apply(e->drive.trajectorySequenceBuilder()*/, cycle)
                 .alongWith(new ArmExtendCommand(deposit),
-                        new IntakeOutCommand(intake).withTimeout(0.5),
+                        new IntakeOutCommand(intake).withTimeout(0.3),
                         new LiftLevel3Command(lift).withTimeout(1)),
                 new DumpCommand(deposit));
     }

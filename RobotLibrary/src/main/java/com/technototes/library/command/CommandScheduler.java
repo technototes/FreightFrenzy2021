@@ -27,6 +27,9 @@ public class CommandScheduler {
         opMode.terminate();
         return this;
     }
+    public double getOpModeRuntime() {
+        return opMode.getOpModeRuntime();
+    }
 
     private static CommandScheduler instance;
 
@@ -128,7 +131,8 @@ public class CommandScheduler {
     }
 
     public void run() {
-        for (Command c1 : commandMap.keySet()) {
+        commandMap.forEach((c1, b) -> {
+            if(b.getAsBoolean() || c1.isRunning()) c1.run();
             if (c1.justStarted()) {
                 for (Subsystem s : c1.getRequirements()) {
                     for (Command c2 : requirementMap.get(s)) {
@@ -136,13 +140,7 @@ public class CommandScheduler {
                     }
                 }
             }
-        }
-
-        commandMap.forEach(this::run);
+        });
         requirementMap.keySet().forEach(Subsystem::periodic);
-    }
-
-    public void run(Command command, BooleanSupplier supplier) {
-        if (supplier.getAsBoolean() || command.isRunning()) command.run();
     }
 }

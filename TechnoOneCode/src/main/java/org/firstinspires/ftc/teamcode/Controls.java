@@ -6,6 +6,8 @@ import com.technototes.library.control.gamepad.CommandButton;
 import com.technototes.library.control.gamepad.CommandGamepad;
 import com.technototes.library.control.gamepad.Stick;
 
+import org.firstinspires.ftc.teamcode.commands.cap.CapDownCommand;
+import org.firstinspires.ftc.teamcode.commands.cap.CapTimeCommand;
 import org.firstinspires.ftc.teamcode.commands.carousel.CarouselLeftCommand;
 import org.firstinspires.ftc.teamcode.commands.carousel.CarouselRightCommand;
 import org.firstinspires.ftc.teamcode.commands.deposit.ArmExtendCommand;
@@ -45,6 +47,8 @@ public class Controls {
 
     public CommandButton carouselLeftButton, carouselRightButton;
 
+    public CommandButton capUpButton, capDownButton;
+
     public Stick driveLeftStick, driveRightStick;
     public CommandButton resetGyroButton, snailSpeedButton;
 
@@ -74,6 +78,9 @@ public class Controls {
         driveLeftStick = gamepad.leftStick;
         driveRightStick = gamepad.rightStick;
 
+        capUpButton = gamepad.start;
+        capDownButton = gamepad.back;
+
         if (LIFT_CONNECTED) bindLiftControls();
         if (DEPOSIT_CONNECTED) bindDepositControls();
         if (DRIVE_CONNECTED) bindDriveControls();
@@ -98,8 +105,8 @@ public class Controls {
         neutralHubButton.whenPressed(new LiftLevel1Command(robot.liftSubsystem).withTimeout(1.5));
         specificHubButton.whenPressed(new LiftLevel3Command(robot.liftSubsystem).withTimeout(1.5));
         toIntakeButton.whenPressed(new LiftCollectCommand(robot.liftSubsystem).withTimeout(1.5));
-        liftAdjustUpButton.whilePressed(new LiftTranslateCommand(robot.liftSubsystem, 10));
-        liftAdjustDownButton.whilePressed(new LiftTranslateCommand(robot.liftSubsystem, -10));
+        liftAdjustUpButton.whilePressed(new LiftTranslateCommand(robot.liftSubsystem, 50));
+        liftAdjustDownButton.whilePressed(new LiftTranslateCommand(robot.liftSubsystem, -50));
     }
 
     public void bindDriveControls() {
@@ -124,7 +131,7 @@ public class Controls {
     }
 
     public void bindCapControls() {
-
+        capDownButton.whenPressed((LIFT_CONNECTED ? new CapDownCommand(robot.capSubsystem, robot.liftSubsystem) : new CapDownCommand(robot.capSubsystem)).cancelUpon(capUpButton));
     }
 
 

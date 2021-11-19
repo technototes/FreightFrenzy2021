@@ -15,21 +15,21 @@ import static java.lang.Math.toRadians;
 @Config
 public class AutonomousConstants {
     public static class RedConstants {
-        public static Pose2d CYCLE_START = new Pose2d(12, -63, toRadians(90));
+        public static Pose2d CYCLE_START = new Pose2d(12, -62.8, toRadians(90));
         public static Pose2d CYCLE_DEPOSIT = new Pose2d(-4, -42, toRadians(110));
-        public static Pose2d GAP = new Pose2d(30, -64, toRadians(0));
+        public static Pose2d GAP = new Pose2d(30, -63.5, toRadians(0));
         public static Pose2d[] CYCLE_COLLECT = new Pose2d[]{
-                new Pose2d(43, -64, toRadians(190)),
-                new Pose2d(46, -64, toRadians(190)),
-                new Pose2d(49, -64, toRadians(190)),
-                new Pose2d(52, -64, toRadians(190)),
+                new Pose2d(43, -63.5, toRadians(190)),
+                new Pose2d(46, -63.5, toRadians(190)),
+                new Pose2d(49, -63.5, toRadians(190)),
+                new Pose2d(52, -63.5, toRadians(190)),
 
         };
         public static Pose2d DUCK_START = new Pose2d(-36, -63, toRadians(90));
-        public static Pose2d DUCK_DEPOSIT = new Pose2d(-21, -44, toRadians(60));
+        public static Pose2d DUCK_DEPOSIT = new Pose2d(-21, -43, toRadians(60));
         public static Pose2d CAROUSEL = new Pose2d(-59, -59, toRadians(0));
-        public static Pose2d DUCK_COLLECT_START = new Pose2d(-36, -63, toRadians(45));
-        public static Pose2d DUCK_COLLECT_END = new Pose2d(-59, -63, toRadians(45));
+        public static Pose2d DUCK_COLLECT_START = new Pose2d(-36, -62, toRadians(45));
+        public static Pose2d DUCK_COLLECT_END = new Pose2d(-59, -62, toRadians(45));
         public static Pose2d PARK = new Pose2d(-62, -36, toRadians(0));
 
     }
@@ -46,11 +46,11 @@ public class AutonomousConstants {
 
         };
         public static Pose2d DUCK_START = new Pose2d(-36, 63, toRadians(-90));
-        public static Pose2d DUCK_DEPOSIT = new Pose2d(-21, 44, toRadians(-60));
-        public static Pose2d CAROUSEL = new Pose2d(-59, 59, toRadians(-90));
-        public static Pose2d DUCK_COLLECT_START = new Pose2d(-36, 63, toRadians(-45));
-        public static Pose2d DUCK_COLLECT_END = new Pose2d(-59, 63, toRadians(-45));
-        public static Pose2d PARK = new Pose2d(-62, 36, toRadians(0));
+        public static Pose2d DUCK_DEPOSIT = new Pose2d(-21, 43, toRadians(-60));
+        public static Pose2d CAROUSEL = new Pose2d(-65, 59, toRadians(-90));
+        public static Pose2d DUCK_COLLECT_START = new Pose2d(-36, 62, toRadians(-45));
+        public static Pose2d DUCK_COLLECT_END = new Pose2d(-59, 62, toRadians(-45));
+        public static Pose2d PARK = new Pose2d(-68, 36, toRadians(0));
 
     }
 
@@ -100,6 +100,7 @@ public class AutonomousConstants {
                     .lineToSplineHeading(CYCLE_COLLECT_SELECT.apply(i))
                     .turn(GAP_SELECT.get().getHeading())
                     .build(),
+    //TODO add relocalize for purely x
             CYCLE_COLLECT_TO_DEPOSIT = (b, i) -> b.apply(CYCLE_COLLECT_SELECT.apply(i))
                     .setReversed(false)
                     .lineTo(GAP_SELECT.get().vec())
