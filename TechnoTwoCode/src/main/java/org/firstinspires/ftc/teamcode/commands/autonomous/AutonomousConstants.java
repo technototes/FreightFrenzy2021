@@ -14,9 +14,9 @@ import static java.lang.Math.toRadians;
 @Config
 public class AutonomousConstants {
     public static class RedConstants {
-        public static Pose2d DUCK_START = new Pose2d(-24, -63, toRadians(90));
-        public static Pose2d CAROUSEL = new Pose2d(-60, -60, toRadians(0));
-        public static Pose2d PARK = new Pose2d(-62, -36, toRadians(0));
+        public static Pose2d DUCK_START = new Pose2d(-36, -63, toRadians(-90));
+        public static Pose2d CAROUSEL = new Pose2d(-68, -58, toRadians(-90));
+        public static Pose2d PARK = new Pose2d(-65, -33, toRadians(0));
         public static Pose2d SHIPPING_HUB_START = new Pose2d(0, -66, toRadians(0)); // Wrong positions (estimate)
         public static Pose2d SHIPPING_HUB = new Pose2d(-10,-42, toRadians(33)); // Wrong positions (estimate)
         public static Pose2d SHIPPING_HUB_TO_DEPOT = new Pose2d(-0, -66, toRadians(-90)); // Wrong positions (estimate)

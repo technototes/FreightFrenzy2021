@@ -31,7 +31,7 @@ public class DrivebaseSubsystem extends MecanumDrivebaseSubsystem implements Sup
         public static final boolean RUN_USING_ENCODER = true;
 
         @MotorVeloPID
-        public static PIDFCoefficients MOTOR_VELO_PID = new PIDFCoefficients(25, 0, 4,
+        public static PIDFCoefficients MOTOR_VELO_PID = new PIDFCoefficients(20, 0, 3,
                   MecanumDriveConstants.getMotorVelocityF(MAX_RPM / 60 * TICKS_PER_REV));
 
         @WheelRadius
@@ -48,13 +48,13 @@ public class DrivebaseSubsystem extends MecanumDrivebaseSubsystem implements Sup
         public static double kStatic = 0;
 
         @MaxVelo
-        public static double MAX_VEL = 50;
+        public static double MAX_VEL = 30;
         @MaxAccel
-        public static double MAX_ACCEL = 25;
+        public static double MAX_ACCEL = 20;
         @MaxAngleVelo
-        public static double MAX_ANG_VEL = Math.toRadians(80);
+        public static double MAX_ANG_VEL = Math.toRadians(60);
         @MaxAngleAccel
-        public static double MAX_ANG_ACCEL = Math.toRadians(40);
+        public static double MAX_ANG_ACCEL = Math.toRadians(60);
 
         @TransPID
         public static PIDCoefficients TRANSLATIONAL_PID = new PIDCoefficients(8, 0, 0);
