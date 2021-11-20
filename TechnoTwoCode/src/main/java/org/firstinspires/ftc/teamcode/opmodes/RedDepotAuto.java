@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.opmodes;
 
-import com.acmerobotics.dashboard.FtcDashboard;
-import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.technototes.library.command.CommandScheduler;
 import com.technototes.library.logger.Loggable;
@@ -10,8 +8,8 @@ import com.technototes.library.util.Alliance;
 
 import org.firstinspires.ftc.teamcode.Hardware;
 import org.firstinspires.ftc.teamcode.Robot;
+import org.firstinspires.ftc.teamcode.commands.autonomous.AutoRedShippingHubCommandGroup;
 import org.firstinspires.ftc.teamcode.commands.autonomous.AutonomousConstants;
-import org.firstinspires.ftc.teamcode.commands.autonomous.AutonomousShippingHubCommandGroup;
 
 @Autonomous(name = "Red Depot")
 @SuppressWarnings("unused")
@@ -25,10 +23,10 @@ public class RedDepotAuto extends CommandOpMode implements Loggable {
 //        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         hardware = new Hardware();
         robot = new Robot(hardware);
-        robot.drivebaseSubsystem.setPoseEstimate(AutonomousConstants.SHIPPING_HUB_START_SELECT.get());
+        robot.drivebaseSubsystem.setPoseEstimate(AutonomousConstants.RedConstants.SHIPPING_HUB_START);
 
         CommandScheduler.getInstance().scheduleForState(
-                new AutonomousShippingHubCommandGroup(robot.drivebaseSubsystem, robot.dumpSubsystem),
+                new AutoRedShippingHubCommandGroup(robot.drivebaseSubsystem, robot.dumpSubsystem),
                 CommandOpMode.OpModeState.RUN);
     }
 }

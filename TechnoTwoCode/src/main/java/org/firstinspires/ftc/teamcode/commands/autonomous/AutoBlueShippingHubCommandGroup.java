@@ -13,11 +13,11 @@ import org.firstinspires.ftc.teamcode.subsystems.DrivebaseSubsystem;
 public class AutonomousShippingHubCommandGroup extends SequentialCommandGroup {
     public AutonomousShippingHubCommandGroup(DrivebaseSubsystem drive, DumpSubsystem bucket) {
         super(new DumpCarryCommand(bucket),
-                new TrajectorySequenceCommand(drive, AutonomousConstants.START_TO_SHIPPING_HUB), // Different duck constant
+                new TrajectorySequenceCommand(drive, AutonomousConstants.BLUE_START_TO_SHIPPING_HUB), // Different duck constant
                 new AutonomousBucketDumpCommand(bucket).withTimeout(3), // Bucket command
                 new WaitCommand(1),
                 new DumpCollectCommand(bucket),
-                new TrajectorySequenceCommand(drive, AutonomousConstants.SHIPPING_HUB_TO_DEPOT), // Differe park command
+                new TrajectorySequenceCommand(drive, AutonomousConstants.BLUE_SHIPPING_HUB_TO_DEPOT), // Differe park command
                 CommandScheduler.getInstance()::terminateOpMode); //ending
     }
 }
