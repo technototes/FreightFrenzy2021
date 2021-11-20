@@ -10,8 +10,8 @@ import org.firstinspires.ftc.teamcode.commands.dump.DumpCollectCommand;
 import org.firstinspires.ftc.teamcode.subsystems.DumpSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.DrivebaseSubsystem;
 
-public class AutonomousShippingHubCommandGroup extends SequentialCommandGroup {
-    public AutonomousShippingHubCommandGroup(DrivebaseSubsystem drive, DumpSubsystem bucket) {
+public class AutoBlueShippingHubCommandGroup extends SequentialCommandGroup {
+    public AutoBlueShippingHubCommandGroup(DrivebaseSubsystem drive, DumpSubsystem bucket) {
         super(new DumpCarryCommand(bucket),
                 new TrajectorySequenceCommand(drive, AutonomousConstants.BLUE_START_TO_SHIPPING_HUB), // Different duck constant
                 new AutonomousBucketDumpCommand(bucket).withTimeout(3), // Bucket command
