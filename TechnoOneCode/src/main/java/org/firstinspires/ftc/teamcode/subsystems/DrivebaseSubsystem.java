@@ -13,6 +13,7 @@ import com.technototes.path.subsystem.MecanumDriveConstants;
 import com.technototes.path.subsystem.MecanumDrivebaseSubsystem;
 
 import org.firstinspires.ftc.teamcode.Hardware;
+import org.firstinspires.ftc.teamcode.commands.autonomous.AutonomousConstants;
 
 import java.util.function.Supplier;
 
@@ -80,7 +81,7 @@ public class DrivebaseSubsystem extends MecanumDrivebaseSubsystem implements Sup
         @PoseLimit
         public static int POSE_HISTORY_LIMIT = 100;
 
-        public static double LEFT_SENSOR_DISTANCE = 66;
+        public static double LEFT_SENSOR_DISTANCE = 65.5;
         public static double RIGHT_SENSOR_DISTANCE = 65.5;
         public static double FRONT_SENSOR_DISTANCE = 65.5;
 
@@ -108,11 +109,23 @@ public class DrivebaseSubsystem extends MecanumDrivebaseSubsystem implements Sup
         this(hardware.flDriveMotor, hardware.frDriveMotor, hardware.rlDriveMotor, hardware.rrDriveMotor, hardware.imu, hardware.leftRangeSensor, hardware.rightRangeSensor, hardware.frontRangeSensor);
     }
 
-    public void relocalizePose(Alliance alliance){
+
+    public void relocalizeCyclePose(Alliance alliance){
         //to make sure all sensors are valid
         if(front.getSensorValue() > 90 || ((Alliance.RED == alliance) ? right.getSensorValue() : left.getSensorValue()) > 10) return;
-        setPoseEstimate(new Pose2d(FRONT_SENSOR_DISTANCE-front.getSensorValue(),
+        setPoseEstimate(new Pose2d(
+                FRONT_SENSOR_DISTANCE-front.getSensorValue(),
                 alliance == Alliance.RED ? right.getSensorValue()-RIGHT_SENSOR_DISTANCE : LEFT_SENSOR_DISTANCE -left.getSensorValue(),
+                getExternalHeading()));
+    }
+
+
+    public void relocalizeDuckPose(Alliance alliance){
+        //to make sure all sensors are valid
+        if(front.getSensorValue() > 10 || left.getSensorValue() > 10) return;
+        setPoseEstimate(new Pose2d(
+                alliance == Alliance.RED ? front.getSensorValue()-FRONT_SENSOR_DISTANCE : left.getSensorValue()-LEFT_SENSOR_DISTANCE,
+                alliance == Alliance.RED ? left.getSensorValue()-LEFT_SENSOR_DISTANCE : FRONT_SENSOR_DISTANCE-front.getSensorValue(),
                 getExternalHeading()));
     }
 

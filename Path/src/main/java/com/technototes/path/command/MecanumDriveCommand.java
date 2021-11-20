@@ -14,7 +14,7 @@ public class MecanumDriveCommand implements Command {
     public MecanumDrivebaseSubsystem subsystem;
     public DoubleSupplier x, y, r;
     public MecanumDriveCommand(MecanumDrivebaseSubsystem sub, Stick stick1, Stick stick2) {
-        //addRequirements(sub.dummySubsystem);
+        addRequirements(sub);
         subsystem = sub;
         x = stick1.getXSupplier();
         y = stick1.getYSupplier();
@@ -35,8 +35,6 @@ public class MecanumDriveCommand implements Command {
                         -Math.pow(r.getAsDouble()*subsystem.speed, 3)
                 )
         );
-        subsystem.update();
-
     }
 
     @Override

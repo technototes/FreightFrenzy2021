@@ -12,7 +12,7 @@ public class VisionBarcodeCommand implements Command {
     }
 
     @Override
-    public void init() {
+    public void initialize() {
         subsystem.startBarcodePipeline();
     }
 

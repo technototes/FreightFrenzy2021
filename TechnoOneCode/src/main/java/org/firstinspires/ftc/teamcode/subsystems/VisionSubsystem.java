@@ -46,16 +46,12 @@ public class VisionSubsystem implements Subsystem, Loggable {
 
     public void startBarcodePipeline() {
         camera.setPipeline(barcodePipeline);
-        camera.openCameraDeviceAsync(this::startStreaming, System.out::println);
+        camera.openCameraDeviceAsync(this::startStreaming, i->startBarcodePipeline());
     }
 
     public void stopBarcodePipeline() {
         camera.setPipeline(null);
         camera.closeCameraDeviceAsync(()->{});
-    }
-
-    public void stopStreaming() {
-        camera.stopStreaming();
     }
 
 }

@@ -14,7 +14,7 @@ public class SimpleCommandTest {
         public int canceled = 0;
 
         @Override
-        public void init() {
+        public void initialize() {
             initialized++;
         }
         @Override

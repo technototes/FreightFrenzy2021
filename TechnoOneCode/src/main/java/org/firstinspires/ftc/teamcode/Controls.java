@@ -23,6 +23,7 @@ import org.firstinspires.ftc.teamcode.commands.intake.IntakeSafeCommand;
 import org.firstinspires.ftc.teamcode.commands.lift.LiftCollectCommand;
 import org.firstinspires.ftc.teamcode.commands.lift.LiftLevel1Command;
 import org.firstinspires.ftc.teamcode.commands.lift.LiftLevel3Command;
+import org.firstinspires.ftc.teamcode.commands.lift.LiftNeutralCommand;
 import org.firstinspires.ftc.teamcode.commands.lift.LiftTranslateCommand;
 
 import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.CAP_CONNECTED;
@@ -102,7 +103,7 @@ public class Controls {
     }
 
     public void bindLiftControls() {
-        neutralHubButton.whenPressed(new LiftLevel1Command(robot.liftSubsystem).withTimeout(1.5));
+        neutralHubButton.whenPressed(new LiftNeutralCommand(robot.liftSubsystem).withTimeout(1.5));
         specificHubButton.whenPressed(new LiftLevel3Command(robot.liftSubsystem).withTimeout(1.5));
         toIntakeButton.whenPressed(new LiftCollectCommand(robot.liftSubsystem).withTimeout(1.5));
         liftAdjustUpButton.whilePressed(new LiftTranslateCommand(robot.liftSubsystem, 50));
@@ -117,7 +118,7 @@ public class Controls {
     }
 
     public void bindIntakeControls() {
-        toIntakeButton.whilePressedContinuous(DEPOSIT_CONNECTED ? new WaitCommand(1).andThen(new IntakeSafeCommand(robot.intakeSubsystem, robot.depositSubsystem)) : new IntakeInCommand(robot.intakeSubsystem));
+        toIntakeButton.whenPressed(new WaitCommand(1).andThen(new IntakeSafeCommand(robot.intakeSubsystem)));
         intakeInButton.whilePressedContinuous(new IntakeInCommand(robot.intakeSubsystem));
         intakeOutButton.whilePressedOnce(new IntakeOutCommand(robot.intakeSubsystem));
         specificHubButton.whenPressed(new IntakeOutCommand(robot.intakeSubsystem).withTimeout(0.2));

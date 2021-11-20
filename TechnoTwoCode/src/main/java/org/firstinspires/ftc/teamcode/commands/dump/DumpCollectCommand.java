@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.commands.dump;
 
-import com.technototes.library.command.CommandScheduler;
 import com.technototes.library.command.SequentialCommandGroup;
 import com.technototes.library.logger.Log;
 
@@ -18,9 +17,9 @@ public class DumpCollectCommand extends SequentialCommandGroup {
     }
 
     @Override
-    public void init() {
+    public void initialize() {
         commandState = 110;
-        super.init();
+        super.initialize();
     }
 
     @Override

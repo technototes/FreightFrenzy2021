@@ -14,7 +14,7 @@ public class ArmTranslateCommand implements Command {
     }
 
     @Override
-    public void init() {
+    public void initialize() {
         subsystem.translateExtension(amount);
     }
 

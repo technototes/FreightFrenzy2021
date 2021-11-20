@@ -8,7 +8,7 @@ public class ArmTranslateCommand extends ArmCommand{
     }
 
     @Override
-    public void init() {
+    public void initialize() {
         dump.setMotorPosition(dump.get()+doubleSupplier.getAsDouble());
     }
 

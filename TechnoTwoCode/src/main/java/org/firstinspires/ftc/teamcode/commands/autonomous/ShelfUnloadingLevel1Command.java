@@ -6,7 +6,7 @@ import com.technototes.library.subsystem.Subsystem;
 public class ShelfUnloadingLevel1Command implements Command {
 
     @Override
-    public void init() {
+    public void initialize() {
 
     }
 

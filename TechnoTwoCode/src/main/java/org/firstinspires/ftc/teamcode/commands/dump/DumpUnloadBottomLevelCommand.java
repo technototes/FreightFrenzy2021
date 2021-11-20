@@ -20,9 +20,9 @@ public class DumpUnloadBottomLevelCommand extends SequentialCommandGroup {
     }
 
     @Override
-    public void init() {
+    public void initialize() {
         commandState = ()-> 510.0;
-        super.init();
+        super.initialize();
     }
 
     @Override

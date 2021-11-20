@@ -20,6 +20,10 @@ public class TrajectorySequenceCommand implements Command {
         subsystem = sub;
         trajectory = t;
     }
+    public TrajectorySequenceCommand(MecanumDrivebaseSubsystem sub, Trajectory t) {
+        subsystem = sub;
+        trajectory = sub.trajectorySequenceBuilder(t.start()).addTrajectory(t).build();
+    }
     public TrajectorySequenceCommand(MecanumDrivebaseSubsystem sub, Function<Function<Pose2d, TrajectorySequenceBuilder>, TrajectorySequence> t) {
         subsystem = sub;
         trajectory = t.apply(sub::trajectorySequenceBuilder);
@@ -28,10 +32,12 @@ public class TrajectorySequenceCommand implements Command {
         subsystem = sub;
         trajectory = t.apply(sub::trajectorySequenceBuilder, mux);
     }
+
     @Override
-    public void init() {
+    public void initialize() {
         subsystem.followTrajectorySequenceAsync(trajectory);
     }
+
     @Override
     public void execute() {
         subsystem.update();

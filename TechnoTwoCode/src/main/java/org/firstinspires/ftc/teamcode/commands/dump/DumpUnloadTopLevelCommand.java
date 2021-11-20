@@ -1,11 +1,9 @@
 package org.firstinspires.ftc.teamcode.commands.dump;
 
-import com.technototes.library.command.CommandScheduler;
 import com.technototes.library.command.SequentialCommandGroup;
 import com.technototes.library.logger.Log;
 
 import org.firstinspires.ftc.teamcode.commands.arm.ArmTopLevelCommand;
-import org.firstinspires.ftc.teamcode.commands.bucket.BucketUnloadMiddleLevelCommand;
 import org.firstinspires.ftc.teamcode.commands.bucket.BucketUnloadTopLevelCommand;
 import org.firstinspires.ftc.teamcode.subsystems.DumpSubsystem;
 
@@ -19,9 +17,9 @@ public class DumpUnloadTopLevelCommand extends SequentialCommandGroup {
     }
 
     @Override
-    public void init() {
+    public void initialize() {
         commandState = 310;
-        super.init();
+        super.initialize();
     }
 
     @Override

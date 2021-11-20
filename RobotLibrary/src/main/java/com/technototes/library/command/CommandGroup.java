@@ -35,7 +35,7 @@ public abstract class CommandGroup implements Command {
     public abstract void schedule(Command c);
 
     @Override
-    public void init() {
+    public void initialize() {
         commandMap.replaceAll((command, bool) -> false);
     }
 

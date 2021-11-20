@@ -26,6 +26,8 @@ public class TeleOpMode extends CommandOpMode implements Loggable {
         controls = new Controls(driverGamepad, robot);
     }
 
-
-
+    @Override
+    public void uponStart() {
+        robot.depositSubsystem.collect();
+    }
 }

@@ -19,7 +19,7 @@ public class LiftCommand implements Command {
     }
 
     @Override
-    public void init() {
+    public void initialize() {
         liftSys.setLiftPosition(doubleSupplier.getAsDouble());
     }
 

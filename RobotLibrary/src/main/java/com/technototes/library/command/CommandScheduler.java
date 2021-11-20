@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.BooleanSupplier;
 
-public class CommandScheduler {
+public final class CommandScheduler {
 
     private final Map<Command, BooleanSupplier> commandMap;
     private final Map<Subsystem, List<Command>> requirementMap;
@@ -129,10 +129,8 @@ public class CommandScheduler {
         }
         return this;
     }
-
     public void run() {
         commandMap.forEach((c1, b) -> {
-            if(b.getAsBoolean() || c1.isRunning()) c1.run();
             if (c1.justStarted()) {
                 for (Subsystem s : c1.getRequirements()) {
                     for (Command c2 : requirementMap.get(s)) {
@@ -140,6 +138,9 @@ public class CommandScheduler {
                     }
                 }
             }
+        });
+        commandMap.forEach((c1, b)->{
+            if(b.getAsBoolean() || c1.isRunning()) c1.run();
         });
         requirementMap.keySet().forEach(Subsystem::periodic);
     }

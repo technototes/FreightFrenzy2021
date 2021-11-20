@@ -22,7 +22,7 @@ public class ArmCommand implements Command {
     }
 
     @Override
-    public void init() {
+    public void initialize() {
         startTime = System.currentTimeMillis();
         dump.setMotorPosition(doubleSupplier.getAsDouble());
 

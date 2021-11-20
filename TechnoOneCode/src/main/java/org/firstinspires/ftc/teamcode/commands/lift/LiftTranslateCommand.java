@@ -8,7 +8,7 @@ public class LiftTranslateCommand extends LiftCommand {
     }
 
     @Override
-    public void init() {
+    public void initialize() {
         liftSys.setLiftPosition(liftSys.get()+doubleSupplier.getAsDouble());
     }
 

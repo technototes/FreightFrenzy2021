@@ -22,7 +22,7 @@ public class Robot implements Loggable {
     public static class RobotConstants {
         public static boolean LIFT_CONNECTED = true;
         public static boolean DEPOSIT_CONNECTED = true;
-        public static boolean DRIVE_CONNECTED = false;
+        public static boolean DRIVE_CONNECTED = true;
         public static boolean CAROUSEL_CONNECTED = true;
         public static boolean INTAKE_CONNECTED = true;
         public static boolean VISION_CONNECTED = true;

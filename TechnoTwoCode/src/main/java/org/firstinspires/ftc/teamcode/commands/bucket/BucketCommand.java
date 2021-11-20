@@ -23,7 +23,7 @@ public class BucketCommand implements Command {
     }
 
     @Override
-    public void init() {
+    public void initialize() {
         bucketSys.setServoPosition(doubleSupplier_servo.getAsDouble());
     }
 

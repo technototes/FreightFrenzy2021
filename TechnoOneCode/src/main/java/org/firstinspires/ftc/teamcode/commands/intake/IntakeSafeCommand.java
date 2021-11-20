@@ -7,14 +7,12 @@ import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
 
 public class IntakeSafeCommand implements Command {
     IntakeSubsystem intake;
-    DepositSubsystem deposit;
 
-    public IntakeSafeCommand(IntakeSubsystem s, DepositSubsystem d){
-        this(s, d, true);
+    public IntakeSafeCommand(IntakeSubsystem s){
+        this(s, true);
     }
-    public IntakeSafeCommand(IntakeSubsystem s, DepositSubsystem d, boolean require){
+    public IntakeSafeCommand(IntakeSubsystem s, boolean require){
         intake = s;
-        deposit = d;
         if(require) addRequirements(s);
     }
 
@@ -32,7 +30,6 @@ public class IntakeSafeCommand implements Command {
     public void end(boolean cancel) {
         if(!cancel){
             intake.stop();
-            deposit.carry();
         }
     }
 }
