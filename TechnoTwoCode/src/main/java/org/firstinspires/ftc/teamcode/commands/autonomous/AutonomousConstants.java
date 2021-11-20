@@ -18,9 +18,9 @@ public class AutonomousConstants {
         public static Pose2d CAROUSEL = new Pose2d(-68, -58, toRadians(-90));
         public static Pose2d PARK = new Pose2d(-67, -31, toRadians(0));
         public static Pose2d SHIPPING_HUB_START = new Pose2d(0, -66, toRadians(-90)); // Wrong positions (estimate)
-        public static Pose2d SHIPPING_HUB = new Pose2d(-10,-42, toRadians(-75)); // Wrong positions (estimate)
-        public static Pose2d SHIPPING_HUB_TO_DEPOT = new Pose2d(0, -70, toRadians(-90)); // Wrong positions (estimate)
-        public static Pose2d DEPOT_PARK = new Pose2d(47, -67, toRadians(-90)); // Wrong positions (estimate)
+        public static Pose2d SHIPPING_HUB = new Pose2d(-10,-39, toRadians(-68)); // Wrong positions (estimate)
+        public static Pose2d SHIPPING_HUB_TO_DEPOT = new Pose2d(0, -65.5, toRadians(0)); // Wrong positions (estimate)
+        public static Pose2d DEPOT_PARK = new Pose2d(36, -65.5, toRadians(0)); // Wrong positions (estimate)
     }
 
     public static class BlueConstants {
