@@ -37,12 +37,12 @@ public class AutonomousConstants {
     public static class BlueConstants {
         public static Pose2d CYCLE_START = new Pose2d(12, 63, toRadians(-90));
         public static Pose2d CYCLE_DEPOSIT = new Pose2d(-4, 44, toRadians(-110));
-        public static Pose2d GAP = new Pose2d(30, 63.5, toRadians(0));
+        public static Pose2d GAP = new Pose2d(30, 63.2, toRadians(0));
         public static Pose2d[] CYCLE_COLLECT = new Pose2d[]{
-                new Pose2d(43, 63.5, toRadians(-190)),
-                new Pose2d(46, 63.5, toRadians(-190)),
-                new Pose2d(49, 63.5, toRadians(-190)),
-                new Pose2d(52, 63.5, toRadians(-190)),
+                new Pose2d(43, 63.2, toRadians(-185)),
+                new Pose2d(46, 63.2, toRadians(-185)),
+                new Pose2d(49, 63.2, toRadians(-185)),
+                new Pose2d(52, 63.2, toRadians(-185)),
 
         };
         public static Pose2d DUCK_START = new Pose2d(-36, 63, toRadians(-90));
@@ -96,7 +96,7 @@ public class AutonomousConstants {
             CYCLE_DEPOSIT_TO_COLLECT = (b, i) -> b.apply(CYCLE_DEPOSIT_SELECT.get())
                     .setReversed(true)
                     .splineTo(GAP_SELECT.get().vec(), GAP_SELECT.get().getHeading())
-                    .setVelConstraint((a, e, c, d) -> 20)
+//                    .setVelConstraint((a, e, c, d) -> 20)
                     .lineToSplineHeading(CYCLE_COLLECT_SELECT.apply(i))
 //                    .turn(GAP_SELECT.get().getHeading())
                     .build(),
@@ -104,7 +104,7 @@ public class AutonomousConstants {
             CYCLE_COLLECT_TO_DEPOSIT = (b, i) -> b.apply(CYCLE_COLLECT_SELECT.apply(i))
                     .setReversed(false)
                     .lineTo(GAP_SELECT.get().vec())
-            .setAccelConstraint((a, e, c, d) -> 30)
+//            .setAccelConstraint((a, e, c, d) -> 30)
             .splineTo(CYCLE_DEPOSIT_SELECT.get().vec(), CYCLE_DEPOSIT_SELECT.get().getHeading())
                     .build();
 }

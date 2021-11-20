@@ -13,5 +13,6 @@ public class ResetGyroCommand implements Command {
     @Override
     public void execute() {
         subsystem.setExternalHeading(0);
+        subsystem.resetGyro();
     }
 }

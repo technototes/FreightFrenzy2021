@@ -9,6 +9,8 @@ import com.technototes.library.hardware.sensor.IMU.AxesSigns;
 import com.technototes.library.hardware.sensor.RangeSensor;
 import com.technototes.library.hardware.servo.Servo;
 import com.technototes.library.hardware.servo.ServoGroup;
+import com.technototes.library.logger.Log;
+import com.technototes.library.logger.Loggable;
 import com.technototes.vision.hardware.Webcam;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
@@ -19,7 +21,7 @@ import org.firstinspires.ftc.teamcode.subsystems.DepositSubsystem;
 import static org.firstinspires.ftc.teamcode.Hardware.HardwareConstants.*;
 import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.*;
 
-public class Hardware {
+public class Hardware implements Loggable {
     @Config
     public static class HardwareConstants{
         public static String LIFT = "lift";
@@ -65,8 +67,6 @@ public class Hardware {
     public RangeSensor leftRangeSensor;
     public RangeSensor rightRangeSensor;
     public RangeSensor frontRangeSensor;
-
-
     public Motor<DcMotorEx> intakeMotor;
 
     public Motor<DcMotorEx> carouselMotor;
@@ -92,7 +92,7 @@ public class Hardware {
             frDriveMotor = new EncodedMotor<>(FR_MOTOR);
             rlDriveMotor = new EncodedMotor<>(RL_MOTOR);
             rrDriveMotor = new EncodedMotor<>(RR_MOTOR);
-            imu = new IMU(HardwareConstants.IMU).remapAxes(AxesOrder.YXZ, AxesSigns.NNN);
+            imu = new IMU(HardwareConstants.IMU).remapAxes(AxesOrder.YXZ, AxesSigns.NPP);
             leftRangeSensor = new RangeSensor(L_RANGE).setDistanceUnit(DistanceUnit.INCH);
             rightRangeSensor = new RangeSensor(R_RANGE).setDistanceUnit(DistanceUnit.INCH);
             frontRangeSensor = new RangeSensor(F_RANGE).setDistanceUnit(DistanceUnit.INCH);

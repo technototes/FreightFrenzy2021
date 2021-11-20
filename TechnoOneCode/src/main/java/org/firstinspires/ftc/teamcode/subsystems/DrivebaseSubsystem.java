@@ -12,6 +12,7 @@ import com.technototes.library.util.Alliance;
 import com.technototes.path.subsystem.MecanumDriveConstants;
 import com.technototes.path.subsystem.MecanumDrivebaseSubsystem;
 
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.Hardware;
 import org.firstinspires.ftc.teamcode.commands.autonomous.AutonomousConstants;
 
@@ -20,6 +21,7 @@ import java.util.function.Supplier;
 import static org.firstinspires.ftc.teamcode.subsystems.DrivebaseSubsystem.DriveConstants.FRONT_SENSOR_DISTANCE;
 import static org.firstinspires.ftc.teamcode.subsystems.DrivebaseSubsystem.DriveConstants.LEFT_SENSOR_DISTANCE;
 import static org.firstinspires.ftc.teamcode.subsystems.DrivebaseSubsystem.DriveConstants.RIGHT_SENSOR_DISTANCE;
+import static org.firstinspires.ftc.teamcode.subsystems.DrivebaseSubsystem.DriveConstants.TIP_TOLERANCE;
 
 @SuppressWarnings("unused")
 
@@ -55,13 +57,13 @@ public class DrivebaseSubsystem extends MecanumDrivebaseSubsystem implements Sup
         public static double kStatic = 0;
 
         @MaxVelo
-        public static double MAX_VEL = 50;
+        public static double MAX_VEL = 60;
         @MaxAccel
-        public static double MAX_ACCEL = 40;
+        public static double MAX_ACCEL = 50;
         @MaxAngleVelo
         public static double MAX_ANG_VEL = Math.toRadians(180);
         @MaxAngleAccel
-        public static double MAX_ANG_ACCEL = Math.toRadians(80);
+        public static double MAX_ANG_ACCEL = Math.toRadians(120);
 
         @TransPID
         public static PIDCoefficients TRANSLATIONAL_PID = new PIDCoefficients(8, 0, 0);
@@ -85,12 +87,14 @@ public class DrivebaseSubsystem extends MecanumDrivebaseSubsystem implements Sup
         public static double RIGHT_SENSOR_DISTANCE = 65.5;
         public static double FRONT_SENSOR_DISTANCE = 65.5;
 
+        public static double TIP_TOLERANCE = Math.toRadians(5);
 
     }
 
     public RangeSensor left, right, front;
 //    protected FtcDashboard dashboard;
 
+    public float xOffset, yOffset;
 
     public DrivebaseSubsystem(EncodedMotor<DcMotorEx> fl, EncodedMotor<DcMotorEx> fr,
                               EncodedMotor<DcMotorEx> rl, EncodedMotor<DcMotorEx> rr,
@@ -101,6 +105,7 @@ public class DrivebaseSubsystem extends MecanumDrivebaseSubsystem implements Sup
         right = r;
         front = f;
 
+        resetGyro();
 //        dashboard = FtcDashboard.getInstance();
 //        dashboard.setTelemetryTransmissionInterval(25);
     }
@@ -127,6 +132,19 @@ public class DrivebaseSubsystem extends MecanumDrivebaseSubsystem implements Sup
                 alliance == Alliance.RED ? front.getSensorValue()-FRONT_SENSOR_DISTANCE : left.getSensorValue()-LEFT_SENSOR_DISTANCE,
                 alliance == Alliance.RED ? left.getSensorValue()-LEFT_SENSOR_DISTANCE : FRONT_SENSOR_DISTANCE-front.getSensorValue(),
                 getExternalHeading()));
+    }
+
+    public void resetGyro(){
+        xOffset = imu.getAngularOrientation().secondAngle;
+        yOffset = imu.getAngularOrientation().thirdAngle;
+    }
+
+    public void setSafeDrivePower(Pose2d raw){
+        float x = 0, y = 0, adjX = xOffset-imu.getAngularOrientation().secondAngle, adjY = imu.getAngularOrientation().thirdAngle-yOffset;
+        if(Math.abs(adjY) > TIP_TOLERANCE) y = adjY;
+        if(Math.abs(adjX) > TIP_TOLERANCE) x = adjX;
+//        setWeightedDrivePower(raw.plus(new Pose2d(x>0 ? Math.max(x-TIP_TOLERANCE, 0) : Math.min(x+TIP_TOLERANCE, 0), y>0 ? Math.max(y-TIP_TOLERANCE, 0) : Math.min(y+TIP_TOLERANCE, 0), 0)));
+        setWeightedDrivePower(raw.plus(new Pose2d(x*2, y*2, 0)));
     }
 
 

@@ -27,7 +27,7 @@ public class DriveCommand implements Command {
                 y.getAsDouble(),
                 x.getAsDouble()
         ).rotated(-subsystem.getExternalHeading());
-        subsystem.setWeightedDrivePower(
+        subsystem.setSafeDrivePower(
                 new Pose2d(
                         Math.pow(input.getX(), 1),
                         Math.pow(input.getY(), 1),
