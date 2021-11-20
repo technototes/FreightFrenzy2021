@@ -27,7 +27,7 @@ public class RedDuckAuto extends CommandOpMode implements Loggable {
 
     public void uponInit() {
         AutonomousConstants.ALLIANCE = Alliance.RED;
-        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
+//        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         hardware = new Hardware();
         robot = new Robot(hardware);
         robot.drivebaseSubsystem.setPoseEstimate(AutonomousConstants.DUCK_START_SELECT.get());
