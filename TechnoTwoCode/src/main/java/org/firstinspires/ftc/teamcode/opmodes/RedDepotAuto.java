@@ -21,7 +21,7 @@ public class RedDepotAuto extends CommandOpMode implements Loggable {
 
     @Override
     public void uponInit() {
-        AutonomousConstants.ALLIANCE = Alliance.BLUE;
+        AutonomousConstants.ALLIANCE = Alliance.RED;
 //        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         hardware = new Hardware();
         robot = new Robot(hardware);
