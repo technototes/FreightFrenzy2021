@@ -1,9 +1,14 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.io;
 
 import com.qualcomm.robotcore.hardware.Gamepad;
 
-public class MockGamepad extends Gamepad {
+public abstract class MockGamepad extends Gamepad {
+    public abstract void map();
     public void update(){
+        map();
+        updateButtonAliases();
+    }
+    public void emptyMap(){
         a = false;
         b = false;
         x = false;
@@ -24,6 +29,5 @@ public class MockGamepad extends Gamepad {
         left_stick_y = 0;
         right_stick_x = 0;
         right_stick_y = 0;
-        updateButtonAliases();
     }
 }

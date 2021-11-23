@@ -1,11 +1,11 @@
 package com.technototes.meepmeep;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.noahbres.meepmeep.MeepMeep;
 import com.noahbres.meepmeep.core.colorscheme.scheme.ColorSchemeRedDark;
 
-import static com.technototes.meepmeep.AutonomousConstants.*;
-import static java.lang.Math.toRadians;
+import static com.technototes.meepmeep.AutonomousConstants.CYCLE_START_SELECT;
 
 public class MeepMeepTesting {
 
@@ -20,22 +20,22 @@ public class MeepMeepTesting {
                 .setBotDimensions(11.2, 12.2)
                 // Set constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
                 .setConstraints(60, 45, Math.toRadians(180), Math.toRadians(80), 10.5)
-
+                .setStartPose(CYCLE_START_SELECT.get())
                 //88 pts from preload 4 cycles and park
                 //62 pts from preload all duck and park
                 //86 pts from preload all duck 2 cycles and park
                 //maybe 98 with 3 cycles
                 .followTrajectorySequence(drive ->
-//                                drive.trajectorySequenceBuilder(new Pose2d(-24, -65, Math.toRadians(90)))
-//                                        .lineToLinearHeading(new Pose2d(-24, -40, Math.toRadians(60)))
-//                                        .lineToLinearHeading(new Pose2d(-60, -60, Math.toRadians(90)))
-//                                        .waitSeconds(2)
-//                                        .setTangent(Math.toRadians(30))
-//                                        .splineToLinearHeading(new Pose2d(-20, -64.5, Math.toRadians(0)), Math.toRadians(-40))
-//                                        .strafeTo(new Vector2d(-50, -64.5))
-//                                        .lineToLinearHeading(new Pose2d(-24, -40, Math.toRadians(60)))
-//                                        .lineToLinearHeading(new Pose2d(-60, -37, Math.toRadians(90)))
-//                                        .build()
+                                drive.trajectorySequenceBuilder(new Pose2d(-24, -65, Math.toRadians(90)))
+                                        .lineToLinearHeading(new Pose2d(-24, -40, Math.toRadians(60)))
+                                        .lineToLinearHeading(drive.getPoseEstimate())
+                                        .waitSeconds(2)
+                                        .setTangent(Math.toRadians(30))
+                                        .splineToLinearHeading(new Pose2d(-20, -64.5, Math.toRadians(0)), Math.toRadians(-40))
+                                        .strafeTo(new Vector2d(-50, -64.5))
+                                        .lineToLinearHeading(new Pose2d(-24, -40, Math.toRadians(60)))
+                                        .lineToLinearHeading(new Pose2d(-60, -37, Math.toRadians(90)))
+                                        .build()
 
 //                                drive.trajectorySequenceBuilder(START_SELECT.get())
 //                                        .lineToSplineHeading(DEPOSIT_SELECT.get())
@@ -81,7 +81,7 @@ public class MeepMeepTesting {
 //                                        .build()
 
 //drive.trajectorySequenceBuilder(drive.getPoseEstimate()).waitSeconds(0.01).build()
-                        ALL.apply(drive::trajectorySequenceBuilder)
+//                        ALL.apply(drive::trajectorySequenceBuilder)
 //                                drive.trajectorySequenceBuilder(new Pose2d(-10, -65, Math.toRadians(90)))
 //                                        .lineToSplineHeading(new Pose2d(-10, -55, Math.toRadians(130)))
 //                                        .splineToConstantHeading(new Vector2d(0, -40), Math.toRadians(-50))

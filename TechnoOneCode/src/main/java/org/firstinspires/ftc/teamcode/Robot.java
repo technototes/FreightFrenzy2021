@@ -25,8 +25,9 @@ public class Robot implements Loggable {
         public static boolean DRIVE_CONNECTED = true;
         public static boolean CAROUSEL_CONNECTED = true;
         public static boolean INTAKE_CONNECTED = true;
-        public static boolean VISION_CONNECTED = true;
+        public static boolean VISION_CONNECTED = false;//true;
         public static boolean CAP_CONNECTED = true;
+
     }
 
     @Log.NumberBar(name = "Lift", min = 0, max = 1100, scale = 100, completeBarColor = Color.PURPLE)

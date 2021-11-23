@@ -1,8 +1,8 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.io;
 
 import org.firstinspires.ftc.robotcore.external.Func;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.mockito.Mock;
+import org.firstinspires.ftc.teamcode.MockRobot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -76,7 +76,7 @@ public class MockTelemetry implements Telemetry {
     @Override
     public boolean update() {
         for (Item i : items) {
-            System.out.println(i.getCaption()+": ");
+           if(MockRobot.TELEMETRY) System.out.println(i.getCaption());
         }
         clearAll();
         return true;

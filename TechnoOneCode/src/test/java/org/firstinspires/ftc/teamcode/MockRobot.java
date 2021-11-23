@@ -1,22 +1,26 @@
-package org.firstinspires.ftc.teamcode;
+    package org.firstinspires.ftc.teamcode;
 
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.teamcode.hardware.MockHardwareMap;
+import org.firstinspires.ftc.teamcode.io.MockGamepad;
+import org.firstinspires.ftc.teamcode.io.MockGamepadManager;
+import org.firstinspires.ftc.teamcode.io.MockTelemetry;
 import org.firstinspires.ftc.teamcode.opmodes.TeleOpMode;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class TestRobot {
+public class MockRobot {
     public LinearOpMode opMode;
-
+    public MockGamepadManager manager;
+    public static boolean TELEMETRY = false;
     @BeforeEach
     public void setup(){
         opMode = new TeleOpMode();
-        opMode.gamepad1 = new MockGamepad();
-        opMode.gamepad2 = new MockGamepad();
+        manager = new MockGamepadManager();
+        opMode.gamepad1 = manager.driver;
+        opMode.gamepad2 = manager.codriver;
         opMode.hardwareMap = new MockHardwareMap();
         opMode.telemetry = new MockTelemetry();
         opMode.start();
@@ -24,7 +28,6 @@ public class TestRobot {
 
     @Test
     public void run() throws InterruptedException {
-
         opMode.runOpMode();
     }
 }

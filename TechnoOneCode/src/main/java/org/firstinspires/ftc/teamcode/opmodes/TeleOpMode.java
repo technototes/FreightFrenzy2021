@@ -28,6 +28,6 @@ public class TeleOpMode extends CommandOpMode implements Loggable {
 
     @Override
     public void uponStart() {
-        robot.depositSubsystem.collect();
+        if(Robot.RobotConstants.DEPOSIT_CONNECTED) robot.depositSubsystem.collect();
     }
 }
