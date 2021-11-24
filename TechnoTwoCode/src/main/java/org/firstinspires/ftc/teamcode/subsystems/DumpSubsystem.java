@@ -1,5 +1,10 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
+import static org.firstinspires.ftc.teamcode.subsystems.DumpSubsystem.BucketConstant.MOTOR_LOWER_LIMIT;
+import static org.firstinspires.ftc.teamcode.subsystems.DumpSubsystem.BucketConstant.MOTOR_UPPER_LIMIT;
+import static org.firstinspires.ftc.teamcode.subsystems.DumpSubsystem.BucketConstant.TOLERANCE_ZONE;
+import static org.firstinspires.ftc.teamcode.subsystems.DumpSubsystem.BucketConstant.pidCoefficients_motor;
+
 import com.acmerobotics.roadrunner.control.PIDCoefficients;
 import com.acmerobotics.roadrunner.control.PIDFController;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -9,7 +14,6 @@ import com.technototes.library.hardware.servo.Servo;
 import com.technototes.library.logger.Log;
 import com.technototes.library.logger.Loggable;
 import com.technototes.library.subsystem.Subsystem;
-import static org.firstinspires.ftc.teamcode.subsystems.DumpSubsystem.BucketConstant.*;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
@@ -146,7 +150,7 @@ public class DumpSubsystem implements Subsystem, Supplier<Double>, Loggable {
      */
     @Override
     public void periodic() {
-        bucketMotor.setSpeed(pidController_motor.update(bucketMotor.getEncoder().getPosition())*0.3);
+        bucketMotor.setSpeed(pidController_motor.update(bucketMotor.getEncoder().getPosition())*0.65);
         if (telemetry != null){
             telemetry.addLine(get().toString());
             telemetry.update();
