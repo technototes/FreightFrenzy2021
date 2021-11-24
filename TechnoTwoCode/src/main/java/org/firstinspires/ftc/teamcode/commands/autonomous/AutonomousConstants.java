@@ -15,12 +15,13 @@ import java.util.function.Supplier;
 public class AutonomousConstants {
     public static class RedConstants {
         public static Pose2d DUCK_START = new Pose2d(-36, -63, toRadians(-90));
-        public static Pose2d CAROUSEL = new Pose2d(-68, -58, toRadians(-90));
+        public static Pose2d DUCK_HUB = new Pose2d(-30, -38, toRadians(-125));
+        public static Pose2d CAROUSEL = new Pose2d(-66, -58, toRadians(-90));
         public static Pose2d DUCK_PARK = new Pose2d(-67, -31, toRadians(0));
         public static Pose2d SHIPPING_HUB_START = new Pose2d(0, -66, toRadians(-90)); // Wrong positions (estimate)
-        public static Pose2d SHIPPING_HUB = new Pose2d(-10,-39, toRadians(-68)); // Wrong positions (estimate)
+        public static Pose2d SHIPPING_HUB = new Pose2d(-10, -39, toRadians(-68)); // Wrong positions (estimate)
         public static Pose2d SHIPPING_HUB_TO_DEPOT = new Pose2d(0, -65.5, toRadians(0)); // Wrong positions (estimate)
-        public static Pose2d DEPOT_PARK = new Pose2d(36, -65.5, toRadians(0)); // Wrong positions (estimate)
+        public static Pose2d DEPOT_PARK = new Pose2d(36, -65.5, toRadians(0)); // Wrong positions (estimate)}
     }
 
     public static class BlueConstants {
@@ -40,6 +41,12 @@ public class AutonomousConstants {
     public static final Function<Function<Pose2d, TrajectorySequenceBuilder>, TrajectorySequence>
               // Lists of driving series for auto naviation
               RED_DUCK_START_TO_CAROUSEL = b -> b.apply(RedConstants.DUCK_START)
+              .lineToLinearHeading(RedConstants.CAROUSEL)
+              .build(),
+              RED_DUCK_START_TO_HUB = b -> b.apply(RedConstants.DUCK_START)
+                        .lineToLinearHeading(RedConstants.DUCK_HUB)
+                        .build(),
+              RED_DUCK_HUB_TO_CAROUSEL = b -> b.apply(RedConstants.DUCK_HUB)
                         .lineToLinearHeading(RedConstants.CAROUSEL)
                         .build(),
               RED_DUCK_CAROUSEL_TO_PARK = b -> b.apply(RedConstants.CAROUSEL)
