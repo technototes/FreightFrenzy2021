@@ -77,11 +77,6 @@ public class DumpSubsystem implements Subsystem, Supplier<Double>, Loggable {
 
     Telemetry telemetry;
 
-    /**
-     * serve isServoAtTarget() since the servo doesn't have a PID controller so need something to store the target position and to the comparison
-     */
-    public double bucketServo_targetPosition;
-
     public PIDFController pidController_motor;
 
     public DumpSubsystem(EncodedMotor<DcMotorEx> motor, Servo servo) {
@@ -98,7 +93,6 @@ public class DumpSubsystem implements Subsystem, Supplier<Double>, Loggable {
     }
     public void setServoPosition(double position){
         bucketServo.setPosition(position);
-        bucketServo_targetPosition = position;
     }
     public void setPositionCombination(double motor_pos, double servo_pos){
         setMotorPosition(motor_pos);
@@ -120,20 +114,13 @@ public class DumpSubsystem implements Subsystem, Supplier<Double>, Loggable {
     public boolean isMotorAtTarget(){
         return Math.abs(pidController_motor.getTargetPosition() - bucketMotor.get()) < TOLERANCE_ZONE;
     }
-    /**
-     * @return true when motor position reached around target position
-     * using something called dead-zone, so when the motor moved slightly over the target don't necessary go-back
-     */
-    public boolean isServoAtTarget(){
-        return Math.abs(bucketServo_targetPosition - bucketServo.getPosition()) < TOLERANCE_ZONE;
-    }
 
     /**
      * @return true when both motor and servo at target
      * calling their isAtTarget method
      */
     public boolean isAtTarget(){
-        return isMotorAtTarget() && isServoAtTarget();
+        return isMotorAtTarget();
     }
 
     /**
