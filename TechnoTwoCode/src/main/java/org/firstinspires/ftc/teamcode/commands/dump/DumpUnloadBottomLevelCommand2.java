@@ -24,7 +24,7 @@ public class DumpUnloadBottomLevelCommand2 implements Command {
     public boolean isFinished() {
         boolean finished = dumpSys.isMotorAtTarget() || getRuntime().seconds() > 1.0;
         if (finished){
-            dumpSys.setServoPosition(BUCKET_BOTTOM_LEVEL);
+            dumpSys.dumpBucket();
         }
         return finished;
     }

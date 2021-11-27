@@ -1,9 +1,6 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
-import static org.firstinspires.ftc.teamcode.subsystems.DumpSubsystem.BucketConstant.MOTOR_LOWER_LIMIT;
-import static org.firstinspires.ftc.teamcode.subsystems.DumpSubsystem.BucketConstant.MOTOR_UPPER_LIMIT;
-import static org.firstinspires.ftc.teamcode.subsystems.DumpSubsystem.BucketConstant.TOLERANCE_ZONE;
-import static org.firstinspires.ftc.teamcode.subsystems.DumpSubsystem.BucketConstant.pidCoefficients_motor;
+import static org.firstinspires.ftc.teamcode.subsystems.DumpSubsystem.ArmConstant.*;
 
 import com.acmerobotics.roadrunner.control.PIDCoefficients;
 import com.acmerobotics.roadrunner.control.PIDFController;
@@ -21,18 +18,6 @@ import java.util.function.Supplier;
 
 public class DumpSubsystem implements Subsystem, Supplier<Double>, Loggable {
     public static class BucketConstant{
-        /**
-         * so called dead-zone
-         */
-        public static double TOLERANCE_ZONE = 1;
-
-        public static double MOTOR_LOWER_LIMIT = -100;
-        public static double MOTOR_UPPER_LIMIT = 100;
-        public static double SERVO_LOWER_LIMIT = 0;
-        public static double SERVO_UPPER_LIMIT = 100;
-
-        public static PIDCoefficients pidCoefficients_motor = new PIDCoefficients(0.002, 0, 0);
-
         /**
          * because this subsystem requires motor and servo cooperate together
          * motor [0] servo [1]
@@ -58,16 +43,30 @@ public class DumpSubsystem implements Subsystem, Supplier<Double>, Loggable {
          */
         public static double BUCKET_COLLECT = 0.1;
         public static double BUCKET_CARRY = 0.3;
+        public static double BUCKET_DUMP = 0.6;
         public static double BUCKET_TOP_LEVEL = 0.78;
         public static double BUCKET_MIDDLE_LEVEL = 0.78;
         public static double BUCKET_BOTTOM_LEVEL = 0.78;
     }
+
     public static class ArmConstant {
-        public static double ARM_COLLECT = 0;
-        public static double ARM_CARRY = -.2;
-        public static double ARM_TOP_LEVEL = -0.42;
-        public static double ARM_MIDDLE_LEVEL = -0.56;
-        public static double ARM_BOTTOM_LEVEL = -0.64;
+        public static final double ARM_COLLECT = 0;
+        public static final double ARM_CARRY = -.2;
+        public static final double ARM_TOP_LEVEL = -0.42;
+        public static final double ARM_MIDDLE_LEVEL = -0.56;
+        public static final double ARM_BOTTOM_LEVEL = -0.64;
+
+        static final double MOTOR_LOWER_LIMIT = ARM_BOTTOM_LEVEL;
+        static final double MOTOR_UPPER_LIMIT = ARM_COLLECT;
+
+        static final PIDCoefficients pidCoefficients_motor = new PIDCoefficients(0.002, 0, 0);
+        /**
+         * so called dead-zone
+         */
+        static final double TOLERANCE_ZONE = 1;
+
+        // This is the conversion factor from the motor position to a 0-1 range for a full circle
+        static final double ARM_POSITION_SCALE = (19.2*28*(108.0/20));
     }
 
     @Log.Number (name = "Bucket motor")
@@ -87,12 +86,21 @@ public class DumpSubsystem implements Subsystem, Supplier<Double>, Loggable {
     }
 
     public void setMotorPosition(double position){
-        // This is the value to get our position to a 0-1 range
-        double scale = (19.2*28*(108.0/20));
-        pidController_motor.setTargetPosition(Range.clip(position, MOTOR_LOWER_LIMIT, MOTOR_UPPER_LIMIT)*scale);
+        pidController_motor.setTargetPosition(Range.clip(position, MOTOR_LOWER_LIMIT, MOTOR_UPPER_LIMIT) * ARM_POSITION_SCALE);
     }
+
+    static double getScaledMotorPosition(double position) {
+        return position / ARM_POSITION_SCALE;
+    }
+
+    public void dumpBucket() {
+        bucketServo.setPosition(BucketConstant.BUCKET_DUMP);
+    }
+
     public void setServoPosition(double position){
-        bucketServo.setPosition(position);
+        // Servo position is controlled by dumpBucket() and the periodic() function. This method
+        // now intentionally does nothing.
+        //bucketServo.setPosition(position);
     }
     public void setPositionCombination(double motor_pos, double servo_pos){
         setMotorPosition(motor_pos);
@@ -137,13 +145,26 @@ public class DumpSubsystem implements Subsystem, Supplier<Double>, Loggable {
      */
     @Override
     public void periodic() {
-        bucketMotor.setSpeed(pidController_motor.update(bucketMotor.getEncoder().getPosition())*0.65);
+        double rawMotorPosition = bucketMotor.getEncoder().getPosition();
+        bucketMotor.setSpeed(pidController_motor.update(rawMotorPosition)*0.65);
         if (telemetry != null){
             telemetry.addLine(get().toString());
             telemetry.update();
         }
-    }
 
+        // Note: scaledMotorPosition is a negative number, hence the comparison operators look backwards!
+        double scaledMotorPosition = getScaledMotorPosition(rawMotorPosition);
+        double armCarryStart = (ArmConstant.ARM_CARRY - ArmConstant.ARM_COLLECT) / 2;
+        if (scaledMotorPosition > (ArmConstant.ARM_CARRY + ArmConstant.ARM_TOP_LEVEL) / 2) {
+            if (scaledMotorPosition <= armCarryStart) {
+                bucketServo.setPosition(BucketConstant.BUCKET_CARRY);
+            } else {
+                double percentCarry = (scaledMotorPosition - ArmConstant.ARM_COLLECT) / (armCarryStart - ArmConstant.ARM_COLLECT);
+                double bucketPosition = BucketConstant.BUCKET_COLLECT + percentCarry * (BucketConstant.BUCKET_CARRY - BucketConstant.BUCKET_COLLECT);
+                bucketServo.setPosition(Range.clip(bucketPosition, BucketConstant.BUCKET_COLLECT, BucketConstant.BUCKET_CARRY));
+            }
+        }
+    }
 
     /**
      * only need to stop the motor
