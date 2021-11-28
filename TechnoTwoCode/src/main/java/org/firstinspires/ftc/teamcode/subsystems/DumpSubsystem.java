@@ -41,9 +41,9 @@ public class DumpSubsystem implements Subsystem, Supplier<Double>, Loggable {
          * 0.75 is 180 degrees
          * 1 is 270 degrees
          */
-        public static double BUCKET_COLLECT = 0.1;
+        public static double BUCKET_COLLECT = 0.12;
         public static double BUCKET_CARRY = 0.3;
-        public static double BUCKET_DUMP = 0.6;
+        public static double BUCKET_DUMP = 0.7;
         public static double BUCKET_TOP_LEVEL = 0.78;
         public static double BUCKET_MIDDLE_LEVEL = 0.78;
         public static double BUCKET_BOTTOM_LEVEL = 0.78;
