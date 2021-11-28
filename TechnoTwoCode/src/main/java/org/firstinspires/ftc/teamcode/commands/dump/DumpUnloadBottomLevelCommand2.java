@@ -5,7 +5,6 @@ import com.technototes.library.command.Command;
 import org.firstinspires.ftc.teamcode.subsystems.DumpSubsystem;
 
 import static org.firstinspires.ftc.teamcode.subsystems.DumpSubsystem.ArmConstant.ARM_BOTTOM_LEVEL;
-import static org.firstinspires.ftc.teamcode.subsystems.DumpSubsystem.BucketConstant.BUCKET_BOTTOM_LEVEL;
 
 public class DumpUnloadBottomLevelCommand2 implements Command {
     public DumpSubsystem dumpSys;

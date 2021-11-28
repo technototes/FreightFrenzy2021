@@ -17,7 +17,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import java.util.function.Supplier;
 
 public class DumpSubsystem implements Subsystem, Supplier<Double>, Loggable {
-    public static class BucketConstant{
+    static class BucketConstant{
         /**
          * because this subsystem requires motor and servo cooperate together
          * motor [0] servo [1]
@@ -41,12 +41,9 @@ public class DumpSubsystem implements Subsystem, Supplier<Double>, Loggable {
          * 0.75 is 180 degrees
          * 1 is 270 degrees
          */
-        public static double BUCKET_COLLECT = 0.12;
-        public static double BUCKET_CARRY = 0.3;
-        public static double BUCKET_DUMP = 0.7;
-        public static double BUCKET_TOP_LEVEL = 0.78;
-        public static double BUCKET_MIDDLE_LEVEL = 0.78;
-        public static double BUCKET_BOTTOM_LEVEL = 0.78;
+        public static final double BUCKET_COLLECT = 0.12;
+        public static final double BUCKET_CARRY = 0.3;
+        public static final double BUCKET_DUMP = 0.7;
     }
 
     public static class ArmConstant {
@@ -69,6 +66,7 @@ public class DumpSubsystem implements Subsystem, Supplier<Double>, Loggable {
         static final double ARM_POSITION_SCALE = (19.2*28*(108.0/20));
     }
 
+    // These must be public for the logging functionality
     @Log.Number (name = "Bucket motor")
     public EncodedMotor<DcMotorEx> bucketMotor;
     @Log.Number (name = "Bucket Servo")
@@ -95,24 +93,6 @@ public class DumpSubsystem implements Subsystem, Supplier<Double>, Loggable {
 
     public void dumpBucket() {
         bucketServo.setPosition(BucketConstant.BUCKET_DUMP);
-    }
-
-    public void setServoPosition(double position){
-        // Servo position is controlled by dumpBucket() and the periodic() function. This method
-        // now intentionally does nothing.
-        //bucketServo.setPosition(position);
-    }
-    public void setPositionCombination(double motor_pos, double servo_pos){
-        setMotorPosition(motor_pos);
-        setServoPosition(servo_pos);
-    }
-
-    /**
-     * just overloaded, so can simply throw in a constant
-     * ideally the Command(s) will use this method with these pre-made constant(s)
-     */
-    public void setPositionCombination(double[] positionCombo){
-        setPositionCombination(positionCombo[0], positionCombo[1]);
     }
 
     /**

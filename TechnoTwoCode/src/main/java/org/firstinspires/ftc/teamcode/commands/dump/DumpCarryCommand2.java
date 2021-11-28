@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.commands.dump;
 
-import static org.firstinspires.ftc.teamcode.subsystems.DumpSubsystem.BucketConstant.BUCKET_CARRY;
 import static org.firstinspires.ftc.teamcode.subsystems.DumpSubsystem.ArmConstant.ARM_CARRY;
 
 import com.technototes.library.command.Command;
@@ -17,7 +16,6 @@ public class DumpCarryCommand2 implements Command {
 
     @Override
     public void execute() {
-        dumpSys.setServoPosition(BUCKET_CARRY);
         dumpSys.setMotorPosition(ARM_CARRY);
     }
 
