@@ -41,9 +41,9 @@ public class DumpSubsystem implements Subsystem, Supplier<Double>, Loggable {
          * 0.75 is 180 degrees
          * 1 is 270 degrees
          */
-        public static final double BUCKET_COLLECT = 0.12;
-        public static final double BUCKET_CARRY = 0.3;
-        public static final double BUCKET_DUMP = 0.7;
+        static final double BUCKET_COLLECT = 0.12;
+        static final double BUCKET_CARRY = 0.3;
+        static final double BUCKET_DUMP = 0.7;
     }
 
     public static class ArmConstant {
@@ -57,13 +57,14 @@ public class DumpSubsystem implements Subsystem, Supplier<Double>, Loggable {
         static final double MOTOR_UPPER_LIMIT = ARM_COLLECT;
 
         static final PIDCoefficients pidCoefficients_motor = new PIDCoefficients(0.002, 0, 0);
-        /**
-         * so called dead-zone
-         */
-        static final double TOLERANCE_ZONE = 1;
 
         // This is the conversion factor from the motor position to a 0-1 range for a full circle
         static final double ARM_POSITION_SCALE = (19.2*28*(108.0/20));
+
+        /**
+         * so called dead-zone, in encoder ticks
+         */
+        static final double TOLERANCE_ZONE_TICKS = ARM_POSITION_SCALE / 360; // one degree
     }
 
     // These must be public for the logging functionality
@@ -74,7 +75,7 @@ public class DumpSubsystem implements Subsystem, Supplier<Double>, Loggable {
 
     Telemetry telemetry;
 
-    public PIDFController pidController_motor;
+    PIDFController pidController_motor;
 
     public DumpSubsystem(EncodedMotor<DcMotorEx> motor, Servo servo) {
         this.bucketMotor = motor;
@@ -100,7 +101,7 @@ public class DumpSubsystem implements Subsystem, Supplier<Double>, Loggable {
      * using something called dead-zone, so when the motor moved slightly over the target don't necessary go-back
      */
     public boolean isMotorAtTarget(){
-        return Math.abs(pidController_motor.getTargetPosition() - bucketMotor.get()) < TOLERANCE_ZONE;
+        return Math.abs(pidController_motor.getTargetPosition() - bucketMotor.get()) < TOLERANCE_ZONE_TICKS;
     }
 
     /**
