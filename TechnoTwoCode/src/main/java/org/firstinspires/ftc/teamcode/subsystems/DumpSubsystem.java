@@ -16,6 +16,8 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 import java.util.function.Supplier;
 
+import kotlin.jvm.functions.Function2;
+
 public class DumpSubsystem implements Subsystem, Supplier<Double>, Loggable {
     static class BucketConstant{
         /**
@@ -44,19 +46,28 @@ public class DumpSubsystem implements Subsystem, Supplier<Double>, Loggable {
         static final double BUCKET_COLLECT = 0.12;
         static final double BUCKET_CARRY = 0.3;
         static final double BUCKET_DUMP = 0.7;
+
+        // Range of values where the bucket should be in the carry position
+        static final double ARM_CARRY_LIMIT_MIN = (ARM_COLLECT + ARM_CARRY) / 3;
+        static final double ARM_CARRY_LIMIT_MAX = (ARM_CARRY + ARM_TOP_LEVEL) / 2;
     }
 
     public static class ArmConstant {
+        // Note: these are in units of full circle (0 = start, -1 or 1 = full rotation)
         public static final double ARM_COLLECT = 0;
         public static final double ARM_CARRY = -.2;
         public static final double ARM_TOP_LEVEL = -0.42;
         public static final double ARM_MIDDLE_LEVEL = -0.56;
         public static final double ARM_BOTTOM_LEVEL = -0.64;
+        static final double ARM_LEVEL_POSITION = -0.10; // Position of the level arm
 
         static final double MOTOR_LOWER_LIMIT = ARM_BOTTOM_LEVEL;
         static final double MOTOR_UPPER_LIMIT = ARM_COLLECT;
 
         static final PIDCoefficients pidCoefficients_motor = new PIDCoefficients(0.002, 0, 0);
+
+        // The motor speed value required to keep the arm level to counteract gravity
+        static final double MOTOR_GRAVITY_SPEED_FACTOR = -0.02;
 
         // This is the conversion factor from the motor position to a 0-1 range for a full circle
         static final double ARM_POSITION_SCALE = (19.2*28*(108.0/20));
@@ -72,15 +83,29 @@ public class DumpSubsystem implements Subsystem, Supplier<Double>, Loggable {
     public EncodedMotor<DcMotorEx> bucketMotor;
     @Log.Number (name = "Bucket Servo")
     public Servo bucketServo;
+    @Log.Number (name = "Bucket speed")
+    public double bucketSpeed = 0.0;
+    long lastSpeedMeasureTimeMillis = 0;
+    double lastBucketEncoderPosition = 0.0;
 
     Telemetry telemetry;
 
     PIDFController pidController_motor;
 
+    // Maximum acceleration in absolute units of change of 'speed' per second squared
+    static final double MAX_BUCKET_ACCELERATION = 4.0;
+
+    // Cap measurement interval to avoid loop stalls letting the motor jump from 0 to 1
+    static final double MAX_ACCELERATION_MEASUREMENT_SECS = 0.2;
+
+    // Close enough to zero, for floating point numbers
+    static final double EPSILON = 1e-6;
+
     public DumpSubsystem(EncodedMotor<DcMotorEx> motor, Servo servo) {
         this.bucketMotor = motor;
         this.bucketServo = servo;
-        pidController_motor = new PIDFController(pidCoefficients_motor, 0, 0, 0, (x, y)->0.05);
+        pidController_motor = new PIDFController(pidCoefficients_motor, 0, 0, 0);
+        pidController_motor.setOutputBounds(-1.0, 1.0); // DC motor can't go beyond full speed
         this.bucketMotor.zeroEncoder();
     }
 
@@ -126,25 +151,57 @@ public class DumpSubsystem implements Subsystem, Supplier<Double>, Loggable {
      */
     @Override
     public void periodic() {
+        // Set the bucket arm position
         double rawMotorPosition = bucketMotor.getEncoder().getPosition();
-        bucketMotor.setSpeed(pidController_motor.update(rawMotorPosition)*0.65);
+        long currentTimeMillis = System.currentTimeMillis();
+        double deltaTimeSecs = (currentTimeMillis - lastSpeedMeasureTimeMillis) / 1000.0;
+        double ticksPerSecond = (deltaTimeSecs > EPSILON) ? (rawMotorPosition - lastBucketEncoderPosition) / deltaTimeSecs : 0.0;
+        double newSpeed = getAccelerationLimitedBucketSpeed(bucketSpeed, pidController_motor.update(rawMotorPosition, ticksPerSecond), deltaTimeSecs);
+        lastSpeedMeasureTimeMillis = currentTimeMillis;
+        bucketSpeed = newSpeed;
+        bucketMotor.setSpeed(newSpeed);
         if (telemetry != null){
             telemetry.addLine(get().toString());
             telemetry.update();
         }
 
-        // Note: scaledMotorPosition is a negative number, hence the comparison operators look backwards!
-        double scaledMotorPosition = getScaledMotorPosition(rawMotorPosition);
-        double armCarryStart = (ArmConstant.ARM_CARRY - ArmConstant.ARM_COLLECT) / 2;
-        if (scaledMotorPosition > (ArmConstant.ARM_CARRY + ArmConstant.ARM_TOP_LEVEL) / 2) {
-            if (scaledMotorPosition <= armCarryStart) {
-                bucketServo.setPosition(BucketConstant.BUCKET_CARRY);
-            } else {
-                double percentCarry = (scaledMotorPosition - ArmConstant.ARM_COLLECT) / (armCarryStart - ArmConstant.ARM_COLLECT);
-                double bucketPosition = BucketConstant.BUCKET_COLLECT + percentCarry * (BucketConstant.BUCKET_CARRY - BucketConstant.BUCKET_COLLECT);
-                bucketServo.setPosition(Range.clip(bucketPosition, BucketConstant.BUCKET_COLLECT, BucketConstant.BUCKET_CARRY));
+        // Set the bucket servo position based on the arm positions
+        double bucketPosition = tryGetBucketPositionFromArm(getScaledMotorPosition(rawMotorPosition));
+        if (!Double.isNaN(bucketPosition)) {
+            bucketServo.setPosition(bucketPosition);
+        }
+    }
+
+    static double getAccelerationLimitedBucketSpeed(double oldSpeed, double newSpeed, double deltaTimeSecs) {
+        if (deltaTimeSecs > EPSILON) {
+            deltaTimeSecs = Math.min(deltaTimeSecs, MAX_ACCELERATION_MEASUREMENT_SECS);
+            double currentAcceleration = Math.abs(newSpeed - oldSpeed) / deltaTimeSecs;
+            if (currentAcceleration > MAX_BUCKET_ACCELERATION) {
+                newSpeed = oldSpeed + (deltaTimeSecs * MAX_BUCKET_ACCELERATION * ((newSpeed < oldSpeed) ? -1.0 : 1.0));
             }
         }
+
+        return newSpeed;
+    }
+
+    static double gravityArmFeedForward(Double positionTicks, Double velocityTicksPerSec) {
+        double positionRadians = ((positionTicks / ARM_POSITION_SCALE) - ARM_LEVEL_POSITION) * Math.PI * 2;
+        return Math.cos(positionRadians) * MOTOR_GRAVITY_SPEED_FACTOR;
+    }
+
+    static double tryGetBucketPositionFromArm(double scaledMotorPosition) {
+        // Note: scaledMotorPosition is a negative number, hence the comparison operators look backwards!
+        if (scaledMotorPosition > BucketConstant.ARM_CARRY_LIMIT_MAX) {
+            if (scaledMotorPosition <= BucketConstant.ARM_CARRY_LIMIT_MIN) {
+                return BucketConstant.BUCKET_CARRY;
+            } else {
+                double percentCarry = (scaledMotorPosition - ArmConstant.ARM_COLLECT) / (BucketConstant.ARM_CARRY_LIMIT_MIN - ArmConstant.ARM_COLLECT);
+                double bucketPosition = BucketConstant.BUCKET_COLLECT + percentCarry * (BucketConstant.BUCKET_CARRY - BucketConstant.BUCKET_COLLECT);
+                return Range.clip(bucketPosition, BucketConstant.BUCKET_COLLECT, BucketConstant.BUCKET_CARRY);
+            }
+        }
+
+        return Double.NaN;
     }
 
     /**
