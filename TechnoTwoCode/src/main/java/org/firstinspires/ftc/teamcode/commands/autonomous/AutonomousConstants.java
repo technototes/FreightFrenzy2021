@@ -21,7 +21,7 @@ public class AutonomousConstants {
         public static Pose2d SHIPPING_HUB_START = new Pose2d(0, -66, toRadians(-90)); // Wrong positions (estimate)
         public static Pose2d SHIPPING_HUB = new Pose2d(-10, -39, toRadians(-68)); // Wrong positions (estimate)
         public static Pose2d SHIPPING_HUB_TO_DEPOT = new Pose2d(0, -65.5, toRadians(0)); // Wrong positions (estimate)
-        public static Pose2d DEPOT_PARK = new Pose2d(36, -65.5, toRadians(90)); // Wrong positions (estimate)}
+        public static Pose2d DEPOT_PARK = new Pose2d(36, -65.5, toRadians(0)); // Not wrong positions (everything is fine, DO NOT CHANGE)
     }
 
     public static class BlueConstants {
@@ -31,7 +31,7 @@ public class AutonomousConstants {
         public static Pose2d SHIPPING_HUB_START = new Pose2d(0, 66, toRadians(90)); // Wrong positions (estimate)
         public static Pose2d SHIPPING_HUB = new Pose2d(-9, 41, toRadians(60)); // Wrong positions (estimate)
         public static Pose2d SHIPPING_HUB_TO_DEPOT = new Pose2d(0, 69.5, toRadians(0)); // Wrong positions (estimate)
-        public static Pose2d DEPOT_PARK = new Pose2d(36, 69.5, toRadians(-90)); // Wrong positions (estimate)
+        public static Pose2d DEPOT_PARK = new Pose2d(36, 69.5, toRadians(0)); // Not wrong positions (everything is fine, DO NOT CHANGE)
     }
 
     public static Alliance ALLIANCE = Alliance.BLUE;
