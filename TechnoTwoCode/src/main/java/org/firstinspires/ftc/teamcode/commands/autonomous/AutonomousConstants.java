@@ -22,6 +22,7 @@ public class AutonomousConstants {
         public static Pose2d SHIPPING_HUB = new Pose2d(-10, -39, toRadians(-68)); // Wrong positions (estimate)
         public static Pose2d SHIPPING_HUB_TO_DEPOT = new Pose2d(0, -65.5, toRadians(0)); // Wrong positions (estimate)
         public static Pose2d DEPOT_PARK = new Pose2d(36, -65.5, toRadians(90)); // Wrong positions (estimate)}
+        public static Pose2d DEPOT_TO_SHIPPING_HUB = new Pose2d(0, 0, toRadians(90)); // EXTREMELY wrong positions
     }
 
     public static class BlueConstants {
@@ -64,6 +65,10 @@ public class AutonomousConstants {
               RED_SHIPPING_HUB_TO_DEPOT = b -> b.apply(RedConstants.SHIPPING_HUB)
                         .lineToLinearHeading(RedConstants.SHIPPING_HUB_TO_DEPOT)
                         .lineToLinearHeading(RedConstants.DEPOT_PARK)
+                        .build(),
+              RED_DEPOT_TO_SHIPPING_HUB = b -> b.apply(RedConstants.DEPOT_PARK)
+                        .lineToLinearHeading(RedConstants.DEPOT_TO_SHIPPING_HUB)
+                        .lineToLinearHeading(RedConstants.SHIPPING_HUB)
                         .build(),
               BLUE_START_TO_SHIPPING_HUB = b -> b.apply(BlueConstants.SHIPPING_HUB_START)
                         .lineToLinearHeading(BlueConstants.SHIPPING_HUB)
