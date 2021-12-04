@@ -1,19 +1,15 @@
 package org.firstinspires.ftc.teamcode;
 
-import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.CAROUSEL_CONNECTED;
-import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.DRIVE_CONNECTED;
-import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.DUMP_CONNECTED;
-import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.INTAKE_CONNECTED;
-import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.VISION_CONNECTED;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.technototes.library.logger.Loggable;
 
-import org.firstinspires.ftc.teamcode.subsystems.CarouselSubsystem;
-import org.firstinspires.ftc.teamcode.subsystems.DrivebaseSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.DumpSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.DrivebaseSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.CarouselSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.VisionSubsystem;
+import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.*;
 
 public class Robot implements Loggable {
     @Config

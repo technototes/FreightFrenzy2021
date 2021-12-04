@@ -7,7 +7,6 @@ import com.acmerobotics.roadrunner.control.PIDFController;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.util.Range;
 import com.technototes.library.hardware.motor.EncodedMotor;
-import com.technototes.library.hardware.sensor.RangeSensor;
 import com.technototes.library.hardware.servo.Servo;
 import com.technototes.library.logger.Log;
 import com.technototes.library.logger.Loggable;
@@ -16,6 +15,8 @@ import com.technototes.library.subsystem.Subsystem;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 import java.util.function.Supplier;
+
+import kotlin.jvm.functions.Function2;
 
 public class DumpSubsystem implements Subsystem, Supplier<Double>, Loggable {
     static class BucketConstant{
@@ -69,16 +70,14 @@ public class DumpSubsystem implements Subsystem, Supplier<Double>, Loggable {
         static final double MOTOR_GRAVITY_SPEED_FACTOR = -0.02;
 
         // This is the conversion factor from the motor position to a 0-1 range for a full circle
-        static final double ARM_POSITION_SCALE = (19.2*28*(108.0/20));
+        static final double ARM_POSITION_SCALE = (19.2 * 28 * (108.0 / 20));
 
         /**
          * so called dead-zone, in encoder ticks
          */
         static final double TOLERANCE_ZONE_TICKS = ARM_POSITION_SCALE / 360; // one degree
     }
-
-    public RangeSensor rangeSensor;
-
+    
     // These must be public for the logging functionality
     @Log.Number (name = "Bucket motor")
     public EncodedMotor<DcMotorEx> bucketMotor;
