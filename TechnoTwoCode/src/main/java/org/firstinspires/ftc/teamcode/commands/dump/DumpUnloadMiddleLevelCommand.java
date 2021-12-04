@@ -6,10 +6,10 @@ import org.firstinspires.ftc.teamcode.subsystems.DumpSubsystem;
 
 import static org.firstinspires.ftc.teamcode.subsystems.DumpSubsystem.ArmConstant.ARM_MIDDLE_LEVEL;
 
-public class DumpUnloadMiddleLevelCommand2 implements Command {
+public class DumpUnloadMiddleLevelCommand implements Command {
     public DumpSubsystem dumpSys;
 
-    public DumpUnloadMiddleLevelCommand2(DumpSubsystem dumpSys){
+    public DumpUnloadMiddleLevelCommand(DumpSubsystem dumpSys){
         this.dumpSys = dumpSys;
         addRequirements(dumpSys);
     }

@@ -4,10 +4,10 @@ import com.technototes.library.command.Command;
 import static org.firstinspires.ftc.teamcode.subsystems.DumpSubsystem.ArmConstant.ARM_COLLECT;
 import org.firstinspires.ftc.teamcode.subsystems.DumpSubsystem;
 
-public class DumpCollectCommand2 implements Command {
+public class DumpCollectCommand implements Command {
     public DumpSubsystem dumpSys;
 
-    public DumpCollectCommand2(DumpSubsystem dump) {
+    public DumpCollectCommand(DumpSubsystem dump) {
         this.dumpSys = dump;
         addRequirements(dump);
     }

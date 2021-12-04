@@ -9,7 +9,6 @@ import com.technototes.path.trajectorysequence.TrajectorySequence;
 import com.technototes.path.trajectorysequence.TrajectorySequenceBuilder;
 
 import java.util.function.Function;
-import java.util.function.Supplier;
 
 @Config
 public class AutonomousConstants {
@@ -18,16 +17,15 @@ public class AutonomousConstants {
         public static Pose2d DUCK_HUB = new Pose2d(-30, -38, toRadians(-125));
         public static Pose2d CAROUSEL = new Pose2d(-66, -58, toRadians(-90));
         public static Pose2d DUCK_PARK = new Pose2d(-67, -31, toRadians(0)); // Not wrong positions (everything is fine, DO NOT CHANGE)
-        public static Pose2d SHIPPING_HUB_START = new Pose2d(0, -66, toRadians(-90)); // Wrong positions (estimate)
+        public static Pose2d DEPOT_START = new Pose2d(0, -66, toRadians(-90)); // Wrong positions (estimate)
         public static Pose2d SHIPPING_HUB = new Pose2d(-10, -39, toRadians(-68)); // Wrong positions (estimate)
-        public static Pose2d SHIPPING_HUB_TO_DEPOT = new Pose2d(0, -65.5, toRadians(0)); // Wrong positions (estimate)
         public static Pose2d DEPOT_PARK = new Pose2d(36, -65.5, toRadians(0)); // Not wrong positions (everything is fine, DO NOT CHANGE)
-        public static Pose2d DEPOT_TO_SHIPPING_HUB = new Pose2d(0, 0, toRadians(90)); // EXTREMELY wrong positions
+        public static Pose2d DEPOT_GAP = new Pose2d(8, -68, toRadians(0));
     }
 
     public static class BlueConstants {
-        public static Pose2d DUCK_START = new Pose2d(-24, 63, toRadians(90));
-        public static Pose2d CAROUSEL = new Pose2d(-58, 60, toRadians(180));
+        public static Pose2d DUCK_START = new Pose2d(-36, 63, toRadians(90));
+        public static Pose2d CAROUSEL = new Pose2d(-59, 59, toRadians(180));
         public static Pose2d DUCK_PARK = new Pose2d(-62, 30, toRadians(0)); // Not wrong positions (everything is fine, DO NOT CHANGE)
         public static Pose2d SHIPPING_HUB_START = new Pose2d(0, 66, toRadians(90)); // Wrong positions (estimate)
         public static Pose2d SHIPPING_HUB = new Pose2d(-9, 41, toRadians(60)); // Wrong positions (estimate)
@@ -59,15 +57,15 @@ public class AutonomousConstants {
               BLUE_DUCK_CAROUSEL_TO_PARK = b -> b.apply(BlueConstants.CAROUSEL)
                         .lineToLinearHeading(BlueConstants.DUCK_PARK)
                         .build(),
-              RED_START_TO_SHIPPING_HUB = b -> b.apply(RedConstants.SHIPPING_HUB_START)
+              RED_START_TO_SHIPPING_HUB = b -> b.apply(RedConstants.DEPOT_START)
                         .lineToLinearHeading(RedConstants.SHIPPING_HUB)
                         .build(),
               RED_SHIPPING_HUB_TO_DEPOT = b -> b.apply(RedConstants.SHIPPING_HUB)
-                        .lineToLinearHeading(RedConstants.SHIPPING_HUB_TO_DEPOT)
+                        .lineToLinearHeading(RedConstants.DEPOT_GAP)
                         .lineToLinearHeading(RedConstants.DEPOT_PARK)
                         .build(),
               RED_DEPOT_TO_SHIPPING_HUB = b -> b.apply(RedConstants.DEPOT_PARK)
-                        .lineToLinearHeading(RedConstants.DEPOT_TO_SHIPPING_HUB)
+                        .lineToLinearHeading(RedConstants.DEPOT_GAP)
                         .lineToLinearHeading(RedConstants.SHIPPING_HUB)
                         .build(),
               BLUE_START_TO_SHIPPING_HUB = b -> b.apply(BlueConstants.SHIPPING_HUB_START)
