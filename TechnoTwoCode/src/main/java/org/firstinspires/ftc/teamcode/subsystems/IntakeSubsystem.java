@@ -2,33 +2,51 @@ package org.firstinspires.ftc.teamcode.subsystems;
 
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.technototes.library.hardware.motor.Motor;
+import com.technototes.library.hardware.sensor.RangeSensor;
 import com.technototes.library.subsystem.Subsystem;
 
 import java.util.function.Supplier;
 
 public class IntakeSubsystem implements Subsystem, Supplier<Double> {
-  public static class IntakeConstant {
-    public static double INTAKE_IN_SPEED = 0.6;
-    public static double INTAKE_OUT_SPEED = -0.6;
-    public static double INTAKE_STOP_SPEED = 0;
-  }
-  public Motor<DcMotorEx> motor;
+    public static class IntakeConstant {
+        public static double INTAKE_IN_SPEED = 0.6;
+        public static double INTAKE_OUT_SPEED = -0.6;
+        public static double INTAKE_STOP_SPEED = 0;
+        public static double DETECTION_DISTANCE = 0.1; //needs to be tested
+    }
 
-  public IntakeSubsystem(Motor<DcMotorEx> m) {
-    motor = m;
-  }
-  public void in() {
-    motor.setSpeed(IntakeConstant.INTAKE_IN_SPEED);
-  }
-  public void out() {
-    motor.setSpeed(IntakeConstant.INTAKE_OUT_SPEED);
-  }
-  public void stop() {
-    motor.setSpeed(IntakeConstant.INTAKE_STOP_SPEED);
-  }
+    public Motor<DcMotorEx> motor;
 
-  @Override
-  public Double get() {
-    return motor.getSpeed();
-  }
+    public RangeSensor rangeSensor;
+
+    public IntakeSubsystem(Motor<DcMotorEx> m, RangeSensor r) {
+        motor = m;
+        rangeSensor = r;
+    }
+
+    public void in() {
+        motor.setSpeed(IntakeConstant.INTAKE_IN_SPEED);
+    }
+
+    public void out() {
+        motor.setSpeed(IntakeConstant.INTAKE_OUT_SPEED);
+    }
+
+    public void stop() {
+        motor.setSpeed(IntakeConstant.INTAKE_STOP_SPEED);
+    }
+
+    public double getSensorDistance() {
+        return rangeSensor.getSensorValue();
+    }
+
+    public boolean isNearTarget() {
+        return getSensorDistance() < IntakeConstant.DETECTION_DISTANCE;
+    }
+
+    @Override
+    public Double get() {
+        return motor.getSpeed();
+    }
 }
+
