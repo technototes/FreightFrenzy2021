@@ -70,7 +70,7 @@ public class Hardware {
     public EncodedMotor<DcMotorEx> rrDriveMotor;
     public IMU imu;
 
-    public Motor<DcMotorEx> intakeMotor;
+    public EncodedMotor<DcMotorEx> intakeMotor;
 
     public Motor<DcMotorEx> carouselMotor;
 
@@ -98,7 +98,7 @@ public class Hardware {
             camera = new Webcam(CAMERA);
         }
         if (INTAKE_CONNECTED) {
-            intakeMotor = new Motor<>(INTAKE);
+            intakeMotor = new EncodedMotor<>(INTAKE);
         }
 
         if (CAP_CONNECTED) {
