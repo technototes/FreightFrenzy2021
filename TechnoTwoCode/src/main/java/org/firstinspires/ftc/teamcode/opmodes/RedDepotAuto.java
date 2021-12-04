@@ -23,7 +23,7 @@ public class RedDepotAuto extends CommandOpMode implements Loggable {
 //        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         hardware = new Hardware();
         robot = new Robot(hardware);
-        robot.drivebaseSubsystem.setPoseEstimate(AutonomousConstants.RedConstants.SHIPPING_HUB_START);
+        robot.drivebaseSubsystem.setPoseEstimate(AutonomousConstants.RedConstants.DEPOT_START);
 
         CommandScheduler.getInstance().scheduleForState(
                 new AutoRedShippingHubCommandGroup(robot.drivebaseSubsystem, robot.dumpSubsystem, robot.intakeSubsystem),
