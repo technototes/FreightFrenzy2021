@@ -26,7 +26,7 @@ public class BlueDepotAuto extends CommandOpMode implements Loggable {
         robot.drivebaseSubsystem.setPoseEstimate(AutonomousConstants.BlueConstants.SHIPPING_HUB_START);
 
         CommandScheduler.getInstance().scheduleForState(
-                new AutoBlueShippingHubCommandGroup(robot.drivebaseSubsystem, robot.dumpSubsystem),
+                new AutoBlueShippingHubCommandGroup(robot.drivebaseSubsystem, robot.dumpSubsystem, robot.visionSubsystem),
                 CommandOpMode.OpModeState.RUN);
     }
 }
