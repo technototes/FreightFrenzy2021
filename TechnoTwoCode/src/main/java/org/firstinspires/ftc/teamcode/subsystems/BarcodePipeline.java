@@ -72,15 +72,7 @@ public class BarcodePipeline extends OpenCvPipeline implements Supplier<Integer>
         public static int REGION_3_DOWN = 200;
         public static int REGION_3_UP = 0;
 
-        public static int REGION_4_LEFT = 300;
-        public static int REGION_4_RIGHT = 400;
-        public static int REGION_4_DOWN = 200;
-        public static int REGION_4_UP = 0;
 
-        public static int REGION_5_LEFT = 400;
-        public static int REGION_5_RIGHT = 500;
-        public static int REGION_5_DOWN = 200;
-        public static int REGION_5_UP = 0;
 
 //        public final static Point REGION_1_TOPLEFT_ANCHOR_POINT = new Point(REGION_1_LEFT, REGION_1_UP);
 //        public final static Point REGION_2_TOPLEFT_ANCHOR_POINT = new Point(REGION_2_LEFT, REGION_2_UP);
@@ -97,15 +89,12 @@ public class BarcodePipeline extends OpenCvPipeline implements Supplier<Integer>
     public Point region_2_pointB = new Point(REGION_2_RIGHT, REGION_2_DOWN);
     public Point region_3_pointA = new Point(REGION_3_LEFT, REGION_3_UP);
     public Point region_3_pointB = new Point(REGION_3_RIGHT, REGION_3_DOWN);
-    public Point region_4_pointA = new Point(REGION_4_LEFT, REGION_4_UP);
-    public Point region_4_pointB = new Point(REGION_4_RIGHT, REGION_4_DOWN);
-    public Point region_5_pointA = new Point(REGION_5_LEFT, REGION_5_UP);
-    public Point region_5_pointB = new Point(REGION_5_RIGHT, REGION_5_DOWN);
 
 
 
-    public Mat region_1_Cr, region_2_Cr, region_3_Cr, region_4_Cr, region_5_Cr;
-    public Mat region_1_Cb, region_2_Cb, region_3_Cb, region_4_Cb, region_5_Cb;
+
+    public Mat region_1_Cr, region_2_Cr, region_3_Cr;
+
 
     public volatile boolean on_square_1 = false;
     public volatile boolean on_square_2 = false;
@@ -124,30 +113,24 @@ public class BarcodePipeline extends OpenCvPipeline implements Supplier<Integer>
     public BarcodePipeline(){
     }
 
-    public void inputToCb(Mat input){
-        Imgproc.cvtColor(input, YCrCb, Imgproc.COLOR_RGB2YCrCb);
-        Core.extractChannel(YCrCb, Cb, 2);
-    }
+
     public void inputToCr(Mat input){
         Imgproc.cvtColor(input, YCrCb, Imgproc.COLOR_RGB2YCrCb);
         Core.extractChannel(YCrCb, Cr, 1);
     }
 
     public void init(Mat firstFrame){
-        inputToCb(firstFrame);
+
         inputToCr(firstFrame);
 
         region_1_Cr = Cr.submat(new Rect(region_1_pointA, region_1_pointB));
         region_2_Cr = Cr.submat(new Rect(region_2_pointA, region_2_pointB));
         region_3_Cr = Cr.submat(new Rect(region_3_pointA, region_3_pointB));
-        region_4_Cr = Cr.submat(new Rect(region_4_pointA, region_4_pointB));
-        region_5_Cr = Cr.submat(new Rect(region_5_pointA, region_5_pointB));
 
-        region_1_Cb = Cb.submat(new Rect(region_1_pointA, region_1_pointB));
-        region_2_Cb = Cb.submat(new Rect(region_2_pointA, region_2_pointB));
-        region_3_Cb = Cb.submat(new Rect(region_3_pointA, region_3_pointB));
-        region_4_Cb = Cb.submat(new Rect(region_4_pointA, region_4_pointB));
-        region_5_Cb = Cb.submat(new Rect(region_5_pointA, region_5_pointB));
+
+       
+
+
     }
 
     /**
@@ -158,40 +141,24 @@ public class BarcodePipeline extends OpenCvPipeline implements Supplier<Integer>
     @Override
     public Mat processFrame(Mat input)
     {
-        inputToCb(input);
         inputToCr(input);
-        int [] blue_avg = new int [5];
-        int [] red_avg = new int [5];
-        int [] green_avg = new int [5];
 
-        blue_avg[0] = (int) Core.mean(region_1_Cb).val[0];
-        blue_avg[1] = (int) Core.mean(region_2_Cb).val[0];
-        blue_avg[2] = (int) Core.mean(region_3_Cb).val[0];
-        blue_avg[3] = (int) Core.mean(region_4_Cb).val[0];
-        blue_avg[4] = (int) Core.mean(region_5_Cb).val[0];
+        int [] red_avg = new int [5];
+
+
 
         red_avg[0] = (int) Core.mean(region_1_Cr).val[0];
         red_avg[1] = (int) Core.mean(region_2_Cr).val[0];
         red_avg[2] = (int) Core.mean(region_3_Cr).val[0];
-        red_avg[3] = (int) Core.mean(region_4_Cr).val[0];
-        red_avg[4] = (int) Core.mean(region_5_Cr).val[0];
-        for (int i = 0; i < 5; i++){
-            green_avg[i] = blue_avg[i] + red_avg[i];
-        }
 
 
 
         Imgproc.rectangle(input, region_1_pointA, region_1_pointB, BLUE, 2);
         Imgproc.rectangle(input, region_2_pointA, region_2_pointB, BLUE, 2);
         Imgproc.rectangle(input, region_3_pointA, region_3_pointB, BLUE, 2);
-        Imgproc.rectangle(input, region_4_pointA, region_4_pointB, BLUE, 2);
-        Imgproc.rectangle(input, region_5_pointA, region_5_pointB, BLUE, 2);
+
         int max = -1;
-        for (int i = 0; i < 5; i++){
-            if (max == -1 || green_avg[i] > green_avg[max]){
-                max = i;
-            }
-        }
+
 
 
 
