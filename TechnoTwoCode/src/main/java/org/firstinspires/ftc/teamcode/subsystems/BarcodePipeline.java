@@ -49,7 +49,6 @@ public class BarcodePipeline extends OpenCvPipeline implements Supplier<Integer>
 
         public static Mat YCrCb = new Mat();
         public static Mat Cr = new Mat();
-        public static Mat Cb = new Mat();
 
         /**
          * the boundaries of each region
@@ -57,6 +56,7 @@ public class BarcodePipeline extends OpenCvPipeline implements Supplier<Integer>
          */
 
         static final Scalar BLUE = new Scalar(0, 0, 255);
+        static final Scalar RED = new Scalar(255, 0, 0);
         public static int REGION_1_LEFT = 0;
         public static int REGION_1_RIGHT = 100;
         public static int REGION_1_DOWN = 200;
@@ -128,7 +128,7 @@ public class BarcodePipeline extends OpenCvPipeline implements Supplier<Integer>
         region_3_Cr = Cr.submat(new Rect(region_3_pointA, region_3_pointB));
 
 
-       
+
 
 
     }
@@ -143,7 +143,7 @@ public class BarcodePipeline extends OpenCvPipeline implements Supplier<Integer>
     {
         inputToCr(input);
 
-        int [] red_avg = new int [5];
+        int [] red_avg = new int [3];
 
 
 
@@ -153,12 +153,22 @@ public class BarcodePipeline extends OpenCvPipeline implements Supplier<Integer>
 
 
 
-        Imgproc.rectangle(input, region_1_pointA, region_1_pointB, BLUE, 2);
-        Imgproc.rectangle(input, region_2_pointA, region_2_pointB, BLUE, 2);
-        Imgproc.rectangle(input, region_3_pointA, region_3_pointB, BLUE, 2);
-
         int max = -1;
+        if (red_avg[0] > red_avg[1]){
+            max = 0;
+        }else{
+            max = 1;
+        }
+        if (red_avg[max] < red_avg[2]){
+            max = 2;
+        }
+        Imgproc.rectangle(input, region_1_pointA, region_1_pointB, ((max == 0) ? RED : BLUE), 2);
+        Imgproc.rectangle(input, region_2_pointA, region_2_pointB, ((max == 1) ? RED : BLUE), 2);
+        Imgproc.rectangle(input, region_3_pointA, region_3_pointB, ((max == 2) ? RED : BLUE), 2);
 
+        on_square_1 = max == 0;
+        on_square_2 = max == 1;
+        on_square_3 = max == 2;
 
 
 
@@ -210,14 +220,14 @@ public class BarcodePipeline extends OpenCvPipeline implements Supplier<Integer>
 //    public boolean none(){
 //        return get() == -1;
 //    }
-//    public boolean zero(){
-//        return get() == 0;
-//    }
-//    public boolean one(){
-//        return get() == 1;
-//    }
-//    public boolean two(){
-//        return get() == 2;
-//    }
+    public boolean zero(){
+        return on_square_1;
+    }
+    public boolean one(){
+        return on_square_2;
+    }
+    public boolean two(){
+        return on_square_3;
+    }
 
 }
