@@ -3,11 +3,13 @@ package org.firstinspires.ftc.teamcode.subsystems;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.technototes.library.hardware.motor.Motor;
 import com.technototes.library.hardware.sensor.RangeSensor;
+import com.technototes.library.logger.Log;
+import com.technototes.library.logger.Loggable;
 import com.technototes.library.subsystem.Subsystem;
 
 import java.util.function.Supplier;
 
-public class IntakeSubsystem implements Subsystem, Supplier<Double> {
+public class IntakeSubsystem implements Subsystem, Supplier<Double>, Loggable {
   public static class IntakeConstant {
     public static double INTAKE_IN_SPEED = 0.6;
     public static double INTAKE_OUT_SPEED = -0.6;
@@ -17,6 +19,7 @@ public class IntakeSubsystem implements Subsystem, Supplier<Double> {
 
   public Motor<DcMotorEx> motor;
 
+  @Log.Number (name = "Bucket range")
   public RangeSensor rangeSensor;
 
   public IntakeSubsystem(Motor<DcMotorEx> m, RangeSensor r) {
