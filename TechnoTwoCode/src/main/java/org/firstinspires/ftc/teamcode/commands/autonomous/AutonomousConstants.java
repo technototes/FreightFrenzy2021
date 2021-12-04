@@ -26,8 +26,8 @@ public class AutonomousConstants {
     }
 
     public static class BlueConstants {
-        public static Pose2d DUCK_START = new Pose2d(-24, 63, toRadians(90));
-        public static Pose2d CAROUSEL = new Pose2d(-58, 60, toRadians(180));
+        public static Pose2d DUCK_START = new Pose2d(-36, 63, toRadians(90));
+        public static Pose2d CAROUSEL = new Pose2d(-59, 59, toRadians(180));
         public static Pose2d DUCK_PARK = new Pose2d(-62, 30, toRadians(0)); // Not wrong positions (everything is fine, DO NOT CHANGE)
         public static Pose2d SHIPPING_HUB_START = new Pose2d(0, 66, toRadians(90)); // Wrong positions (estimate)
         public static Pose2d SHIPPING_HUB = new Pose2d(-9, 41, toRadians(60)); // Wrong positions (estimate)
