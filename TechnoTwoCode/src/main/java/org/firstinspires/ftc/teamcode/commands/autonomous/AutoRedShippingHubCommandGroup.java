@@ -14,31 +14,28 @@ import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
 
 public class AutoRedShippingHubCommandGroup extends SequentialCommandGroup {
     public AutoRedShippingHubCommandGroup(DrivebaseSubsystem drive, DumpSubsystem bucket, IntakeSubsystem intake) {
-        super(new TrajectorySequenceCommand(drive, AutonomousConstants.RED_START_TO_SHIPPING_HUB), // Different duck const
-                new AutonomousBucketDumpCommand(bucket).withTimeout(3), // Bucket command
-                new WaitCommand(1),
-                new DumpCollectCommand(bucket),
-                new TrajectorySequenceCommand(drive, AutonomousConstants.RED_SHIPPING_HUB_TO_DEPOT),
-                new IntakeInCommand(intake),
-                new WaitCommand(1),
-                new IntakeStopCommand(intake),
-                new TrajectorySequenceCommand(drive, AutonomousConstants.RED_DEPOT_TO_SHIPPING_HUB),
-                new AutonomousBucketDumpCommand(bucket).withTimeout(3), // Bucket command
-                new WaitCommand(1), // Bucket command
-                new DumpCollectCommand(bucket), // Bucket command
-                new TrajectorySequenceCommand(drive, AutonomousConstants.RED_SHIPPING_HUB_TO_DEPOT), //probably run out of time at here
-                // new // Different park command TODO: /\/\/\ CHECK IF THIS IS GOOD RYAN TIO
-                CommandScheduler.getInstance()::terminateOpMode); //ending
+        super(
+            new TrajectorySequenceCommand(drive, AutonomousConstants.RED_DEPOT_START_TO_ALLIANCE_HUB),
+            new AutonomousBucketDumpCommand(bucket).withTimeout(1.75), // Bucket dump command
+            new WaitCommand(0.1),
+            new DumpCollectCommand(bucket),
+            new TrajectorySequenceCommand(drive, AutonomousConstants.RED_ALLIANCE_HUB_LEVEL3_TO_DEPOT),
+            new IntakeInCommand(intake), // Intake command
+            new WaitCommand(0.1), //Intake command
+            new IntakeStopCommand(intake), //Intake command
+            new TrajectorySequenceCommand(drive, AutonomousConstants.RED_DEPOT_TO_ALLIANCE_HUB_LEVEL3),
+            new AutonomousBucketDumpCommand(bucket).withTimeout(1.75), // Bucket dump command
+            new WaitCommand(0.1), // Bucket dump command
+            new DumpCollectCommand(bucket), // Bucket dump command
+            new TrajectorySequenceCommand(drive, AutonomousConstants.RED_ALLIANCE_HUB_LEVEL3_TO_DEPOT), //probably run out of time at here
+            new IntakeInCommand(intake), // Intake command
+            new WaitCommand(0.1), //Intake command
+            new IntakeStopCommand(intake), //Intake command
+            new TrajectorySequenceCommand(drive, AutonomousConstants.RED_DEPOT_TO_ALLIANCE_HUB_LEVEL3),
+            new AutonomousBucketDumpCommand(bucket).withTimeout(1.75), // Bucket dump command
+            new WaitCommand(0.1), // Bucket dump command
+            new DumpCollectCommand(bucket), // Bucket dump command
+            new TrajectorySequenceCommand(drive, AutonomousConstants.RED_ALLIANCE_HUB_LEVEL3_TO_DEPOT),
+            CommandScheduler.getInstance()::terminateOpMode); //ending
     }
 }
-
-
-
-        /*new TrajectorySequenceCommand(drive, AutonomousConstants.RED_SHIPPING_HUB_TO_DEPOT),
-                new IntakeInCommand(intake),
-                new WaitCommand(1),
-                new IntakeStopCommand(intake),
-                new TrajectorySequenceCommand(drive, AutonomousConstants.RED_DEPOT_TO_SHIPPING_HUB)
-    }
-}
-*/

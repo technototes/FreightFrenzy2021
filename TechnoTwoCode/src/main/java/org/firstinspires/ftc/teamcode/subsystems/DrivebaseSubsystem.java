@@ -48,9 +48,9 @@ public class DrivebaseSubsystem extends MecanumDrivebaseSubsystem implements Sup
         public static double kStatic = 0;
 
         @MaxVelo
-        public static double MAX_VEL = 30;
+        public static double MAX_VEL = 60;
         @MaxAccel
-        public static double MAX_ACCEL = 20;
+        public static double MAX_ACCEL = 45;
         @MaxAngleVelo
         public static double MAX_ANG_VEL = Math.toRadians(60);
         @MaxAngleAccel
