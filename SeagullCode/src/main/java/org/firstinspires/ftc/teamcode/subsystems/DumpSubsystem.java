@@ -7,6 +7,7 @@ import com.acmerobotics.roadrunner.control.PIDFController;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.util.Range;
 import com.technototes.library.hardware.motor.EncodedMotor;
+import com.technototes.library.hardware.sensor.RangeSensor;
 import com.technototes.library.hardware.servo.Servo;
 import com.technototes.library.logger.Log;
 import com.technototes.library.logger.Loggable;
@@ -15,8 +16,6 @@ import com.technototes.library.subsystem.Subsystem;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 import java.util.function.Supplier;
-
-import kotlin.jvm.functions.Function2;
 
 public class DumpSubsystem implements Subsystem, Supplier<Double>, Loggable {
     static class BucketConstant{
@@ -77,6 +76,8 @@ public class DumpSubsystem implements Subsystem, Supplier<Double>, Loggable {
          */
         static final double TOLERANCE_ZONE_TICKS = ARM_POSITION_SCALE / 360; // one degree
     }
+
+    public RangeSensor rangeSensor;
 
     // These must be public for the logging functionality
     @Log.Number (name = "Bucket motor")
