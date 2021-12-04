@@ -6,10 +6,10 @@ import com.technototes.library.command.Command;
 
 import org.firstinspires.ftc.teamcode.subsystems.DumpSubsystem;
 
-public class DumpCarryCommand2 implements Command {
+public class DumpCarryCommand implements Command {
     final DumpSubsystem dumpSys;
 
-    public DumpCarryCommand2(DumpSubsystem dump) {
+    public DumpCarryCommand(DumpSubsystem dump) {
         this.dumpSys = dump;
         addRequirements(dump);
     }
