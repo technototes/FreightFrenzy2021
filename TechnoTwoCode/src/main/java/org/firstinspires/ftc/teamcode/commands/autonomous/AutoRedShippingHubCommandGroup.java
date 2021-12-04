@@ -15,8 +15,7 @@ import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
 
 public class AutoRedShippingHubCommandGroup extends SequentialCommandGroup {
     public AutoRedShippingHubCommandGroup(DrivebaseSubsystem drive, DumpSubsystem bucket, IntakeSubsystem intake) {
-        super(new DumpCarryCommand2(bucket),
-                new TrajectorySequenceCommand(drive, AutonomousConstants.RED_START_TO_SHIPPING_HUB), // Different duck const
+        super(new TrajectorySequenceCommand(drive, AutonomousConstants.RED_START_TO_SHIPPING_HUB), // Different duck const
                 new AutonomousBucketDumpCommand(bucket).withTimeout(3), // Bucket command
                 new WaitCommand(1),
                 new DumpCollectCommand2(bucket),
