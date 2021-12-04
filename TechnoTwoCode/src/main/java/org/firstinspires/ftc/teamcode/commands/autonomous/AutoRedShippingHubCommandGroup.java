@@ -24,7 +24,10 @@ public class AutoRedShippingHubCommandGroup extends SequentialCommandGroup {
                 new WaitCommand(1),
                 new IntakeStopCommand(intake),
                 new TrajectorySequenceCommand(drive, AutonomousConstants.RED_DEPOT_TO_SHIPPING_HUB),
-                new TrajectorySequenceCommand(drive, AutonomousConstants.RED_SHIPPING_HUB_TO_DEPOT),
+                new AutonomousBucketDumpCommand(bucket).withTimeout(3), // Bucket command
+                new WaitCommand(1), // Bucket command
+                new DumpCollectCommand2(bucket), // Bucket command
+                new TrajectorySequenceCommand(drive, AutonomousConstants.RED_SHIPPING_HUB_TO_DEPOT), //probably run out of time at here
                 // new // Different park command TODO: /\/\/\ CHECK IF THIS IS GOOD RYAN TIO
                 CommandScheduler.getInstance()::terminateOpMode); //ending
     }
