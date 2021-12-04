@@ -11,6 +11,6 @@ public class AutonomousBucketDumpCommand extends SequentialCommandGroup {
     public AutonomousBucketDumpCommand(DumpSubsystem bucket) {
         super(new DumpCarryCommand(bucket),
                   new DumpUnloadTopLevelCommand(bucket),
-                  new WaitCommand(1));
+                  new WaitCommand(0.5));
     }
 }
