@@ -1,21 +1,23 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.technototes.library.hardware.motor.Motor;
+import com.technototes.library.hardware.motor.EncodedMotor;
 import com.technototes.library.subsystem.Subsystem;
 
 import java.util.function.Supplier;
 
 public class IntakeSubsystem implements Subsystem, Supplier<Double> {
   public static class IntakeConstant {
-    public static double INTAKE_IN_SPEED = 0.6;
-    public static double INTAKE_OUT_SPEED = -0.6;
+    public static double INTAKE_IN_SPEED = -0.8;
+    public static double INTAKE_OUT_SPEED = 0.8;
     public static double INTAKE_STOP_SPEED = 0;
   }
-  public Motor<DcMotorEx> motor;
+  public EncodedMotor<DcMotorEx> motor;
 
-  public IntakeSubsystem(Motor<DcMotorEx> m) {
+  public IntakeSubsystem(EncodedMotor<DcMotorEx> m) {
     motor = m;
+    motor.setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
   }
   public void in() {
     motor.setSpeed(IntakeConstant.INTAKE_IN_SPEED);

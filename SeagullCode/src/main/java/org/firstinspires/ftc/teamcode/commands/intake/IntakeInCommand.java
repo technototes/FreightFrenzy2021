@@ -5,14 +5,14 @@ import com.technototes.library.command.Command;
 import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
 
 public class IntakeInCommand implements Command {
-    IntakeSubsystem subsystem;
+    IntakeSubsystem intakeSubsystem;
 
     public IntakeInCommand(IntakeSubsystem s) {
-        subsystem = s;
+        intakeSubsystem = s;
         addRequirements(s);
     }
     @Override
     public void execute() {
-        subsystem.in();
+        intakeSubsystem.in();
     }
 }
