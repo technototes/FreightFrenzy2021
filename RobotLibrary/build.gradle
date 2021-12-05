@@ -39,6 +39,7 @@ repositories {
         dirs '../libs'
     }
     maven { url 'https://jitpack.io' }
+    mavenCentral()
 }
 
 apply from: '../build.dependencies.gradle'

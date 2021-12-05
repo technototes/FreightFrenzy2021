@@ -4,120 +4,43 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.noahbres.meepmeep.MeepMeep;
 import com.noahbres.meepmeep.core.colorscheme.scheme.ColorSchemeRedDark;
+import com.noahbres.meepmeep.roadrunner.DefaultBotBuilder;
+import com.noahbres.meepmeep.roadrunner.entity.RoadRunnerBotEntity;
+import com.noahbres.meepmeep.roadrunner.trajectorysequence.TrajectorySequenceBuilder;
 
-import static com.technototes.meepmeep.AutonomousConstants.CYCLE_START_SELECT;
+import static com.technototes.meepmeep.NewAutonomousConstants.*;
 
-public class MeepMeepTesting {
+public class  MeepMeepTesting {
 
     public static void main(String[] args) {
-        MeepMeep mm = new MeepMeep(800)
-                // Set field image
-                .setBackground(MeepMeep.Background.FIELD_FREIGHT_FRENZY)
-                // Set theme
+        updateAlliance(Alliance.RED);
+        MeepMeep mm = new MeepMeep(800, 120);
+
+        RoadRunnerBotEntity myBot = new DefaultBotBuilder(mm)
+                .setConstraints(50, 40, Math.toRadians(180), Math.toRadians(120), 9.5)
+                .setDimensions(11.6, 12.2)
+                .setColorScheme(new ColorSchemeRedDark())
+                .followTrajectorySequence(drive->drive.trajectorySequenceBuilder(CYCLE_START.toPose())
+                        .addTrajectory(CYCLE_START_TO_DEPOSIT.get())
+                        .addTrajectory(CYCLE_DEPOSIT_TO_COLLECT.get())
+                        .addTrajectory(CYCLE_COLLECT_TO_DEPOSIT.apply(drive::getPoseEstimate))
+                        .addTrajectory(CYCLE_DEPOSIT_TO_COLLECT.get())
+                        .addTrajectory(CYCLE_COLLECT_TO_DEPOSIT.apply(drive::getPoseEstimate))
+                        .addTrajectory(CYCLE_DEPOSIT_TO_COLLECT.get())
+                        .addTrajectory(CYCLE_COLLECT_TO_DEPOSIT.apply(drive::getPoseEstimate))
+                        .addTrajectory(CYCLE_DEPOSIT_TO_COLLECT.get())
+                        .addTrajectory(CYCLE_COLLECT_TO_DEPOSIT.apply(drive::getPoseEstimate))
+                        .addTrajectory(CYCLE_DEPOSIT_TO_COLLECT.get())
+                        .build()
+                );
+
+
+        mm
+                .setBackground(MeepMeep.Background.FIELD_FREIGHTFRENZY_ADI_DARK)
                 .setTheme(new ColorSchemeRedDark())
-                // Background opacity from 0-1
-                .setBackgroundAlpha(1f)
-                .setBotDimensions(11.2, 12.2)
-                // Set constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
-                .setConstraints(60, 45, Math.toRadians(180), Math.toRadians(80), 10.5)
-                .setStartPose(CYCLE_START_SELECT.get())
-                //88 pts from preload 4 cycles and park
-                //62 pts from preload all duck and park
-                //86 pts from preload all duck 2 cycles and park
-                //maybe 98 with 3 cycles
-                .followTrajectorySequence(drive ->
-                                drive.trajectorySequenceBuilder(new Pose2d(-24, -65, Math.toRadians(90)))
-                                        .lineToLinearHeading(new Pose2d(-24, -40, Math.toRadians(60)))
-                                        .lineToLinearHeading(drive.getPoseEstimate())
-                                        .waitSeconds(2)
-                                        .setTangent(Math.toRadians(30))
-                                        .splineToLinearHeading(new Pose2d(-20, -64.5, Math.toRadians(0)), Math.toRadians(-40))
-                                        .strafeTo(new Vector2d(-50, -64.5))
-                                        .lineToLinearHeading(new Pose2d(-24, -40, Math.toRadians(60)))
-                                        .lineToLinearHeading(new Pose2d(-60, -37, Math.toRadians(90)))
-                                        .build()
-
-//                                drive.trajectorySequenceBuilder(START_SELECT.get())
-//                                        .lineToSplineHeading(DEPOSIT_SELECT.get())
-//                                        .setReversed(true)
-//                                        .waitSeconds(0.5)
-//                                        .splineTo(GAP_SELECT.get().vec(), GAP_SELECT.get().getHeading())
-//                                        .splineTo(COLLECT_SELECT.get().vec(), COLLECT_SELECT.get().getHeading())
-//                                        .setReversed(false)
-//                                        .lineTo(GAP_SELECT.get().vec())
-//                                        .splineTo(DEPOSIT_SELECT.get().vec(), DEPOSIT_SELECT.get().getHeading())
-//                                        .setReversed(true)
-//                                        .waitSeconds(0.5)
-//                                        .splineTo(GAP_SELECT.get().vec(), GAP_SELECT.get().getHeading())
-//                                        .splineTo(COLLECT_SELECT.get().vec(), COLLECT_SELECT.get().getHeading())
-//                                        .setReversed(false)
-//                                        .lineTo(GAP_SELECT.get().vec())
-//                                        .splineTo(DEPOSIT_SELECT.get().vec(), DEPOSIT_SELECT.get().getHeading())
-//                                        .setReversed(true)
-//                                        .waitSeconds(0.5)
-//                                        .splineTo(GAP_SELECT.get().vec(), GAP_SELECT.get().getHeading())
-//                                        .splineTo(COLLECT_SELECT.get().vec(), COLLECT_SELECT.get().getHeading())
-//                                        .setReversed(false)
-//                                        .lineTo(GAP_SELECT.get().vec())
-//                                        .splineTo(DEPOSIT_SELECT.get().vec(), DEPOSIT_SELECT.get().getHeading())
-//                                        .setReversed(true)
-//                                        .waitSeconds(0.5)
-//                                        .splineTo(GAP_SELECT.get().vec(), GAP_SELECT.get().getHeading())
-//                                        .splineTo(COLLECT_SELECT.get().vec(), COLLECT_SELECT.get().getHeading())
-//                                        .setReversed(false)
-//                                        .lineTo(GAP_SELECT.get().vec())
-//                                        .splineTo(DEPOSIT_SELECT.get().vec(), DEPOSIT_SELECT.get().getHeading())
-//                                        .setReversed(true)
-//                                        .waitSeconds(0.5)
-//                                        .splineTo(GAP_SELECT.get().vec(), GAP_SELECT.get().getHeading())
-//                                        .splineTo(COLLECT_SELECT.get().vec(), COLLECT_SELECT.get().getHeading())
-//                                        .setReversed(false)
-//                                        .lineTo(GAP_SELECT.get().vec())
-//                                        .splineTo(DEPOSIT_SELECT.get().vec(), DEPOSIT_SELECT.get().getHeading())
-//                                        .setReversed(true)
-//                                        .waitSeconds(0.5)
-//                                        .splineTo(GAP_SELECT.get().vec(), GAP_SELECT.get().getHeading())
-//                                        .splineTo(COLLECT_SELECT.get().vec(), COLLECT_SELECT.get().getHeading())
-//                                        .build()
-
-//drive.trajectorySequenceBuilder(drive.getPoseEstimate()).waitSeconds(0.01).build()
-//                        ALL.apply(drive::trajectorySequenceBuilder)
-//                                drive.trajectorySequenceBuilder(new Pose2d(-10, -65, Math.toRadians(90)))
-//                                        .lineToSplineHeading(new Pose2d(-10, -55, Math.toRadians(130)))
-//                                        .splineToConstantHeading(new Vector2d(0, -40), Math.toRadians(-50))
-////                                        .setTangent(Math.toRadians(-60))
-//                                        .splineTo(new Vector2d(30, -64.5), Math.toRadians(0))
-//                                        .strafeTo(new Vector2d(44, -64.5))
-////                                        .setReversed(false)
-//                                        .lineToSplineHeading(new Pose2d(20, -64.5, Math.toRadians(130)))
-//                                        .splineToConstantHeading(new Vector2d(0, -40), Math.toRadians(50))
-////                                        .setReversed(true)
-////                                        .setTangent(Math.toRadians(50))
-//
-//                                        .splineTo (new Vector2d(30, -64.5), Math.toRadians(0))
-//                                        .strafeTo(new Vector2d(46, -64.5))
-//                                        .setReversed(false)
-//                                        .strafeTo(new Vector2d(30, -64.5))
-//                                        .splineTo(new Vector2d(0, -40), Math.toRadians(120))
-//                                        .setReversed(true)
-//                                        .splineTo(new Vector2d(30, -64.5), Math.toRadians(0))
-//                                        .strafeTo(new Vector2d(48, -64.5))
-//                                        .setReversed(false)
-//                                        .strafeTo(new Vector2d(30, -64.5))
-//                                        .splineTo(new Vector2d(0, -40), Math.toRadians(120))
-//                                        .setReversed(true)
-//                                        .splineTo(new Vector2d(30, -64.5), Math.toRadians(0))
-//                                        .strafeTo(new Vector2d(50, -64.5))
-//                                        .setReversed(false)
-//                                        .strafeTo(new Vector2d(30, -64.5))
-//                                        .splineTo(new Vector2d(0, -40), Math.toRadians(120))
-//                                        .setReversed(true)
-//                                        .splineTo(new Vector2d(30, -64.5), Math.toRadians(0))
-//                                        .strafeTo(new Vector2d(35, -64.5))
-//                                        .build()
-                )
-
-
+                .setBackgroundAlpha(0.95f)
+                .addEntity(myBot)
                 .start();
+
     }
 }
