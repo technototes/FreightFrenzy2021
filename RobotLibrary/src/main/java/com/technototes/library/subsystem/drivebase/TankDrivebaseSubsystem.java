@@ -1,5 +1,6 @@
 package com.technototes.library.subsystem.drivebase;
 
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.Range;
 import com.technototes.library.hardware.motor.Motor;
 
@@ -7,18 +8,18 @@ import com.technototes.library.hardware.motor.Motor;
  * @author Alex Stedman
  * @param <T> The type of motor for the drivebase
  */
-public class TankDrivebaseSubsystem<T extends Motor> extends DrivebaseSubsystem<T> {
+public class TankDrivebaseSubsystem<T extends DcMotorSimple> extends DrivebaseSubsystem<T> {
     /** Drive motors
      *
      */
-    public T leftSide, rightSide;
+    public Motor<T> leftSide, rightSide;
 
     /** Create tank drivebase
      *
      * @param leftMotor The motor/motorgroup for the left side of the drivebase
      * @param rightMotor The motor/motorgroup for the right side of the drivebase
      */
-    public TankDrivebaseSubsystem(T leftMotor, T rightMotor) {
+    public TankDrivebaseSubsystem(Motor<T> leftMotor, Motor<T> rightMotor) {
         super(leftMotor, rightMotor);
         leftSide = leftMotor;
         rightSide = rightMotor;

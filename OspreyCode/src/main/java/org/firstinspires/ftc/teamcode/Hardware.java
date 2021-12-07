@@ -14,7 +14,8 @@ import com.technototes.vision.hardware.Webcam;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.subsystems.CapSubsystem;
-import org.firstinspires.ftc.teamcode.subsystems.DepositSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.ArmSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.ExtensionSubsystem;
 
 import static org.firstinspires.ftc.teamcode.Hardware.HardwareConstants.*;
 import static org.firstinspires.ftc.teamcode.Robot.SubsystemConstants.*;
@@ -46,7 +47,6 @@ public class Hardware implements Loggable {
         public static String CAMERA = "webcam";
 
         public static String INTAKE = "intake";
-        public static String INTAKE_RANGE = "irange";
 
         public static String CAP = "cap";
 
@@ -72,8 +72,6 @@ public class Hardware implements Loggable {
 
     public Motor<DcMotorEx> carouselMotor;
 
-    public RangeSensor intakeDistSensor;
-
     public Servo capServo;
 
     public Webcam camera;
@@ -84,11 +82,11 @@ public class Hardware implements Loggable {
         }
         if(DEPOSIT_CONNECTED) {
             dumpServo = new Servo(DUMP).invert();
-            armServo = new Servo(ARM).setStartingPosition(DepositSubsystem.DepositConstants.UP);
+            armServo = new Servo(ARM).setStartingPosition(ArmSubsystem.ArmConstants.UP);
         }
         if(EXTENSION_CONNECTED){
-            slideServo = new Servo(SLIDE);
-            turretServo = new Servo(TURRET);
+            slideServo = new Servo(SLIDE).setStartingPosition(ExtensionSubsystem.ExtensionConstants.IN);
+            turretServo = new Servo(TURRET).setStartingPosition(ExtensionSubsystem.ExtensionConstants.CENTER);
         }
         if(DRIVE_CONNECTED) {
             flDriveMotor = new EncodedMotor<>(FL_MOTOR);
@@ -108,7 +106,6 @@ public class Hardware implements Loggable {
         }
         if(INTAKE_CONNECTED){
             intakeMotor = new Motor<>(INTAKE);
-            intakeDistSensor = new RangeSensor(INTAKE_RANGE).setDistanceUnit(DistanceUnit.INCH);
         }
         if(CAP_CONNECTED){
             capServo = new Servo(CAP).setStartingPosition(CapSubsystem.CapConstants.COLLECT );

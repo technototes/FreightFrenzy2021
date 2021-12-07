@@ -1,10 +1,9 @@
 package com.technototes.library.subsystem.drivebase;
 
-import com.technototes.library.command.Command;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.technototes.library.hardware.motor.Motor;
 import com.technototes.library.hardware.motor.MotorGroup;
-import com.technototes.library.subsystem.Subsystem;
-import com.technototes.library.subsystem.SubsystemBase;
+import com.technototes.library.subsystem.DeviceSubsystem;
 
 import java.util.function.DoubleSupplier;
 
@@ -12,7 +11,7 @@ import java.util.function.DoubleSupplier;
  * @author Alex Stedman The motors for the drivebase
  * @param <T> The type of motors for the drivebase
  */
-public abstract class DrivebaseSubsystem<T extends Motor> extends SubsystemBase<MotorGroup<T>> {
+public abstract class DrivebaseSubsystem<T extends DcMotorSimple> extends DeviceSubsystem<MotorGroup<T>> {
 
     protected DoubleSupplier gyroSupplier = () -> 0;
 
@@ -40,15 +39,15 @@ public abstract class DrivebaseSubsystem<T extends Motor> extends SubsystemBase<
      *
      * @param motors The drive motors
      */
-    public DrivebaseSubsystem(T... motors) {
-        super(new MotorGroup<>(motors));
+    public DrivebaseSubsystem(Motor<T>... motors) {
+        super(new MotorGroup<T>(motors));
     }
     /** Create a drivebase subsystem
      * @param gyro The gyro supplier
      * @param motors The drive motors
      */
-    public DrivebaseSubsystem(DoubleSupplier gyro, T... motors) {
-        super(new MotorGroup<>(motors));
+    public DrivebaseSubsystem(DoubleSupplier gyro, Motor<T>... motors) {
+        super(new MotorGroup<T>(motors));
         gyroSupplier = gyro;
     }
 

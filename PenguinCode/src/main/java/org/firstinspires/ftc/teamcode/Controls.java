@@ -1,13 +1,12 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.technototes.library.command.WaitCommand;
-import com.technototes.library.control.gamepad.CommandAxis;
-import com.technototes.library.control.gamepad.CommandButton;
-import com.technototes.library.control.gamepad.CommandGamepad;
-import com.technototes.library.control.gamepad.Stick;
+import com.technototes.library.control.CommandAxis;
+import com.technototes.library.control.CommandButton;
+import com.technototes.library.control.CommandGamepad;
+import com.technototes.library.control.Stick;
 
 import org.firstinspires.ftc.teamcode.commands.cap.CapDownCommand;
-import org.firstinspires.ftc.teamcode.commands.cap.CapTimeCommand;
 import org.firstinspires.ftc.teamcode.commands.carousel.CarouselLeftCommand;
 import org.firstinspires.ftc.teamcode.commands.carousel.CarouselRightCommand;
 import org.firstinspires.ftc.teamcode.commands.deposit.ArmExtendCommand;
@@ -21,7 +20,6 @@ import org.firstinspires.ftc.teamcode.commands.intake.IntakeInCommand;
 import org.firstinspires.ftc.teamcode.commands.intake.IntakeOutCommand;
 import org.firstinspires.ftc.teamcode.commands.intake.IntakeSafeCommand;
 import org.firstinspires.ftc.teamcode.commands.lift.LiftCollectCommand;
-import org.firstinspires.ftc.teamcode.commands.lift.LiftLevel1Command;
 import org.firstinspires.ftc.teamcode.commands.lift.LiftLevel3Command;
 import org.firstinspires.ftc.teamcode.commands.lift.LiftNeutralCommand;
 import org.firstinspires.ftc.teamcode.commands.lift.LiftTranslateCommand;

@@ -8,4 +8,7 @@ public class ExtensionLeftSideCommand extends ExtensionOutCommand {
     public ExtensionLeftSideCommand(ExtensionSubsystem subsystem) {
         super(subsystem, ExtensionConstants.MIDDLE, ExtensionConstants.LEFT);
     }
+    public ExtensionLeftSideCommand(ExtensionSubsystem subsystem, double extension) {
+        super(subsystem, extension, ExtensionConstants.LEFT);
+    }
 }

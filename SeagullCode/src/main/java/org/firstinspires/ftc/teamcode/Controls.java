@@ -6,9 +6,9 @@ import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.CAROUSEL_CONNE
 import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.DRIVE_CONNECTED;
 import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.INTAKE_CONNECTED;
 
-import com.technototes.library.control.gamepad.CommandButton;
-import com.technototes.library.control.gamepad.CommandGamepad;
-import com.technototes.library.control.gamepad.Stick;
+import com.technototes.library.control.CommandButton;
+import com.technototes.library.control.CommandGamepad;
+import com.technototes.library.control.Stick;
 
 import org.firstinspires.ftc.teamcode.commands.carousel.CarouselLeftCommand;
 import org.firstinspires.ftc.teamcode.commands.carousel.CarouselRightCommand;

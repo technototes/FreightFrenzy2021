@@ -11,13 +11,14 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+import static com.technototes.library.util.Alliance.Selector.selectOf;
 import static java.lang.Math.toRadians;
 
 public class RobotConstants {
     @Config
     public static class RedConstants {
-        public static ConfigurablePose CYCLE_START = new ConfigurablePose(12, -62.8, toRadians(90));
-        public static ConfigurablePose CYCLE_HUB = new ConfigurablePose(-4, -44, toRadians(110));
+        public static ConfigurablePose CYCLE_START = new ConfigurablePose(12, -63, toRadians(90));
+        public static ConfigurablePose CYCLE_HUB = new ConfigurablePose(12, -55, toRadians(130));
         public static ConfigurablePose CYCLE_TRENCH = new ConfigurablePose(30, -63.5, toRadians(180));
         public static ConfigurablePose[] WAREHOUSE = new ConfigurablePose[]{
                 new ConfigurablePose(43, -63.5, toRadians(190)),
@@ -28,7 +29,7 @@ public class RobotConstants {
         };
 
         public static ConfigurablePose DUCK_START = new ConfigurablePose(-36, -63, toRadians(90));
-        public static ConfigurablePose DUCK_HUB = new ConfigurablePose(-21, -43, toRadians(60));
+        public static ConfigurablePose DUCK_HUB = new ConfigurablePose(-36, -55, toRadians(50));
         public static ConfigurablePose CAROUSEL = new ConfigurablePose(-60, -59, toRadians(0));
         public static ConfigurablePose DUCK_INTAKE_START = new ConfigurablePose(-20, -62, toRadians(45));
         public static ConfigurablePose DUCK_INTAKE_END = new ConfigurablePose(-59, -62, toRadians(45));
@@ -40,7 +41,7 @@ public class RobotConstants {
     @Config
     public static class BlueConstants {
         public static ConfigurablePose CYCLE_START = new ConfigurablePose(12, 63, toRadians(-90));
-        public static ConfigurablePose CYCLE_HUB = new ConfigurablePose(-4, 44, toRadians(-110));
+        public static ConfigurablePose CYCLE_HUB = new ConfigurablePose(12, 55, toRadians(-110));
         public static ConfigurablePose CYCLE_TRENCH = new ConfigurablePose(30, 63.5, toRadians(-180));
         public static ConfigurablePose[] WAREHOUSE = new ConfigurablePose[]{
                 new ConfigurablePose(43, 63.5, toRadians(-190)),
@@ -51,7 +52,7 @@ public class RobotConstants {
         };
 
         public static ConfigurablePose DUCK_START = new ConfigurablePose(-36, 63, toRadians(-90));
-        public static ConfigurablePose DUCK_HUB = new ConfigurablePose(-21, 43, toRadians(-60));
+        public static ConfigurablePose DUCK_HUB = new ConfigurablePose(-36, 55, toRadians(-60));
         public static ConfigurablePose CAROUSEL = new ConfigurablePose(-60, 59, toRadians(-90));
         public static ConfigurablePose DUCK_INTAKE_START = new ConfigurablePose(-20, 62, toRadians(-45));
         public static ConfigurablePose DUCK_INTAKE_END = new ConfigurablePose(-59, 62, toRadians(-45));
@@ -71,18 +72,18 @@ public class RobotConstants {
     }
 
     public static final Supplier<Pose2d>
-            CYCLE_START_SELECT = ()->Alliance.Selector.selectOf(alliance, RedConstants.CYCLE_START, BlueConstants.CYCLE_START).toPose(),
-            CYCLE_HUB_SELECT = ()->Alliance.Selector.selectOf(alliance, RedConstants.CYCLE_HUB, BlueConstants.CYCLE_HUB).toPose(),
-            CYCLE_TRENCH_SELECT = ()->Alliance.Selector.selectOf(alliance, RedConstants.CYCLE_TRENCH, BlueConstants.CYCLE_TRENCH).toPose(),
-            DUCK_START_SELECT = ()->Alliance.Selector.selectOf(alliance, RedConstants.DUCK_START, BlueConstants.DUCK_START).toPose(),
-            DUCK_HUB_SELECT = ()->Alliance.Selector.selectOf(alliance, RedConstants.DUCK_HUB, BlueConstants.DUCK_HUB).toPose(),
-            CAROUSEL_SELECT = ()->Alliance.Selector.selectOf(alliance, RedConstants.CAROUSEL, BlueConstants.CAROUSEL).toPose(),
-            DUCK_INTAKE_START_SELECT = ()->Alliance.Selector.selectOf(alliance, RedConstants.DUCK_INTAKE_START, BlueConstants.DUCK_INTAKE_START).toPose(),
-            DUCK_INTAKE_END_SELECT = ()->Alliance.Selector.selectOf(alliance, RedConstants.DUCK_INTAKE_END, BlueConstants.DUCK_INTAKE_END).toPose(),
-            SQUARE_SELECT = ()->Alliance.Selector.selectOf(alliance, RedConstants.SQUARE, BlueConstants.SQUARE).toPose();
+            CYCLE_START_SELECT = ()->selectOf(alliance, RedConstants.CYCLE_START, BlueConstants.CYCLE_START).toPose(),
+            CYCLE_HUB_SELECT = ()->selectOf(alliance, RedConstants.CYCLE_HUB, BlueConstants.CYCLE_HUB).toPose(),
+            CYCLE_TRENCH_SELECT = ()->selectOf(alliance, RedConstants.CYCLE_TRENCH, BlueConstants.CYCLE_TRENCH).toPose(),
+            DUCK_START_SELECT = ()->selectOf(alliance, RedConstants.DUCK_START, BlueConstants.DUCK_START).toPose(),
+            DUCK_HUB_SELECT = ()->selectOf(alliance, RedConstants.DUCK_HUB, BlueConstants.DUCK_HUB).toPose(),
+            CAROUSEL_SELECT = ()->selectOf(alliance, RedConstants.CAROUSEL, BlueConstants.CAROUSEL).toPose(),
+            DUCK_INTAKE_START_SELECT = ()->selectOf(alliance, RedConstants.DUCK_INTAKE_START, BlueConstants.DUCK_INTAKE_START).toPose(),
+            DUCK_INTAKE_END_SELECT = ()->selectOf(alliance, RedConstants.DUCK_INTAKE_END, BlueConstants.DUCK_INTAKE_END).toPose(),
+            SQUARE_SELECT = ()->selectOf(alliance, RedConstants.SQUARE, BlueConstants.SQUARE).toPose();
 
     public static final Function<Integer, Pose2d>
-            WAREHOUSE_SELECT = i -> Alliance.Selector.selectOf(alliance, RedConstants.WAREHOUSE[i], BlueConstants.WAREHOUSE[i]).toPose();
+            WAREHOUSE_SELECT = i -> selectOf(alliance, RedConstants.WAREHOUSE[i], BlueConstants.WAREHOUSE[i]).toPose();
 
     public static final Function<Function<Pose2d, TrajectorySequenceBuilder>, TrajectorySequence>
             CYCLE_DEPOSIT_PRELOAD = b -> b.apply(CYCLE_START_SELECT.get())

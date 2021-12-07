@@ -7,7 +7,7 @@ import com.technototes.library.logger.Loggable;
 
 import org.firstinspires.ftc.teamcode.subsystems.CapSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.CarouselSubsystem;
-import org.firstinspires.ftc.teamcode.subsystems.DepositSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.ArmSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.DrivebaseSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ExtensionSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
@@ -34,7 +34,7 @@ public class Robot implements Loggable {
     public LiftSubsystem liftSubsystem;
 
     @Log(name = "Deposit", entryColor = Color.PINK)
-    public DepositSubsystem depositSubsystem;
+    public ArmSubsystem depositSubsystem;
 
     @Log(name = "Extension", entryColor = Color.BLUE)
     public ExtensionSubsystem extensionSubsystem;
@@ -56,7 +56,7 @@ public class Robot implements Loggable {
     public Robot(Hardware hardware){
         if(LIFT_CONNECTED) liftSubsystem = new LiftSubsystem(hardware.liftMotor);
 
-        if(DEPOSIT_CONNECTED) depositSubsystem = new DepositSubsystem(hardware.dumpServo, hardware.armServo);
+        if(DEPOSIT_CONNECTED) depositSubsystem = new ArmSubsystem(hardware.dumpServo, hardware.armServo);
 
         if(EXTENSION_CONNECTED) extensionSubsystem = new ExtensionSubsystem(hardware.slideServo, hardware.turretServo);
 
@@ -65,7 +65,7 @@ public class Robot implements Loggable {
 
         if(CAROUSEL_CONNECTED) carouselSubsystem = new CarouselSubsystem(hardware.carouselMotor);
 
-        if(INTAKE_CONNECTED) intakeSubsystem = new IntakeSubsystem(hardware.intakeMotor, hardware.intakeDistSensor);
+        if(INTAKE_CONNECTED) intakeSubsystem = new IntakeSubsystem(hardware.intakeMotor);
 
         if(VISION_CONNECTED) visionSubsystem = new VisionSubsystem(hardware.camera);
 

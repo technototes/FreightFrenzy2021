@@ -62,6 +62,11 @@ public class ExtensionSubsystem implements Subsystem, Supplier<String> {
         setSlide(slideServo.getPosition()+v);
     }
 
+    public void translateTurret(double v){
+        setTurret(turretServo.getPosition()+v);
+    }
+
+
     /**
      *Method to display the extension and dump value on the telemetry to the driver knows
      * how much they are extending the arm and positioning the cup

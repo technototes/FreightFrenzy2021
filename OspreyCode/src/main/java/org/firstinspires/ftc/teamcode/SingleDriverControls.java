@@ -1,20 +1,19 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.technototes.library.command.WaitCommand;
-import com.technototes.library.control.gamepad.CommandAxis;
-import com.technototes.library.control.gamepad.CommandButton;
-import com.technototes.library.control.gamepad.CommandGamepad;
-import com.technototes.library.control.gamepad.Stick;
+import com.technototes.library.control.CommandAxis;
+import com.technototes.library.control.CommandButton;
+import com.technototes.library.control.CommandGamepad;
+import com.technototes.library.control.Stick;
 import com.technototes.library.util.Alliance;
 
 import org.firstinspires.ftc.teamcode.commands.cap.CapDownCommand;
 import org.firstinspires.ftc.teamcode.commands.carousel.CarouselLeftCommand;
 import org.firstinspires.ftc.teamcode.commands.carousel.CarouselRightCommand;
-import org.firstinspires.ftc.teamcode.commands.deposit.ArmInCommand;
-import org.firstinspires.ftc.teamcode.commands.deposit.ArmOutCommand;
-import org.firstinspires.ftc.teamcode.commands.deposit.ArmRaiseCommand;
-import org.firstinspires.ftc.teamcode.commands.deposit.ArmTranslateCommand;
-import org.firstinspires.ftc.teamcode.commands.deposit.BucketDumpVariableCommand;
+import org.firstinspires.ftc.teamcode.commands.arm.ArmInCommand;
+import org.firstinspires.ftc.teamcode.commands.arm.ArmOutCommand;
+import org.firstinspires.ftc.teamcode.commands.arm.ArmRaiseCommand;
+import org.firstinspires.ftc.teamcode.commands.arm.BucketDumpVariableCommand;
 import org.firstinspires.ftc.teamcode.commands.drivebase.DriveCommand;
 import org.firstinspires.ftc.teamcode.commands.drivebase.DriveResetCommand;
 import org.firstinspires.ftc.teamcode.commands.drivebase.DriveSpeedCommand;
@@ -22,9 +21,9 @@ import org.firstinspires.ftc.teamcode.commands.extension.ExtensionCollectCommand
 import org.firstinspires.ftc.teamcode.commands.extension.ExtensionLeftSideCommand;
 import org.firstinspires.ftc.teamcode.commands.extension.ExtensionOutCommand;
 import org.firstinspires.ftc.teamcode.commands.extension.ExtensionRightSideCommand;
+import org.firstinspires.ftc.teamcode.commands.extension.TurretTranslateCommand;
 import org.firstinspires.ftc.teamcode.commands.intake.IntakeInCommand;
 import org.firstinspires.ftc.teamcode.commands.intake.IntakeOutCommand;
-import org.firstinspires.ftc.teamcode.commands.intake.IntakeSafeCommand;
 import org.firstinspires.ftc.teamcode.commands.lift.LiftCollectCommand;
 import org.firstinspires.ftc.teamcode.commands.lift.LiftLevel1Command;
 import org.firstinspires.ftc.teamcode.commands.lift.LiftLevel3Command;
@@ -104,8 +103,7 @@ public class SingleDriverControls {
         toIntakeButton.whenPressed(new ArmRaiseCommand(robot.depositSubsystem).sleep(0.3).andThen(new ArmInCommand(robot.depositSubsystem)));
         allianceHubButton.whenPressed(new ArmOutCommand(robot.depositSubsystem));
         sharedHubButton.whenPressed(new ArmOutCommand(robot.depositSubsystem));
-        slideAdjustOutButton.whilePressed(new ArmTranslateCommand(robot.depositSubsystem, -0.03));
-        slideAdjustInButton.whilePressed(new ArmTranslateCommand(robot.depositSubsystem, 0.03));
+
     }
 
     public void bindLiftControls() {
@@ -151,6 +149,8 @@ public class SingleDriverControls {
                 new ExtensionRightSideCommand(robot.extensionSubsystem),
                 new ExtensionLeftSideCommand(robot.extensionSubsystem)));
         toIntakeButton.whenPressed(new ExtensionCollectCommand(robot.extensionSubsystem));
+        slideAdjustOutButton.whilePressed(new TurretTranslateCommand(robot.extensionSubsystem, -0.03));
+        slideAdjustInButton.whilePressed(new TurretTranslateCommand(robot.extensionSubsystem,   0.03));
     }
 
 
