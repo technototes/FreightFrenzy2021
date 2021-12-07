@@ -10,6 +10,10 @@ public enum Alliance {
         return color;
     }
 
+    public <T> T selectOf(T a, T b){
+        return Selector.selectOf(this, a, b);
+    }
+
     public static class Selector<T>{
         private final T r, b;
         protected Selector(T red, T blue){

@@ -1,0 +1,23 @@
+package org.firstinspires.ftc.teamcode.commands.autonomous;
+
+import com.technototes.library.command.CommandScheduler;
+import com.technototes.library.command.SequentialCommandGroup;
+
+import org.firstinspires.ftc.teamcode.subsystems.CarouselSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.DepositSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.DrivebaseSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.ExtensionSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.VisionSubsystem;
+
+public class AutoDuckCommand extends SequentialCommandGroup {
+    public AutoDuckCommand(DrivebaseSubsystem drive, IntakeSubsystem intake, LiftSubsystem lift, DepositSubsystem deposit, ExtensionSubsystem extension, VisionSubsystem vision, CarouselSubsystem carousel){
+          super(new AutoDuckPreloadCommand(drive, deposit, extension, lift, vision),
+                  new AutoCarouselCommand(drive, lift, deposit, extension, carousel),
+                  new AutoIntakeDuckCommand(drive, intake),
+                  new AutoDepositDuckCommand(drive, deposit, extension, lift, intake),
+                  new AutoParkSquareCommand(drive, lift, deposit, extension),
+                  CommandScheduler.getInstance()::terminateOpMode);
+    }  
+}

@@ -3,16 +3,12 @@ package com.technototes.path.subsystem;
 import androidx.annotation.NonNull;
 
 import com.acmerobotics.roadrunner.control.PIDCoefficients;
-import com.acmerobotics.roadrunner.control.PIDFController;
 import com.acmerobotics.roadrunner.drive.DriveSignal;
 import com.acmerobotics.roadrunner.drive.MecanumDrive;
 import com.acmerobotics.roadrunner.followers.HolonomicPIDVAFollower;
 import com.acmerobotics.roadrunner.followers.TrajectoryFollower;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
-import com.acmerobotics.roadrunner.geometry.Vector2d;
-import com.acmerobotics.roadrunner.profile.MotionProfile;
-import com.acmerobotics.roadrunner.profile.MotionProfileGenerator;
-import com.acmerobotics.roadrunner.profile.MotionState;
+import com.acmerobotics.roadrunner.localization.Localizer;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.acmerobotics.roadrunner.trajectory.TrajectoryBuilder;
 import com.acmerobotics.roadrunner.trajectory.constraints.AngularVelocityConstraint;
@@ -21,8 +17,6 @@ import com.acmerobotics.roadrunner.trajectory.constraints.MinVelocityConstraint;
 import com.acmerobotics.roadrunner.trajectory.constraints.ProfileAccelerationConstraint;
 import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryAccelerationConstraint;
 import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryVelocityConstraint;
-import com.acmerobotics.roadrunner.util.NanoClock;
-import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -34,20 +28,38 @@ import com.technototes.library.hardware.HardwareDevice;
 import com.technototes.library.hardware.motor.EncodedMotor;
 import com.technototes.library.hardware.sensor.IMU;
 import com.technototes.library.subsystem.Subsystem;
-import com.technototes.path.subsystem.MecanumDriveConstants.*;
+import com.technototes.path.subsystem.MecanumConstants.GearRatio;
+import com.technototes.path.subsystem.MecanumConstants.HeadPID;
+import com.technototes.path.subsystem.MecanumConstants.KA;
+import com.technototes.path.subsystem.MecanumConstants.KStatic;
+import com.technototes.path.subsystem.MecanumConstants.KV;
+import com.technototes.path.subsystem.MecanumConstants.LateralMult;
+import com.technototes.path.subsystem.MecanumConstants.MaxAccel;
+import com.technototes.path.subsystem.MecanumConstants.MaxAngleAccel;
+import com.technototes.path.subsystem.MecanumConstants.MaxAngleVelo;
+import com.technototes.path.subsystem.MecanumConstants.MaxRPM;
+import com.technototes.path.subsystem.MecanumConstants.MaxVelo;
+import com.technototes.path.subsystem.MecanumConstants.MotorVeloPID;
+import com.technototes.path.subsystem.MecanumConstants.OmegaWeight;
+import com.technototes.path.subsystem.MecanumConstants.PoseLimit;
+import com.technototes.path.subsystem.MecanumConstants.TicksPerRev;
+import com.technototes.path.subsystem.MecanumConstants.TrackWidth;
+import com.technototes.path.subsystem.MecanumConstants.TransPID;
+import com.technototes.path.subsystem.MecanumConstants.UseDriveEncoder;
+import com.technototes.path.subsystem.MecanumConstants.VXWeight;
+import com.technototes.path.subsystem.MecanumConstants.VYWeight;
+import com.technototes.path.subsystem.MecanumConstants.WheelRadius;
 import com.technototes.path.trajectorysequence.TrajectorySequence;
 import com.technototes.path.trajectorysequence.TrajectorySequenceBuilder;
 import com.technototes.path.trajectorysequence.TrajectorySequenceRunner;
 import com.technototes.path.util.LynxModuleUtil;
 
-
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
 
 @SuppressWarnings("unused")
-public abstract class MecanumDrivebaseSubsystem extends MecanumDrive implements Subsystem {
+public class MecanumDrivebaseSubsystem extends MecanumDrive implements Subsystem {
     public double speed = 1;
 
     public enum Mode {
@@ -56,7 +68,7 @@ public abstract class MecanumDrivebaseSubsystem extends MecanumDrive implements 
         FOLLOW_TRAJECTORY
     }
 
-    public final double TICKS_PER_REV,MAX_RPM;
+    public final double TICKS_PER_REV, MAX_RPM;
 
     public final boolean RUN_USING_ENCODER;
 
@@ -87,11 +99,15 @@ public abstract class MecanumDrivebaseSubsystem extends MecanumDrive implements 
     protected VoltageSensor batteryVoltageSensor;
 
 
-
+    public MecanumDrivebaseSubsystem(EncodedMotor<DcMotorEx> fl, EncodedMotor<DcMotorEx> fr,
+                                     EncodedMotor<DcMotorEx> rl, EncodedMotor<DcMotorEx> rr,
+                                     IMU i, MecanumConstants c) {
+        this(fl, fr, rl, rr, i, c, null);
+    }
 
     public MecanumDrivebaseSubsystem(EncodedMotor<DcMotorEx> fl, EncodedMotor<DcMotorEx> fr,
                                      EncodedMotor<DcMotorEx> rl, EncodedMotor<DcMotorEx> rr,
-                                     IMU i, MecanumDriveConstants c) {
+                                     IMU i, MecanumConstants c, Localizer localizer) {
         super(c.getDouble(KV.class), c.getDouble(KA.class), c.getDouble(KStatic.class), c.getDouble(TrackWidth.class), c.getDouble(LateralMult.class));
         leftFront = fl.getDevice();
         leftRear = rl.getDevice();
@@ -174,7 +190,7 @@ public abstract class MecanumDrivebaseSubsystem extends MecanumDrive implements 
         leftRear.setDirection(DcMotorSimple.Direction.REVERSE);
 
         // TODO: if desired, use setLocalizer() to change the localization method
-        // for instance, setLocalizer(new ThreeTrackingWheelLocalizer(...));
+        if(localizer != null) setLocalizer(localizer);
 
         trajectorySequenceRunner = new TrajectorySequenceRunner(follower, HEADING_PID);
 
@@ -199,6 +215,7 @@ public abstract class MecanumDrivebaseSubsystem extends MecanumDrive implements 
                 MAX_ANG_VEL, MAX_ANG_ACCEL
         );
     }
+
     public TrajectorySequenceBuilder trajectorySequenceBuilder() {
         return trajectorySequenceBuilder(getPoseEstimate());
     }
@@ -217,7 +234,7 @@ public abstract class MecanumDrivebaseSubsystem extends MecanumDrive implements 
     }
 
     public void followTrajectoryAsync(Trajectory trajectory) {
-        if(trajectory == null) trajectorySequenceRunner.followTrajectorySequenceAsync(null);
+        if (trajectory == null) trajectorySequenceRunner.followTrajectorySequenceAsync(null);
         else trajectorySequenceRunner.followTrajectorySequenceAsync(
                 trajectorySequenceBuilder(trajectory.start())
                         .addTrajectory(trajectory)
@@ -249,7 +266,7 @@ public abstract class MecanumDrivebaseSubsystem extends MecanumDrive implements 
         if (signal != null) setDriveSignal(signal);
     }
 
-    public void stop(){
+    public void stop() {
         followTrajectorySequenceAsync(null);
         followTrajectoryAsync(null);
         setDriveSignal(new DriveSignal());
@@ -312,7 +329,7 @@ public abstract class MecanumDrivebaseSubsystem extends MecanumDrive implements 
     public List<Double> getWheelPositions() {
         List<Double> wheelPositions = new ArrayList<>();
         for (DcMotorEx motor : motors) {
-            wheelPositions.add(MecanumDriveConstants.encoderTicksToInches(motor.getCurrentPosition(), WHEEL_RADIUS, GEAR_RATIO, TICKS_PER_REV));
+            wheelPositions.add(MecanumConstants.encoderTicksToInches(motor.getCurrentPosition(), WHEEL_RADIUS, GEAR_RATIO, TICKS_PER_REV));
         }
         return wheelPositions;
     }
@@ -321,7 +338,7 @@ public abstract class MecanumDrivebaseSubsystem extends MecanumDrive implements 
     public List<Double> getWheelVelocities() {
         List<Double> wheelVelocities = new ArrayList<>();
         for (DcMotorEx motor : motors) {
-            wheelVelocities.add(MecanumDriveConstants.encoderTicksToInches(motor.getVelocity(), WHEEL_RADIUS, GEAR_RATIO, TICKS_PER_REV));
+            wheelVelocities.add(MecanumConstants.encoderTicksToInches(motor.getVelocity(), WHEEL_RADIUS, GEAR_RATIO, TICKS_PER_REV));
         }
         return wheelVelocities;
     }
@@ -371,5 +388,9 @@ public abstract class MecanumDrivebaseSubsystem extends MecanumDrive implements 
 
     public static TrajectoryAccelerationConstraint getAccelerationConstraint(double maxAccel) {
         return new ProfileAccelerationConstraint(maxAccel);
+    }
+
+    public void zeroExternalHeading(){
+        setExternalHeading(0);
     }
 }
