@@ -1,9 +1,9 @@
 package org.firstinspires.ftc.teamcode;
 
-import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.DUMP_CONNECTED;
 import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.CAP_CONNECTED;
 import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.CAROUSEL_CONNECTED;
 import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.DRIVE_CONNECTED;
+import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.DUMP_CONNECTED;
 import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.INTAKE_CONNECTED;
 
 import com.technototes.library.control.gamepad.CommandButton;
@@ -20,8 +20,8 @@ import org.firstinspires.ftc.teamcode.commands.dump.DumpCollectCommand;
 import org.firstinspires.ftc.teamcode.commands.dump.DumpUnloadBottomLevelCommand;
 import org.firstinspires.ftc.teamcode.commands.dump.DumpUnloadMiddleLevelCommand;
 import org.firstinspires.ftc.teamcode.commands.dump.DumpUnloadTopLevelCommand;
-import org.firstinspires.ftc.teamcode.commands.intake.IntakeInCommand;
 import org.firstinspires.ftc.teamcode.commands.intake.IntakeOutCommand;
+import org.firstinspires.ftc.teamcode.commands.intake.IntakeSafeCommand;
 import org.firstinspires.ftc.teamcode.commands.intake.IntakeStopCommand;
 
 public class Controls {
@@ -84,9 +84,8 @@ public class Controls {
     }
 
     public void bindIntakeControls() {
-        intakeInButton.whenPressed(new IntakeInCommand(robot.intakeSubsystem));
+        intakeInButton.whenPressed(new IntakeSafeCommand(robot.intakeSubsystem, robot.dumpSubsystem));
         intakeInButton.whenReleased(new IntakeStopCommand(robot.intakeSubsystem));
-
         intakeOutButton.whenPressed(new IntakeOutCommand(robot.intakeSubsystem));
         intakeOutButton.whenReleased(new IntakeStopCommand(robot.intakeSubsystem));
 
