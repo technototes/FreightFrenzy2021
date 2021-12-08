@@ -11,12 +11,13 @@ public class IntakeSafeCommand implements Command {
     IntakeSubsystem intake;
     DumpSubsystem dump;
 
-    public IntakeSafeCommand(IntakeSubsystem s){
-        this(s, true);
+    public IntakeSafeCommand(IntakeSubsystem s, DumpSubsystem t){
+        this(s, t, true);
     }
-    public IntakeSafeCommand(IntakeSubsystem s, boolean require){
+    public IntakeSafeCommand(IntakeSubsystem s, DumpSubsystem t, boolean require){
         intake = s;
-        if(require) addRequirements(s);
+        dump = t;
+        if(require) addRequirements(s, t);
     }
 
     @Override

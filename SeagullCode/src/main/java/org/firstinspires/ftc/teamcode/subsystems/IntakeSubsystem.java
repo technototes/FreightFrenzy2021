@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode.subsystems;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.technototes.library.hardware.motor.EncodedMotor;
-import com.technototes.library.hardware.motor.Motor;
 import com.technototes.library.hardware.sensor.RangeSensor;
 import com.technototes.library.logger.Log;
 import com.technototes.library.logger.Loggable;
@@ -16,7 +15,7 @@ public class IntakeSubsystem implements Subsystem, Supplier<Double>, Loggable {
     public static double INTAKE_IN_SPEED = -0.8;
     public static double INTAKE_OUT_SPEED = 0.8;
     public static double INTAKE_STOP_SPEED = 0;
-    public static double DETECTION_DISTANCE = 0.1; //needs to be tested
+    public static double DETECTION_DISTANCE = 0.4; //needs to be tested
   }
   public EncodedMotor<DcMotorEx> motor;
 
