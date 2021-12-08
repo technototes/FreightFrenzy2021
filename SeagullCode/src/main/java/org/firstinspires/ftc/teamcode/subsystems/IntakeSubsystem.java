@@ -9,8 +9,8 @@ import java.util.function.Supplier;
 
 public class IntakeSubsystem implements Subsystem, Supplier<Double> {
   public static class IntakeConstant {
-    public static double INTAKE_IN_SPEED = -0.8;
-    public static double INTAKE_OUT_SPEED = 0.8;
+    public static double INTAKE_IN_SPEED = -0.825;
+    public static double INTAKE_OUT_SPEED = 0.825;
     public static double INTAKE_STOP_SPEED = 0;
   }
   public EncodedMotor<DcMotorEx> motor;
