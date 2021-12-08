@@ -1,19 +1,15 @@
 package org.firstinspires.ftc.teamcode;
 
-import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.CAROUSEL_CONNECTED;
-import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.DRIVE_CONNECTED;
-import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.DUMP_CONNECTED;
-import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.INTAKE_CONNECTED;
-import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.VISION_CONNECTED;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.technototes.library.logger.Loggable;
 
-import org.firstinspires.ftc.teamcode.subsystems.CarouselSubsystem;
-import org.firstinspires.ftc.teamcode.subsystems.DrivebaseSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.DumpSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.DrivebaseSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.CarouselSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.VisionSubsystem;
+import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.*;
 
 public class Robot implements Loggable {
     @Config
@@ -34,7 +30,7 @@ public class Robot implements Loggable {
     public Robot(Hardware hardware) {
         if (DRIVE_CONNECTED) drivebaseSubsystem = new DrivebaseSubsystem(hardware.flDriveMotor, hardware.frDriveMotor, hardware.rlDriveMotor, hardware.rrDriveMotor, hardware.imu);
         if (CAROUSEL_CONNECTED) carouselSubsystem = new CarouselSubsystem(hardware.carouselMotor);
-        if (INTAKE_CONNECTED) intakeSubsystem = new IntakeSubsystem(hardware.intakeMotor);
+        if (INTAKE_CONNECTED) intakeSubsystem = new IntakeSubsystem(hardware.intakeMotor, hardware.bucketRangeSensor);
         if (VISION_CONNECTED) visionSubsystem = new VisionSubsystem(hardware.camera);
         if (DUMP_CONNECTED) dumpSubsystem = new DumpSubsystem(hardware.bucketMotor, hardware.bucketServo);
     }
