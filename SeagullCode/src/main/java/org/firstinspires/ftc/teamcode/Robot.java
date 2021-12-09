@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+
 import com.acmerobotics.dashboard.config.Config;
 import com.technototes.library.logger.Loggable;
 
@@ -29,7 +30,7 @@ public class Robot implements Loggable {
     public Robot(Hardware hardware) {
         if (DRIVE_CONNECTED) drivebaseSubsystem = new DrivebaseSubsystem(hardware.flDriveMotor, hardware.frDriveMotor, hardware.rlDriveMotor, hardware.rrDriveMotor, hardware.imu);
         if (CAROUSEL_CONNECTED) carouselSubsystem = new CarouselSubsystem(hardware.carouselMotor);
-        if (INTAKE_CONNECTED) intakeSubsystem = new IntakeSubsystem(hardware.intakeMotor);
+        if (INTAKE_CONNECTED) intakeSubsystem = new IntakeSubsystem(hardware.intakeMotor, hardware.bucketRangeSensor);
         if (VISION_CONNECTED) visionSubsystem = new VisionSubsystem(hardware.camera);
         if (DUMP_CONNECTED) dumpSubsystem = new DumpSubsystem(hardware.bucketMotor, hardware.bucketServo);
     }

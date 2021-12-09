@@ -70,14 +70,14 @@ public class DumpSubsystem implements Subsystem, Supplier<Double>, Loggable {
         static final double MOTOR_GRAVITY_SPEED_FACTOR = -0.02;
 
         // This is the conversion factor from the motor position to a 0-1 range for a full circle
-        static final double ARM_POSITION_SCALE = (19.2*28*(108.0/20));
+        static final double ARM_POSITION_SCALE = (19.2 * 28 * (108.0 / 20));
 
         /**
          * so called dead-zone, in encoder ticks
          */
         static final double TOLERANCE_ZONE_TICKS = ARM_POSITION_SCALE / 360; // one degree
     }
-
+    
     // These must be public for the logging functionality
     @Log.Number (name = "Bucket motor")
     public EncodedMotor<DcMotorEx> bucketMotor;
