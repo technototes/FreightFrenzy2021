@@ -33,7 +33,7 @@ public class CycleBlueAuto extends CommandOpMode implements Loggable {
 
         CommandScheduler.getInstance().scheduleInit(new VisionBarcodeCommand(robot.visionSubsystem));
 
-        CommandScheduler.getInstance().scheduleForState(new AutoCycleCommand(robot.drivebaseSubsystem, robot.intakeSubsystem, robot.liftSubsystem, robot.depositSubsystem, robot.extensionSubsystem, robot.visionSubsystem)  , OpModeState.RUN);
+        CommandScheduler.getInstance().scheduleForState(new AutoCycleCommand(robot.drivebaseSubsystem, robot.intakeSubsystem, robot.liftSubsystem, robot.armSubsystem, robot.extensionSubsystem, robot.visionSubsystem)  , OpModeState.RUN);
 
     }
 

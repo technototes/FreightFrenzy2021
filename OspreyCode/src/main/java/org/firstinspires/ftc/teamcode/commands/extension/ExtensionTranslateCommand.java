@@ -2,15 +2,15 @@ package org.firstinspires.ftc.teamcode.commands.extension;
 
 import org.firstinspires.ftc.teamcode.subsystems.ExtensionSubsystem;
 
-public class TurretTranslateCommand extends ExtensionCommand{
+public class ExtensionTranslateCommand extends ExtensionCommand{
 
-    public TurretTranslateCommand(ExtensionSubsystem subsystem, double turret) {
-        super(subsystem, 0, turret);
+    public ExtensionTranslateCommand(ExtensionSubsystem subsystem, double slide) {
+        super(subsystem, slide, 0);
     }
 
     @Override
     public void initialize() {
-        extensionSubsystem.translateTurret(turretTarget);
+        extensionSubsystem.translateSlide(slideTarget);
     }
 
     @Override

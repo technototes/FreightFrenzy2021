@@ -3,7 +3,7 @@ package com.technototes.library.hardware.motor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.Range;
 import com.technototes.library.hardware.HardwareDevice;
-import com.technototes.library.structure.Invertable;
+import com.technototes.library.util.Invertable;
 
 import java.util.function.Supplier;
 

@@ -26,7 +26,7 @@ public class Robot implements Loggable {
         public static boolean CAROUSEL_CONNECTED = true;
         public static boolean INTAKE_CONNECTED = true;
         public static boolean VISION_CONNECTED = true;
-        public static boolean CAP_CONNECTED = true;
+        public static boolean CAP_CONNECTED = false;
 
     }
 
@@ -34,7 +34,7 @@ public class Robot implements Loggable {
     public LiftSubsystem liftSubsystem;
 
     @Log(name = "Deposit", entryColor = Color.PINK)
-    public ArmSubsystem depositSubsystem;
+    public ArmSubsystem armSubsystem;
 
     @Log(name = "Extension", entryColor = Color.BLUE)
     public ExtensionSubsystem extensionSubsystem;
@@ -56,7 +56,7 @@ public class Robot implements Loggable {
     public Robot(Hardware hardware){
         if(LIFT_CONNECTED) liftSubsystem = new LiftSubsystem(hardware.liftMotor);
 
-        if(DEPOSIT_CONNECTED) depositSubsystem = new ArmSubsystem(hardware.dumpServo, hardware.armServo);
+        if(DEPOSIT_CONNECTED) armSubsystem = new ArmSubsystem(hardware.dumpServo, hardware.armServo);
 
         if(EXTENSION_CONNECTED) extensionSubsystem = new ExtensionSubsystem(hardware.slideServo, hardware.turretServo);
 

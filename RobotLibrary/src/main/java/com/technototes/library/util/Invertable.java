@@ -1,10 +1,10 @@
-package com.technototes.library.structure;
+package com.technototes.library.util;
 
 /** Interface for anything that can be inverted
  * @author Alex Stedman
  */
 @SuppressWarnings("unused")
-public interface Invertable<T extends Invertable>{
+public interface Invertable<T extends Invertable<T>>{
     /** Set the inversion
      *
      * @param invert Inversion to set

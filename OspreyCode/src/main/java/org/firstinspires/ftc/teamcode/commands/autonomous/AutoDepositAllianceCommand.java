@@ -21,7 +21,7 @@ public class AutoDepositAllianceCommand extends SequentialCommandGroup {
                 new RegenerativeTrajectorySequenceCommand(drive, RobotConstants.WAREHOUSE_TO_HUB, drive)
                         .alongWith(new IntakeOutCommand(intake).withTimeout(0.5),
                                 new WaitCommand(0.2).andThen(new DriveRelocalizeCycleCommand(drive)),
-                                new DepositAllianceCommand(deposit, extension, lift)),
+                                new WaitCommand(0.5).andThen(new DepositAllianceCommand(deposit, extension, lift))),
                 new BucketDumpCommand(deposit));
     }
 }

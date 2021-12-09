@@ -1,14 +1,16 @@
 package com.technototes.library.control;
 
-import com.technototes.library.structure.Invertable;
-import com.technototes.library.structure.Periodic;
+import com.technototes.library.util.Enablable;
+import com.technototes.library.util.Invertable;
+import com.technototes.library.util.Periodic;
 
 import java.util.function.BooleanSupplier;
 
 /** The class to extend custom gamepad buttons from
  * @author Alex Stedman
  */
-public class GamepadButton implements BooleanSupplier, Periodic, Invertable<GamepadButton> {
+public class ButtonBase implements BooleanSupplier, Periodic, Invertable<ButtonBase>, Enablable<ButtonBase> {
+
     protected BooleanSupplier booleanSupplier;
 
     private boolean pressed = false;
@@ -16,12 +18,14 @@ public class GamepadButton implements BooleanSupplier, Periodic, Invertable<Game
     private boolean recentAction = false;
     private boolean pastState = false;
     private boolean inverted = false;
+    private boolean enabled = true;
+
 
     /** Create button with boolean supplier
      *
      * @param b The supplier
      */
-    public GamepadButton(BooleanSupplier b){
+    public ButtonBase(BooleanSupplier b){
         booleanSupplier = b;
     }
 
@@ -33,6 +37,13 @@ public class GamepadButton implements BooleanSupplier, Periodic, Invertable<Game
     }
 
     private void periodic(boolean currentState){
+        if(isDisabled()) {
+            recentAction = false;
+            pastState = false;
+            pressed = false;
+            toggle = false;
+            return;
+        }
         recentAction = pastState != currentState;
         pastState = currentState;
         pressed = currentState;
@@ -101,11 +112,11 @@ public class GamepadButton implements BooleanSupplier, Periodic, Invertable<Game
      */
     @Override
     public boolean getAsBoolean() {
-        return booleanSupplier.getAsBoolean()^inverted;
+        return booleanSupplier.getAsBoolean()^inverted&&isEnabled();
     }
 
     @Override
-    public GamepadButton setInverted(boolean invert) {
+    public ButtonBase setInverted(boolean invert) {
         inverted = invert;
         return this;
     }
@@ -113,5 +124,17 @@ public class GamepadButton implements BooleanSupplier, Periodic, Invertable<Game
     @Override
     public boolean getInverted() {
         return inverted;
+    }
+
+
+    @Override
+    public ButtonBase setEnabled(boolean enable) {
+        enabled = enable;
+        return this;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return enabled;
     }
 }

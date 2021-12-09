@@ -1,13 +1,13 @@
 package com.technototes.library.control;
 
-import com.technototes.library.structure.Periodic;
+import com.technototes.library.util.Periodic;
 
 import java.util.function.DoubleSupplier;
 
 /** The class to extend custom gamepad axis from
  * @author Alex Stedman
  */
-public class GamepadAxis extends GamepadButton implements DoubleSupplier, Periodic {
+public class AxisBase extends ButtonBase implements DoubleSupplier, Periodic {
     /** The default trigger threshold
      *
      */
@@ -19,7 +19,7 @@ public class GamepadAxis extends GamepadButton implements DoubleSupplier, Period
      *
      * @param d The supplier to make the axis around
      */
-    public GamepadAxis(DoubleSupplier d){
+    public AxisBase(DoubleSupplier d){
         this(d, DEFAULT_TRIGGER_THRESHOLD);
     }
     /** Make a GamepadAxis with the supplier and the threshold for the stick to behave as a button
@@ -27,7 +27,7 @@ public class GamepadAxis extends GamepadButton implements DoubleSupplier, Period
      * @param d The supplier to make the axis around
      * @param t The threshold
      */
-    public GamepadAxis(DoubleSupplier d, double t){
+    public AxisBase(DoubleSupplier d, double t){
         super(() -> Math.abs(d.getAsDouble())>=t);
         doubleSupplier = d;
         triggerThreshold = t;
@@ -40,6 +40,7 @@ public class GamepadAxis extends GamepadButton implements DoubleSupplier, Period
      */
     @Override
     public double getAsDouble() {
+        if(isDisabled()) return 0;
         return getInverted() ? -doubleSupplier.getAsDouble() : doubleSupplier.getAsDouble();
     }
 
@@ -54,7 +55,7 @@ public class GamepadAxis extends GamepadButton implements DoubleSupplier, Period
     /** Set threshold
      * @param threshold the new threshold
      */
-    public GamepadAxis setTriggerThreshold(double threshold){
+    public AxisBase setTriggerThreshold(double threshold){
         triggerThreshold = threshold;
         return this;
     }

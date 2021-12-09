@@ -81,7 +81,7 @@ public class Hardware implements Loggable {
             liftMotor = new EncodedMotor<>(LIFT);
         }
         if(DEPOSIT_CONNECTED) {
-            dumpServo = new Servo(DUMP).invert();
+            dumpServo = new Servo(DUMP).invert().setStartingPosition(ArmSubsystem.ArmConstants.CARRY);
             armServo = new Servo(ARM).setStartingPosition(ArmSubsystem.ArmConstants.UP);
         }
         if(EXTENSION_CONNECTED){

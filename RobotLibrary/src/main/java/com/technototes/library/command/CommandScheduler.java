@@ -58,7 +58,7 @@ public final class CommandScheduler {
     }
 
     public CommandScheduler scheduleOnce(Command command) {
-        return schedule(command);
+        return schedule(command.andThen(()->commandMap.remove(command)));
     }
 
     public CommandScheduler scheduleInit(Command command, BooleanSupplier supplier) {
@@ -72,6 +72,10 @@ public final class CommandScheduler {
     public CommandScheduler scheduleJoystick(Command command, BooleanSupplier supplier) {
         return scheduleForState(command, supplier, CommandOpMode.OpModeState.RUN, CommandOpMode.OpModeState.END);
     }
+    public CommandScheduler scheduleJoystick(Command command) {
+        return scheduleForState(command, CommandOpMode.OpModeState.RUN, CommandOpMode.OpModeState.END);
+    }
+
 
     public CommandScheduler scheduleForState(Command command, BooleanSupplier supplier, CommandOpMode.OpModeState... states) {
         return schedule(command.cancelUpon(() -> !opMode.getOpModeState().isState(states)), () -> supplier.getAsBoolean() && opMode.getOpModeState().isState(states));
@@ -83,7 +87,7 @@ public final class CommandScheduler {
 
 
     public CommandScheduler scheduleAfterOther(Command dependency, Command other) {
-        return schedule(other, dependency::justFinished);
+        return schedule(other, dependency::justFinishedNoCancel);
     }
 
     public CommandScheduler scheduleWithOther(Command dependency, Command other) {
@@ -91,7 +95,7 @@ public final class CommandScheduler {
     }
 
     public CommandScheduler scheduleAfterOther(Command dependency, Command other, BooleanSupplier additionalCondition) {
-        return schedule(other, () -> dependency.justFinished() && additionalCondition.getAsBoolean());
+        return schedule(other, () -> dependency.justFinishedNoCancel() && additionalCondition.getAsBoolean());
     }
 
     public CommandScheduler scheduleWithOther(Command dependency, Command other, BooleanSupplier additionalCondition) {

@@ -2,12 +2,7 @@ package com.technototes.library.subsystem;
 
 import com.technototes.library.command.Command;
 import com.technototes.library.command.CommandScheduler;
-import com.technototes.library.hardware.HardwareDevice;
-import com.technototes.library.structure.CommandOpMode;
-import com.technototes.library.structure.Periodic;
-
-import java.util.HashMap;
-import java.util.Map;
+import com.technototes.library.util.Periodic;
 
 public interface Subsystem extends Periodic {
 

@@ -3,7 +3,7 @@ package com.technototes.library.hardware.servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 import com.technototes.library.hardware.*;
-import com.technototes.library.structure.Invertable;
+import com.technototes.library.util.Invertable;
 
 /** Class for servos
  * @author Alex Stedman

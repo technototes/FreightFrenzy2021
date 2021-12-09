@@ -4,22 +4,15 @@ import com.technototes.library.command.Command;
 
 import org.firstinspires.ftc.teamcode.subsystems.ArmSubsystem;
 
-public class ArmRaiseCommand implements Command {
-    public ArmSubsystem subsystem;
+public class ArmRaiseCommand extends ArmCommand {
     public ArmRaiseCommand(ArmSubsystem s){
-        subsystem = s;
-        addRequirements(s);
+        super(s);
     }
 
     @Override
     public void execute() {
         subsystem.carry();
-         subsystem.fullyUp();
+         subsystem.up();
     }
 
-
-    @Override
-    public boolean isFinished() {
-        return getRuntime().seconds()>0.5;
-    }
 }

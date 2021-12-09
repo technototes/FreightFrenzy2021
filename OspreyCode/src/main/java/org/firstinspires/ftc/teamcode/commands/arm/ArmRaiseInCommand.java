@@ -4,21 +4,20 @@ import com.technototes.library.command.Command;
 
 import org.firstinspires.ftc.teamcode.subsystems.ArmSubsystem;
 
-public class ArmOutCommand implements Command {
-    public ArmSubsystem subsystem;
-    public ArmOutCommand(ArmSubsystem s){
-        subsystem = s;
-        addRequirements(s);
+public class ArmRaiseInCommand extends ArmCommand {
+    public ArmRaiseInCommand(ArmSubsystem s){
+        super(s);
     }
 
     @Override
     public void execute() {
-        subsystem.fullyOut();
-        subsystem.carry();
+        subsystem.fakeCarry();
+         subsystem.up();
     }
+
+
     @Override
     public boolean isFinished() {
-        return getRuntime().seconds()>0.7;
+        return getRuntime().seconds()>0.4;
     }
 }
-

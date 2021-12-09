@@ -11,8 +11,10 @@ import java.util.function.Supplier;
 import static org.firstinspires.ftc.teamcode.subsystems.ArmSubsystem.ArmConstants.CARRY;
 import static org.firstinspires.ftc.teamcode.subsystems.ArmSubsystem.ArmConstants.COLLECT;
 import static org.firstinspires.ftc.teamcode.subsystems.ArmSubsystem.ArmConstants.CONSTRAINTS;
+import static org.firstinspires.ftc.teamcode.subsystems.ArmSubsystem.ArmConstants.DOWN;
 import static org.firstinspires.ftc.teamcode.subsystems.ArmSubsystem.ArmConstants.DUMP;
 import static org.firstinspires.ftc.teamcode.subsystems.ArmSubsystem.ArmConstants.DIFFERENTIAL;
+import static org.firstinspires.ftc.teamcode.subsystems.ArmSubsystem.ArmConstants.FAKE_CARRY;
 import static org.firstinspires.ftc.teamcode.subsystems.ArmSubsystem.ArmConstants.IN;
 import static org.firstinspires.ftc.teamcode.subsystems.ArmSubsystem.ArmConstants.OUT;
 import static org.firstinspires.ftc.teamcode.subsystems.ArmSubsystem.ArmConstants.UP;
@@ -28,10 +30,10 @@ public class ArmSubsystem implements Subsystem, Supplier<String> {
     @Config
     public static class ArmConstants {
         //public static double MIN = 0, MAX = 0.5;
-        public static double DUMP = 0.5, CARRY = 0.2, COLLECT = 0, AUTO_CARRY = 0.3;
-        public static double IN = 0, UP = 0.3, OUT = 0.6;
+        public static double DUMP = 0.5, CARRY = 0.25, FAKE_CARRY = 0.1, COLLECT = 0, AUTO_CARRY = 0.25;
+        public static double IN = 0, UP = 0.3, OUT = 0.6, DOWN = 0.8;
         public static double DIFFERENTIAL = 2.8;
-        public static ServoController.Constraints CONSTRAINTS = new ServoController.Constraints(1, 1, 0.1);
+        public static ServoController.Constraints CONSTRAINTS = new ServoController.Constraints(2, 3, 5);
     }
 
     public Servo dumpServo;
@@ -40,7 +42,7 @@ public class ArmSubsystem implements Subsystem, Supplier<String> {
     public ArmSubsystem(Servo l, Servo r){
         dumpServo = l;
         armServo = r;
-        armController = new ServoController(armServo).setConstraints(CONSTRAINTS);
+        armController = new ServoController(armServo).setConstraints(CONSTRAINTS).setTargetPosition(UP);
 
     }
 
@@ -58,6 +60,9 @@ public class ArmSubsystem implements Subsystem, Supplier<String> {
      */
     public void carry(){
         setDump(CARRY);
+    }
+    public void fakeCarry(){
+        setDump(FAKE_CARRY);
     }
 
     /**
@@ -79,28 +84,31 @@ public class ArmSubsystem implements Subsystem, Supplier<String> {
     /**
      * Sets the arm servo to a constant value to retract the arm of the robot
      */
-    public void fullyUp(){
+    public void up(){
         setArm(UP);
     }
 
     /**
      * Sets the arm servo to a constant value to retract the arm of the robot
      */
-    public void fullyIn(){
+    public void in(){
         setArm(IN);
     }
     /**
      * Sets the arm servo to a constant value to extend the arm of the robot
      */
-    public void fullyOut(){
+    public void out(){
         setArm(OUT);
     }
 
+    public void down(){
+        setArm(DOWN);
+    }
     /**
      * Sets the arm servo to a custom constant value to extend the arm of the robot
      */
     public void setArm(double v){
-        armController.setTargetPosition(Range.clip(v, IN, OUT));
+        armController.setTargetPosition(Range.clip(v, IN, DOWN));
     }
     /**
      * Sets a custom value that will add to the Arm servo's value, setting it to a new position

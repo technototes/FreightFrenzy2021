@@ -4,7 +4,7 @@
  * It is extraordinarily rare that you will ever need to edit this file.
  */
 
-configurations {
+configurations {e
     doc { transitive false }
 }
 
@@ -30,10 +30,6 @@ allprojects {
         google()
         jcenter()
         gradlePluginPortal()
-        maven { url = "https://dl.bintray.com/first-tech-challenge/ftcsdk/" }
-        maven { url 'https://jitpack.io' }
-        maven { url = 'https://maven.brott.dev/' }
-
     }
 }
 

@@ -11,4 +11,14 @@ public class ExtensionRightSideCommand extends ExtensionOutCommand {
     public ExtensionRightSideCommand(ExtensionSubsystem subsystem, double extension) {
         super(subsystem, extension, ExtensionConstants.RIGHT);
     }
+
+    @Override
+    public void execute() {
+        if(getRuntime().seconds()<0.5) extensionSubsystem.fullyOut();
+        else{
+            extensionSubsystem.setSlide(slideTarget);
+            extensionSubsystem.setTurret(turretTarget);
+        }
+    }
+
 }

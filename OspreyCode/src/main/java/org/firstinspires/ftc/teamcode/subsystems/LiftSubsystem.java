@@ -17,13 +17,13 @@ import static org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem.LiftConsta
 public class LiftSubsystem implements Subsystem, Supplier<Double> {
     @Config
     public static class LiftConstants {
-        public static double LIFT_UPPER_LIMIT = 800.0;
+        public static double LIFT_UPPER_LIMIT = 500.0;
         public static double LIFT_LOWER_LIMIT = 0.0;
-        public static double COLLECT = 0, NEUTRAL = 100, LEVEL_1 = 50, LEVEL_2 = 200, LEVEL_3 = 500;
+        public static double COLLECT = 0, NEUTRAL = 100, LEVEL_1 = 50, LEVEL_2 = 200, LEVEL_3 = 470;
 
-        public static double DEADZONE = 15;
+        public static double DEADZONE = 30;
 
-        public static PIDCoefficients PID = new PIDCoefficients(0.015, 0, 0.0004);
+        public static PIDCoefficients PID = new PIDCoefficients(0.02, 0, 0.001);
 
     }
     public EncodedMotor<DcMotorEx> liftMotor;
@@ -69,7 +69,7 @@ public class LiftSubsystem implements Subsystem, Supplier<Double> {
      * using something called dead-zone, so when the motor moved slightly over the target don't necessary go-back
      */
     public boolean isAtTarget(){
-        return Math.abs(pidController.getTargetPosition() + /*+ because lift is inverted*/ liftMotor.get()) < DEADZONE;
+        return Math.abs(pidController.getTargetPosition() + /*+ because lift is inverted*/ liftMotor.getDevice().getCurrentPosition()) < DEADZONE;
     }
 
     /**

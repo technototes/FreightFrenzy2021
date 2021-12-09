@@ -4,20 +4,23 @@ import com.technototes.library.command.WaitCommand;
 import com.technototes.library.control.CommandAxis;
 import com.technototes.library.control.CommandButton;
 import com.technototes.library.control.CommandGamepad;
+import com.technototes.library.control.CommandInput;
 import com.technototes.library.control.Stick;
-import com.technototes.library.util.Alliance;
 
+import org.firstinspires.ftc.teamcode.commands.arm.ArmCommand;
+import org.firstinspires.ftc.teamcode.commands.arm.ArmRaiseInCommand;
+import org.firstinspires.ftc.teamcode.commands.arm.ArmSharedCommand;
 import org.firstinspires.ftc.teamcode.commands.cap.CapDownCommand;
 import org.firstinspires.ftc.teamcode.commands.carousel.CarouselLeftCommand;
 import org.firstinspires.ftc.teamcode.commands.carousel.CarouselRightCommand;
 import org.firstinspires.ftc.teamcode.commands.arm.ArmInCommand;
-import org.firstinspires.ftc.teamcode.commands.arm.ArmOutCommand;
-import org.firstinspires.ftc.teamcode.commands.arm.ArmRaiseCommand;
+import org.firstinspires.ftc.teamcode.commands.arm.ArmAllianceCommand;
 import org.firstinspires.ftc.teamcode.commands.arm.BucketDumpVariableCommand;
 import org.firstinspires.ftc.teamcode.commands.drivebase.DriveCommand;
 import org.firstinspires.ftc.teamcode.commands.drivebase.DriveResetCommand;
 import org.firstinspires.ftc.teamcode.commands.drivebase.DriveSpeedCommand;
 import org.firstinspires.ftc.teamcode.commands.extension.ExtensionCollectCommand;
+import org.firstinspires.ftc.teamcode.commands.extension.ExtensionCommand;
 import org.firstinspires.ftc.teamcode.commands.extension.ExtensionLeftSideCommand;
 import org.firstinspires.ftc.teamcode.commands.extension.ExtensionOutCommand;
 import org.firstinspires.ftc.teamcode.commands.extension.ExtensionRightSideCommand;
@@ -25,9 +28,10 @@ import org.firstinspires.ftc.teamcode.commands.extension.TurretTranslateCommand;
 import org.firstinspires.ftc.teamcode.commands.intake.IntakeInCommand;
 import org.firstinspires.ftc.teamcode.commands.intake.IntakeOutCommand;
 import org.firstinspires.ftc.teamcode.commands.lift.LiftCollectCommand;
+import org.firstinspires.ftc.teamcode.commands.lift.LiftCommand;
 import org.firstinspires.ftc.teamcode.commands.lift.LiftLevel1Command;
 import org.firstinspires.ftc.teamcode.commands.lift.LiftLevel3Command;
-import org.firstinspires.ftc.teamcode.commands.lift.LiftNeutralCommand;
+import org.firstinspires.ftc.teamcode.commands.lift.LiftSharedCommand;
 import org.firstinspires.ftc.teamcode.commands.lift.LiftTranslateCommand;
 
 import static org.firstinspires.ftc.teamcode.Robot.SubsystemConstants.CAP_CONNECTED;
@@ -38,16 +42,17 @@ import static org.firstinspires.ftc.teamcode.Robot.SubsystemConstants.EXTENSION_
 import static org.firstinspires.ftc.teamcode.Robot.SubsystemConstants.INTAKE_CONNECTED;
 import static org.firstinspires.ftc.teamcode.Robot.SubsystemConstants.LIFT_CONNECTED;
 
-public class SingleDriverControls {
+public class BaseControls {
 
-    public CommandGamepad driverGamepad;
+    public CommandGamepad driverGamepad, codriverGamepad;
 
     public Robot robot;
 
-    public CommandAxis dumpAxis, toIntakeButton;
+    public CommandAxis dumpAxis;
+    public CommandInput<?> toIntakeButton;
     public CommandButton sharedHubButton, allianceHubButton;
 
-    public CommandButton liftAdjustUpButton, liftAdjustDownButton, slideAdjustInButton, slideAdjustOutButton;
+    public CommandButton liftAdjustUpButton, liftAdjustDownButton, turretAdjustRightButton, turretAdjustLeftButton;
 
     public CommandButton intakeInButton, intakeOutButton;
 
@@ -58,9 +63,13 @@ public class SingleDriverControls {
     public Stick driveLeftStick, driveRightStick;
     public CommandButton resetGyroButton, snailSpeedButton;
 
+    public BaseControls(Robot r, CommandGamepad driver, CommandGamepad codriver) {
+        this(r, driver, codriver, true);
+    }
 
-    public SingleDriverControls(Robot r, CommandGamepad driver, CommandGamepad codriver) {
+    public BaseControls(Robot r, CommandGamepad driver, CommandGamepad codriver, boolean bind) {
         driverGamepad = driver;
+        codriverGamepad = codriver;
         robot = r;
 
         dumpAxis = driverGamepad.leftTrigger.setTriggerThreshold(0.2);
@@ -70,8 +79,8 @@ public class SingleDriverControls {
 
         liftAdjustUpButton = driverGamepad.dpadUp;
         liftAdjustDownButton = driverGamepad.dpadDown;
-        slideAdjustInButton = driverGamepad.dpadRight;
-        slideAdjustOutButton = driverGamepad.dpadLeft;
+        turretAdjustRightButton = driverGamepad.dpadRight;
+        turretAdjustLeftButton = driverGamepad.dpadLeft;
 
         intakeInButton = driverGamepad.cross;
         intakeOutButton = driverGamepad.circle;
@@ -88,8 +97,17 @@ public class SingleDriverControls {
         capUpButton = driverGamepad.start;
         capDownButton = driverGamepad.back;
 
+        armCommand = new ArmAllianceCommand(robot.armSubsystem);
+        extensionCommand = new ExtensionOutCommand(robot.extensionSubsystem);
+        liftCommand = new LiftLevel3Command(robot.liftSubsystem);
+        if(bind) bindControls();
+
+
+    }
+
+    public void bindControls(){
         if (LIFT_CONNECTED) bindLiftControls();
-        if (DEPOSIT_CONNECTED) bindDepositControls();
+        if (DEPOSIT_CONNECTED) bindArmControls();
         if (DRIVE_CONNECTED) bindDriveControls();
         if (INTAKE_CONNECTED) bindIntakeControls();
         if (CAROUSEL_CONNECTED) bindCarouselControls();
@@ -97,18 +115,17 @@ public class SingleDriverControls {
         if (EXTENSION_CONNECTED) bindExtensionControls();
     }
 
-
-    public void bindDepositControls() {
-        dumpAxis.whilePressedOnce(new BucketDumpVariableCommand(robot.depositSubsystem, dumpAxis).asConditional(EXTENSION_CONNECTED ? robot.extensionSubsystem::isSlideOut : ()->true));
-        toIntakeButton.whenPressed(new ArmRaiseCommand(robot.depositSubsystem).sleep(0.3).andThen(new ArmInCommand(robot.depositSubsystem)));
-        allianceHubButton.whenPressed(new ArmOutCommand(robot.depositSubsystem));
-        sharedHubButton.whenPressed(new ArmOutCommand(robot.depositSubsystem));
+    public void bindArmControls() {
+        dumpAxis.whilePressedOnce(new BucketDumpVariableCommand(robot.armSubsystem, dumpAxis).asConditional(EXTENSION_CONNECTED ? robot.extensionSubsystem::isSlideOut : ()->true));
+        toIntakeButton.whenPressed(new ArmRaiseInCommand(robot.armSubsystem).andThen(new ArmInCommand(robot.armSubsystem)));
+        allianceHubButton.whenPressed(armCommand);
+        sharedHubButton.whenPressed(new ArmSharedCommand(robot.armSubsystem));
 
     }
 
     public void bindLiftControls() {
-        sharedHubButton.whenPressed(new WaitCommand(0.3).andThen(new LiftNeutralCommand(robot.liftSubsystem).withTimeout(1.5)));
-        allianceHubButton.whenPressed(new WaitCommand(0.3).andThen(new LiftLevel3Command(robot.liftSubsystem).withTimeout(1.5)));
+        sharedHubButton.whenPressed(new WaitCommand(0.3).andThen(new LiftSharedCommand(robot.liftSubsystem).withTimeout(0.5)));
+        allianceHubButton.whenPressed(new WaitCommand(0.3).andThen(liftCommand.withTimeout(1)));
         toIntakeButton.whenPressed(new WaitCommand(0.8).deadline(new LiftLevel1Command(robot.liftSubsystem)).andThen(new LiftCollectCommand(robot.liftSubsystem).withTimeout(1.5)));
         liftAdjustUpButton.whilePressed(new LiftTranslateCommand(robot.liftSubsystem, 50));
         liftAdjustDownButton.whilePressed(new LiftTranslateCommand(robot.liftSubsystem, -50));
@@ -131,10 +148,10 @@ public class SingleDriverControls {
     }
 
     public void bindCarouselControls() {
-        carouselButton.whilePressedOnce(Alliance.Selector.selectOf(RobotConstants.getAlliance(),
+        carouselButton.whilePressedOnce(RobotConstants.getAlliance().selectOf(
                 new CarouselLeftCommand(robot.carouselSubsystem),
                 new CarouselRightCommand(robot.carouselSubsystem)));
-        carouselBackButton.whilePressedOnce(Alliance.Selector.selectOf(RobotConstants.getAlliance(),
+        carouselBackButton.whilePressedOnce(RobotConstants.getAlliance().selectOf(
                 new CarouselRightCommand(robot.carouselSubsystem),
                 new CarouselLeftCommand(robot.carouselSubsystem)));
     }
@@ -144,14 +161,16 @@ public class SingleDriverControls {
     }
 
     public void bindExtensionControls() {
-        allianceHubButton.whenPressed(new ExtensionOutCommand(robot.extensionSubsystem));
-        sharedHubButton.whenPressed(Alliance.Selector.selectOf(RobotConstants.getAlliance(),
+        allianceHubButton.whenPressed(extensionCommand);
+        sharedHubButton.whenPressed(RobotConstants.getAlliance().selectOf(
                 new ExtensionRightSideCommand(robot.extensionSubsystem),
                 new ExtensionLeftSideCommand(robot.extensionSubsystem)));
         toIntakeButton.whenPressed(new ExtensionCollectCommand(robot.extensionSubsystem));
-        slideAdjustOutButton.whilePressed(new TurretTranslateCommand(robot.extensionSubsystem, -0.03));
-        slideAdjustInButton.whilePressed(new TurretTranslateCommand(robot.extensionSubsystem,   0.03));
+        turretAdjustLeftButton.whilePressed(new TurretTranslateCommand(robot.extensionSubsystem, -0.05));
+        turretAdjustRightButton.whilePressed(new TurretTranslateCommand(robot.extensionSubsystem,   0.05));
     }
-
+    protected LiftCommand liftCommand;
+    protected ArmCommand armCommand;
+    protected ExtensionCommand extensionCommand;
 
 }
