@@ -12,7 +12,7 @@ import java.util.function.Supplier;
 
 public class IntakeSubsystem implements Subsystem, Supplier<Double>, Loggable {
   public static class IntakeConstant {
-    public static double INTAKE_IN_SPEED = -0.825;
+    public static double INTAKE_IN_SPEED = -0.5;
     public static double INTAKE_OUT_SPEED = 0.825;
     public static double INTAKE_STOP_SPEED = 0;
     public static double DETECTION_DISTANCE = 0.4; //needs to be tested
