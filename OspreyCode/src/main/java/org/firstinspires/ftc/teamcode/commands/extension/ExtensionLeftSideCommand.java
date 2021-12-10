@@ -13,7 +13,7 @@ public class ExtensionLeftSideCommand extends ExtensionOutCommand {
     }
     @Override
     public void execute() {
-        if(getRuntime().seconds()<0.5) extensionSubsystem.fullyOut();
+        if(getRuntime().seconds()<0.7) extensionSubsystem.fullyOut();
         else{
             extensionSubsystem.setSlide(slideTarget);
             extensionSubsystem.setTurret(turretTarget);

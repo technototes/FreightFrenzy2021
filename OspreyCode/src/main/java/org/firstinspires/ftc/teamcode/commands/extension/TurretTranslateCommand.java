@@ -20,6 +20,6 @@ public class TurretTranslateCommand extends ExtensionCommand{
 
     @Override
     public boolean isFinished() {
-        return getRuntime().seconds() > 0.05;
+        return getRuntime().seconds() > 0.03;
     }
 }

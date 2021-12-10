@@ -13,18 +13,10 @@ import org.firstinspires.ftc.teamcode.RobotConstants;
 
 @TeleOp(name = "BlueTeleOp")
 @SuppressWarnings("unused")
-public class BlueTeleOp extends CommandOpMode implements Loggable {
-    public Robot robot;
-    public Hardware hardware;
-    public BaseControls controls;
-    @Override
-    public void uponInit() {
-        //MAYBE THIS WORKS
-        //telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
-        RobotConstants.updateAlliance(Alliance.BLUE);
-        hardware = new Hardware();
-        robot = new Robot(hardware);
-        controls = new ExpandedControls(robot, driverGamepad, codriverGamepad);
-    }
+public class BlueTeleOp extends TeleOpBase {
 
+    @Override
+    public void setup() {
+        RobotConstants.updateAlliance(RobotConstants.Strategy.HIGH_ALLIANCE);
+    }
 }

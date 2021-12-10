@@ -3,7 +3,6 @@ package com.technototes.library.control;
 /** Command implementation of {@link Binding}
  * @author Alex Stedman
  */
-//TODO make this less jank to use
 public class CommandBinding extends CommandButton implements Binding<CommandInput> {
     private CommandInput[] inputs;
     private Type defaultType;

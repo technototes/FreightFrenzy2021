@@ -14,7 +14,7 @@ public class ExtensionSubsystem implements Subsystem, Supplier<String> {
     @Config
     public static class ExtensionConstants {
         public static double IN = 0.5, MIDDLE = 0.4, OUT = 0;
-        public static double LEFT = 0, CENTER = 0.52, RIGHT = 1;
+        public static double LEFT = 0, CENTER = 0.51, RIGHT = 1;
     }
 
     public Servo slideServo;

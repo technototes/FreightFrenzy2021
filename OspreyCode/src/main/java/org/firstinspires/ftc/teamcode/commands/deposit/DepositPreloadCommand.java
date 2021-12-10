@@ -17,8 +17,9 @@ public class DepositPreloadCommand extends ParallelCommandGroup {
     public DepositPreloadCommand(ArmSubsystem arm, ExtensionSubsystem extension, LiftSubsystem lift, VisionSubsystem vision){
         super(new LiftBarcodeSelectCommand(lift, vision).withTimeout(1),
                 new ArmAllianceCommand(arm),
-                RobotConstants.getAlliance().selectOf(
-                        new ExtensionLeftSideCommand(extension, ExtensionSubsystem.ExtensionConstants.OUT),
-                        new ExtensionRightSideCommand(extension, ExtensionSubsystem.ExtensionConstants.OUT)));
+//                RobotConstants.getAlliance().selectOf(
+//                        new ExtensionLeftSideCommand(extension, ExtensionSubsystem.ExtensionConstants.OUT),
+//                        new ExtensionRightSideCommand(extension, ExtensionSubsystem.ExtensionConstants.OUT)));
+                new ExtensionOutCommand(extension));
     }
 }
