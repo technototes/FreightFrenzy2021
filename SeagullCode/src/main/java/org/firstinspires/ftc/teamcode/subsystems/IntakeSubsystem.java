@@ -12,40 +12,62 @@ import java.util.function.Supplier;
 
 public class IntakeSubsystem implements Subsystem, Supplier<Double>, Loggable {
   public static class IntakeConstant {
-    public static double INTAKE_IN_SPEED = -0.5;
+    public static double INTAKE_IN_SPEED = -0.2;
     public static double INTAKE_OUT_SPEED = 0.825;
     public static double INTAKE_STOP_SPEED = 0;
-    public static double DETECTION_DISTANCE = 0.4; //needs to be tested
+    public static double DETECTION_THRESHOLD = 2.0;
   }
+
   public EncodedMotor<DcMotorEx> motor;
 
-  @Log.Number (name = "Bucket range")
   public RangeSensor rangeSensor;
+
+  @Log.Number(name = "Bucket speed")
+  public double bucketSensor = 0.0;
 
   public IntakeSubsystem(EncodedMotor<DcMotorEx> m, RangeSensor r) {
     motor = m;
     motor.setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
     rangeSensor = r;
   }
+
   public void in() {
     motor.setSpeed(IntakeConstant.INTAKE_IN_SPEED);
   }
+
   public void out() {
     motor.setSpeed(IntakeConstant.INTAKE_OUT_SPEED);
   }
+
   public void stop() {
     motor.setSpeed(IntakeConstant.INTAKE_STOP_SPEED);
   }
 
-  public double getSensorDistance() {
+  private double getSensorDistance() {
     return rangeSensor.getSensorValue();
   }
 
-  public boolean isNearTarget() {
-    return getSensorDistance() < IntakeConstant.DETECTION_DISTANCE;
+  // Want:
+  // startDetection, which starts reading the distance sensor every N cycles (the sensor is slow to read)
+  // stopDetection, which stops reading the distance sensor
+  // getSensorDistance returns the average over the past 3 sensor reads, to smooth out the noise
+  // hasCargo uses the smoothed distance value
+  public boolean hasCargo() {
+    return getSensorDistance() < IntakeConstant.DETECTION_THRESHOLD;
   }
+
   @Override
   public Double get() {
     return motor.getSpeed();
+  }
+
+  private int loopNum = 0;
+  @Override
+  public void periodic() {
+    loopNum++;
+    if (loopNum >=5) {
+      bucketSensor = getSensorDistance();
+      loopNum = 0;
+    }
   }
 }
