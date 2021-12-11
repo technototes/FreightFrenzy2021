@@ -48,7 +48,7 @@ public class AutonomousConstants {
               RED_DUCK_CAROUSEL_TO_PARK = b -> b.apply(RedConstants.DUCK_CAROUSEL)
                         .lineToLinearHeading(RedConstants.DUCK_PARK)
                         .build(),
-              RED_DEPOT_START_TO_ALLIANCE_HUB = b -> b.apply(RedConstants.DEPOT_START)
+              RED_DEPOT_START_TO_ALLIANCE_HUB_LEVEL3 = b -> b.apply(RedConstants.DEPOT_START)
                         .lineToLinearHeading(RedConstants.DEPOT_ALLIANCE_HUB_LEVEL3)
                         .build(),
               RED_ALLIANCE_HUB_LEVEL3_TO_DEPOT = b -> b.apply(RedConstants.DEPOT_ALLIANCE_HUB_LEVEL3)
@@ -73,6 +73,11 @@ public class AutonomousConstants {
                         .lineToLinearHeading(BlueConstants.DEPOT_GAP)
                         .setVelConstraint((a, c, d, e)->20)
                         .lineToLinearHeading(BlueConstants.DEPOT_PARK)
+                        .build(),
+
+                BLUE_DEPOT_TO_ALLIANCE_HUB_LEVEL_3 = b -> b.apply(BlueConstants.DEPOT_PARK)
+                        .lineToLinearHeading(BlueConstants.DEPOT_GAP)
+                        .lineToLinearHeading(BlueConstants.DEPOT_ALLIANCE_HUB_LEVEL3)
                         .build();
 }
 
