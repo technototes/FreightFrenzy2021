@@ -59,6 +59,7 @@ public class DumpSubsystem implements Subsystem, Supplier<Double>, Loggable {
         public static final double ARM_TOP_LEVEL = -0.42;
         public static final double ARM_MIDDLE_LEVEL = -0.56;
         public static final double ARM_BOTTOM_LEVEL = -0.62;
+        public static final double ARM_SHARED_HUB_LEVEL = -0.59;
         static final double ARM_LEVEL_POSITION = -0.10; // Position of the level arm
 
         static final double MOTOR_LOWER_LIMIT = ARM_BOTTOM_LEVEL;

@@ -20,6 +20,7 @@ import org.firstinspires.ftc.teamcode.commands.dump.DumpCarryCommand;
 import org.firstinspires.ftc.teamcode.commands.dump.DumpCollectCommand;
 import org.firstinspires.ftc.teamcode.commands.dump.DumpUnloadBottomLevelCommand;
 import org.firstinspires.ftc.teamcode.commands.dump.DumpUnloadMiddleLevelCommand;
+import org.firstinspires.ftc.teamcode.commands.dump.DumpUnloadSharedHubCommand;
 import org.firstinspires.ftc.teamcode.commands.dump.DumpUnloadTopLevelCommand;
 import org.firstinspires.ftc.teamcode.commands.intake.IntakeOutCommand;
 import org.firstinspires.ftc.teamcode.commands.intake.IntakeSafeCommand;
@@ -32,7 +33,7 @@ public class Controls {
     public Robot robot;
 
     public CommandButton carryButton, collectButton, topDepositButton,
-              middleDepositButton, bottomDepositButton;
+              middleDepositButton, bottomDepositButton, sharedDepositButton;
 
     public CommandButton intakeInButton, intakeOutButton;
     public CommandAxis intakeInTrigger, intakeOutTrigger;
@@ -48,6 +49,7 @@ public class Controls {
 
         collectButton = gamepad.leftBumper;
         carryButton = gamepad.rightBumper;
+        sharedDepositButton = gamepad.dpadLeft;
         bottomDepositButton = gamepad.dpadDown;
         middleDepositButton = gamepad.dpadRight;
         topDepositButton = gamepad.dpadUp;
@@ -80,6 +82,7 @@ public class Controls {
         topDepositButton.whenPressed(new DumpUnloadTopLevelCommand(robot.dumpSubsystem));
         middleDepositButton.whenPressed(new DumpUnloadMiddleLevelCommand(robot.dumpSubsystem));
         bottomDepositButton.whenPressed(new DumpUnloadBottomLevelCommand(robot.dumpSubsystem));
+        sharedDepositButton.whenPressed(new DumpUnloadSharedHubCommand(robot.dumpSubsystem));
     }
 
     public void bindDriveControls() {
