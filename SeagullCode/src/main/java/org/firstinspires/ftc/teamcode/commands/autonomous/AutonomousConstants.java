@@ -25,6 +25,7 @@ public class AutonomousConstants {
 
     public static class BlueConstants {
         public static Pose2d DUCK_START = new Pose2d(-36, 63, toRadians(90));
+        public static Pose2d DUCK_ALLIANCE_HUB_LEVEL3 = new Pose2d(-23, 38, toRadians(120));
         public static Pose2d DUCK_CAROUSEL = new Pose2d(-59, 59, toRadians(180));
         public static Pose2d DUCK_PARK = new Pose2d(-62, 30, toRadians(0)); // Not wrong positions (everything is fine, DO NOT CHANGE)
         public static Pose2d DEPOT_START = new Pose2d(0, 66, toRadians(90)); // Wrong positions (estimate)
@@ -60,16 +61,16 @@ public class AutonomousConstants {
                         .lineToLinearHeading(RedConstants.DEPOT_GAP)
                         .lineToLinearHeading(RedConstants.DEPOT_ALLIANCE_HUB_LEVEL3)
                         .build(),
-              BLUE_DUCK_START_TO_CAROUSEL = b -> b.apply(BlueConstants.DUCK_START)
-                        .lineToLinearHeading(BlueConstants.DUCK_CAROUSEL)
-                        .build(),
               BLUE_DUCK_CAROUSEL_TO_PARK = b -> b.apply(BlueConstants.DUCK_CAROUSEL)
                         .lineToLinearHeading(BlueConstants.DUCK_PARK)
                         .build(),
+              BLUE_DUCK_START_TO_ALLIANCE_HUB_LEVEL_3 = b -> b.apply(BlueConstants.DUCK_START)
+                      .lineToLinearHeading(BlueConstants.DUCK_ALLIANCE_HUB_LEVEL3)
+                      .build(),
               BLUE_DEPOT_START_TO_ALLIANCE_HUB_LEVEL3 = b -> b.apply(BlueConstants.DEPOT_START)
                         .lineToLinearHeading(BlueConstants.DEPOT_ALLIANCE_HUB_LEVEL3)
                         .build(),
-            BLUE_ALLIANCE_HUB_LEVEL3_TO_CAROUSEL = b -> b.apply(BlueConstants.DEPOT_ALLIANCE_HUB_LEVEL3)
+              BLUE_ALLIANCE_HUB_LEVEL3_TO_CAROUSEL = b -> b.apply(BlueConstants.DEPOT_ALLIANCE_HUB_LEVEL3)
                     .lineToLinearHeading(BlueConstants.DUCK_CAROUSEL)
                     .build(),
               BLUE_ALLIANCE_HUB_LEVEL3_TO_DEPOT = b -> b.apply(BlueConstants.DEPOT_ALLIANCE_HUB_LEVEL3)
@@ -77,8 +78,7 @@ public class AutonomousConstants {
                         .setVelConstraint((a, c, d, e)->20)
                         .lineToLinearHeading(BlueConstants.DEPOT_PARK)
                         .build(),
-
-                BLUE_DEPOT_TO_ALLIANCE_HUB_LEVEL_3 = b -> b.apply(BlueConstants.DEPOT_PARK)
+              BLUE_DEPOT_TO_ALLIANCE_HUB_LEVEL_3 = b -> b.apply(BlueConstants.DEPOT_PARK)
                         .lineToLinearHeading(BlueConstants.DEPOT_GAP)
                         .lineToLinearHeading(BlueConstants.DEPOT_ALLIANCE_HUB_LEVEL3)
                         .build();
