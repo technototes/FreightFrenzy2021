@@ -69,6 +69,9 @@ public class AutonomousConstants {
               BLUE_DEPOT_START_TO_ALLIANCE_HUB_LEVEL3 = b -> b.apply(BlueConstants.DEPOT_START)
                         .lineToLinearHeading(BlueConstants.DEPOT_ALLIANCE_HUB_LEVEL3)
                         .build(),
+            BLUE_ALLIANCE_HUB_LEVEL3_TO_CAROUSEL = b -> b.apply(BlueConstants.DEPOT_ALLIANCE_HUB_LEVEL3)
+                    .lineToLinearHeading(BlueConstants.DUCK_CAROUSEL)
+                    .build(),
               BLUE_ALLIANCE_HUB_LEVEL3_TO_DEPOT = b -> b.apply(BlueConstants.DEPOT_ALLIANCE_HUB_LEVEL3)
                         .lineToLinearHeading(BlueConstants.DEPOT_GAP)
                         .setVelConstraint((a, c, d, e)->20)

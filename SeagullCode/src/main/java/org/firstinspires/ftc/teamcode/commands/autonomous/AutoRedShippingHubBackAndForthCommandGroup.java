@@ -16,7 +16,7 @@ public class AutoRedShippingHubBackAndForthCommandGroup extends SequentialComman
         super(new DumpCarryCommand(bucket),
                 new TrajectorySequenceCommand(drive, AutonomousConstants.RED_DEPOT_START_TO_ALLIANCE_HUB_LEVEL3), // Different duck const
                 new AutonomousBucketDumpCommand(bucket).withTimeout(3), // Bucket command
-                new WaitCommand(1),
+                new WaitCommand(0.5),
                 new DumpCollectCommand(bucket),
                 new AutonomousLoopCommandGroup(drive,bucket,intake),
                 new AutonomousLoopCommandGroup(drive,bucket,intake),
