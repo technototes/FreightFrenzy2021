@@ -17,7 +17,7 @@ import org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem;
 
 public class DepositCollectCommand extends SequentialCommandGroup {
     public DepositCollectCommand(ArmSubsystem arm, ExtensionSubsystem extension, LiftSubsystem lift){
-        super(new LiftLevel1Command(lift).withTimeout(1).alongWith(new ArmRaiseInCommand(arm), new ExtensionCollectSafeCommand(extension)),
-                new LiftCollectCommand(lift).withTimeout(0.4).alongWith(new ArmInCommand(arm)));
+        super(new LiftLevel1Command(lift).withTimeout(0.8).alongWith(new ArmRaiseInCommand(arm), new ExtensionCollectCommand(extension)),
+                new LiftCollectCommand(lift).withTimeout(0.3).alongWith(new ArmInCommand(arm)));
     }
 }

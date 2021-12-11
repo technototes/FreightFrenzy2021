@@ -6,7 +6,7 @@ import static org.firstinspires.ftc.teamcode.subsystems.ExtensionSubsystem.Exten
 
 public class ExtensionRightSideCommand extends ExtensionOutCommand {
     public ExtensionRightSideCommand(ExtensionSubsystem subsystem) {
-        super(subsystem, ExtensionConstants.MIDDLE, ExtensionConstants.RIGHT);
+        super(subsystem, ExtensionConstants.SHARED, ExtensionConstants.RIGHT);
     }
     public ExtensionRightSideCommand(ExtensionSubsystem subsystem, double extension) {
         super(subsystem, extension, ExtensionConstants.RIGHT);

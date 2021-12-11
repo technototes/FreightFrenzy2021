@@ -34,28 +34,28 @@ import org.firstinspires.ftc.teamcode.subsystems.ExtensionSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem;
 
 public class RobotConstants {
-
-
     @Config
     public static class AutoRedConstants {
         public static ConfigurablePose CYCLE_START = new ConfigurablePose(12, -63, toRadians(90));
-        public static ConfigurablePose ALLIANCE_HUB = new ConfigurablePose(2, -53, toRadians(140));
-        public static ConfigurablePose CYCLE_TRENCH = new ConfigurablePose(24, -63, toRadians(180));
+        public static ConfigurablePose ALLIANCE_HUB = new ConfigurablePose(9, -52, toRadians(125));
+        public static ConfigurablePose CYCLE_TRENCH = new ConfigurablePose(24, -63.5, toRadians(180));
         public static ConfigurablePose[] AUTO_WAREHOUSE = new ConfigurablePose[]{
-                new ConfigurablePose(43, -63, toRadians(190)),
-                new ConfigurablePose(46, -63, toRadians(190)),
-                new ConfigurablePose(49, -63, toRadians(190)),
-                new ConfigurablePose(52, -63, toRadians(190)),
-                new ConfigurablePose(55, -63, toRadians(190)),
+                new ConfigurablePose(44, -63.5, toRadians(190)),
+                new ConfigurablePose(46, -63.5, toRadians(190)),
+                new ConfigurablePose(48, -63.5, toRadians(190)),
+                new ConfigurablePose(50, -63.5, toRadians(190)),
+                new ConfigurablePose(52, -63.5, toRadians(190)),
 
         };
 
         public static ConfigurablePose DUCK_START = new ConfigurablePose(-36, -63, toRadians(90));
-        public static ConfigurablePose DUCK_HUB = new ConfigurablePose(-26, -53, toRadians(40));
+        public static ConfigurablePose DUCK_HUB = new ConfigurablePose(-33, -52, toRadians(55));
         public static ConfigurablePose CAROUSEL = new ConfigurablePose(-60, -59, toRadians(0));
         public static ConfigurablePose DUCK_INTAKE_START = new ConfigurablePose(-20, -62, toRadians(45));
         public static ConfigurablePose DUCK_INTAKE_END = new ConfigurablePose(-59, -62, toRadians(45));
-        public static ConfigurablePose SQUARE = new ConfigurablePose(-62, -36, toRadians(0));
+        public static ConfigurablePose SQUARE = new ConfigurablePose(-67, -36, toRadians(0));
+        public static ConfigurablePose BARRIER_PARK = new ConfigurablePose(60, -52, toRadians(180));
+
 
         public static ConfigurablePose SHARED_TRENCH = new ConfigurablePose(63.5, -30, toRadians(90));
         public static ConfigurablePose SHARED_HUB = new ConfigurablePose(63.5, -20, toRadians(90));
@@ -63,23 +63,24 @@ public class RobotConstants {
     @Config
     public static class AutoBlueConstants {
         public static ConfigurablePose CYCLE_START = new ConfigurablePose(12, 63, toRadians(-90));
-        public static ConfigurablePose ALLIANCE_HUB = new ConfigurablePose(2, 53, toRadians(-140));
-        public static ConfigurablePose CYCLE_TRENCH = new ConfigurablePose(24, 63, toRadians(-180));
+        public static ConfigurablePose ALLIANCE_HUB = new ConfigurablePose(9, 52, toRadians(-125));
+        public static ConfigurablePose CYCLE_TRENCH = new ConfigurablePose(24, 63.5, toRadians(-180));
         public static ConfigurablePose[] AUTO_WAREHOUSE = new ConfigurablePose[]{
-                new ConfigurablePose(43, 63, toRadians(-190)),
-                new ConfigurablePose(46, 63, toRadians(-190)),
-                new ConfigurablePose(49, 63, toRadians(-190)),
-                new ConfigurablePose(52, 63, toRadians(-190)),
-                new ConfigurablePose(55, 63, toRadians(-190)),
+                new ConfigurablePose(44, 63.5, toRadians(-190)),
+                new ConfigurablePose(46, 63.5, toRadians(-190)),
+                new ConfigurablePose(48, 63.5, toRadians(-190)),
+                new ConfigurablePose(50, 63.5, toRadians(-190)),
+                new ConfigurablePose(52, 63.5, toRadians(-190)),
 
         };
 
         public static ConfigurablePose DUCK_START = new ConfigurablePose(-36, 63, toRadians(-90));
-        public static ConfigurablePose DUCK_HUB = new ConfigurablePose(-26, 53, toRadians(-40));
-        public static ConfigurablePose CAROUSEL = new ConfigurablePose(-60, 59, toRadians(-90));
+        public static ConfigurablePose DUCK_HUB = new ConfigurablePose(-33, 52, toRadians(-55));
+        public static ConfigurablePose CAROUSEL = new ConfigurablePose(-62, 59, toRadians(-90));
         public static ConfigurablePose DUCK_INTAKE_START = new ConfigurablePose(-20, 62, toRadians(-45));
         public static ConfigurablePose DUCK_INTAKE_END = new ConfigurablePose(-59, 62, toRadians(-45));
-        public static ConfigurablePose SQUARE = new ConfigurablePose(-62, 36, toRadians(0));
+        public static ConfigurablePose SQUARE = new ConfigurablePose(-67, 36, toRadians(0));
+        public static ConfigurablePose BARRIER_PARK = new ConfigurablePose(60, 52, toRadians(-180));
 
         public static ConfigurablePose SHARED_TRENCH = new ConfigurablePose(63.5, 30, toRadians(-90));
         public static ConfigurablePose SHARED_HUB = new ConfigurablePose(63.5, 20, toRadians(-90));
@@ -105,29 +106,39 @@ public class RobotConstants {
             CAROUSEL_SELECT = ()->alliance.selectOf(AutoRedConstants.CAROUSEL, AutoBlueConstants.CAROUSEL).toPose(),
             DUCK_INTAKE_START_SELECT = ()->alliance.selectOf(AutoRedConstants.DUCK_INTAKE_START, AutoBlueConstants.DUCK_INTAKE_START).toPose(),
             DUCK_INTAKE_END_SELECT = ()->alliance.selectOf(AutoRedConstants.DUCK_INTAKE_END, AutoBlueConstants.DUCK_INTAKE_END).toPose(),
-            SQUARE_SELECT = ()->alliance.selectOf(AutoRedConstants.SQUARE, AutoBlueConstants.SQUARE).toPose();
+            SQUARE_SELECT = ()->alliance.selectOf(AutoRedConstants.SQUARE, AutoBlueConstants.SQUARE).toPose(),
+            BARRIER_SELECT = ()->alliance.selectOf(AutoRedConstants.BARRIER_PARK, AutoBlueConstants.BARRIER_PARK).toPose();
 
     public static final Function<Integer, Pose2d>
             CYCLE_INTAKE_SELECT = i ->alliance.selectOf(AutoRedConstants.AUTO_WAREHOUSE[i], AutoBlueConstants.AUTO_WAREHOUSE[i]).toPose();
 
     public static final Function<Function<Pose2d, TrajectorySequenceBuilder>, TrajectorySequence>
             CYCLE_DEPOSIT_PRELOAD = b -> b.apply(CYCLE_START_SELECT.get())
+            .setAccelConstraint((a, e, c, d) -> 30)
             .lineToLinearHeading(ALLIANCE_HUB_SELECT.get())
             .build(),
             DUCK_DEPOSIT_PRELOAD = b -> b.apply(DUCK_START_SELECT.get())
+                    .setAccelConstraint((a, e, c, d) -> 30)
                     .lineToLinearHeading(DUCK_ALLIANCE_HUB_SELECT.get())
                     .build(),
             HUB_TO_CAROUSEL = b -> b.apply(DUCK_ALLIANCE_HUB_SELECT.get())
+                    .setAccelConstraint((a, e, c, d) -> 30)
                     .lineToLinearHeading(CAROUSEL_SELECT.get())
                     .build(),
             HUB_TO_SQUARE = b -> b.apply(DUCK_ALLIANCE_HUB_SELECT.get())
+                    .setAccelConstraint((a, e, c, d) -> 30)
                     .lineToLinearHeading(SQUARE_SELECT.get())
+                    .build(),
+            HUB_BARRIER_PARK = b -> b.apply(DUCK_ALLIANCE_HUB_SELECT.get())
+                    .turn(BARRIER_SELECT.get().getHeading())
+                    .lineTo(BARRIER_SELECT.get().vec())
                     .build(),
             CAROUSEL_TO_DUCK_INTAKE = b -> b.apply(CAROUSEL_SELECT.get())
                     .lineToLinearHeading(DUCK_INTAKE_START_SELECT.get())
                     .lineToLinearHeading(DUCK_INTAKE_END_SELECT.get())
                     .build(),
             DUCK_INTAKE_TO_HUB = b -> b.apply(DUCK_INTAKE_END_SELECT.get())
+                    .setAccelConstraint((a, e, c, d) -> 30)
                     .lineToLinearHeading(DUCK_ALLIANCE_HUB_SELECT.get())
                     .build();
 
@@ -150,7 +161,7 @@ public class RobotConstants {
             .lineToSplineHeading(ALLIANCE_TRENCH_SELECT.get())
             .setAccelConstraint((a, e, c, d) -> 30)
 
-            .splineToSplineHeading(ALLIANCE_HUB_SELECT.get(), ALLIANCE_HUB_SELECT.get().getHeading())
+            .splineTo(ALLIANCE_HUB_SELECT.get().vec(), ALLIANCE_HUB_SELECT.get().getHeading())
             .build(),
             WAREHOUSE_TO_SHARED_HUB = (b, p) -> b.apply(new Pose2d(
                     SHARED_TRENCH_SELECT.get().getX(),
@@ -170,6 +181,13 @@ public class RobotConstants {
 
     public static SharedHubStrategy getSharedStrategy() {
         return sharedHubStrategy;
+    }
+
+    public static void strategy1(){
+        setStrategy(AllianceHubStrategy.HIGH, SharedHubStrategy.OWN);
+    }
+    public static void strategy2(){
+        setStrategy(AllianceHubStrategy.MID, SharedHubStrategy.STEAL);
     }
 
     public static void setStrategy(AllianceHubStrategy allianceHubStrategy, SharedHubStrategy sharedHubStrategy) {

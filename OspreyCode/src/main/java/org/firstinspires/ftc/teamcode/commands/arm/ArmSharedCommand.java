@@ -12,6 +12,11 @@ public class ArmSharedCommand extends ArmCommand {
     @Override
     public void execute() {
         subsystem.down();
+        subsystem.fakeCarry();
+    }
+
+    @Override
+    public void end(boolean cancel) {
         subsystem.carry();
     }
 }
