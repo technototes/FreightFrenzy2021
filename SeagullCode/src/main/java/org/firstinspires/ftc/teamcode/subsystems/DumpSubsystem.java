@@ -45,7 +45,7 @@ public class DumpSubsystem implements Subsystem, Supplier<Double>, Loggable {
          */
         static final double BUCKET_COLLECT = 0.05;
         static final double BUCKET_CARRY = 0.3;
-        static final double BUCKET_DUMP = 0.7;
+        static final double BUCKET_DUMP = 0.75;
 
         // Range of values where the bucket should be in the carry position
         static final double ARM_CARRY_LIMIT_MIN = (ARM_COLLECT + ARM_CARRY) / 3;
