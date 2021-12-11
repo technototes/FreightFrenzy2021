@@ -89,15 +89,15 @@ public class Controls {
     }
 
     public void bindIntakeControls() {
-        intakeInButton.whenPressed(new IntakeSafeCommand(robot.intakeSubsystem, robot.dumpSubsystem));
-        intakeInButton.whenReleased(new IntakeStopCommand(robot.intakeSubsystem));
-        intakeOutButton.whenPressed(new IntakeOutCommand(robot.intakeSubsystem));
-        intakeOutButton.whenReleased(new IntakeStopCommand(robot.intakeSubsystem));
+        intakeInButton.whenToggled(new IntakeSafeCommand(robot.intakeSubsystem, robot.dumpSubsystem));
+        intakeInButton.whenInverseToggled(new IntakeStopCommand(robot.intakeSubsystem));
+        intakeOutButton.whenToggled(new IntakeOutCommand(robot.intakeSubsystem));
+        intakeOutButton.whenInverseToggled(new IntakeStopCommand(robot.intakeSubsystem));
 
-        intakeInTrigger.whenPressed(new IntakeSafeCommand(robot.intakeSubsystem, robot.dumpSubsystem));
-        intakeInTrigger.whenReleased(new IntakeStopCommand(robot.intakeSubsystem));
-        intakeOutTrigger.whenPressed(new IntakeOutCommand(robot.intakeSubsystem));
-        intakeOutTrigger.whenReleased(new IntakeStopCommand(robot.intakeSubsystem));
+        intakeInTrigger.whenToggled(new IntakeSafeCommand(robot.intakeSubsystem, robot.dumpSubsystem));
+        intakeInTrigger.whenInverseToggled(new IntakeStopCommand(robot.intakeSubsystem));
+        intakeOutTrigger.whenToggled(new IntakeOutCommand(robot.intakeSubsystem));
+        intakeOutTrigger.whenInverseToggled(new IntakeStopCommand(robot.intakeSubsystem));
     }
 
     public void bindCarouselControls() {
