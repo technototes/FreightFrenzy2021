@@ -27,7 +27,7 @@ public class IntakeSafeCommand implements Command {
 
     @Override
     public boolean isFinished(){
-        return intake.isNearTarget();
+        return intake.hasCargo();
     }
 
     @Override

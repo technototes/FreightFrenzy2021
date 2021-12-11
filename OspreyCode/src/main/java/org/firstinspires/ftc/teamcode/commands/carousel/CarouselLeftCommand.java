@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.commands.carousel;
 
+import static org.firstinspires.ftc.teamcode.subsystems.CarouselSubsystem.CarouselConstants.SPIN_OFFSET;
+
 import com.technototes.library.command.Command;
 
 import org.firstinspires.ftc.teamcode.subsystems.CarouselSubsystem;
@@ -15,7 +17,7 @@ public class CarouselLeftCommand implements Command {
 
     @Override
     public void execute(){
-        subsystem.left();
+        subsystem.left(getRuntime().seconds()/SPIN_OFFSET);
     }
 
 

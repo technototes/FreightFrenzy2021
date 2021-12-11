@@ -6,9 +6,10 @@ import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.DRIVE_CONNECTE
 import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.DUMP_CONNECTED;
 import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.INTAKE_CONNECTED;
 
-import com.technototes.library.control.gamepad.CommandButton;
-import com.technototes.library.control.gamepad.CommandGamepad;
-import com.technototes.library.control.gamepad.Stick;
+import com.technototes.library.control.CommandAxis;
+import com.technototes.library.control.CommandButton;
+import com.technototes.library.control.CommandGamepad;
+import com.technototes.library.control.Stick;
 
 import org.firstinspires.ftc.teamcode.commands.carousel.CarouselLeftCommand;
 import org.firstinspires.ftc.teamcode.commands.carousel.CarouselRightCommand;
@@ -34,6 +35,7 @@ public class Controls {
               middleDepositButton, bottomDepositButton;
 
     public CommandButton intakeInButton, intakeOutButton;
+    public CommandAxis intakeInTrigger, intakeOutTrigger;
 
     public CommandButton carouselLeftButton, carouselRightButton;
 
@@ -49,6 +51,9 @@ public class Controls {
         bottomDepositButton = gamepad.dpadDown;
         middleDepositButton = gamepad.dpadRight;
         topDepositButton = gamepad.dpadUp;
+
+        intakeInTrigger = gamepad.rightTrigger;
+        intakeOutTrigger = gamepad.leftTrigger;
 
         intakeInButton = gamepad.cross;
         intakeOutButton = gamepad.circle;
@@ -89,6 +94,10 @@ public class Controls {
         intakeOutButton.whenPressed(new IntakeOutCommand(robot.intakeSubsystem));
         intakeOutButton.whenReleased(new IntakeStopCommand(robot.intakeSubsystem));
 
+        intakeInTrigger.whenPressed(new IntakeSafeCommand(robot.intakeSubsystem, robot.dumpSubsystem));
+        intakeInTrigger.whenReleased(new IntakeStopCommand(robot.intakeSubsystem));
+        intakeOutTrigger.whenPressed(new IntakeOutCommand(robot.intakeSubsystem));
+        intakeOutTrigger.whenReleased(new IntakeStopCommand(robot.intakeSubsystem));
     }
 
     public void bindCarouselControls() {

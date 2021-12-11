@@ -6,7 +6,7 @@ import com.technototes.vision.hardware.Camera;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvPipeline;
 @SuppressWarnings("unused")
-public class PipelineSubsystem implements Subsystem<Camera> {
+public class PipelineSubsystem implements Subsystem {
 
     protected Camera camera;
 
@@ -14,7 +14,6 @@ public class PipelineSubsystem implements Subsystem<Camera> {
         camera = c;
     }
 
-    @Override
     public Camera getDevice() {
         return camera;
     }

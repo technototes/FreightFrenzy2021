@@ -13,8 +13,8 @@ import java.util.function.Supplier;
 public class ExtensionSubsystem implements Subsystem, Supplier<String> {
     @Config
     public static class ExtensionConstants {
-        public static double IN = 0.5, MIDDLE = 0.3, OUT = 0;
-        public static double LEFT = 0, CENTER = 0.51, RIGHT = 1;
+        public static double IN = 0.5, MIDDLE = 0.4, OUT = 0;
+        public static double LEFT = 0, CENTER = 0.52, RIGHT = 1;
     }
 
     public Servo slideServo;
@@ -43,7 +43,7 @@ public class ExtensionSubsystem implements Subsystem, Supplier<String> {
 
 
     public boolean isSlideOut(){
-        return slideServo.getPosition() < 0.1;
+        return slideServo.getPosition() < ExtensionConstants.IN-0.05;
     }
 
     public void fullyIn(){
@@ -61,6 +61,11 @@ public class ExtensionSubsystem implements Subsystem, Supplier<String> {
     public void translateSlide(double v){
         setSlide(slideServo.getPosition()+v);
     }
+
+    public void translateTurret(double v){
+        setTurret(turretServo.getPosition()+v);
+    }
+
 
     /**
      *Method to display the extension and dump value on the telemetry to the driver knows

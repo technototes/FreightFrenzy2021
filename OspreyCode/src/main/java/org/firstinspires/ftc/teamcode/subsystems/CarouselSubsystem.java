@@ -21,9 +21,10 @@ public class CarouselSubsystem implements Subsystem, Supplier<Double> {
 
     @Config
     public static class CarouselConstants{
-        public static double CAROUSEL_RIGHT_SPEED = 0.6;
-        public static double CAROUSEL_LEFT_SPEED = -0.6;
+        public static double CAROUSEL_RIGHT_SPEED = 1;
+        public static double CAROUSEL_LEFT_SPEED = -1;
         public static double CAROUSEL_STOP_SPEED = 0;
+        public static double SPIN_OFFSET = 1;
     }
 
     public Motor<DcMotorEx> motor;
@@ -34,11 +35,14 @@ public class CarouselSubsystem implements Subsystem, Supplier<Double> {
 
     public void right(){motor.setSpeed(CAROUSEL_RIGHT_SPEED);}
 
+    public void right(double speed){motor.setSpeed(CAROUSEL_RIGHT_SPEED*Math.max(0.5, speed));}
+
     /**
      * when called by Carousel Right Command, sets motor to turn carousel right
      */
 
     public void left(){motor.setSpeed(CarouselConstants.CAROUSEL_LEFT_SPEED);}
+    public void left(double speed){motor.setSpeed(CarouselConstants.CAROUSEL_LEFT_SPEED*Math.max(0.5, speed));}
 
     /**
      * when called by Carousel Left Command, sets motor to turn carousel left

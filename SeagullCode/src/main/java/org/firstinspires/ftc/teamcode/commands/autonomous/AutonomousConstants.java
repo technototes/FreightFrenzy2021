@@ -19,7 +19,7 @@ public class AutonomousConstants {
         public static Pose2d DUCK_PARK = new Pose2d(-67, -31, toRadians(0)); // Not wrong positions (everything is fine, DO NOT CHANGE)
         public static Pose2d DEPOT_START = new Pose2d(0, -66, toRadians(-90)); // Wrong positions (estimate)
         public static Pose2d DEPOT_ALLIANCE_HUB_LEVEL3 = new Pose2d(-10, -45, toRadians(-68)); // Wrong positions (estimate)
-        public static Pose2d DEPOT_PARK = new Pose2d(46, -66, toRadians(0)); // Not wrong positions (everything is fine, DO NOT CHANGE)
+        public static Pose2d DEPOT_PARK = new Pose2d(46.5, -66, toRadians(0)); // Not wrong positions (everything is fine, DO NOT CHANGE)
         public static Pose2d DEPOT_GAP = new Pose2d(8, -66, toRadians(0));
     }
 
@@ -39,9 +39,6 @@ public class AutonomousConstants {
 
     public static final Function<Function<Pose2d, TrajectorySequenceBuilder>, TrajectorySequence>
               // Lists of driving series for auto naviation
-              RED_DUCK_START_TO_CAROUSEL = b -> b.apply(RedConstants.DUCK_START)
-                        .lineToLinearHeading(RedConstants.DUCK_CAROUSEL)
-                        .build(),
               RED_DUCK_START_TO_ALLIANCE_HUB_LEVEL3 = b -> b.apply(RedConstants.DUCK_START)
                         .lineToLinearHeading(RedConstants.DUCK_ALLIANCE_HUB_LEVEL3)
                         .build(),
@@ -56,6 +53,7 @@ public class AutonomousConstants {
                         .build(),
               RED_ALLIANCE_HUB_LEVEL3_TO_DEPOT = b -> b.apply(RedConstants.DEPOT_ALLIANCE_HUB_LEVEL3)
                         .lineToLinearHeading(RedConstants.DEPOT_GAP)
+                        .setVelConstraint((a, c, d, e)->25)
                         .lineTo(RedConstants.DEPOT_PARK.vec())
                         .build(),
               RED_DEPOT_TO_ALLIANCE_HUB_LEVEL3 = b -> b.apply(RedConstants.DEPOT_PARK)
@@ -76,6 +74,7 @@ public class AutonomousConstants {
                     .build(),
               BLUE_ALLIANCE_HUB_LEVEL3_TO_DEPOT = b -> b.apply(BlueConstants.DEPOT_ALLIANCE_HUB_LEVEL3)
                         .lineToLinearHeading(BlueConstants.DEPOT_GAP)
+                        .setVelConstraint((a, c, d, e)->20)
                         .lineToLinearHeading(BlueConstants.DEPOT_PARK)
                         .build();
 }
