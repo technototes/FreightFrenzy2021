@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.commands.dump;
 
+import static org.firstinspires.ftc.teamcode.subsystems.DumpSubsystem.ArmConstant.ARM_MIDDLE_LEVEL;
 import static org.firstinspires.ftc.teamcode.subsystems.DumpSubsystem.ArmConstant.ARM_SHARED_HUB_LEVEL;
 
 import com.technototes.library.command.Command;
@@ -15,13 +16,20 @@ public class DumpUnloadSharedHubCommand implements Command {
     }
 
     @Override
+    public void initialize() {
+        dumpSys.setMotorPosition(ARM_MIDDLE_LEVEL);
+    }
+
+    @Override
     public void execute() {
-        dumpSys.setMotorPosition(ARM_SHARED_HUB_LEVEL);
+      if (getRuntime().seconds() > 0.5) {
+          dumpSys.setMotorPosition(ARM_SHARED_HUB_LEVEL);
+      }
     }
 
     @Override
     public boolean isFinished() {
-        boolean finished = dumpSys.isMotorAtTarget() || getRuntime().seconds() > 1.0;
+        boolean finished = dumpSys.isMotorAtTarget() || getRuntime().seconds() > 1.5;
         if (finished){
             dumpSys.dumpBucket();
         }
