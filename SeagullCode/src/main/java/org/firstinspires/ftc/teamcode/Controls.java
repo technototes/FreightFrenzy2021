@@ -58,8 +58,8 @@ public class Controls {
         intakeInButton = gamepad.cross;
         intakeOutButton = gamepad.circle;
 
-        carouselLeftButton = gamepad.square;
-        carouselRightButton = gamepad.triangle;
+        carouselLeftButton = gamepad.square; // slow
+        carouselRightButton = gamepad.triangle; // fast
 
         resetGyroButton = gamepad.rightStickButton;
         snailSpeedButton = gamepad.leftStickButton;
@@ -89,13 +89,11 @@ public class Controls {
     }
 
     public void bindIntakeControls() {
-        intakeInButton.whenToggled(new IntakeSafeCommand(robot.intakeSubsystem, robot.dumpSubsystem));
-        intakeInButton.whenInverseToggled(new IntakeStopCommand(robot.intakeSubsystem));
+        intakeInButton.whenPressed(new IntakeSafeCommand(robot.intakeSubsystem, robot.dumpSubsystem));
         intakeOutButton.whenToggled(new IntakeOutCommand(robot.intakeSubsystem));
         intakeOutButton.whenInverseToggled(new IntakeStopCommand(robot.intakeSubsystem));
 
-        intakeInTrigger.whenToggled(new IntakeSafeCommand(robot.intakeSubsystem, robot.dumpSubsystem));
-        intakeInTrigger.whenInverseToggled(new IntakeStopCommand(robot.intakeSubsystem));
+        intakeInTrigger.whenPressed(new IntakeSafeCommand(robot.intakeSubsystem, robot.dumpSubsystem));
         intakeOutTrigger.whenToggled(new IntakeOutCommand(robot.intakeSubsystem));
         intakeOutTrigger.whenInverseToggled(new IntakeStopCommand(robot.intakeSubsystem));
     }

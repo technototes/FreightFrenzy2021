@@ -16,9 +16,17 @@ public class IntakeSubsystem implements Subsystem, Supplier<Double> {
     public static double DETECTION_THRESHOLD = 2.0;
   }
 
-  public EncodedMotor<DcMotorEx> motor;
+  public enum State {
+    STOP,
+    IN,
+    OUT
+  }
 
-  public RangeSensor rangeSensor;
+  private final EncodedMotor<DcMotorEx> motor;
+
+  private final RangeSensor rangeSensor;
+
+  private State currentState = State.STOP;
 
   public IntakeSubsystem(EncodedMotor<DcMotorEx> m, RangeSensor r) {
     motor = m;
@@ -28,14 +36,17 @@ public class IntakeSubsystem implements Subsystem, Supplier<Double> {
 
   public void in() {
     motor.setSpeed(IntakeConstant.INTAKE_IN_SPEED);
+    currentState = State.IN;
   }
 
   public void out() {
     motor.setSpeed(IntakeConstant.INTAKE_OUT_SPEED);
+    currentState = State.OUT;
   }
 
   public void stop() {
     motor.setSpeed(IntakeConstant.INTAKE_STOP_SPEED);
+    currentState = State.STOP;
   }
 
   private double getSensorDistance() {
@@ -54,5 +65,9 @@ public class IntakeSubsystem implements Subsystem, Supplier<Double> {
   @Override
   public Double get() {
     return motor.getSpeed();
+  }
+
+  public State getState() {
+    return currentState;
   }
 }
