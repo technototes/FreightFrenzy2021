@@ -56,13 +56,13 @@ public class DrivebaseSubsystem extends MecanumDrivebaseSubsystem implements Sup
         public static double kStatic = 0;
 
         @MaxVelo
-        public static double MAX_VEL = 50;
+        public static double MAX_VEL = 60;
         @MaxAccel
-        public static double MAX_ACCEL = 40;
+        public static double MAX_ACCEL = 50;
         @MaxAngleVelo
-        public static double MAX_ANG_VEL = Math.toRadians(120);
+        public static double MAX_ANG_VEL = Math.toRadians(180);
         @MaxAngleAccel
-        public static double MAX_ANG_ACCEL = Math.toRadians(60);
+        public static double MAX_ANG_ACCEL = Math.toRadians(90);
 
         @TransPID
         public static PIDCoefficients TRANSLATIONAL_PID = new PIDCoefficients(8, 0, 0);
@@ -82,7 +82,7 @@ public class DrivebaseSubsystem extends MecanumDrivebaseSubsystem implements Sup
         @PoseLimit
         public static int POSE_HISTORY_LIMIT = 100;
 
-        public static double SIDE_SENSOR_DISTANCE = 65.5;
+        public static double SIDE_SENSOR_DISTANCE = 64;
         public static double FRONT_SENSOR_DISTANCE = 65.5;
 
         public static double TIP_TOLERANCE = Math.toRadians(5);

@@ -15,5 +15,9 @@ public class ArmInCommand extends ArmCommand {
         subsystem.collect();
     }
 
+    @Override
+    public boolean isFinished() {
+        return getRuntime().seconds()>0.3;
+    }
 }
 

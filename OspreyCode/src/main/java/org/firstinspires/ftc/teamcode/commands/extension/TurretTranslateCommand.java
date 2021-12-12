@@ -2,15 +2,18 @@ package org.firstinspires.ftc.teamcode.commands.extension;
 
 import org.firstinspires.ftc.teamcode.subsystems.ExtensionSubsystem;
 
-public class TurretTranslateCommand extends ExtensionCommand{
+import java.util.function.BooleanSupplier;
 
-    public TurretTranslateCommand(ExtensionSubsystem subsystem, double turret) {
+public class TurretTranslateCommand extends ExtensionCommand{
+public BooleanSupplier flipTranslate;
+    public TurretTranslateCommand(ExtensionSubsystem subsystem, double turret, BooleanSupplier flip) {
         super(subsystem, 0, turret);
+        flipTranslate = flip;
     }
 
     @Override
     public void initialize() {
-        extensionSubsystem.translateTurret(turretTarget);
+        extensionSubsystem.translateTurret(flipTranslate.getAsBoolean() ? -turretTarget : turretTarget);
     }
 
     @Override
@@ -20,6 +23,6 @@ public class TurretTranslateCommand extends ExtensionCommand{
 
     @Override
     public boolean isFinished() {
-        return getRuntime().seconds() > 0.05;
+        return getRuntime().seconds() > 0.03;
     }
 }

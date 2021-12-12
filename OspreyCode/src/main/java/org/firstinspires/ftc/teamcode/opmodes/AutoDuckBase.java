@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.opmodes;
 
-import com.acmerobotics.dashboard.FtcDashboard;
-import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.technototes.library.command.CommandScheduler;
 import com.technototes.library.logger.Loggable;
@@ -12,29 +10,27 @@ import org.firstinspires.ftc.teamcode.Hardware;
 import org.firstinspires.ftc.teamcode.Robot;
 import org.firstinspires.ftc.teamcode.RobotConstants;
 import org.firstinspires.ftc.teamcode.commands.autonomous.AutoCycleCommand;
+import org.firstinspires.ftc.teamcode.commands.autonomous.AutoDuckCommand;
 import org.firstinspires.ftc.teamcode.commands.vision.VisionBarcodeCommand;
 
-@Autonomous(name="red cyc")
-@SuppressWarnings("unused")
-public class CycleRedAuto extends CommandOpMode implements Loggable {
+public abstract class AutoDuckBase extends CommandOpMode implements Loggable {
     public Robot robot;
     public Hardware hardware;
 
-
     @Override
     public void uponInit() {
-        //MAYBE THIS WORKS
-        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
-
+        RobotConstants.updateAlliance(Alliance.get(getClass()));
         hardware = new Hardware();
         robot = new Robot(hardware);
-        RobotConstants.updateAlliance(Alliance.RED);
-        robot.drivebaseSubsystem.setPoseEstimate(RobotConstants.CYCLE_START_SELECT.get());
         CommandScheduler.getInstance().scheduleInit(new VisionBarcodeCommand(robot.visionSubsystem));
-
-
-        CommandScheduler.getInstance().scheduleForState(new AutoCycleCommand(robot.drivebaseSubsystem, robot.intakeSubsystem, robot.liftSubsystem, robot.armSubsystem, robot.extensionSubsystem, robot.visionSubsystem)  , OpModeState.RUN);
-
+        CommandScheduler.getInstance().scheduleOnceForState(new AutoDuckCommand(robot.drivebaseSubsystem, robot.intakeSubsystem, robot.liftSubsystem, robot.armSubsystem, robot.extensionSubsystem, robot.visionSubsystem, robot.carouselSubsystem)  , OpModeState.RUN);
     }
+    @Autonomous
+    @Alliance.Blue
+    public static class DuckBlueAuto extends AutoDuckBase {}
+
+    @Autonomous
+    @Alliance.Red
+    public static class DuckRedAuto extends AutoDuckBase {}
 
 }

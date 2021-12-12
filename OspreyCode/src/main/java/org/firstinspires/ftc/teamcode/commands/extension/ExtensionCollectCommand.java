@@ -18,6 +18,6 @@ public class ExtensionCollectCommand extends ExtensionCommand{
 
     @Override
     public boolean isFinished() {
-        return getRuntime().seconds()>1;
+        return getRuntime().seconds()>0.7;
     }
 }

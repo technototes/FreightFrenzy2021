@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.hardware.MockHardwareMap;
 import org.firstinspires.ftc.teamcode.io.MockGamepadManager;
 import org.firstinspires.ftc.teamcode.io.MockTelemetry;
-import org.firstinspires.ftc.teamcode.opmodes.RedTeleOp;
+import org.firstinspires.ftc.teamcode.opmodes.TeleOpBase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -16,7 +16,7 @@ public class MockRobot {
     public static boolean TELEMETRY = false;
     @BeforeEach
     public void setup(){
-        opMode = new RedTeleOp();
+        opMode = new TeleOpBase.RedTeleOp();
         manager = new MockGamepadManager();
         opMode.gamepad1 = manager.driver;
         opMode.gamepad2 = manager.codriver;

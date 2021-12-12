@@ -19,6 +19,6 @@ public class AutoCarouselCommand extends SequentialCommandGroup {
     public AutoCarouselCommand(DrivebaseSubsystem drive, LiftSubsystem lift, ArmSubsystem deposit, ExtensionSubsystem extension, CarouselSubsystem carousel){
         super(new TrajectorySequenceCommand(drive, RobotConstants.HUB_TO_CAROUSEL)
                 .alongWith(new DepositCollectCommand(deposit, extension, lift)),
-                new CarouselSpinCommand(carousel).withTimeout(2));
+                new CarouselSpinCommand(carousel).withTimeout(4));
     }
 }

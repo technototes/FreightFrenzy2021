@@ -7,7 +7,6 @@ import com.technototes.library.control.CommandGamepad;
 import com.technototes.library.control.CommandInput;
 import com.technototes.library.control.Stick;
 
-import org.firstinspires.ftc.teamcode.commands.arm.ArmCommand;
 import org.firstinspires.ftc.teamcode.commands.arm.ArmRaiseInCommand;
 import org.firstinspires.ftc.teamcode.commands.arm.ArmSharedCommand;
 import org.firstinspires.ftc.teamcode.commands.cap.CapDownCommand;
@@ -21,18 +20,16 @@ import org.firstinspires.ftc.teamcode.commands.drivebase.DriveResetCommand;
 import org.firstinspires.ftc.teamcode.commands.drivebase.DriveSpeedCommand;
 import org.firstinspires.ftc.teamcode.commands.extension.ExtensionCollectCommand;
 import org.firstinspires.ftc.teamcode.commands.extension.ExtensionCommand;
-import org.firstinspires.ftc.teamcode.commands.extension.ExtensionLeftSideCommand;
-import org.firstinspires.ftc.teamcode.commands.extension.ExtensionOutCommand;
-import org.firstinspires.ftc.teamcode.commands.extension.ExtensionRightSideCommand;
+import org.firstinspires.ftc.teamcode.commands.extension.ExtensionSideCommand;
 import org.firstinspires.ftc.teamcode.commands.extension.TurretTranslateCommand;
 import org.firstinspires.ftc.teamcode.commands.intake.IntakeInCommand;
 import org.firstinspires.ftc.teamcode.commands.intake.IntakeOutCommand;
 import org.firstinspires.ftc.teamcode.commands.lift.LiftCollectCommand;
-import org.firstinspires.ftc.teamcode.commands.lift.LiftCommand;
 import org.firstinspires.ftc.teamcode.commands.lift.LiftLevel1Command;
-import org.firstinspires.ftc.teamcode.commands.lift.LiftLevel3Command;
+import org.firstinspires.ftc.teamcode.commands.lift.LiftLevelCommand;
 import org.firstinspires.ftc.teamcode.commands.lift.LiftSharedCommand;
 import org.firstinspires.ftc.teamcode.commands.lift.LiftTranslateCommand;
+import org.firstinspires.ftc.teamcode.subsystems.ExtensionSubsystem;
 
 import static org.firstinspires.ftc.teamcode.Robot.SubsystemConstants.CAP_CONNECTED;
 import static org.firstinspires.ftc.teamcode.Robot.SubsystemConstants.CAROUSEL_CONNECTED;
@@ -62,6 +59,8 @@ public class BaseControls {
 
     public Stick driveLeftStick, driveRightStick;
     public CommandButton resetGyroButton, snailSpeedButton;
+
+    public CommandButton strategy1Button, strategy2Button;
 
     public BaseControls(Robot r, CommandGamepad driver, CommandGamepad codriver) {
         this(r, driver, codriver, true);
@@ -95,11 +94,12 @@ public class BaseControls {
         driveRightStick = driverGamepad.rightStick;
 
         capUpButton = driverGamepad.start;
-        capDownButton = driverGamepad.back;
 
-        armCommand = new ArmAllianceCommand(robot.armSubsystem);
-        extensionCommand = new ExtensionOutCommand(robot.extensionSubsystem);
-        liftCommand = new LiftLevel3Command(robot.liftSubsystem);
+        strategy1Button = driverGamepad.start;
+        strategy2Button = driverGamepad.back;
+
+        RobotConstants.setStrategy(RobotConstants.AllianceHubStrategy.HIGH, RobotConstants.SharedHubStrategy.OWN);
+
         if(bind) bindControls();
 
 
@@ -113,20 +113,23 @@ public class BaseControls {
         if (CAROUSEL_CONNECTED) bindCarouselControls();
         if (CAP_CONNECTED) bindCapControls();
         if (EXTENSION_CONNECTED) bindExtensionControls();
+
+        strategy1Button.whenPressed(RobotConstants::strategy1);
+        strategy2Button.whenPressed(RobotConstants::strategy2);
     }
 
     public void bindArmControls() {
         dumpAxis.whilePressedOnce(new BucketDumpVariableCommand(robot.armSubsystem, dumpAxis).asConditional(EXTENSION_CONNECTED ? robot.extensionSubsystem::isSlideOut : ()->true));
-        toIntakeButton.whenPressed(new ArmRaiseInCommand(robot.armSubsystem).andThen(new ArmInCommand(robot.armSubsystem)));
-        allianceHubButton.whenPressed(armCommand);
+        toIntakeButton.whenPressed(new WaitCommand(0.5).andThen(new ArmRaiseInCommand(robot.armSubsystem).andThen(new ArmInCommand(robot.armSubsystem)).withTimeout(1.5)));
+        allianceHubButton.whenPressed( new ArmAllianceCommand(robot.armSubsystem));
         sharedHubButton.whenPressed(new ArmSharedCommand(robot.armSubsystem));
 
     }
 
     public void bindLiftControls() {
         sharedHubButton.whenPressed(new WaitCommand(0.3).andThen(new LiftSharedCommand(robot.liftSubsystem).withTimeout(0.5)));
-        allianceHubButton.whenPressed(new WaitCommand(0.3).andThen(liftCommand.withTimeout(1)));
-        toIntakeButton.whenPressed(new WaitCommand(0.8).deadline(new LiftLevel1Command(robot.liftSubsystem)).andThen(new LiftCollectCommand(robot.liftSubsystem).withTimeout(1.5)));
+        allianceHubButton.whenPressed(new WaitCommand(0.3).andThen(new LiftLevelCommand(robot.liftSubsystem).withTimeout(0.5)));
+        toIntakeButton.whenPressed(new WaitCommand(0.5).andThen(new WaitCommand(0.8).deadline(new LiftLevel1Command(robot.liftSubsystem)).andThen(new LiftCollectCommand(robot.liftSubsystem).withTimeout(1.5))));
         liftAdjustUpButton.whilePressed(new LiftTranslateCommand(robot.liftSubsystem, 50));
         liftAdjustDownButton.whilePressed(new LiftTranslateCommand(robot.liftSubsystem, -50));
     }
@@ -139,7 +142,7 @@ public class BaseControls {
     }
 
     public void bindIntakeControls() {
-        toIntakeButton.whenPressed(new WaitCommand(1).andThen(new IntakeInCommand(robot.intakeSubsystem)));
+        toIntakeButton.whenPressed(new WaitCommand(1.3).andThen(new IntakeInCommand(robot.intakeSubsystem)));
         intakeInButton.whilePressedContinuous(new IntakeInCommand(robot.intakeSubsystem));
         intakeOutButton.whilePressedOnce(new IntakeOutCommand(robot.intakeSubsystem));
         allianceHubButton.whenPressed(new IntakeOutCommand(robot.intakeSubsystem).withTimeout(0.2));
@@ -161,16 +164,12 @@ public class BaseControls {
     }
 
     public void bindExtensionControls() {
-        allianceHubButton.whenPressed(extensionCommand);
-        sharedHubButton.whenPressed(RobotConstants.getAlliance().selectOf(
-                new ExtensionRightSideCommand(robot.extensionSubsystem),
-                new ExtensionLeftSideCommand(robot.extensionSubsystem)));
+        allianceHubButton.whenPressed(new ExtensionCommand(robot.extensionSubsystem, ExtensionSubsystem.ExtensionConstants.TELEOP_ALLIANCE, ExtensionSubsystem.ExtensionConstants.CENTER));
+        sharedHubButton.whenPressed(new ExtensionSideCommand(robot.extensionSubsystem));
         toIntakeButton.whenPressed(new ExtensionCollectCommand(robot.extensionSubsystem));
-        turretAdjustLeftButton.whilePressed(new TurretTranslateCommand(robot.extensionSubsystem, -0.05));
-        turretAdjustRightButton.whilePressed(new TurretTranslateCommand(robot.extensionSubsystem,   0.05));
+        turretAdjustLeftButton.whilePressed(new TurretTranslateCommand(robot.extensionSubsystem, -0.05, ()-> DRIVE_CONNECTED && robot.drivebaseSubsystem.getExternalHeading() > ExtensionSubsystem.ExtensionConstants.SNAP_1 && robot.drivebaseSubsystem.getExternalHeading() < ExtensionSubsystem.ExtensionConstants.SNAP_2));
+        turretAdjustRightButton.whilePressed(new TurretTranslateCommand(robot.extensionSubsystem,   0.05, ()-> DRIVE_CONNECTED && robot.drivebaseSubsystem.getExternalHeading() > ExtensionSubsystem.ExtensionConstants.SNAP_1 && robot.drivebaseSubsystem.getExternalHeading() < ExtensionSubsystem.ExtensionConstants.SNAP_2));
     }
-    protected LiftCommand liftCommand;
-    protected ArmCommand armCommand;
-    protected ExtensionCommand extensionCommand;
+
 
 }

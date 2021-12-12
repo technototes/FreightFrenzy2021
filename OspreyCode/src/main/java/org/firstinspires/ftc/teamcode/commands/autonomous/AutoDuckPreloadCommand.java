@@ -18,7 +18,6 @@ public class AutoDuckPreloadCommand extends SequentialCommandGroup {
         super(new TrajectorySequenceCommand(drive, RobotConstants.DUCK_DEPOSIT_PRELOAD)
                 //.alongWith(new LiftBarcodeSelectCommand(lift, vision)
                 .alongWith(new DepositPreloadCommand(depot, extension, lift, vision)),
-                new BucketDumpCommand(depot),
-                new WaitCommand(0.3));
+                new BucketDumpCommand(depot).sleep(0.3));
     }
 }

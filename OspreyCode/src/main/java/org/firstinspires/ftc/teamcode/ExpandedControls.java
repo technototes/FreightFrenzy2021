@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+
 import com.technototes.library.control.Binding;
 import com.technototes.library.control.CommandAxis;
 import com.technototes.library.control.CommandBinding;
@@ -62,11 +63,9 @@ public class ExpandedControls extends BaseControls implements Enablable<Expanded
 
         sharedHubButton.disable();
 
-        toIntakeButton = new CommandBinding(Binding.Type.SOME_ACTIVE, toIntakeButton, secondIntakeButton);
-
-
         bindControls();
         bindStrategyControls();
+        disable();
     }
 
     @Override
@@ -85,18 +84,15 @@ public class ExpandedControls extends BaseControls implements Enablable<Expanded
     public void bindStrategyControls() {
         allianceHubButton.whenPressed(this::enable);
         toIntakeButton.whenPressed(this::disable);
-        sharedButton.whenPressed(() -> setStrategy(Strategy.SHARED));
-        stealButton.whenPressed(() -> setStrategy(Strategy.STEAL_SHARED));
-        highButton.whenPressed(() -> setStrategy(Strategy.HIGH_ALLIANCE));
-        midButton.whenPressed(() -> setStrategy(Strategy.MID_ALLIANCE));
-        defenseButton.whenPressed(() -> setStrategy(Strategy.DEFENDING));
+        secondIntakeButton.whenPressed(this::disable);
+//        sharedButton.whenPressed(() -> updateStrategy(RobotConstants.Strategy.SHARED));
+//        stealButton.whenPressed(() -> updateStrategy(RobotConstants.Strategy.STEAL_SHARED));
+//        highButton.whenPressed(() -> updateStrategy(RobotConstants.Strategy.HIGH_ALLIANCE));
+//        midButton.whenPressed(() -> updateStrategy(RobotConstants.Strategy.MID_ALLIANCE));
+//        defenseButton.whenPressed(() -> updateStrategy(RobotConstants.Strategy.DEFENDING));
     }
 
-    public void setStrategy(Strategy s) {
-        liftCommand = s.getLiftCommand(robot);
-        armCommand = s.getArmCommand(robot);
-        extensionCommand = s.getExtensionCommand(robot);
-    }
+
 
     //enabling stuff so vvv cool
     public boolean enabled = false;
@@ -134,40 +130,5 @@ public class ExpandedControls extends BaseControls implements Enablable<Expanded
         return enabled;
     }
 
-    public enum Strategy {
-        SHARED(ArmSharedCommand::new, ExtensionRightSideCommand::new, ExtensionLeftSideCommand::new, LiftSharedCommand::new),
-        STEAL_SHARED(ArmSharedCommand::new, ExtensionLeftOutCommand::new, ExtensionRightOutCommand::new, LiftSharedCommand::new),
-        HIGH_ALLIANCE(ArmAllianceCommand::new, ExtensionOutCommand::new, LiftLevel3Command::new),
-        MID_ALLIANCE(ArmAllianceCommand::new, ExtensionOutCommand::new, LiftLevel2Command::new),
-        DEFENDING(ArmInCommand::new, ExtensionCollectCommand::new, LiftCollectCommand::new);
-        Function<ArmSubsystem, ArmCommand> armCommand;
-        Function<ExtensionSubsystem, ExtensionCommand> redExtensionCommand, blueExtensionCommand;
-        Function<LiftSubsystem, LiftCommand> liftCommand;
 
-        Strategy(Function<ArmSubsystem, ArmCommand> arm, Function<ExtensionSubsystem, ExtensionCommand> red, Function<ExtensionSubsystem, ExtensionCommand> blue, Function<LiftSubsystem, LiftCommand> lift) {
-            armCommand = arm;
-            redExtensionCommand = red;
-            blueExtensionCommand = blue;
-            liftCommand = lift;
-        }
-
-        Strategy(Function<ArmSubsystem, ArmCommand> arm, Function<ExtensionSubsystem, ExtensionCommand> extension, Function<LiftSubsystem, LiftCommand> lift) {
-            armCommand = arm;
-            redExtensionCommand = extension;
-            blueExtensionCommand = extension;
-            liftCommand = lift;
-        }
-
-        public ArmCommand getArmCommand(Robot r) {
-            return armCommand.apply(r.armSubsystem);
-        }
-
-        public ExtensionCommand getExtensionCommand(Robot r) {
-            return RobotConstants.getAlliance().selectOf(redExtensionCommand, blueExtensionCommand).apply(r.extensionSubsystem);
-        }
-
-        public LiftCommand getLiftCommand(Robot r) {
-            return liftCommand.apply(r.liftSubsystem);
-        }
-    }
 }
