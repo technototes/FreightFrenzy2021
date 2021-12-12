@@ -16,22 +16,24 @@ public class AutonomousConstants {
         public static Pose2d DUCK_START = new Pose2d(-36, -63, toRadians(-90));
         public static Pose2d DUCK_ALLIANCE_HUB_LEVEL3 = new Pose2d(-30, -38, toRadians(-125));
         public static Pose2d DUCK_CAROUSEL = new Pose2d(-66, -58, toRadians(-90));
-        public static Pose2d DUCK_PARK = new Pose2d(-67, -31, toRadians(0)); // Not wrong positions (everything is fine, DO NOT CHANGE)
+        public static Pose2d DUCK_PARK = new Pose2d(-67, -31, toRadians(180)); // Not wrong positions (everything is fine, DO NOT CHANGE)
         public static Pose2d DEPOT_START = new Pose2d(0, -66, toRadians(-90)); // Wrong positions (estimate)
         public static Pose2d DEPOT_ALLIANCE_HUB_LEVEL3 = new Pose2d(-10, -45, toRadians(-68)); // Wrong positions (estimate)
-        public static Pose2d DEPOT_PARK = new Pose2d(46.5, -66, toRadians(0)); // Not wrong positions (everything is fine, DO NOT CHANGE)
         public static Pose2d DEPOT_GAP = new Pose2d(8, -66, toRadians(0));
+        public static Pose2d DEPOT_COLLECT = new Pose2d(46.5, -66, toRadians(0)); // Not wrong positions (everything is fine, DO NOT CHANGE)
+        public static Pose2d DEPOT_PARK = new Pose2d(46.5, -66, toRadians(180));
     }
 
     public static class BlueConstants {
         public static Pose2d DUCK_START = new Pose2d(-36, 63, toRadians(90));
         public static Pose2d DUCK_ALLIANCE_HUB_LEVEL3 = new Pose2d(-23, 38, toRadians(120));
         public static Pose2d DUCK_CAROUSEL = new Pose2d(-59, 59, toRadians(180));
-        public static Pose2d DUCK_PARK = new Pose2d(-62, 30, toRadians(0)); // Not wrong positions (everything is fine, DO NOT CHANGE)
+        public static Pose2d DUCK_PARK = new Pose2d(-62, 30, toRadians(180)); // Not wrong positions (everything is fine, DO NOT CHANGE)
         public static Pose2d DEPOT_START = new Pose2d(0, 66, toRadians(90)); // Wrong positions (estimate)
         public static Pose2d DEPOT_ALLIANCE_HUB_LEVEL3 = new Pose2d(-9, 41, toRadians(60)); // Wrong positions (estimate)
         public static Pose2d DEPOT_GAP = new Pose2d(0, 69.5, toRadians(0)); // Wrong positions (estimate)
-        public static Pose2d DEPOT_PARK = new Pose2d(36, 69.5, toRadians(0)); // Not wrong positions (everything is fine, DO NOT CHANGE)
+        public static Pose2d DEPOT_COLLECT = new Pose2d(36, 69.5, toRadians(0)); // Not wrong positions (everything is fine, DO NOT CHANGE)
+        public static Pose2d DEPOT_PARK = new Pose2d(36, 69.5, toRadians(180));
     }
 
     public static Alliance ALLIANCE = Alliance.BLUE;
@@ -52,12 +54,17 @@ public class AutonomousConstants {
               RED_DEPOT_START_TO_ALLIANCE_HUB_LEVEL3 = b -> b.apply(RedConstants.DEPOT_START)
                         .lineToLinearHeading(RedConstants.DEPOT_ALLIANCE_HUB_LEVEL3)
                         .build(),
-              RED_ALLIANCE_HUB_LEVEL3_TO_DEPOT = b -> b.apply(RedConstants.DEPOT_ALLIANCE_HUB_LEVEL3)
+              RED_ALLIANCE_HUB_LEVEL3_TO_DEPOT_COLLECT = b -> b.apply(RedConstants.DEPOT_ALLIANCE_HUB_LEVEL3)
+                        .lineToLinearHeading(RedConstants.DEPOT_GAP)
+                        .setVelConstraint((a, c, d, e)->25)
+                        .lineTo(RedConstants.DEPOT_COLLECT.vec())
+                        .build(),
+              RED_ALLIANCE_HUB_LEVEL3_TO_DEPOT_PARK = b -> b.apply(RedConstants.DEPOT_ALLIANCE_HUB_LEVEL3)
                         .lineToLinearHeading(RedConstants.DEPOT_GAP)
                         .setVelConstraint((a, c, d, e)->25)
                         .lineTo(RedConstants.DEPOT_PARK.vec())
                         .build(),
-              RED_DEPOT_TO_ALLIANCE_HUB_LEVEL3 = b -> b.apply(RedConstants.DEPOT_PARK)
+              RED_DEPOT_COLLECT_TO_ALLIANCE_HUB_LEVEL3 = b -> b.apply(RedConstants.DEPOT_COLLECT)
                         .lineToLinearHeading(RedConstants.DEPOT_GAP)
                         .lineToLinearHeading(RedConstants.DEPOT_ALLIANCE_HUB_LEVEL3)
                         .build(),
@@ -71,14 +78,19 @@ public class AutonomousConstants {
                         .lineToLinearHeading(BlueConstants.DEPOT_ALLIANCE_HUB_LEVEL3)
                         .build(),
               BLUE_ALLIANCE_HUB_LEVEL3_TO_CAROUSEL = b -> b.apply(BlueConstants.DEPOT_ALLIANCE_HUB_LEVEL3)
-                    .lineToLinearHeading(BlueConstants.DUCK_CAROUSEL)
-                    .build(),
-              BLUE_ALLIANCE_HUB_LEVEL3_TO_DEPOT = b -> b.apply(BlueConstants.DEPOT_ALLIANCE_HUB_LEVEL3)
+                        .lineToLinearHeading(BlueConstants.DUCK_CAROUSEL)
+                        .build(),
+              BLUE_ALLIANCE_HUB_LEVEL3_TO_DEPOT_COLLECT = b -> b.apply(BlueConstants.DEPOT_ALLIANCE_HUB_LEVEL3)
+                        .lineToLinearHeading(BlueConstants.DEPOT_GAP)
+                        .setVelConstraint((a, c, d, e)->20)
+                        .lineToLinearHeading(BlueConstants.DEPOT_COLLECT)
+                        .build(),
+              BLUE_ALLIANCE_HUB_LEVEL3_TO_DEPOT_PARK = b -> b.apply(BlueConstants.DEPOT_ALLIANCE_HUB_LEVEL3)
                         .lineToLinearHeading(BlueConstants.DEPOT_GAP)
                         .setVelConstraint((a, c, d, e)->20)
                         .lineToLinearHeading(BlueConstants.DEPOT_PARK)
                         .build(),
-              BLUE_DEPOT_TO_ALLIANCE_HUB_LEVEL_3 = b -> b.apply(BlueConstants.DEPOT_PARK)
+              BLUE_DEPOT_COLLECT_TO_ALLIANCE_HUB_LEVEL_3 = b -> b.apply(BlueConstants.DEPOT_COLLECT)
                         .lineToLinearHeading(BlueConstants.DEPOT_GAP)
                         .lineToLinearHeading(BlueConstants.DEPOT_ALLIANCE_HUB_LEVEL3)
                         .build();
