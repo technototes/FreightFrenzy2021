@@ -10,8 +10,8 @@ import java.util.function.Supplier;
 
 public class IntakeSubsystem implements Subsystem, Supplier<Double> {
   public static class IntakeConstant {
-    public static double INTAKE_IN_SPEED = -0.2;
-    public static double INTAKE_OUT_SPEED = 0.825;
+    public static double INTAKE_IN_SPEED = -0.85;
+    public static double INTAKE_OUT_SPEED = 1.0;
     public static double INTAKE_STOP_SPEED = 0;
     public static double DETECTION_THRESHOLD = 2.0;
   }
