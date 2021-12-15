@@ -17,6 +17,7 @@ import org.firstinspires.ftc.teamcode.commands.carousel.CarouselRightCommand;
 import org.firstinspires.ftc.teamcode.commands.drivebase.DriveCommand;
 import org.firstinspires.ftc.teamcode.commands.drivebase.ResetGyroCommand;
 import org.firstinspires.ftc.teamcode.commands.drivebase.SetSpeedCommand;
+import org.firstinspires.ftc.teamcode.commands.drivebase.StraightenCommand;
 import org.firstinspires.ftc.teamcode.commands.dump.DumpCarryCommand;
 import org.firstinspires.ftc.teamcode.commands.dump.DumpCollectCommand;
 import org.firstinspires.ftc.teamcode.commands.dump.DumpUnloadBottomLevelCommand;
@@ -42,7 +43,7 @@ public class Controls {
     public CommandButton carouselLeftButton, carouselRightButton;
 
     public Stick driveLeftStick, driveRightStick;
-    public CommandButton resetGyroButton, snailSpeedButton;
+    public CommandButton resetGyroButton, straightenButton, snailSpeedButton;
 
     public Controls(CommandGamepad g, Robot r) {
         gamepad = g;
@@ -65,10 +66,13 @@ public class Controls {
         carouselRightButton = gamepad.triangle; // fast
 
         resetGyroButton = gamepad.rightStickButton;
+        straightenButton = gamepad.options;
         snailSpeedButton = gamepad.leftStickButton;
 
         driveLeftStick = gamepad.leftStick;
         driveRightStick = gamepad.rightStick;
+
+
 
         if (DRIVE_CONNECTED) bindDriveControls();
         if (INTAKE_CONNECTED) bindIntakeControls();
@@ -89,6 +93,7 @@ public class Controls {
     public void bindDriveControls() {
         robot.drivebaseSubsystem.setDefaultCommand(new DriveCommand(robot.drivebaseSubsystem, driveLeftStick, driveRightStick));
         resetGyroButton.whenPressed(new ResetGyroCommand(robot.drivebaseSubsystem));
+        straightenButton.whilePressedOnce(new StraightenCommand((robot.drivebaseSubsystem)));
         snailSpeedButton.whilePressedOnce(new SetSpeedCommand(robot.drivebaseSubsystem));
     }
 
