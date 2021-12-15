@@ -11,6 +11,7 @@ import com.technototes.library.control.CommandButton;
 import com.technototes.library.control.CommandGamepad;
 import com.technototes.library.control.Stick;
 
+import org.firstinspires.ftc.teamcode.commands.RumbleTestCommand;
 import org.firstinspires.ftc.teamcode.commands.carousel.CarouselLeftCommand;
 import org.firstinspires.ftc.teamcode.commands.carousel.CarouselRightCommand;
 import org.firstinspires.ftc.teamcode.commands.drivebase.DriveCommand;
@@ -92,17 +93,18 @@ public class Controls {
     }
 
     public void bindIntakeControls() {
-        intakeInButton.whenPressed(new IntakeSafeCommand(robot.intakeSubsystem, robot.dumpSubsystem));
+        intakeInButton.whenPressed(new IntakeSafeCommand(robot.intakeSubsystem, robot.dumpSubsystem, gamepad));
         intakeOutButton.whenToggled(new IntakeOutCommand(robot.intakeSubsystem));
         intakeOutButton.whenInverseToggled(new IntakeStopCommand(robot.intakeSubsystem));
 
-        intakeInTrigger.whenPressed(new IntakeSafeCommand(robot.intakeSubsystem, robot.dumpSubsystem));
+        intakeInTrigger.whenPressed(new IntakeSafeCommand(robot.intakeSubsystem, robot.dumpSubsystem, gamepad));
         intakeOutTrigger.whenToggled(new IntakeOutCommand(robot.intakeSubsystem));
         intakeOutTrigger.whenInverseToggled(new IntakeStopCommand(robot.intakeSubsystem));
     }
 
     public void bindCarouselControls() {
         carouselLeftButton.whilePressedOnce(new CarouselLeftCommand(robot.carouselSubsystem));
+//        carouselLeftButton.whenPressed(new RumbleTestCommand(gamepad));
         carouselRightButton.whilePressedOnce(new CarouselRightCommand(robot.carouselSubsystem));
     }
 

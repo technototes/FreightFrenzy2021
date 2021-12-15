@@ -32,7 +32,7 @@ public class AutonomousConstants {
         public static Pose2d DEPOT_START = new Pose2d(0, 66, toRadians(90)); // Wrong positions (estimate)
         public static Pose2d DEPOT_ALLIANCE_HUB_LEVEL3 = new Pose2d(-9, 41, toRadians(60)); // Wrong positions (estimate)
         public static Pose2d DEPOT_GAP = new Pose2d(0, 69.5, toRadians(0)); // Wrong positions (estimate)
-        public static Pose2d DEPOT_COLLECT = new Pose2d(36, 69.5, toRadians(0)); // Not wrong positions (everything is fine, DO NOT CHANGE)
+        public static Pose2d DEPOT_COLLECT = new Pose2d(46, 69.5, toRadians(0)); // Not wrong positions (everything is fine, DO NOT CHANGE)
         public static Pose2d DEPOT_PARK = new Pose2d(36, 69.5, toRadians(180));
     }
 
