@@ -5,7 +5,6 @@ import com.technototes.library.command.SequentialCommandGroup;
 import com.technototes.library.command.WaitCommand;
 import com.technototes.path.command.TrajectorySequenceCommand;
 
-import org.firstinspires.ftc.teamcode.commands.dump.DumpCarryCommand;
 import org.firstinspires.ftc.teamcode.commands.dump.DumpCollectCommand;
 import org.firstinspires.ftc.teamcode.commands.dump.DumpUnloadTopLevelCommand;
 import org.firstinspires.ftc.teamcode.commands.intake.IntakeInCommand;
@@ -23,20 +22,20 @@ public class AutoBlueShippingHubCommandGroup extends SequentialCommandGroup {
                 new WaitCommand(0.3),
                 new DumpCollectCommand(bucket),
                 new IntakeInCommand(intake), // Intake command - spin the intake before arrived at the depot
-                new TrajectorySequenceCommand(drive, AutonomousConstants.BLUE_ALLIANCE_HUB_LEVEL3_TO_DEPOT), // Differe park command
+                new TrajectorySequenceCommand(drive, AutonomousConstants.BLUE_ALLIANCE_HUB_LEVEL3_TO_DEPOT_COLLECT), // Different park command
 
-                new TrajectorySequenceCommand(drive, AutonomousConstants.BLUE_DEPOT_TO_ALLIANCE_HUB_LEVEL_3).alongWith(new IntakeOutCommand(intake).sleep(0.5).andThen(new IntakeStopCommand(intake))),
+                new TrajectorySequenceCommand(drive, AutonomousConstants.BLUE_DEPOT_COLLECT_TO_ALLIANCE_HUB_LEVEL_3).alongWith(new IntakeOutCommand(intake).sleep(0.5).andThen(new IntakeStopCommand(intake))),
                 new DumpUnloadTopLevelCommand(bucket).withTimeout(1.5),
                 new WaitCommand(0.3),
                 new DumpCollectCommand(bucket), // Bucket dump command
                 new IntakeInCommand(intake), // Intake command - spin the intake before arrived at the depot
-                new TrajectorySequenceCommand(drive, AutonomousConstants.BLUE_ALLIANCE_HUB_LEVEL3_TO_DEPOT),
+                new TrajectorySequenceCommand(drive, AutonomousConstants.BLUE_ALLIANCE_HUB_LEVEL3_TO_DEPOT_COLLECT),
 
-                new TrajectorySequenceCommand(drive, AutonomousConstants.BLUE_DEPOT_TO_ALLIANCE_HUB_LEVEL_3).alongWith(new IntakeOutCommand(intake).sleep(0.5).andThen(new IntakeStopCommand(intake))),
+                new TrajectorySequenceCommand(drive, AutonomousConstants.BLUE_DEPOT_COLLECT_TO_ALLIANCE_HUB_LEVEL_3).alongWith(new IntakeOutCommand(intake).sleep(0.5).andThen(new IntakeStopCommand(intake))),
                 new DumpUnloadTopLevelCommand(bucket).withTimeout(1.5),
                 new WaitCommand(0.3),
                 new DumpCollectCommand(bucket), // Bucket dump command
-                new TrajectorySequenceCommand(drive, AutonomousConstants.BLUE_ALLIANCE_HUB_LEVEL3_TO_DEPOT),
+                new TrajectorySequenceCommand(drive, AutonomousConstants.BLUE_ALLIANCE_HUB_LEVEL3_TO_DEPOT_COLLECT),
 
                 CommandScheduler.getInstance()::terminateOpMode); //ending
     }
