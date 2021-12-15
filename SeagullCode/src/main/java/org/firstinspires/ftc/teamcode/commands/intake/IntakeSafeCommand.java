@@ -21,13 +21,21 @@ public class IntakeSafeCommand implements Command {
     }
 
     @Override
-    public void execute(){
-        intake.in();
+    public void initialize() {
+        if (intake.getState() == IntakeSubsystem.State.IN) {
+            intake.stop();
+        } else {
+            intake.in();
+        }
+    }
+
+    @Override
+    public void execute() {
     }
 
     @Override
     public boolean isFinished(){
-        return intake.isNearTarget();
+        return intake.hasCargo();
     }
 
     @Override

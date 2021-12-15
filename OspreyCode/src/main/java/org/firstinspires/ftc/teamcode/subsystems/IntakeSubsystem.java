@@ -18,19 +18,16 @@ public class IntakeSubsystem implements Subsystem, Supplier<Double> {
 
     @Config
     public static class IntakeConstants{
-        public static double INTAKE_IN_SPEED = 1;
-        public static double INTAKE_OUT_SPEED = -1;
+        public static double INTAKE_IN_SPEED = 0.7;
+        public static double INTAKE_OUT_SPEED = -0.7;
         public static double INTAKE_STOP_SPEED = 0;
-        public static double DETECTION_DISTANCE = 0.4;
     }
 
     public Motor<DcMotorEx> motor;
 
-    public RangeSensor rangeSensor;
 
-    public IntakeSubsystem(Motor<DcMotorEx> m, RangeSensor rs){
+    public IntakeSubsystem(Motor<DcMotorEx> m){
         motor = m;
-        rangeSensor = rs;
     }
 
     /**
@@ -52,14 +49,6 @@ public class IntakeSubsystem implements Subsystem, Supplier<Double> {
      */
     public void stop(){
         motor.setSpeed(INTAKE_STOP_SPEED);
-    }
-
-    public double getSensorDistance(){
-        return rangeSensor.getSensorValue();
-    }
-
-    public boolean isNearTarget(){
-        return getSensorDistance() < IntakeConstants.DETECTION_DISTANCE;
     }
 
     @Override

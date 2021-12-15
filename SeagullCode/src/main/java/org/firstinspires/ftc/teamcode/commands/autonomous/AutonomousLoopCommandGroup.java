@@ -15,12 +15,12 @@ public class AutonomousLoopCommandGroup extends SequentialCommandGroup {
     public AutonomousLoopCommandGroup(DrivebaseSubsystem drive, DumpSubsystem bucket, IntakeSubsystem intake){
         super(new DumpCollectCommand(bucket),
             new AutonomousBucketDumpCommand(bucket).withTimeout(3), // Bucket command
-                new WaitCommand(1),
+                new WaitCommand(0.5),
                 new DumpCollectCommand(bucket),
-                new TrajectorySequenceCommand(drive, AutonomousConstants.RED_ALLIANCE_HUB_LEVEL3_TO_DEPOT),
+                new TrajectorySequenceCommand(drive, AutonomousConstants.RED_ALLIANCE_HUB_LEVEL3_TO_DEPOT_COLLECT),
                 new IntakeInCommand(intake),
-                new WaitCommand(1),
+                new WaitCommand(0.5),
                 new IntakeStopCommand(intake),
-                new TrajectorySequenceCommand(drive, AutonomousConstants.RED_DEPOT_TO_ALLIANCE_HUB_LEVEL3));
+                new TrajectorySequenceCommand(drive, AutonomousConstants.RED_DEPOT_COLLECT_TO_ALLIANCE_HUB_LEVEL3));
     }
 }

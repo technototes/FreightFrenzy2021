@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.commands.carousel;
 
+import static org.firstinspires.ftc.teamcode.subsystems.CarouselSubsystem.CarouselConstants.SPIN_OFFSET;
+
 import com.technototes.library.command.Command;
 import com.technototes.library.util.Alliance;
 
@@ -16,9 +18,9 @@ public class CarouselSpinCommand implements Command {
     }
 
     @Override
-    public void execute(){
-        if(RobotConstants.getAlliance() == Alliance.RED) subsystem.left();
-        else subsystem.right();
+    public void execute() {
+        if (RobotConstants.getAlliance() == Alliance.RED) subsystem.left(CarouselSubsystem.CarouselConstants.MIN_SPEED);
+        else subsystem.right(CarouselSubsystem.CarouselConstants.MIN_SPEED);
     }
 
 

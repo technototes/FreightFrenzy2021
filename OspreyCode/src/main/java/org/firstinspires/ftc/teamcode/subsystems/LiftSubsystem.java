@@ -1,9 +1,14 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
+import static org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem.LiftConstants.DEADZONE;
+import static org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem.LiftConstants.LIFT_LOWER_LIMIT;
+import static org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem.LiftConstants.LIFT_UPPER_LIMIT;
+import static org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem.LiftConstants.PID;
+
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.control.PIDCoefficients;
 import com.acmerobotics.roadrunner.control.PIDFController;
-import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.util.Range;
 import com.technototes.library.hardware.motor.EncodedMotor;
@@ -11,19 +16,18 @@ import com.technototes.library.subsystem.Subsystem;
 
 import java.util.function.Supplier;
 
-import static org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem.LiftConstants.*;
-
 @SuppressWarnings("unused")
 public class LiftSubsystem implements Subsystem, Supplier<Double> {
     @Config
     public static class LiftConstants {
-        public static double LIFT_UPPER_LIMIT = 800.0;
+        public static double LIFT_UPPER_LIMIT = 400.0;
         public static double LIFT_LOWER_LIMIT = 0.0;
-        public static double COLLECT = 0, NEUTRAL = 100, LEVEL_1 = 50, LEVEL_2 = 200, LEVEL_3 = 500;
+        //300 for single slide
+        public static double COLLECT = 0, NEUTRAL = 100, LEVEL_1 = 50, LEVEL_2 = 200, LEVEL_3 = 400;
 
-        public static double DEADZONE = 15;
+        public static double DEADZONE = 30;
 
-        public static PIDCoefficients PID = new PIDCoefficients(0.015, 0, 0.0004);
+        public static PIDCoefficients PID = new PIDCoefficients(0.02, 0, 0.001);
 
     }
     public EncodedMotor<DcMotorEx> liftMotor;
@@ -32,8 +36,9 @@ public class LiftSubsystem implements Subsystem, Supplier<Double> {
 
     public LiftSubsystem(EncodedMotor<DcMotorEx> l){
         liftMotor = l;
+        l.getDevice().setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         l.zeroEncoder();
-        l.setOutputLimits(-1, 0.2);
+        l.setOutputLimits(-0.9, 0.2);
         pidController = new PIDFController(PID, 0, 0, 0, (x,y)->0.2);
     }
 
@@ -69,7 +74,7 @@ public class LiftSubsystem implements Subsystem, Supplier<Double> {
      * using something called dead-zone, so when the motor moved slightly over the target don't necessary go-back
      */
     public boolean isAtTarget(){
-        return Math.abs(pidController.getTargetPosition() + /*+ because lift is inverted*/ liftMotor.get()) < DEADZONE;
+        return Math.abs(pidController.getTargetPosition() + /*+ because lift is inverted*/ liftMotor.getDevice().getCurrentPosition()) < DEADZONE;
     }
 
     /**

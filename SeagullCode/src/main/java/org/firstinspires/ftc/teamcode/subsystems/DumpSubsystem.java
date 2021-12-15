@@ -43,9 +43,9 @@ public class DumpSubsystem implements Subsystem, Supplier<Double>, Loggable {
          * 0.75 is 180 degrees
          * 1 is 270 degrees
          */
-        static final double BUCKET_COLLECT = 0.1;
+        static final double BUCKET_COLLECT = 0.05;
         static final double BUCKET_CARRY = 0.3;
-        static final double BUCKET_DUMP = 0.7;
+        static final double BUCKET_DUMP = 0.75;
 
         // Range of values where the bucket should be in the carry position
         static final double ARM_CARRY_LIMIT_MIN = (ARM_COLLECT + ARM_CARRY) / 3;
@@ -57,8 +57,9 @@ public class DumpSubsystem implements Subsystem, Supplier<Double>, Loggable {
         public static final double ARM_COLLECT = 0;
         public static final double ARM_CARRY = -.2;
         public static final double ARM_TOP_LEVEL = -0.42;
-        public static final double ARM_MIDDLE_LEVEL = -0.56;
-        public static final double ARM_BOTTOM_LEVEL = -0.64;
+        public static final double ARM_MIDDLE_LEVEL = -0.47;
+        public static final double ARM_BOTTOM_LEVEL = -0.61;
+        public static final double ARM_SHARED_HUB_LEVEL = -0.59;
         static final double ARM_LEVEL_POSITION = -0.10; // Position of the level arm
 
         static final double MOTOR_LOWER_LIMIT = ARM_BOTTOM_LEVEL;
