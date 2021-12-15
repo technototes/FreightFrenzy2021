@@ -13,32 +13,13 @@ import java.util.function.Supplier;
 
 import static java.lang.Math.toRadians;
 
-import org.firstinspires.ftc.teamcode.commands.arm.ArmAllianceCommand;
-import org.firstinspires.ftc.teamcode.commands.arm.ArmCommand;
-import org.firstinspires.ftc.teamcode.commands.arm.ArmInCommand;
-import org.firstinspires.ftc.teamcode.commands.arm.ArmSharedCommand;
-import org.firstinspires.ftc.teamcode.commands.extension.ExtensionCollectCommand;
-import org.firstinspires.ftc.teamcode.commands.extension.ExtensionCommand;
-import org.firstinspires.ftc.teamcode.commands.extension.ExtensionLeftOutCommand;
-import org.firstinspires.ftc.teamcode.commands.extension.ExtensionLeftSideCommand;
-import org.firstinspires.ftc.teamcode.commands.extension.ExtensionOutCommand;
-import org.firstinspires.ftc.teamcode.commands.extension.ExtensionRightOutCommand;
-import org.firstinspires.ftc.teamcode.commands.extension.ExtensionRightSideCommand;
-import org.firstinspires.ftc.teamcode.commands.lift.LiftCollectCommand;
-import org.firstinspires.ftc.teamcode.commands.lift.LiftCommand;
-import org.firstinspires.ftc.teamcode.commands.lift.LiftLevel2Command;
-import org.firstinspires.ftc.teamcode.commands.lift.LiftLevel3Command;
-import org.firstinspires.ftc.teamcode.commands.lift.LiftSharedCommand;
-import org.firstinspires.ftc.teamcode.subsystems.ArmSubsystem;
-import org.firstinspires.ftc.teamcode.subsystems.ExtensionSubsystem;
-import org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem;
-
 public class RobotConstants {
     @Config
     public static class AutoRedConstants {
         public static ConfigurablePose CYCLE_START = new ConfigurablePose(12, -63, toRadians(90));
-        public static ConfigurablePose ALLIANCE_HUB = new ConfigurablePose(9, -52, toRadians(125));
+        public static ConfigurablePose ALLIANCE_HUB = new ConfigurablePose(8, -52, toRadians(125));
         public static ConfigurablePose CYCLE_TRENCH = new ConfigurablePose(24, -63.5, toRadians(180));
+        public static ConfigurablePose CYCLE_INTERMEDIATE = new ConfigurablePose(34, -63.5, toRadians(180));
         public static ConfigurablePose[] AUTO_WAREHOUSE = new ConfigurablePose[]{
                 new ConfigurablePose(44, -63.5, toRadians(190)),
                 new ConfigurablePose(46, -63.5, toRadians(190)),
@@ -51,10 +32,10 @@ public class RobotConstants {
         public static ConfigurablePose DUCK_START = new ConfigurablePose(-36, -63, toRadians(90));
         public static ConfigurablePose DUCK_HUB = new ConfigurablePose(-33, -52, toRadians(55));
         public static ConfigurablePose CAROUSEL = new ConfigurablePose(-60, -59, toRadians(0));
-        public static ConfigurablePose DUCK_INTAKE_START = new ConfigurablePose(-20, -62, toRadians(45));
-        public static ConfigurablePose DUCK_INTAKE_END = new ConfigurablePose(-59, -62, toRadians(45));
+        public static ConfigurablePose DUCK_INTAKE_START = new ConfigurablePose(-20, -60, toRadians(135));
+        public static ConfigurablePose DUCK_INTAKE_END = new ConfigurablePose(-62, -61, toRadians(45));
         public static ConfigurablePose SQUARE = new ConfigurablePose(-67, -36, toRadians(0));
-        public static ConfigurablePose BARRIER_PARK = new ConfigurablePose(60, -52, toRadians(180));
+        public static ConfigurablePose BARRIER_PARK = new ConfigurablePose(60, -40, toRadians(180));
 
 
         public static ConfigurablePose SHARED_TRENCH = new ConfigurablePose(63.5, -30, toRadians(90));
@@ -63,8 +44,9 @@ public class RobotConstants {
     @Config
     public static class AutoBlueConstants {
         public static ConfigurablePose CYCLE_START = new ConfigurablePose(12, 63, toRadians(-90));
-        public static ConfigurablePose ALLIANCE_HUB = new ConfigurablePose(9, 52, toRadians(-125));
+        public static ConfigurablePose ALLIANCE_HUB = new ConfigurablePose(8, 52, toRadians(-125));
         public static ConfigurablePose CYCLE_TRENCH = new ConfigurablePose(24, 63.5, toRadians(-180));
+        public static ConfigurablePose CYCLE_INTERMEDIATE = new ConfigurablePose(34, 63.5, toRadians(-180));
         public static ConfigurablePose[] AUTO_WAREHOUSE = new ConfigurablePose[]{
                 new ConfigurablePose(44, 63.5, toRadians(-190)),
                 new ConfigurablePose(46, 63.5, toRadians(-190)),
@@ -77,10 +59,10 @@ public class RobotConstants {
         public static ConfigurablePose DUCK_START = new ConfigurablePose(-36, 63, toRadians(-90));
         public static ConfigurablePose DUCK_HUB = new ConfigurablePose(-33, 52, toRadians(-55));
         public static ConfigurablePose CAROUSEL = new ConfigurablePose(-62, 59, toRadians(-90));
-        public static ConfigurablePose DUCK_INTAKE_START = new ConfigurablePose(-20, 62, toRadians(-45));
-        public static ConfigurablePose DUCK_INTAKE_END = new ConfigurablePose(-59, 62, toRadians(-45));
+        public static ConfigurablePose DUCK_INTAKE_START = new ConfigurablePose(-20, 60, toRadians(-135));
+        public static ConfigurablePose DUCK_INTAKE_END = new ConfigurablePose(-62, 61, toRadians(-45));
         public static ConfigurablePose SQUARE = new ConfigurablePose(-67, 36, toRadians(0));
-        public static ConfigurablePose BARRIER_PARK = new ConfigurablePose(60, 52, toRadians(-180));
+        public static ConfigurablePose BARRIER_PARK = new ConfigurablePose(60, 40, toRadians(-180));
 
         public static ConfigurablePose SHARED_TRENCH = new ConfigurablePose(63.5, 30, toRadians(-90));
         public static ConfigurablePose SHARED_HUB = new ConfigurablePose(63.5, 20, toRadians(-90));
@@ -100,6 +82,7 @@ public class RobotConstants {
             ALLIANCE_HUB_SELECT = ()->alliance.selectOf(AutoRedConstants.ALLIANCE_HUB, AutoBlueConstants.ALLIANCE_HUB).toPose(),
             SHARED_HUB_SELECT = ()->alliance.selectOf(AutoRedConstants.SHARED_HUB, AutoBlueConstants.SHARED_HUB).toPose(),
             ALLIANCE_TRENCH_SELECT = ()->alliance.selectOf(AutoRedConstants.CYCLE_TRENCH, AutoBlueConstants.CYCLE_TRENCH).toPose(),
+            CYCLE_INTERMEDIATE_SELECT = ()->alliance.selectOf(AutoRedConstants.CYCLE_INTERMEDIATE, AutoBlueConstants.CYCLE_INTERMEDIATE).toPose(),
             SHARED_TRENCH_SELECT = ()->alliance.selectOf(AutoRedConstants.SHARED_TRENCH, AutoBlueConstants.SHARED_TRENCH).toPose(),
             DUCK_START_SELECT = ()->alliance.selectOf(AutoRedConstants.DUCK_START, AutoBlueConstants.DUCK_START).toPose(),
             DUCK_ALLIANCE_HUB_SELECT = ()->alliance.selectOf(AutoRedConstants.DUCK_HUB, AutoBlueConstants.DUCK_HUB).toPose(),
@@ -130,11 +113,14 @@ public class RobotConstants {
                     .lineToLinearHeading(SQUARE_SELECT.get())
                     .build(),
             HUB_BARRIER_PARK = b -> b.apply(DUCK_ALLIANCE_HUB_SELECT.get())
-                    .turn(BARRIER_SELECT.get().getHeading())
+                    .turn(BARRIER_SELECT.get().getHeading()-DUCK_ALLIANCE_HUB_SELECT.get().getHeading())
+                    .setVelConstraint((a, e, c, d) -> 100)
                     .lineTo(BARRIER_SELECT.get().vec())
                     .build(),
             CAROUSEL_TO_DUCK_INTAKE = b -> b.apply(CAROUSEL_SELECT.get())
+                    .turn(DUCK_INTAKE_START_SELECT.get().getHeading()-CAROUSEL_SELECT.get().getHeading())
                     .lineToLinearHeading(DUCK_INTAKE_START_SELECT.get())
+                    .turn(DUCK_INTAKE_END_SELECT.get().getHeading()-DUCK_INTAKE_START_SELECT.get().getHeading())
                     .lineToLinearHeading(DUCK_INTAKE_END_SELECT.get())
                     .build(),
             DUCK_INTAKE_TO_HUB = b -> b.apply(DUCK_INTAKE_END_SELECT.get())
@@ -150,6 +136,7 @@ public class RobotConstants {
             .splineTo(ALLIANCE_TRENCH_SELECT.get().vec(), 0)
             .setAccelConstraint((a, e, c, d) -> 60)
             .setVelConstraint((a, e, c, d)->70)
+            .lineToSplineHeading(CYCLE_INTERMEDIATE_SELECT.get())
             .lineToSplineHeading(CYCLE_INTAKE_SELECT.apply(i))
             .build();
 

@@ -13,7 +13,8 @@ public class IntakeOutCommand implements Command{
 
     @Override
     public void execute() {
-        subsystem.out();
+        if(getRuntime().seconds()%0.2 < 0.1) subsystem.out();
+        else subsystem.stop();
     }
 
     @Override

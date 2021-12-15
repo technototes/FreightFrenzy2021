@@ -14,7 +14,7 @@ public class ExtensionSubsystem implements Subsystem, Supplier<String> {
     @Config
     public static class ExtensionConstants {
         public static double SNAP_1 = Math.PI/2, SNAP_2= (3*Math.PI)/2;
-        public static double IN = 0.5, SHARED = 0.4, TELEOP_ALLIANCE = 0.25, STEAL_SHARED = 0.1,  OUT = 0;
+        public static double IN = 0.5, SHARED = 0.4, TELEOP_ALLIANCE = 0.25, STEAL_SHARED = 0.1, LOW_GOAL_AUTO = 0.05,  OUT = 0;
         public static double LEFT = 0, CENTER = 0.5, RIGHT = 1;
     }
 

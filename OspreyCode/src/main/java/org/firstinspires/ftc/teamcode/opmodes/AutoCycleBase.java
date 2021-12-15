@@ -25,11 +25,11 @@ public abstract class AutoCycleBase extends CommandOpMode implements Loggable {
         CommandScheduler.getInstance().scheduleInit(new VisionBarcodeCommand(robot.visionSubsystem));
         CommandScheduler.getInstance().scheduleOnceForState(new AutoCycleCommand(robot.drivebaseSubsystem, robot.intakeSubsystem, robot.liftSubsystem, robot.armSubsystem, robot.extensionSubsystem, robot.visionSubsystem), OpModeState.RUN);
     }
-    @Autonomous
+    @Autonomous(name="\uD83D\uDD35 ♻ Blue Cycle")
     @Alliance.Blue
     public static class CycleBlueAuto extends AutoCycleBase {}
 
-    @Autonomous
+    @Autonomous(name="\uD83D\uDFE5 ♻ Red Cycle")
     @Alliance.Red
     public static class CycleRedAuto extends AutoCycleBase {}
 

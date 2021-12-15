@@ -18,8 +18,8 @@ public class IntakeSubsystem implements Subsystem, Supplier<Double> {
 
     @Config
     public static class IntakeConstants{
-        public static double INTAKE_IN_SPEED = 0.7;
-        public static double INTAKE_OUT_SPEED = -0.7;
+        public static double INTAKE_IN_SPEED = 1;
+        public static double INTAKE_OUT_SPEED = -1;
         public static double INTAKE_STOP_SPEED = 0;
     }
 

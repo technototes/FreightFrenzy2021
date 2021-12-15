@@ -16,6 +16,11 @@ public class ArmSharedCommand extends ArmCommand {
     }
 
     @Override
+    public boolean isFinished() {
+        return getRuntime().seconds()>1;
+    }
+
+    @Override
     public void end(boolean cancel) {
         subsystem.carry();
     }

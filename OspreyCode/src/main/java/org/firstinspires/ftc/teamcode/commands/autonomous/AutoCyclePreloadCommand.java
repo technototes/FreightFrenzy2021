@@ -17,6 +17,6 @@ public class AutoCyclePreloadCommand extends SequentialCommandGroup {
         super(new TrajectorySequenceCommand(drive, RobotConstants.CYCLE_DEPOSIT_PRELOAD)
                 //.alongWith(new LiftBarcodeSelectCommand(lift, vision)
                 .alongWith(new DepositPreloadCommand(depot, extension, lift, vision)),
-                new BucketDumpCommand(depot).sleep(0.3));
+                new BucketDumpCommand(depot));
     }
 }

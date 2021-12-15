@@ -11,7 +11,7 @@ public class ArmInCommand extends ArmCommand {
 
     @Override
     public void execute() {
-        subsystem.in();
+        if(getRuntime().seconds()>0.2) subsystem.in();
         subsystem.collect();
     }
 

@@ -120,7 +120,7 @@ public class BaseControls {
 
     public void bindArmControls() {
         dumpAxis.whilePressedOnce(new BucketDumpVariableCommand(robot.armSubsystem, dumpAxis).asConditional(EXTENSION_CONNECTED ? robot.extensionSubsystem::isSlideOut : ()->true));
-        toIntakeButton.whenPressed(new WaitCommand(0.5).andThen(new ArmRaiseInCommand(robot.armSubsystem).andThen(new ArmInCommand(robot.armSubsystem)).withTimeout(1.5)));
+        toIntakeButton.whenPressed(new WaitCommand(0).andThen(new ArmRaiseInCommand(robot.armSubsystem).andThen(new ArmInCommand(robot.armSubsystem)).withTimeout(1.5)));
         allianceHubButton.whenPressed( new ArmAllianceCommand(robot.armSubsystem));
         sharedHubButton.whenPressed(new ArmSharedCommand(robot.armSubsystem));
 
@@ -129,7 +129,7 @@ public class BaseControls {
     public void bindLiftControls() {
         sharedHubButton.whenPressed(new WaitCommand(0.3).andThen(new LiftSharedCommand(robot.liftSubsystem).withTimeout(0.5)));
         allianceHubButton.whenPressed(new WaitCommand(0.3).andThen(new LiftLevelCommand(robot.liftSubsystem).withTimeout(0.5)));
-        toIntakeButton.whenPressed(new WaitCommand(0.5).andThen(new WaitCommand(0.8).deadline(new LiftLevel1Command(robot.liftSubsystem)).andThen(new LiftCollectCommand(robot.liftSubsystem).withTimeout(1.5))));
+        toIntakeButton.whenPressed(new LiftLevel1Command(robot.liftSubsystem).withTimeout(0.8).andThen(new LiftCollectCommand(robot.liftSubsystem).withTimeout(0.4)));
         liftAdjustUpButton.whilePressed(new LiftTranslateCommand(robot.liftSubsystem, 50));
         liftAdjustDownButton.whilePressed(new LiftTranslateCommand(robot.liftSubsystem, -50));
     }

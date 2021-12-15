@@ -19,7 +19,7 @@ public class AutoDepositAllianceCommand extends SequentialCommandGroup {
     public AutoDepositAllianceCommand(DrivebaseSubsystem drive, IntakeSubsystem intake, LiftSubsystem lift, ArmSubsystem deposit, ExtensionSubsystem extension) {
         super(new DriveRelocalizeCycleCommand(drive),
                 new RegenerativeTrajectorySequenceCommand(drive, RobotConstants.WAREHOUSE_TO_HUB, drive)
-                        .alongWith(new IntakeOutCommand(intake).withTimeout(0.8),
+                        .alongWith(new IntakeOutCommand(intake).withTimeout(0.5),
                                 new WaitCommand(0.3).andThen(new DriveRelocalizeCycleCommand(drive)),
                                 new WaitCommand(0.8).andThen(new DepositAllianceCommand(deposit, extension, lift))),
                 new BucketDumpCommand(deposit));

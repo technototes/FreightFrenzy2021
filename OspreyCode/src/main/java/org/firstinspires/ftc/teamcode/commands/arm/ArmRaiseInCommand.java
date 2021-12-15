@@ -18,6 +18,6 @@ public class ArmRaiseInCommand extends ArmCommand {
 
     @Override
     public boolean isFinished() {
-        return getRuntime().seconds()>0.4;
+        return getRuntime().seconds()>0.3;
     }
 }

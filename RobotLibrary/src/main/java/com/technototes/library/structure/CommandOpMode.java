@@ -63,6 +63,8 @@ public abstract class CommandOpMode extends LinearOpMode {
             universalLoop();
             CommandScheduler.getInstance().run();
             logger.initUpdate();
+            driverGamepad.periodic();
+            codriverGamepad.periodic();
         }
         opModeState = OpModeState.RUN;
         CommandScheduler.getInstance().run();
