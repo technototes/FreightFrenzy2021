@@ -3,7 +3,6 @@ package com.technototes.path.command;
 import com.acmerobotics.roadrunner.drive.DriveSignal;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
-import com.technototes.library.control.gamepad.Stick;
 import com.technototes.library.command.Command;
 import com.technototes.path.subsystem.MecanumDrivebaseSubsystem;
 
@@ -13,12 +12,12 @@ import java.util.function.DoubleSupplier;
 public class MecanumDriveCommand implements Command {
     public MecanumDrivebaseSubsystem subsystem;
     public DoubleSupplier x, y, r;
-    public MecanumDriveCommand(MecanumDrivebaseSubsystem sub, Stick stick1, Stick stick2) {
+    public MecanumDriveCommand(MecanumDrivebaseSubsystem sub, DoubleSupplier xSup, DoubleSupplier ySup, DoubleSupplier rSup) {
         addRequirements(sub);
         subsystem = sub;
-        x = stick1.getXSupplier();
-        y = stick1.getYSupplier();
-        r = stick2.getXSupplier();
+        x = xSup;
+        y = ySup;
+        r = rSup;
     }
 
     @Override
@@ -35,6 +34,12 @@ public class MecanumDriveCommand implements Command {
                         -Math.pow(r.getAsDouble()*subsystem.speed, 3)
                 )
         );
+    }
+
+
+    @Override
+    public boolean isFinished() {
+        return false;
     }
 
     @Override

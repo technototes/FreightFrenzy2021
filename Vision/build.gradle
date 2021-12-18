@@ -38,6 +38,7 @@ repositories {
     flatDir {
         dirs '../libs'
     }
+    mavenCentral()
 }
 
 apply from: '../build.dependencies.gradle'

@@ -13,27 +13,27 @@ import static java.lang.Math.toRadians;
 public class AutonomousConstants {
     public static class RedConstants {
         public static Pose2d CYCLE_START = new Pose2d(12, -62.8, toRadians(90));
-        public static Pose2d CYCLE_DEPOSIT = new Pose2d(-4, -42, toRadians(110));
-        public static Pose2d GAP = new Pose2d(30, -63.5, toRadians(190));
+        public static Pose2d CYCLE_DEPOSIT = new Pose2d(-4, -44, toRadians(110));
+        public static Pose2d GAP = new Pose2d(30, -63.5, toRadians(0));
         public static Pose2d[] CYCLE_COLLECT = new Pose2d[]{
-                new Pose2d(43, -63.5, toRadians(0)),
-                new Pose2d(46, -63.5, toRadians(0)),
-                new Pose2d(49, -63.5, toRadians(0)),
-                new Pose2d(52, -63.5, toRadians(0)),
+                new Pose2d(43, -63.5, toRadians(190)),
+                new Pose2d(46, -63.5, toRadians(190)),
+                new Pose2d(49, -63.5, toRadians(190)),
+                new Pose2d(52, -63.5, toRadians(190)),
 
         };
-        public static Pose2d DUCK_START = new Pose2d(-36, -62.8, toRadians(90));
-        public static Pose2d DUCK_DEPOSIT = new Pose2d(-21, -44, toRadians(60));
-        public static Pose2d CAROUSEL = new Pose2d(-59, -59, toRadians(0));
-        public static Pose2d DUCK_COLLECT_START = new Pose2d(-36, -63, toRadians(45));
-        public static Pose2d DUCK_COLLECT_END = new Pose2d(-59, -63, toRadians(45));
+        public static Pose2d DUCK_START = new Pose2d(-36, -63, toRadians(90));
+        public static Pose2d DUCK_DEPOSIT = new Pose2d(-21, -43, toRadians(60));
+        public static Pose2d CAROUSEL = new Pose2d(-60, -59, toRadians(0));
+        public static Pose2d DUCK_COLLECT_START = new Pose2d(-20, -62, toRadians(45));
+        public static Pose2d DUCK_COLLECT_END = new Pose2d(-59, -62, toRadians(45));
         public static Pose2d PARK = new Pose2d(-62, -36, toRadians(0));
 
     }
 
     public static class BlueConstants {
         public static Pose2d CYCLE_START = new Pose2d(12, 63, toRadians(-90));
-        public static Pose2d CYCLE_DEPOSIT = new Pose2d(-4, 42, toRadians(-110));
+        public static Pose2d CYCLE_DEPOSIT = new Pose2d(-4, 44, toRadians(-110));
         public static Pose2d GAP = new Pose2d(30, 63.5, toRadians(0));
         public static Pose2d[] CYCLE_COLLECT = new Pose2d[]{
                 new Pose2d(43, 63.5, toRadians(-190)),
@@ -42,16 +42,16 @@ public class AutonomousConstants {
                 new Pose2d(52, 63.5, toRadians(-190)),
 
         };
-        public static Pose2d DUCK_START = new Pose2d(-36, 62.8, toRadians(-90));
-        public static Pose2d DUCK_DEPOSIT = new Pose2d(-21, 44, toRadians(-60));
-        public static Pose2d CAROUSEL = new Pose2d(-59, 59, toRadians(-90));
-        public static Pose2d DUCK_COLLECT_START = new Pose2d(-36, 63, toRadians(-45));
-        public static Pose2d DUCK_COLLECT_END = new Pose2d(-59, 63, toRadians(-45));
+        public static Pose2d DUCK_START = new Pose2d(-36, 63, toRadians(-90));
+        public static Pose2d DUCK_DEPOSIT = new Pose2d(-21, 43, toRadians(-60));
+        public static Pose2d CAROUSEL = new Pose2d(-60, 59, toRadians(-90));
+        public static Pose2d DUCK_COLLECT_START = new Pose2d(-20, 62, toRadians(-45));
+        public static Pose2d DUCK_COLLECT_END = new Pose2d(-59, 62, toRadians(-45));
         public static Pose2d PARK = new Pose2d(-62, 36, toRadians(0));
 
     }
 
-    public static Alliance ALLIANCE = Alliance.RED;
+    public static Alliance ALLIANCE = Alliance.BLUE;
 
     public static final Supplier<Pose2d>
             CYCLE_START_SELECT = () -> Alliance.Selector.selectOf(ALLIANCE, RedConstants.CYCLE_START, BlueConstants.CYCLE_START),
@@ -86,40 +86,27 @@ public class AutonomousConstants {
                     .build(),
             DUCK_INTAKE_TO_DEPOSIT = b -> b.apply(DUCK_COLLECT_END_SELECT.get())
                     .lineToLinearHeading(DUCK_DEPOSIT_SELECT.get())
-                    .build(),
-            ALL = b -> b.apply(CYCLE_START_SELECT.get())
-                    .lineToLinearHeading(CYCLE_DEPOSIT_SELECT.get())
-                    .setReversed(true)
-                    .splineTo(GAP_SELECT.get().vec(), CYCLE_COLLECT_SELECT.apply(0).getHeading())
-                    .setVelConstraint((a, e, c, d) -> 20)
-                    .lineTo(CYCLE_COLLECT_SELECT.apply(0).vec())
-                    .setVelConstraint((a,e,c,d)->50)
-                    .setReversed(false)
-                    .lineToSplineHeading(GAP_SELECT.get())
-                    .splineToSplineHeading(CYCLE_DEPOSIT_SELECT.get(), CYCLE_DEPOSIT_SELECT.get().getHeading())
-                    .setReversed(true)
-                    .splineTo(GAP_SELECT.get().vec(), CYCLE_COLLECT_SELECT.apply(0).getHeading())
-                    .setVelConstraint((a, e, c, d) -> 20)
-                    .lineTo(CYCLE_COLLECT_SELECT.apply(0).vec())
-                    .setVelConstraint((a,e,c,d)->50)
-                    .setReversed(false)
-                    .lineToSplineHeading(GAP_SELECT.get())
-                    .splineToSplineHeading(CYCLE_DEPOSIT_SELECT.get(), CYCLE_DEPOSIT_SELECT.get().getHeading())
                     .build();
 
 
     public static final BiFunction<Function<Pose2d, TrajectorySequenceBuilder>, Integer, TrajectorySequence>
             CYCLE_DEPOSIT_TO_COLLECT = (b, i) -> b.apply(CYCLE_DEPOSIT_SELECT.get())
             .setReversed(true)
-            .splineTo(GAP_SELECT.get().vec(), CYCLE_COLLECT_SELECT.apply(i).getHeading())
+            .splineTo(GAP_SELECT.get().vec(), GAP_SELECT.get().getHeading())
             .setVelConstraint((a, e, c, d) -> 20)
-            .lineTo(CYCLE_COLLECT_SELECT.apply(i).vec())
-            .build(),
+            .lineToSplineHeading(CYCLE_COLLECT_SELECT.apply(i))
+//                    .turn(GAP_SELECT.get().getHeading())
+            .build();
     //TODO add relocalize for purely x
-    CYCLE_COLLECT_TO_DEPOSIT = (b, i) -> b.apply(CYCLE_COLLECT_SELECT.apply(i))
-            .setReversed(false)
-            .lineToSplineHeading(GAP_SELECT.get())
-            .splineToSplineHeading(CYCLE_DEPOSIT_SELECT.get(), CYCLE_DEPOSIT_SELECT.get().getHeading())
+    public static final BiFunction<Function<Pose2d, TrajectorySequenceBuilder>, Supplier<Pose2d>, TrajectorySequence>
+            CYCLE_COLLECT_TO_DEPOSIT = (b, i) -> b.apply(new Pose2d(
+            Math.max(i.get().getX(), GAP_SELECT.get().getX()),
+            GAP_SELECT.get().getY(),
+            i.get().getHeading()
+    ))
+            .lineTo(GAP_SELECT.get().vec())
+            .setAccelConstraint((a, e, c, d) -> 30)
+            .splineTo(CYCLE_DEPOSIT_SELECT.get().vec(), CYCLE_DEPOSIT_SELECT.get().getHeading())
             .build();
 
 
