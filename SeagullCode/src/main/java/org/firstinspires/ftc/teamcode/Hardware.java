@@ -72,6 +72,10 @@ public class Hardware {
     public Servo bucketServo;
     public EncodedMotor<DcMotorEx> bucketMotor;
 
+    public RangeSensor frontRangeSensor;
+    public RangeSensor leftRangeSensor;
+    public RangeSensor rightRangeSensor;
+
     public Hardware() {
         if (DRIVE_CONNECTED) {
             flDriveMotor = new EncodedMotor<>(FL_MOTOR);
@@ -79,6 +83,9 @@ public class Hardware {
             rlDriveMotor = new EncodedMotor<>(RL_MOTOR);
             rrDriveMotor = new EncodedMotor<>(RR_MOTOR);
             imu = new IMU(HardwareConstants.IMU).remapAxes(AxesOrder.YXZ, AxesSigns.NNN);
+//            frontRangeSensor = new RangeSensor(FRONT_RANGE);
+//            leftRangeSensor = new RangeSensor(LEFT_RANGE);
+//            rightRangeSensor = new RangeSensor(RIGHT_RANGE);
         }
         if (CAROUSEL_CONNECTED) {
             carouselMotor = new Motor<>(CAROUSEL);
