@@ -18,12 +18,15 @@ public class StraightenCommand implements Command {
         addRequirements(sub);
         subsystem = sub;
     }
-
     @Override
-    public void execute() {
+    public void initialize() {
         double angle = Math.toDegrees(subsystem.getExternalHeading());
         int targetAngle = closestAngle(angle);
-        subsystem.turnAsync(Math.toRadians(targetAngle));
+        subsystem.turnAsync(Math.toRadians(targetAngle - angle));
+    }
+    @Override
+    public void execute() {
+
         subsystem.update();
 
     }
@@ -62,5 +65,6 @@ public class StraightenCommand implements Command {
     @Override
     public void end(boolean cancel) {
         if(cancel) subsystem.setDriveSignal(new DriveSignal());
+        subsystem.turnAsync(0);
     }
 }

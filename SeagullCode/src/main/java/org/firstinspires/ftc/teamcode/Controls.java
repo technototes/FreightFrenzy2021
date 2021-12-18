@@ -91,9 +91,9 @@ public class Controls {
     }
 
     public void bindDriveControls() {
-        robot.drivebaseSubsystem.setDefaultCommand(new DriveCommand(robot.drivebaseSubsystem, driveLeftStick, driveRightStick));
+        // robot.drivebaseSubsystem.setDefaultCommand(new DriveCommand(robot.drivebaseSubsystem, driveLeftStick, driveRightStick));
         resetGyroButton.whenPressed(new ResetGyroCommand(robot.drivebaseSubsystem));
-        straightenButton.whilePressedOnce(new StraightenCommand((robot.drivebaseSubsystem)));
+        straightenButton.whenPressed(new StraightenCommand((robot.drivebaseSubsystem)));
         snailSpeedButton.whilePressedOnce(new SetSpeedCommand(robot.drivebaseSubsystem));
     }
 
