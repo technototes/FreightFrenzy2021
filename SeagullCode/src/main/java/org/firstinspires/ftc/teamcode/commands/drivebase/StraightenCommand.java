@@ -5,6 +5,7 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.technototes.library.command.Command;
 import com.technototes.library.control.Stick;
+import com.technototes.library.util.MathUtils;
 
 import org.firstinspires.ftc.teamcode.subsystems.DrivebaseSubsystem;
 
@@ -20,15 +21,17 @@ public class StraightenCommand implements Command {
     }
     @Override
     public void initialize() {
+        /*
         double angle = Math.toDegrees(subsystem.getExternalHeading());
         int targetAngle = closestAngle(angle);
         subsystem.turnAsync(Math.toRadians(targetAngle - angle));
+        */
+        subsystem.turn(Math.toRadians(30));
+
     }
     @Override
     public void execute() {
-
         subsystem.update();
-
     }
     private int closestAngle(double angle) {
         double delta0 = Math.abs(angle);
@@ -57,9 +60,12 @@ public class StraightenCommand implements Command {
     }
     @Override
     public boolean isFinished() {
+        return false;
+        /*
         double angle = Math.toDegrees(subsystem.getExternalHeading());
         int targetAngle = closestAngle(angle);
         return Math.abs(angle - targetAngle) < DEADZONE;
+        */
     }
 
     @Override

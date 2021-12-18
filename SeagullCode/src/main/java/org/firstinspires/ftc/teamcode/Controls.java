@@ -6,6 +6,8 @@ import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.DRIVE_CONNECTE
 import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.DUMP_CONNECTED;
 import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.INTAKE_CONNECTED;
 
+import com.acmerobotics.roadrunner.drive.Drive;
+import com.technototes.library.command.CommandScheduler;
 import com.technototes.library.control.CommandAxis;
 import com.technototes.library.control.CommandButton;
 import com.technototes.library.control.CommandGamepad;
@@ -91,7 +93,9 @@ public class Controls {
     }
 
     public void bindDriveControls() {
+        // TODO: Fix DefaultCommands so they don't interfere with other drivebase commands
         // robot.drivebaseSubsystem.setDefaultCommand(new DriveCommand(robot.drivebaseSubsystem, driveLeftStick, driveRightStick));
+        CommandScheduler.getInstance().scheduleJoystick(new DriveCommand(robot.drivebaseSubsystem, driveLeftStick, driveRightStick));
         resetGyroButton.whenPressed(new ResetGyroCommand(robot.drivebaseSubsystem));
         straightenButton.whenPressed(new StraightenCommand((robot.drivebaseSubsystem)));
         snailSpeedButton.whilePressedOnce(new SetSpeedCommand(robot.drivebaseSubsystem));
