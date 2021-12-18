@@ -29,7 +29,7 @@ public class Hardware {
         public static String RL_MOTOR = "rlmotor";
         public static String RR_MOTOR = "rrmotor";
         public static String IMU = "imu";
-        public static String BUCKET_RANGE = "bsensor";
+        public static String BUCKET_RANGE = "bucket_sensor";
 
         public static String CAROUSEL = "carousel";
 
@@ -41,6 +41,10 @@ public class Hardware {
 
         public static String BUCKET = "bucket";
         public static String ARM = "arm";
+
+        public static String FRONT_RANGE = "front_range";
+        public static String LEFT_RANGE = "left_range";
+        public static String RIGHT_RANGE = "right_range";
     }
 
     public EncodedMotor<DcMotorEx> liftMotor;
