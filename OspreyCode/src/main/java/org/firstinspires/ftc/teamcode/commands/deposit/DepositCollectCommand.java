@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.commands.deposit;
 
 import com.technototes.library.command.SequentialCommandGroup;
+import com.technototes.library.command.WaitCommand;
 
 import org.firstinspires.ftc.teamcode.commands.arm.ArmInCommand;
 import org.firstinspires.ftc.teamcode.commands.arm.ArmRaiseInCommand;
@@ -13,7 +14,7 @@ import org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem;
 
 public class DepositCollectCommand extends SequentialCommandGroup {
     public DepositCollectCommand(ArmSubsystem arm, ExtensionSubsystem extension, LiftSubsystem lift){
-        super(new LiftLevel1Command(lift).withTimeout(0.8).alongWith(new ArmRaiseInCommand(arm), new ExtensionCollectCommand(extension)),
+        super(new LiftLevel1Command(lift).withTimeout(0.8).alongWith(new ArmRaiseInCommand(arm), new WaitCommand(0.3).andThen(new ExtensionCollectCommand(extension))),
                 new LiftCollectCommand(lift).withTimeout(0.3).alongWith(new ArmInCommand(arm)));
     }
 }

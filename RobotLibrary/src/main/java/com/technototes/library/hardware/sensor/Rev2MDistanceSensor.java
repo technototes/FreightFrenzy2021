@@ -1,12 +1,14 @@
 package com.technototes.library.hardware.sensor;
 
+import com.qualcomm.robotcore.hardware.DistanceSensor;
+
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 /** Class for range sensors
  * @author Alex Stedman
  */
 @SuppressWarnings("unused")
-public class RangeSensor extends Sensor<com.qualcomm.robotcore.hardware.DistanceSensor> {
+public class Rev2MDistanceSensor extends Sensor<DistanceSensor> implements IDistanceSensor {
 
     private DistanceUnit distanceUnit;
 
@@ -14,7 +16,7 @@ public class RangeSensor extends Sensor<com.qualcomm.robotcore.hardware.Distance
      *
      * @param device The sensor device
      */
-    public RangeSensor(com.qualcomm.robotcore.hardware.DistanceSensor device) {
+    public Rev2MDistanceSensor(DistanceSensor device) {
         super(device);
     }
 
@@ -22,7 +24,7 @@ public class RangeSensor extends Sensor<com.qualcomm.robotcore.hardware.Distance
      *
      * @param deviceName The device name
      */
-    public RangeSensor(String deviceName) {
+    public Rev2MDistanceSensor(String deviceName) {
         super(deviceName);
     }
 
@@ -53,8 +55,13 @@ public class RangeSensor extends Sensor<com.qualcomm.robotcore.hardware.Distance
      * @param distanceUnit The unit
      * @return This
      */
-    public RangeSensor setDistanceUnit(DistanceUnit distanceUnit) {
+    public Rev2MDistanceSensor setDistanceUnit(DistanceUnit distanceUnit) {
         this.distanceUnit = distanceUnit;
         return this;
+    }
+
+    @Override
+    public double getDistance() {
+        return getSensorValue();
     }
 }

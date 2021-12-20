@@ -12,7 +12,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
  *
  */
 @SuppressWarnings("unused")
-public class IMU extends Sensor<BNO055IMU> {
+public class IMU extends Sensor<BNO055IMU> implements IGyro {
 
 
     public enum AxesSigns {
@@ -87,11 +87,22 @@ public class IMU extends Sensor<BNO055IMU> {
      *
      * @return The gyro heading
      */
+    @Override
     public double gyroHeading() {
-        Orientation angles1 =
-                getDevice().getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX,
-                        getDevice().getParameters().angleUnit == BNO055IMU.AngleUnit.DEGREES? AngleUnit.DEGREES : AngleUnit.RADIANS);
-        return -AngleUnit.DEGREES.fromUnit(angles1.angleUnit, angles1.firstAngle);
+        return getAngularOrientation().firstAngle;
+    }
+    public double gyroHeading(AngleUnit unit) {
+        return unit.fromUnit(device.getAngularOrientation().angleUnit, getAngularOrientation().firstAngle);
+    }
+
+    @Override
+    public double gyroHeadingInDegrees() {
+        return gyroHeading(AngleUnit.DEGREES);
+    }
+
+    @Override
+    public double gyroHeadingInRadians() {
+        return gyroHeading(AngleUnit.RADIANS);
     }
 
     public IMU remapAxes(AxesOrder order, AxesSigns signs) {

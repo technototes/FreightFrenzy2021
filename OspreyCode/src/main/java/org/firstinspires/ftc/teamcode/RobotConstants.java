@@ -17,8 +17,8 @@ public class RobotConstants {
     @Config
     public static class AutoRedConstants {
         public static ConfigurablePose CYCLE_START = new ConfigurablePose(12, -63, toRadians(90));
-        public static ConfigurablePose ALLIANCE_HUB = new ConfigurablePose(8, -52, toRadians(125));
-        public static ConfigurablePose CYCLE_TRENCH = new ConfigurablePose(24, -63.5, toRadians(180));
+        public static ConfigurablePose ALLIANCE_HUB = new ConfigurablePose(7, -50, toRadians(125));
+        public static ConfigurablePose CYCLE_TRENCH = new ConfigurablePose(26, -63.5, toRadians(180));
         public static ConfigurablePose CYCLE_INTERMEDIATE = new ConfigurablePose(34, -63.5, toRadians(180));
         public static ConfigurablePose[] AUTO_WAREHOUSE = new ConfigurablePose[]{
                 new ConfigurablePose(44, -63.5, toRadians(190)),
@@ -38,14 +38,15 @@ public class RobotConstants {
         public static ConfigurablePose BARRIER_PARK = new ConfigurablePose(60, -40, toRadians(180));
 
 
-        public static ConfigurablePose SHARED_TRENCH = new ConfigurablePose(63.5, -30, toRadians(90));
-        public static ConfigurablePose SHARED_HUB = new ConfigurablePose(63.5, -20, toRadians(90));
+        public static ConfigurablePose SHARED_TRENCH = new ConfigurablePose(64, -23, toRadians(90));
+        public static ConfigurablePose SHARED_HUB = new ConfigurablePose(62.5, -17, toRadians(100));
+        public static ConfigurablePose SHARED_INTAKE = new ConfigurablePose(64, -50, toRadians(85));
     }
     @Config
     public static class AutoBlueConstants {
         public static ConfigurablePose CYCLE_START = new ConfigurablePose(12, 63, toRadians(-90));
         public static ConfigurablePose ALLIANCE_HUB = new ConfigurablePose(8, 52, toRadians(-125));
-        public static ConfigurablePose CYCLE_TRENCH = new ConfigurablePose(24, 63.5, toRadians(-180));
+        public static ConfigurablePose CYCLE_TRENCH = new ConfigurablePose(26, 63.5, toRadians(-180));
         public static ConfigurablePose CYCLE_INTERMEDIATE = new ConfigurablePose(34, 63.5, toRadians(-180));
         public static ConfigurablePose[] AUTO_WAREHOUSE = new ConfigurablePose[]{
                 new ConfigurablePose(44, 63.5, toRadians(-190)),
@@ -66,6 +67,8 @@ public class RobotConstants {
 
         public static ConfigurablePose SHARED_TRENCH = new ConfigurablePose(63.5, 30, toRadians(-90));
         public static ConfigurablePose SHARED_HUB = new ConfigurablePose(63.5, 20, toRadians(-90));
+        public static ConfigurablePose SHARED_INTAKE = new ConfigurablePose(63.5, 50, toRadians(-90));
+
     }
 
     private static Alliance alliance = Alliance.BLUE;
@@ -81,6 +84,7 @@ public class RobotConstants {
             CYCLE_START_SELECT = ()->alliance.selectOf(AutoRedConstants.CYCLE_START, AutoBlueConstants.CYCLE_START).toPose(),
             ALLIANCE_HUB_SELECT = ()->alliance.selectOf(AutoRedConstants.ALLIANCE_HUB, AutoBlueConstants.ALLIANCE_HUB).toPose(),
             SHARED_HUB_SELECT = ()->alliance.selectOf(AutoRedConstants.SHARED_HUB, AutoBlueConstants.SHARED_HUB).toPose(),
+            SHARED_INTAKE_SELECT = ()->alliance.selectOf(AutoRedConstants.SHARED_INTAKE, AutoBlueConstants.SHARED_INTAKE).toPose(),
             ALLIANCE_TRENCH_SELECT = ()->alliance.selectOf(AutoRedConstants.CYCLE_TRENCH, AutoBlueConstants.CYCLE_TRENCH).toPose(),
             CYCLE_INTERMEDIATE_SELECT = ()->alliance.selectOf(AutoRedConstants.CYCLE_INTERMEDIATE, AutoBlueConstants.CYCLE_INTERMEDIATE).toPose(),
             SHARED_TRENCH_SELECT = ()->alliance.selectOf(AutoRedConstants.SHARED_TRENCH, AutoBlueConstants.SHARED_TRENCH).toPose(),
@@ -123,9 +127,25 @@ public class RobotConstants {
                     .turn(DUCK_INTAKE_END_SELECT.get().getHeading()-DUCK_INTAKE_START_SELECT.get().getHeading())
                     .lineToLinearHeading(DUCK_INTAKE_END_SELECT.get())
                     .build(),
+            HUB_TO_PARK = b->b.apply(ALLIANCE_HUB_SELECT.get())
+                    .setReversed(true)
+                    .setAccelConstraint((a, e, c, d) -> 30)
+                    .splineTo(ALLIANCE_TRENCH_SELECT.get().vec(), 0)
+                    .setAccelConstraint((a, e, c, d) -> 60)
+                    .setVelConstraint((a, e, c, d)->70)
+                    .lineToSplineHeading(CYCLE_INTERMEDIATE_SELECT.get())
+                    .build(),
             DUCK_INTAKE_TO_HUB = b -> b.apply(DUCK_INTAKE_END_SELECT.get())
                     .setAccelConstraint((a, e, c, d) -> 30)
                     .lineToLinearHeading(DUCK_ALLIANCE_HUB_SELECT.get())
+                    .build(),
+            SHARED_HUB_TO_WAREHOUSE = b -> b.apply(SHARED_HUB_SELECT.get())
+                    .setReversed(true)
+                    .setAccelConstraint((a, e, c, d) -> 30)
+                    .splineTo(SHARED_TRENCH_SELECT.get().vec(), toRadians(RobotConstants.getAlliance().selectOf(-90, 90)))
+                    .setAccelConstraint((a, e, c, d) -> 60)
+                    .setVelConstraint((a, e, c, d)->70)
+                    .lineToSplineHeading(SHARED_INTAKE_SELECT.get())
                     .build();
 
 
@@ -188,6 +208,16 @@ public class RobotConstants {
 
     public enum SharedHubStrategy {
         OWN, STEAL;
+    }
+    private static boolean depositTarget = false;
+    public static void startDeposit(){
+        depositTarget = true;
+    }
+    public static void stopDeposit(){
+        depositTarget = false;
+    }
+    public static boolean isDepositing(){
+        return depositTarget;
     }
 }
 

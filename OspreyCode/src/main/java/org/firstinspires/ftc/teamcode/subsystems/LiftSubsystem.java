@@ -1,10 +1,11 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
-import static org.firstinspires.ftc.teamcode.subsystems.LiftConstants.DEADZONE;
-import static org.firstinspires.ftc.teamcode.subsystems.LiftConstants.LIFT_LOWER_LIMIT;
-import static org.firstinspires.ftc.teamcode.subsystems.LiftConstants.LIFT_UPPER_LIMIT;
-import static org.firstinspires.ftc.teamcode.subsystems.LiftConstants.PID;
+import static org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem.LiftConstants.DEADZONE;
+import static org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem.LiftConstants.LIFT_LOWER_LIMIT;
+import static org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem.LiftConstants.LIFT_UPPER_LIMIT;
+import static org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem.LiftConstants.PID;
 
+import com.acmerobotics.roadrunner.control.PIDCoefficients;
 import com.acmerobotics.roadrunner.control.PIDFController;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -16,6 +17,19 @@ import java.util.function.Supplier;
 
 @SuppressWarnings("unused")
 public class LiftSubsystem implements Subsystem, Supplier<Double> {
+    //cringe but otherwise code borks for some reason i am confused plz help
+    @com.acmerobotics.dashboard.config.Config
+    public static class LiftConstants {
+        public static double LIFT_UPPER_LIMIT = 400.0;
+        public static double LIFT_LOWER_LIMIT = 0.0;
+        //300 for single slide
+        public static double COLLECT = 0, NEUTRAL = 100, LEVEL_1 = 50, LEVEL_2 = 100, LEVEL_3 = 400;
+
+        public static double DEADZONE = 30;
+
+        public static PIDCoefficients PID = new PIDCoefficients(0.02, 0, 0.001);
+
+    }
     public EncodedMotor<DcMotorEx> liftMotor;
 
     public PIDFController pidController;
@@ -80,6 +94,7 @@ public class LiftSubsystem implements Subsystem, Supplier<Double> {
     }
 
     public boolean isLifted(){
-        return pidController.getTargetPosition()>10;
+        return pidController.getTargetPosition()>100;
     }
+
 }
