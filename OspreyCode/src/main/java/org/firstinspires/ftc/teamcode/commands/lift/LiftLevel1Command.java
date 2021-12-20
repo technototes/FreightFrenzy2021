@@ -1,10 +1,9 @@
 package org.firstinspires.ftc.teamcode.commands.lift;
 
-import org.firstinspires.ftc.teamcode.subsystems.LiftConstants;
 import org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem;
 
 public class LiftLevel1Command extends LiftCommand {
     public LiftLevel1Command(LiftSubsystem l){
-        super(l, LiftConstants.LEVEL_1);
+        super(l, LiftSubsystem.LiftConstants.LEVEL_1);
     }
 }

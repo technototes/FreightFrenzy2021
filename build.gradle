@@ -4,7 +4,7 @@
  * It is extraordinarily rare that you will ever need to edit this file.
  */
 
-configurations {e
+configurations {
     doc { transitive false }
 }
 

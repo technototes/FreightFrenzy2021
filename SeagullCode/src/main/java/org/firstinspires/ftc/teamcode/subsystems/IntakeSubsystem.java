@@ -3,9 +3,8 @@ package org.firstinspires.ftc.teamcode.subsystems;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.technototes.library.control.CommandGamepad;
-import com.technototes.library.control.GamepadBase;
 import com.technototes.library.hardware.motor.EncodedMotor;
-import com.technototes.library.hardware.sensor.RangeSensor;
+import com.technototes.library.hardware.sensor.Rev2MDistanceSensor;
 import com.technototes.library.subsystem.Subsystem;
 
 import java.util.function.Supplier;
@@ -26,13 +25,13 @@ public class IntakeSubsystem implements Subsystem, Supplier<Double> {
 
   private final EncodedMotor<DcMotorEx> motor;
 
-  private final RangeSensor rangeSensor;
+  private final Rev2MDistanceSensor rangeSensor;
 
   private CommandGamepad gamepad;
 
   private State currentState = State.STOP;
 
-  public IntakeSubsystem(EncodedMotor<DcMotorEx> m, RangeSensor r) {
+  public IntakeSubsystem(EncodedMotor<DcMotorEx> m, Rev2MDistanceSensor r) {
     motor = m;
     motor.setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
     rangeSensor = r;

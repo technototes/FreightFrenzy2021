@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.qualcomm.robotcore.util.Range;
 import com.technototes.library.hardware.motor.EncodedMotor;
 import com.technototes.library.hardware.sensor.IMU;
-import com.technototes.library.hardware.sensor.RangeSensor;
+import com.technototes.library.hardware.sensor.Rev2MDistanceSensor;
 import com.technototes.library.util.Alliance;
 import com.technototes.path.subsystem.MecanumConstants;
 import com.technototes.path.subsystem.MecanumDrivebaseSubsystem;
@@ -82,7 +82,7 @@ public class DrivebaseSubsystem extends MecanumDrivebaseSubsystem implements Sup
         @PoseLimit
         public static int POSE_HISTORY_LIMIT = 100;
 
-        public static double SIDE_SENSOR_DISTANCE = 64;
+        public static double SIDE_SENSOR_DISTANCE = 65;
         public static double FRONT_SENSOR_DISTANCE = 65.5;
 
         public static double TIP_TOLERANCE = Math.toRadians(5);
@@ -91,19 +91,20 @@ public class DrivebaseSubsystem extends MecanumDrivebaseSubsystem implements Sup
 
     }
 
-    public RangeSensor left, right, front;
+    public Rev2MDistanceSensor left, right, front;
 //    protected FtcDashboard dashboard;
 
     public float xOffset, yOffset;
 
     public DrivebaseSubsystem(EncodedMotor<DcMotorEx> fl, EncodedMotor<DcMotorEx> fr,
                               EncodedMotor<DcMotorEx> rl, EncodedMotor<DcMotorEx> rr,
-                              IMU i, RangeSensor l, RangeSensor r, RangeSensor f) {
+                              IMU i, Rev2MDistanceSensor l, Rev2MDistanceSensor r, Rev2MDistanceSensor f) {
         super(fl, fr, rl, rr, i, () -> DriveConstants.class);
 
         left = l;
         right = r;
         front = f;
+
 
         resetGyro();
 //        dashboard = FtcDashboard.getInstance();
@@ -117,31 +118,46 @@ public class DrivebaseSubsystem extends MecanumDrivebaseSubsystem implements Sup
 
     public void relocalizeCyclePose(Alliance alliance){
         //to make sure all sensors are valid
-        double frontAdj = front.getSensorValue(),
-                sideAdj = alliance.selectOf(right, left).getSensorValue();
-        frontAdj*=Math.abs(Math.cos(getExternalHeading()));
-        sideAdj*=Math.abs(Math.cos(getExternalHeading()));
-        if(frontAdj > 90 || sideAdj > 10) return;
+        double xAdj = front.getSensorValue(),
+                yAdj = alliance.selectOf(right, left).getSensorValue();
+        xAdj*=Math.abs(Math.cos(getExternalHeading()));
+        yAdj*=Math.abs(Math.cos(getExternalHeading()));
+        if(xAdj > 90 || yAdj > 20) return;
         setPoseEstimate(new Pose2d(
-                FRONT_SENSOR_DISTANCE-frontAdj,
-                alliance.selectOf(sideAdj-SIDE_SENSOR_DISTANCE, SIDE_SENSOR_DISTANCE-sideAdj),
+                FRONT_SENSOR_DISTANCE-xAdj,
+                alliance.selectOf(yAdj-SIDE_SENSOR_DISTANCE, SIDE_SENSOR_DISTANCE-yAdj),
                 getExternalHeading()));
     }
+
+    public void relocalizeSharedPose(Alliance alliance){
+        //to make sure all sensors are valid
+        double xAdj = alliance.selectOf(left, right).getSensorValue(),
+                yAdj = front.getSensorValue();
+        xAdj*=Math.abs(Math.sin(getExternalHeading()));
+        yAdj*=Math.abs(Math.sin(getExternalHeading()));
+        if(xAdj > 20 || yAdj > 90) return;
+        setPoseEstimate(new Pose2d(
+                SIDE_SENSOR_DISTANCE-xAdj,
+                alliance.selectOf(yAdj-FRONT_SENSOR_DISTANCE, FRONT_SENSOR_DISTANCE-yAdj),
+                getExternalHeading()));
+    }
+
 
 
     public void relocalizeDuckPose(Alliance alliance){
         //to make sure all sensors are valid
-        double frontAdj = alliance.selectOf(front, left).getSensorValue(),
-                sideAdj = alliance.selectOf(left, front).getSensorValue();
-        frontAdj*=Math.abs(Math.cos(getExternalHeading()));
-        sideAdj*=Math.abs(Math.cos(getExternalHeading()));
+        double xAdj = alliance.selectOf(front, left).getSensorValue(),
+                yAdj = alliance.selectOf(left, front).getSensorValue();
+        xAdj*=Math.abs(Math.cos(getExternalHeading()));
+        yAdj*=Math.abs(Math.cos(getExternalHeading()));
 
-        if(frontAdj > 20 || sideAdj > 20) return;
+        if(xAdj > 20 || yAdj > 20) return;
         setPoseEstimate(new Pose2d(
-                alliance.selectOf(frontAdj-FRONT_SENSOR_DISTANCE, frontAdj-SIDE_SENSOR_DISTANCE),
-                alliance.selectOf(sideAdj-SIDE_SENSOR_DISTANCE, FRONT_SENSOR_DISTANCE-sideAdj),
+                alliance.selectOf(xAdj-FRONT_SENSOR_DISTANCE, xAdj-SIDE_SENSOR_DISTANCE),
+                alliance.selectOf(yAdj-SIDE_SENSOR_DISTANCE, FRONT_SENSOR_DISTANCE-yAdj),
                 getExternalHeading()));
     }
+
 
     public void resetGyro(){
         xOffset = imu.getAngularOrientation().secondAngle;
@@ -149,6 +165,7 @@ public class DrivebaseSubsystem extends MecanumDrivebaseSubsystem implements Sup
     }
 
     public void setSafeDrivePower(Pose2d raw){
+
         float x = 0, y = 0, adjX = xOffset-imu.getAngularOrientation().secondAngle, adjY = imu.getAngularOrientation().thirdAngle-yOffset;
         if(Math.abs(adjY) > TIP_TOLERANCE) y = adjY;
         if(Math.abs(adjX) > TIP_TOLERANCE) x = adjX;

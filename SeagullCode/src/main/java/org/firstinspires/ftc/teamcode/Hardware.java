@@ -10,7 +10,7 @@ import com.technototes.library.hardware.motor.EncodedMotor;
 import com.technototes.library.hardware.motor.Motor;
 import com.technototes.library.hardware.sensor.IMU;
 import com.technototes.library.hardware.sensor.IMU.AxesSigns;
-import com.technototes.library.hardware.sensor.RangeSensor;
+import com.technototes.library.hardware.sensor.Rev2MDistanceSensor;
 import com.technototes.library.hardware.servo.Servo;
 import com.technototes.vision.hardware.Webcam;
 
@@ -53,7 +53,7 @@ public class Hardware {
     public EncodedMotor<DcMotorEx> rlDriveMotor;
     public EncodedMotor<DcMotorEx> rrDriveMotor;
     public IMU imu;
-    public RangeSensor bucketRangeSensor;
+    public Rev2MDistanceSensor bucketRangeSensor;
 
     public EncodedMotor<DcMotorEx> intakeMotor;
 
@@ -93,7 +93,7 @@ public class Hardware {
         if (DUMP_CONNECTED) {
             bucketServo = new Servo(BUCKET);
             bucketMotor = new EncodedMotor<DcMotorEx>(ARM).invert();
-            bucketRangeSensor = new RangeSensor(BUCKET_RANGE).setDistanceUnit(DistanceUnit.INCH);
+            bucketRangeSensor = new Rev2MDistanceSensor(BUCKET_RANGE).setDistanceUnit(DistanceUnit.INCH);
         }
     }
 }
