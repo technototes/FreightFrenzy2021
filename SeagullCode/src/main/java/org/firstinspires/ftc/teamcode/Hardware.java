@@ -57,9 +57,9 @@ public class Hardware {
     public Servo bucketServo;
     public EncodedMotor<DcMotorEx> bucketMotor;
 
-    public RangeSensor frontRangeSensor;
-    public RangeSensor leftRangeSensor;
-    public RangeSensor rightRangeSensor;
+    public Rev2MDistanceSensor frontRangeSensor;
+    public Rev2MDistanceSensor leftRangeSensor;
+    public Rev2MDistanceSensor rightRangeSensor;
 
     public Hardware() {
         if (DRIVE_CONNECTED) {
