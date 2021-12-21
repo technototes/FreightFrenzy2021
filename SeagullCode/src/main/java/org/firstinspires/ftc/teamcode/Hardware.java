@@ -20,10 +20,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 public class Hardware {
     @Config
     public static class HardwareConstants {
-        public static String LIFT = "lift";
-
-        public static String DUMP = "dump";
-
         public static String FL_MOTOR = "flmotor";
         public static String FR_MOTOR = "frmotor";
         public static String RL_MOTOR = "rlmotor";
@@ -37,8 +33,6 @@ public class Hardware {
 
         public static String INTAKE = "intake";
 
-        public static String CAP = "cap";
-
         public static String BUCKET = "bucket";
         public static String ARM = "arm";
 
@@ -46,11 +40,6 @@ public class Hardware {
         public static String LEFT_RANGE = "left_range";
         public static String RIGHT_RANGE = "right_range";
     }
-
-    public EncodedMotor<DcMotorEx> liftMotor;
-
-
-    public Servo armServo;
 
     public EncodedMotor<DcMotorEx> flDriveMotor;
     public EncodedMotor<DcMotorEx> frDriveMotor;
@@ -64,10 +53,6 @@ public class Hardware {
     public Motor<DcMotorEx> carouselMotor;
 
     public Webcam camera;
-
-    public Servo capServo;
-
-    public Servo dumpServo;
 
     public Servo bucketServo;
     public EncodedMotor<DcMotorEx> bucketMotor;
@@ -83,9 +68,9 @@ public class Hardware {
             rlDriveMotor = new EncodedMotor<>(RL_MOTOR);
             rrDriveMotor = new EncodedMotor<>(RR_MOTOR);
             imu = new IMU(HardwareConstants.IMU).remapAxes(AxesOrder.YXZ, AxesSigns.NNN);
-//            frontRangeSensor = new RangeSensor(FRONT_RANGE);
-//            leftRangeSensor = new RangeSensor(LEFT_RANGE);
-//            rightRangeSensor = new RangeSensor(RIGHT_RANGE);
+            frontRangeSensor = new RangeSensor(FRONT_RANGE);
+            leftRangeSensor = new RangeSensor(LEFT_RANGE);
+            rightRangeSensor = new RangeSensor(RIGHT_RANGE);
         }
         if (CAROUSEL_CONNECTED) {
             carouselMotor = new Motor<>(CAROUSEL);
@@ -95,10 +80,6 @@ public class Hardware {
         }
         if (INTAKE_CONNECTED) {
             intakeMotor = new EncodedMotor<>(INTAKE);
-        }
-
-        if (CAP_CONNECTED) {
-            capServo = new Servo(CAP);
         }
 
         if (DUMP_CONNECTED) {
