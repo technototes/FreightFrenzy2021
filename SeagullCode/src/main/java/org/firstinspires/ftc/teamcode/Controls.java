@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode;
 
-import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.CAP_CONNECTED;
 import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.CAROUSEL_CONNECTED;
 import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.DRIVE_CONNECTED;
 import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.DUMP_CONNECTED;
@@ -13,7 +12,6 @@ import com.technototes.library.control.CommandButton;
 import com.technototes.library.control.CommandGamepad;
 import com.technototes.library.control.Stick;
 
-import org.firstinspires.ftc.teamcode.commands.RumbleTestCommand;
 import org.firstinspires.ftc.teamcode.commands.carousel.CarouselLeftCommand;
 import org.firstinspires.ftc.teamcode.commands.carousel.CarouselRightCommand;
 import org.firstinspires.ftc.teamcode.commands.drivebase.DriveCommand;
@@ -31,7 +29,6 @@ import org.firstinspires.ftc.teamcode.commands.intake.IntakeSafeCommand;
 import org.firstinspires.ftc.teamcode.commands.intake.IntakeStopCommand;
 
 public class Controls {
-
     public CommandGamepad gamepad;
 
     public Robot robot;
@@ -79,7 +76,6 @@ public class Controls {
         if (DRIVE_CONNECTED) bindDriveControls();
         if (INTAKE_CONNECTED) bindIntakeControls();
         if (CAROUSEL_CONNECTED) bindCarouselControls();
-        if (CAP_CONNECTED) bindCapControls();
         if (DUMP_CONNECTED) bindBucketControls();
     }
 
@@ -113,11 +109,6 @@ public class Controls {
 
     public void bindCarouselControls() {
         carouselLeftButton.whilePressedOnce(new CarouselLeftCommand(robot.carouselSubsystem));
-//        carouselLeftButton.whenPressed(new RumbleTestCommand(gamepad));
         carouselRightButton.whilePressedOnce(new CarouselRightCommand(robot.carouselSubsystem));
-    }
-
-    public void bindCapControls() {
-
     }
 }
