@@ -7,7 +7,7 @@ public class ServoController {
     private final Servo servo;
     private double maxVel, maxAccel, targetPosition, servoRange, targetTolerance;
     private final ElapsedTime deltaTime;
-    private double delta, pastDelta;
+    private double delta;
     private double proportion;
 
     public static class Constraints{
@@ -69,7 +69,7 @@ public class ServoController {
         //if at the target dont do anything
         if (isAtTarget()) return this;
         // set the past delta pos
-        pastDelta = delta;
+        double pastDelta = delta;
         //get the change in time, then reset the timer instantly
         double deltaSec = deltaTime.seconds();
         deltaTime.reset();
@@ -79,8 +79,8 @@ public class ServoController {
         // the min and max make sure both constraints are hit
         // the deltasec makes it independent of looptime
         delta = Range.clip(deltaSec * servoRange * proportion * (getTargetPosition() - getCurrentPosition()),
-                Math.max(pastDelta-maxAccel*deltaSec, -maxVel*deltaSec),
-                Math.min(pastDelta+maxAccel*deltaSec, maxVel*deltaSec));
+                Math.max(pastDelta -maxAccel*deltaSec, -maxVel*deltaSec),
+                Math.min(pastDelta +maxAccel*deltaSec, maxVel*deltaSec));
         servo.setPosition(getCurrentPosition()+delta/servoRange);
 
         return this;

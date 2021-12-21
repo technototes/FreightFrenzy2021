@@ -24,6 +24,8 @@ public enum Alliance {
         return Selector.selectOf(this, a, b);
     }
 
+
+
     public static class Selector<T>{
         private final T r, b;
         protected Selector(T red, T blue){

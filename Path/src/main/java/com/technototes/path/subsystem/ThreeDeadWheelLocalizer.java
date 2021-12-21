@@ -26,7 +26,7 @@ import static com.technototes.path.subsystem.DeadWheelConstants.*;
  *    \--------------/
  *
  */
-public class ThreeDeadWheelSubsystem extends ThreeTrackingWheelLocalizer implements Subsystem {
+public class ThreeDeadWheelLocalizer extends ThreeTrackingWheelLocalizer implements Subsystem {
 
     protected MotorEncoder leftEncoder, rightEncoder, frontEncoder;
 
@@ -35,7 +35,7 @@ public class ThreeDeadWheelSubsystem extends ThreeTrackingWheelLocalizer impleme
     protected boolean encoderOverflow;
 
 
-    public ThreeDeadWheelSubsystem(MotorEncoder l, MotorEncoder r, MotorEncoder f, DeadWheelConstants constants) {
+    public ThreeDeadWheelLocalizer(MotorEncoder l, MotorEncoder r, MotorEncoder f, DeadWheelConstants constants) {
         super(
                 Arrays.asList(
                 new Pose2d(0, constants.getDouble(LateralDistance.class) / 2, 0), // left
