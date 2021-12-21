@@ -4,18 +4,17 @@ import com.technototes.library.command.Command;
 
 import org.firstinspires.ftc.teamcode.subsystems.CarouselSubsystem;
 
-public class CarouselRightCommand implements Command {
-    private CarouselSubsystem subsystem;
+public class CarouselBlueSlowCommand implements Command {
+    private CarouselSubsystem carouselSubsystem;
 
-    public CarouselRightCommand (CarouselSubsystem s) {
-        subsystem = s;
+    public CarouselBlueSlowCommand (CarouselSubsystem s) {
+        carouselSubsystem = s;
         addRequirements(s);
     }
 
     @Override
     public void execute() {
-        subsystem.right();
-
+        carouselSubsystem.blue_slow();
     }
 
     @Override
@@ -25,7 +24,7 @@ public class CarouselRightCommand implements Command {
 
     @Override
     public void end(boolean cancel) {
-        subsystem.stop();
+        carouselSubsystem.stop();
     }
 }
 

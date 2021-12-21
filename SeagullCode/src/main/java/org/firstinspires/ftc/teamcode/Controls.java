@@ -11,9 +11,14 @@ import com.technototes.library.control.CommandAxis;
 import com.technototes.library.control.CommandButton;
 import com.technototes.library.control.CommandGamepad;
 import com.technototes.library.control.Stick;
+import com.technototes.library.util.Alliance;
 
-import org.firstinspires.ftc.teamcode.commands.carousel.CarouselLeftCommand;
-import org.firstinspires.ftc.teamcode.commands.carousel.CarouselRightCommand;
+
+import org.firstinspires.ftc.teamcode.commands.autonomous.AutonomousConstants;
+import org.firstinspires.ftc.teamcode.commands.carousel.CarouselBlueFastCommand;
+import org.firstinspires.ftc.teamcode.commands.carousel.CarouselBlueSlowCommand;
+import org.firstinspires.ftc.teamcode.commands.carousel.CarouselRedFastCommand;
+import org.firstinspires.ftc.teamcode.commands.carousel.CarouselRedSlowCommand;
 import org.firstinspires.ftc.teamcode.commands.drivebase.DriveCommand;
 import org.firstinspires.ftc.teamcode.commands.drivebase.ResetGyroCommand;
 import org.firstinspires.ftc.teamcode.commands.drivebase.SetSpeedCommand;
@@ -39,14 +44,17 @@ public class Controls {
     public CommandButton intakeInButton, intakeOutButton;
     public CommandAxis intakeInTrigger, intakeOutTrigger;
 
-    public CommandButton carouselLeftButton, carouselRightButton;
+    public CommandButton carouselSlowButton, carouselFastButton;
 
     public Stick driveLeftStick, driveRightStick;
     public CommandButton resetGyroButton, straightenButton, snailSpeedButton;
 
-    public Controls(CommandGamepad g, Robot r) {
+    public Alliance alliance;
+
+    public Controls(CommandGamepad g, Robot r, Alliance alliance) {
         gamepad = g;
         robot = r;
+        this.alliance = alliance;
 
         collectButton = gamepad.leftBumper;
         carryButton = gamepad.rightBumper;
@@ -61,8 +69,8 @@ public class Controls {
         intakeInButton = gamepad.cross;
         intakeOutButton = gamepad.circle;
 
-        carouselLeftButton = gamepad.square; // slow
-        carouselRightButton = gamepad.triangle; // fast
+        carouselSlowButton = gamepad.square;
+        carouselFastButton = gamepad.triangle;
 
         resetGyroButton = gamepad.rightStickButton;
         straightenButton = gamepad.options;
@@ -75,7 +83,14 @@ public class Controls {
 
         if (DRIVE_CONNECTED) bindDriveControls();
         if (INTAKE_CONNECTED) bindIntakeControls();
-        if (CAROUSEL_CONNECTED) bindCarouselControls();
+        if (CAROUSEL_CONNECTED) {
+            if (alliance == Alliance.RED) {
+                bindCarouselRedControls();
+            }
+            else {
+                bindCarouselBlueControls();
+            }
+        }
         if (DUMP_CONNECTED) bindBucketControls();
     }
 
@@ -107,8 +122,12 @@ public class Controls {
         intakeOutTrigger.whenInverseToggled(new IntakeStopCommand(robot.intakeSubsystem));
     }
 
-    public void bindCarouselControls() {
-        carouselLeftButton.whilePressedOnce(new CarouselLeftCommand(robot.carouselSubsystem));
-        carouselRightButton.whilePressedOnce(new CarouselRightCommand(robot.carouselSubsystem));
+    public void bindCarouselRedControls() {
+        carouselSlowButton.whilePressedOnce(new CarouselRedSlowCommand(robot.carouselSubsystem));
+        carouselFastButton.whilePressedOnce(new CarouselRedFastCommand(robot.carouselSubsystem));
+    }
+    public void bindCarouselBlueControls() {
+        carouselSlowButton.whilePressedOnce(new CarouselBlueSlowCommand(robot.carouselSubsystem));
+        carouselFastButton.whilePressedOnce(new CarouselBlueFastCommand(robot.carouselSubsystem));
     }
 }
