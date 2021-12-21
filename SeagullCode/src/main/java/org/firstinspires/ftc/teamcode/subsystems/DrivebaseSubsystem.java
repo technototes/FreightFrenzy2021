@@ -7,6 +7,9 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.technototes.library.hardware.motor.EncodedMotor;
 import com.technototes.library.hardware.sensor.IMU;
+import com.technototes.library.hardware.sensor.RangeSensor;
+import com.technototes.library.logger.Loggable;
+import com.technototes.library.logger.Log;
 import com.technototes.path.subsystem.MecanumConstants;
 import com.technototes.path.subsystem.MecanumDrivebaseSubsystem;
 
@@ -14,7 +17,7 @@ import java.util.function.Supplier;
 
 @SuppressWarnings("unused")
 
-public class DrivebaseSubsystem extends MecanumDrivebaseSubsystem implements Supplier<Pose2d> {
+public class DrivebaseSubsystem extends MecanumDrivebaseSubsystem implements Supplier<Pose2d>, Loggable {
 
     @Config
     public abstract static class DriveConstants implements MecanumConstants {
@@ -74,27 +77,22 @@ public class DrivebaseSubsystem extends MecanumDrivebaseSubsystem implements Sup
 
     }
 
-    // public RangeSensor left, right;
-//    protected FtcDashboard dashboard;
-
+    @Log.Number (name = "Front Range Sensor")
+    public RangeSensor front_range;
+    @Log.Number (name = "Left Range Sensor")
+    public RangeSensor left_range;
+    @Log.Number (name = "Right Range Sensor")
+    public RangeSensor right_range;
 
     public DrivebaseSubsystem(EncodedMotor<DcMotorEx> fl, EncodedMotor<DcMotorEx> fr,
                               EncodedMotor<DcMotorEx> rl, EncodedMotor<DcMotorEx> rr,
-                              IMU i) {
+                              IMU i,
+                              RangeSensor front, RangeSensor left, RangeSensor right) {
         super(fl, fr, rl, rr, i, () -> DriveConstants.class);
-
-        // left = l;
-        // right = r;
-
-//        dashboard = FtcDashboard.getInstance();
-//        dashboard.setTelemetryTransmissionInterval(25);
+        this.front_range = front;
+        this.left_range = left;
+        this.right_range = right;
     }
-
-    /*
-    public DrivebaseSubsystem() {
-        this(Hardware.flDriveMotor, Hardware.frDriveMotor, Hardware.rlDriveMotor, Hardware.rrDriveMotor, Hardware.imu);
-    }
-    */
 
     @Override
     public Pose2d get() {
