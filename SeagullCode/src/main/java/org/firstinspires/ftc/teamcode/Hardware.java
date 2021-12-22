@@ -68,9 +68,9 @@ public class Hardware {
             rlDriveMotor = new EncodedMotor<>(RL_MOTOR);
             rrDriveMotor = new EncodedMotor<>(RR_MOTOR);
             imu = new IMU(HardwareConstants.IMU).remapAxes(AxesOrder.YXZ, AxesSigns.NNN);
-            frontRangeSensor = new RangeSensor(FRONT_RANGE).setDistanceUnit(DistanceUnit.INCH);
-            leftRangeSensor = new RangeSensor(LEFT_RANGE).setDistanceUnit(DistanceUnit.INCH);
-            rightRangeSensor = new RangeSensor(RIGHT_RANGE).setDistanceUnit(DistanceUnit.INCH);
+            frontRangeSensor = new Rev2MDistanceSensor(FRONT_RANGE).setDistanceUnit(DistanceUnit.INCH);
+            leftRangeSensor = new Rev2MDistanceSensor(LEFT_RANGE).setDistanceUnit(DistanceUnit.INCH);
+            rightRangeSensor = new Rev2MDistanceSensor(RIGHT_RANGE).setDistanceUnit(DistanceUnit.INCH);
         }
         if (CAROUSEL_CONNECTED) {
             carouselMotor = new Motor<>(CAROUSEL);
