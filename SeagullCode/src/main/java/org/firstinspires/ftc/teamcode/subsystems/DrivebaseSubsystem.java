@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.technototes.library.hardware.motor.EncodedMotor;
 import com.technototes.library.hardware.sensor.IMU;
-import com.technototes.library.hardware.sensor.RangeSensor;
+import com.technototes.library.hardware.sensor.Rev2MDistanceSensor;
 import com.technototes.library.logger.Loggable;
 import com.technototes.library.logger.Log;
 import com.technototes.path.subsystem.MecanumConstants;
@@ -78,16 +78,16 @@ public class DrivebaseSubsystem extends MecanumDrivebaseSubsystem implements Sup
     }
 
     @Log.Number (name = "Front Range Sensor")
-    public RangeSensor front_range;
+    public Rev2MDistanceSensor front_range;
     @Log.Number (name = "Left Range Sensor")
-    public RangeSensor left_range;
+    public Rev2MDistanceSensor left_range;
     @Log.Number (name = "Right Range Sensor")
-    public RangeSensor right_range;
+    public Rev2MDistanceSensor right_range;
 
     public DrivebaseSubsystem(EncodedMotor<DcMotorEx> fl, EncodedMotor<DcMotorEx> fr,
                               EncodedMotor<DcMotorEx> rl, EncodedMotor<DcMotorEx> rr,
                               IMU i,
-                              RangeSensor front, RangeSensor left, RangeSensor right) {
+                              Rev2MDistanceSensor front, Rev2MDistanceSensor left, Rev2MDistanceSensor right) {
         super(fl, fr, rl, rr, i, () -> DriveConstants.class);
         this.front_range = front;
         this.left_range = left;
