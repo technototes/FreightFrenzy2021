@@ -20,8 +20,8 @@ public class AutonomousConstants {
         public static Pose2d DEPOT_START = new Pose2d(0, -66, toRadians(-90));
         public static Pose2d DEPOT_ALLIANCE_HUB_LEVEL3 = new Pose2d(-10, -45, toRadians(-68));
         public static Pose2d DEPOT_GAP = new Pose2d(20, -68, toRadians(0));
-        public static Pose2d DEPOT_COLLECT1 = new Pose2d(46.5, -68, toRadians(0));
-        public static Pose2d DEPOT_COLLECT2 = new Pose2d(48, -68, toRadians(0));
+        public static Pose2d DEPOT_COLLECT1 = new Pose2d(46, -68, toRadians(0));
+        public static Pose2d DEPOT_COLLECT2 = new Pose2d(50, -68, toRadians(0));
     }
     public static class BlueConstants {
         public static Pose2d DUCK_START = new Pose2d(-36, 63, toRadians(90));
@@ -29,10 +29,10 @@ public class AutonomousConstants {
         public static Pose2d DUCK_CAROUSEL = new Pose2d(-59, 59, toRadians(180));
         public static Pose2d DUCK_PARK = new Pose2d(-62, 30, toRadians(180));
         public static Pose2d DEPOT_START = new Pose2d(0, 66, toRadians(90));
-        public static Pose2d DEPOT_ALLIANCE_HUB_LEVEL3 = new Pose2d(-9, 41, toRadians(60));
-        public static Pose2d DEPOT_GAP = new Pose2d(20, 68, toRadians(0));
-        public static Pose2d DEPOT_COLLECT1 = new Pose2d(46.5, 68, toRadians(0));
-        public static Pose2d DEPOT_COLLECT2 = new Pose2d(48, 68, toRadians(0));
+        public static Pose2d DEPOT_ALLIANCE_HUB_LEVEL3 = new Pose2d(-5, 43, toRadians(55));
+        public static Pose2d DEPOT_GAP = new Pose2d(20, 69, toRadians(0));
+        public static Pose2d DEPOT_COLLECT1 = new Pose2d(46, 69, toRadians(0));
+        public static Pose2d DEPOT_COLLECT2 = new Pose2d(48, 69, toRadians(0));
     }
 
     public static Alliance ALLIANCE = Alliance.BLUE;
@@ -65,11 +65,11 @@ public class AutonomousConstants {
                         .build(),
               RED_DEPOT_COLLECT1_TO_ALLIANCE_HUB_LEVEL3 = b -> b.apply(RedConstants.DEPOT_COLLECT1)
                         .lineToLinearHeading(RedConstants.DEPOT_GAP)
-                        .lineToLinearHeading(RedConstants.DEPOT_ALLIANCE_HUB_LEVEL3)
+                        .splineTo(RedConstants.DEPOT_ALLIANCE_HUB_LEVEL3.vec(), RedConstants.DEPOT_ALLIANCE_HUB_LEVEL3.getHeading()+Math.PI)  // add Pi fixed everything
                         .build(),
               RED_DEPOT_COLLECT2_TO_ALLIANCE_HUB_LEVEL3 = b -> b.apply(RedConstants.DEPOT_COLLECT2)
                         .lineToLinearHeading(RedConstants.DEPOT_GAP)
-                        .lineToLinearHeading(RedConstants.DEPOT_ALLIANCE_HUB_LEVEL3)
+                        .splineTo(RedConstants.DEPOT_ALLIANCE_HUB_LEVEL3.vec(), RedConstants.DEPOT_ALLIANCE_HUB_LEVEL3.getHeading()+Math.PI)
                         .build(),
               /************************************************************************************/
               BLUE_DUCK_CAROUSEL_TO_PARK = b -> b.apply(BlueConstants.DUCK_CAROUSEL)
@@ -96,11 +96,11 @@ public class AutonomousConstants {
                         .build(),
               BLUE_DEPOT_COLLECT1_TO_ALLIANCE_HUB_LEVEL_3 = b -> b.apply(BlueConstants.DEPOT_COLLECT1)
                         .lineToLinearHeading(BlueConstants.DEPOT_GAP)
-                        .lineToLinearHeading(BlueConstants.DEPOT_ALLIANCE_HUB_LEVEL3)
+                        .splineTo(BlueConstants.DEPOT_ALLIANCE_HUB_LEVEL3.vec(), BlueConstants.DEPOT_ALLIANCE_HUB_LEVEL3.getHeading()+Math.PI) // may be wrong, need to test out
                         .build(),
               BLUE_DEPOT_COLLECT2_TO_ALLIANCE_HUB_LEVEL_3 = b -> b.apply(BlueConstants.DEPOT_COLLECT2)
-                      .lineToLinearHeading(BlueConstants.DEPOT_GAP)
-                      .lineToLinearHeading(BlueConstants.DEPOT_ALLIANCE_HUB_LEVEL3)
-                      .build();
+                        .lineToLinearHeading(BlueConstants.DEPOT_GAP)
+                        .splineTo(BlueConstants.DEPOT_ALLIANCE_HUB_LEVEL3.vec(), BlueConstants.DEPOT_ALLIANCE_HUB_LEVEL3.getHeading()+Math.PI) // may be wrong, need to test out
+                        .build();
 }
 
