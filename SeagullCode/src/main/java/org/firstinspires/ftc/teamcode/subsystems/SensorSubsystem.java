@@ -2,6 +2,8 @@ package org.firstinspires.ftc.teamcode.subsystems;
 
 import static java.lang.System.nanoTime;
 
+import com.qualcomm.hardware.stmicroelectronics.VL53L0X;
+import com.qualcomm.robotcore.hardware.I2cDeviceSynchImplOnSimple;
 import com.technototes.library.command.Command;
 import com.technototes.library.hardware.sensor.Rev2MDistanceSensor;
 import com.technototes.library.logger.Log;
@@ -54,8 +56,8 @@ public class SensorSubsystem implements Subsystem, Loggable {
             sensorSubsystem.leftDist = left_dist;
             sensorSubsystem.rightDist = right_dist;
             sensorSubsystem.bucketDist = bucket_dist;
-            sensorSubsystem.readDurationMs = read_duration / 1000000.0;
-            sensorSubsystem.readIntervalMs = read_interval / 1000000.0;
+            sensorSubsystem.readDurationMs = Double.toString(read_duration / 1000000.0);
+            sensorSubsystem.readIntervalMs = Double.toString(read_interval / 1000000.0);
         }
 
         @Override
@@ -179,6 +181,7 @@ public class SensorSubsystem implements Subsystem, Loggable {
         }
 
         public void updateValues(SensorSubsystem sensorSubsystem) {
+
             SensorUpdateData[] sensorUpdateDataArray = new SensorUpdateData[SensorType.COUNT.getIndex()];
             sensorUpdateDataArray[SensorType.FRONT.getIndex()] = read_threads[SensorType.FRONT.getIndex()].getSensorUpdateData();
             sensorUpdateDataArray[SensorType.LEFT.getIndex()] = read_threads[SensorType.LEFT.getIndex()].getSensorUpdateData();
@@ -190,15 +193,19 @@ public class SensorSubsystem implements Subsystem, Loggable {
             sensorSubsystem.rightDist = sensorUpdateDataArray[SensorType.RIGHT.getIndex()].distance;
             sensorSubsystem.bucketDist = sensorUpdateDataArray[SensorType.BUCKET.getIndex()].distance;
 
+            sensorSubsystem.readDurationMs = "";
+            sensorSubsystem.readIntervalMs = "";
             long totalDuration = 0;
             long totalInterval = 0;
             for (SensorUpdateData sensorUpdateData : sensorUpdateDataArray) {
                 totalDuration += sensorUpdateData.readDuration;
+                sensorSubsystem.readDurationMs += sensorUpdateData.readDuration/1000000.0 + ",";
                 totalInterval += sensorUpdateData.readInterval;
+                sensorSubsystem.readIntervalMs += sensorUpdateData.readInterval/1000000.0 + ",";
             }
 
-            sensorSubsystem.readIntervalMs = totalInterval / (sensorUpdateDataArray.length * 1000000.0);
-            sensorSubsystem.readDurationMs = totalDuration / (sensorUpdateDataArray.length * 1000000.0);
+            //sensorSubsystem.readIntervalMs = "Sensor Read Interval (ms): " + totalInterval / (sensorUpdateDataArray.length * 1000000.0);
+            //sensorSubsystem.readDurationMs = "Sensor Read Duration (ms): " + totalDuration / (sensorUpdateDataArray.length * 1000000.0);
         }
     }
 
@@ -235,13 +242,16 @@ public class SensorSubsystem implements Subsystem, Loggable {
     public double bucketDist;
     @Log.Number (name = "Loop Time (ms)")
     public double loopTimeMs;
-    @Log.Number (name = "Sensor Read Interval (ms)")
-    public double readIntervalMs;
-    @Log.Number (name = "Sensor Read Duration (ms)")
-    public double readDurationMs;
+    @Log(name = "Sensor Read Interval (ms)")
+    public String readIntervalMs = "";
+    @Log(name = "Sensor Read Duration (ms)")
+    public String readDurationMs = "";
+    @Log(name = "Clients")
+    public String clientInfo;
 
     public enum ReadType {
         SEQUENTIAL_INLINE,
+        SEQUENTIAL_TEST_TIMING,
         SEQUENTIAL_THREAD,
         PARALLEL_THREAD
     }
@@ -274,6 +284,7 @@ public class SensorSubsystem implements Subsystem, Loggable {
                 parallelRead = new ParallelRead(front, left, right, bucket);
                 parallelRead.start();
                 break;
+            case SEQUENTIAL_TEST_TIMING:
             case SEQUENTIAL_INLINE:
                 sequentialRead = null;
                 parallelRead = null;
@@ -281,6 +292,24 @@ public class SensorSubsystem implements Subsystem, Loggable {
             default:
                 throw new IllegalArgumentException("readType");
         }
+
+        VL53L0X vl53L0X = (VL53L0X)this.front_range.getDevice();
+        I2cDeviceSynchImplOnSimple i2cDeviceSynch= (I2cDeviceSynchImplOnSimple)vl53L0X.getDeviceClient();
+        int frontClient = i2cDeviceSynch.hashCode();
+
+        vl53L0X = (VL53L0X)this.left_range.getDevice();
+        i2cDeviceSynch= (I2cDeviceSynchImplOnSimple)vl53L0X.getDeviceClient();
+        int leftClient = i2cDeviceSynch.hashCode();
+
+        vl53L0X = (VL53L0X)this.right_range.getDevice();
+        i2cDeviceSynch= (I2cDeviceSynchImplOnSimple)vl53L0X.getDeviceClient();
+        int rightClient = i2cDeviceSynch.hashCode();
+
+        vl53L0X = (VL53L0X)this.bucket_range.getDevice();
+        i2cDeviceSynch= (I2cDeviceSynchImplOnSimple)vl53L0X.getDeviceClient();
+        int bucketClient = i2cDeviceSynch.hashCode();
+
+        clientInfo = frontClient + " " + leftClient + " " + rightClient + " " + bucketClient;
     }
 
     public void destroy() {
@@ -309,9 +338,55 @@ public class SensorSubsystem implements Subsystem, Loggable {
                 rightDist = right_range.getDistance();
                 bucketDist = bucket_range.getDistance();
                 final long stopTime = nanoTime();
-                readDurationMs = (stopTime - startTime) / 1000000.0;
-                readIntervalMs = (startTime - last_loop_time) / 1000000.0;
+                readDurationMs = Double.toString((stopTime - startTime) / 1000000.0);
+                readIntervalMs = Double.toString((startTime - last_loop_time) / 1000000.0);
                 break;
+            case SEQUENTIAL_TEST_TIMING: {
+                long start1 = nanoTime();
+                frontDist = front_range.getDistance();
+                long start2 = nanoTime();
+                frontDist = front_range.getDistance();
+                long start3 = nanoTime();
+                frontDist = front_range.getDistance();
+                long start4 = nanoTime();
+                frontDist = front_range.getDistance();
+                long stop = nanoTime();
+                android.util.Log.i("SensorSub", "Front: " + start1 + "," + start2 + "," + start3 + "," + start4 + "," + stop);
+
+                start1 = nanoTime();
+                frontDist = left_range.getDistance();
+                start2 = nanoTime();
+                frontDist = left_range.getDistance();
+                start3 = nanoTime();
+                frontDist = left_range.getDistance();
+                start4 = nanoTime();
+                frontDist = left_range.getDistance();
+                stop = nanoTime();
+                android.util.Log.i("SensorSub", "Left: " + start1 + "," + start2 + "," + start3 + "," + start4 + "," + stop);
+
+                start1 = nanoTime();
+                frontDist = right_range.getDistance();
+                start2 = nanoTime();
+                frontDist = right_range.getDistance();
+                start3 = nanoTime();
+                frontDist = right_range.getDistance();
+                start4 = nanoTime();
+                frontDist = right_range.getDistance();
+                stop = nanoTime();
+                android.util.Log.i("SensorSub", "Right: " + start1 + "," + start2 + "," + start3 + "," + start4 + "," + stop);
+
+                start1 = nanoTime();
+                frontDist = bucket_range.getDistance();
+                start2 = nanoTime();
+                frontDist = bucket_range.getDistance();
+                start3 = nanoTime();
+                frontDist = bucket_range.getDistance();
+                start4 = nanoTime();
+                frontDist = bucket_range.getDistance();
+                stop = nanoTime();
+                android.util.Log.i("SensorSub", "Bucket: " + start1 + "," + start2 + "," + start3 + "," + start4 + "," + stop);
+                break;
+            }
             default:
                 throw new IllegalArgumentException("read_type");
         }
