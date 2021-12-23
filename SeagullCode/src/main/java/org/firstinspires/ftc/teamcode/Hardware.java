@@ -46,7 +46,7 @@ public class Hardware {
     public EncodedMotor<DcMotorEx> rlDriveMotor;
     public EncodedMotor<DcMotorEx> rrDriveMotor;
     public IMU imu;
-    public Rev2MDistanceSensor bucketRangeSensor;
+    public Rev2MDistanceSensor bucketDistanceSensor;
 
     public EncodedMotor<DcMotorEx> intakeMotor;
 
@@ -57,9 +57,9 @@ public class Hardware {
     public Servo bucketServo;
     public EncodedMotor<DcMotorEx> bucketMotor;
 
-    public Rev2MDistanceSensor frontRangeSensor;
-    public Rev2MDistanceSensor leftRangeSensor;
-    public Rev2MDistanceSensor rightRangeSensor;
+    public Rev2MDistanceSensor frontDistanceSensor;
+    public Rev2MDistanceSensor leftDistanceSensor;
+    public Rev2MDistanceSensor rightDistanceSensor;
 
     public Hardware() {
         if (DRIVE_CONNECTED) {
@@ -68,9 +68,9 @@ public class Hardware {
             rlDriveMotor = new EncodedMotor<>(RL_MOTOR);
             rrDriveMotor = new EncodedMotor<>(RR_MOTOR);
             imu = new IMU(HardwareConstants.IMU).remapAxes(AxesOrder.YXZ, AxesSigns.NNN);
-            frontRangeSensor = new Rev2MDistanceSensor(FRONT_RANGE).setDistanceUnit(DistanceUnit.INCH);
-            leftRangeSensor = new Rev2MDistanceSensor(LEFT_RANGE).setDistanceUnit(DistanceUnit.INCH);
-            rightRangeSensor = new Rev2MDistanceSensor(RIGHT_RANGE).setDistanceUnit(DistanceUnit.INCH);
+            frontDistanceSensor = new Rev2MDistanceSensor(FRONT_RANGE).setDistanceUnit(DistanceUnit.INCH);
+            leftDistanceSensor = new Rev2MDistanceSensor(LEFT_RANGE).setDistanceUnit(DistanceUnit.INCH);
+            rightDistanceSensor = new Rev2MDistanceSensor(RIGHT_RANGE).setDistanceUnit(DistanceUnit.INCH);
         }
         if (CAROUSEL_CONNECTED) {
             carouselMotor = new Motor<>(CAROUSEL);
@@ -85,7 +85,7 @@ public class Hardware {
         if (DUMP_CONNECTED) {
             bucketServo = new Servo(BUCKET);
             bucketMotor = new EncodedMotor<DcMotorEx>(ARM).invert();
-            bucketRangeSensor = new Rev2MDistanceSensor(BUCKET_RANGE).setDistanceUnit(DistanceUnit.INCH);
+            bucketDistanceSensor = new Rev2MDistanceSensor(BUCKET_RANGE).setDistanceUnit(DistanceUnit.INCH);
         }
     }
 }
