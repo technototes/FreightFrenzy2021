@@ -40,7 +40,9 @@ public class DrivebaseSubsystem extends MecanumDrivebaseSubsystem implements Sup
         @GearRatio
         public static double GEAR_RATIO = 1 / 19.2; // output (wheel) speed / input (motor) speed
         @TrackWidth
-        public static double TRACK_WIDTH = 11; // in
+        public static double TRACK_WIDTH = 10; // in
+        @WheelBase
+        public static double WHEEL_BASE = 8.5; // in
         @KV
         public static double kV = 1.0 / MecanumConstants.rpmToVelocity(MAX_RPM, WHEEL_RADIUS, GEAR_RATIO);
         @KA
@@ -63,7 +65,7 @@ public class DrivebaseSubsystem extends MecanumDrivebaseSubsystem implements Sup
         public static PIDCoefficients HEADING_PID = new PIDCoefficients(8, 0, 0);
 
         @LateralMult
-        public static double LATERAL_MULTIPLIER = 1;
+        public static double LATERAL_MULTIPLIER = 1.14; // Lateral position is off by 14%
 
         @VXWeight
         public static double VX_WEIGHT = 1;
@@ -84,6 +86,11 @@ public class DrivebaseSubsystem extends MecanumDrivebaseSubsystem implements Sup
     @Log.Number (name = "Right Range Sensor")
     public Rev2MDistanceSensor right_distance;
 
+    private static final boolean ENABLE_POSE_DIAGNOSTICS = false;
+
+    @Log (name="Pose2d: ")
+    public String poseDisplay = ENABLE_POSE_DIAGNOSTICS ? "" : null;
+
     public DrivebaseSubsystem(EncodedMotor<DcMotorEx> fl, EncodedMotor<DcMotorEx> fr,
                               EncodedMotor<DcMotorEx> rl, EncodedMotor<DcMotorEx> rr,
                               IMU i,
@@ -97,5 +104,14 @@ public class DrivebaseSubsystem extends MecanumDrivebaseSubsystem implements Sup
     @Override
     public Pose2d get() {
         return getPoseEstimate();
+    }
+
+    @Override
+    public void periodic() {
+        if (ENABLE_POSE_DIAGNOSTICS) {
+            updatePoseEstimate();
+            Pose2d pose = getPoseEstimate();
+            poseDisplay = pose.toString();
+        }
     }
 }
