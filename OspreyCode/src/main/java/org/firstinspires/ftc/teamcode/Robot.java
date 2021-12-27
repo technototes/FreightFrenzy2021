@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.acmerobotics.dashboard.config.Config;
+import com.technototes.library.logger.LogConfig;
 import com.technototes.library.util.Color;
 import com.technototes.library.logger.Log;
 import com.technototes.library.logger.Loggable;
@@ -51,6 +52,7 @@ public class Robot implements Loggable {
     @Log.NumberSlider(name = "Cap", color = Color.MAGENTA)
     public CapSubsystem capSubsystem;
 
+    @LogConfig.Disabled
     public VisionSubsystem visionSubsystem;
 
     public Robot(Hardware hardware){

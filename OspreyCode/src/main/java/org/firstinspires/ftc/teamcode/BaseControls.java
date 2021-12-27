@@ -6,6 +6,7 @@ import com.technototes.library.control.CommandButton;
 import com.technototes.library.control.CommandGamepad;
 import com.technototes.library.control.CommandInput;
 import com.technototes.library.control.Stick;
+import com.technototes.library.util.Alliance;
 
 import org.firstinspires.ftc.teamcode.commands.arm.ArmRaiseInCommand;
 import org.firstinspires.ftc.teamcode.commands.arm.ArmSharedCommand;
@@ -143,11 +144,11 @@ public class BaseControls {
 
     public void bindDriveControls() {
         if(EXTENSION_CONNECTED && DEPOSIT_CONNECTED && LIFT_CONNECTED && INTAKE_CONNECTED){
-            allianceHubButton.whilePressed(new TeleopDepositAllianceCommand(robot.drivebaseSubsystem, robot.intakeSubsystem, robot.liftSubsystem, robot.armSubsystem, robot.extensionSubsystem).andThen(new TeleopIntakeAllianceWarehouseCommand(robot.drivebaseSubsystem, robot.intakeSubsystem, robot.liftSubsystem, robot.armSubsystem, robot.extensionSubsystem)));
+            allianceHubButton.whilePressed( new TeleopDepositAllianceCommand(robot.drivebaseSubsystem, robot.intakeSubsystem, robot.liftSubsystem, robot.armSubsystem, robot.extensionSubsystem).andThen(new TeleopIntakeAllianceWarehouseCommand(robot.drivebaseSubsystem, robot.intakeSubsystem, robot.liftSubsystem, robot.armSubsystem, robot.extensionSubsystem)));
             sharedHubButton.whilePressed(new TeleopDepositSharedCommand(robot.drivebaseSubsystem, robot.intakeSubsystem, robot.liftSubsystem, robot.armSubsystem, robot.extensionSubsystem).andThen(new TeleopIntakeSharedWarehouseCommand(robot.drivebaseSubsystem, robot.intakeSubsystem, robot.liftSubsystem, robot.armSubsystem, robot.extensionSubsystem)));
         }
         robot.drivebaseSubsystem.setDefaultCommand(new DriveCommand(robot.drivebaseSubsystem, driveLeftStick, driveRightStick));
-        robot.drivebaseSubsystem.setExternalHeading(Math.toRadians(RobotConstants.getAlliance().selectOf(-90, 90)));
+        robot.drivebaseSubsystem.setExternalHeading(Math.toRadians(180));
         allianceHubButton.whenPressed(new DriveSpeedCommand(robot.drivebaseSubsystem).cancelUpon(toIntakeButton));
         resetGyroButton.whenPressed(new DriveResetCommand(robot.drivebaseSubsystem));
         snailSpeedButton.whilePressedOnce(new DriveSpeedCommand(robot.drivebaseSubsystem));
@@ -179,8 +180,9 @@ public class BaseControls {
         allianceHubButton.whileReleasedOnce(new ExtensionCommand(robot.extensionSubsystem, ExtensionSubsystem.ExtensionConstants.TELEOP_ALLIANCE, ExtensionSubsystem.ExtensionConstants.CENTER).asConditional(RobotConstants::isDepositing));
         sharedHubButton.whileReleasedOnce(new ExtensionSideCommand(robot.extensionSubsystem).asConditional(RobotConstants::isDepositing));
         toIntakeButton.whenPressed(new ExtensionCollectCommand(robot.extensionSubsystem));
-        turretAdjustLeftButton.whilePressed(new TurretTranslateCommand(robot.extensionSubsystem, -0.05, ()-> DRIVE_CONNECTED && robot.drivebaseSubsystem.getExternalHeading() > ExtensionSubsystem.ExtensionConstants.SNAP_1 && robot.drivebaseSubsystem.getExternalHeading() < ExtensionSubsystem.ExtensionConstants.SNAP_2));
-        turretAdjustRightButton.whilePressed(new TurretTranslateCommand(robot.extensionSubsystem,   0.05, ()-> DRIVE_CONNECTED && robot.drivebaseSubsystem.getExternalHeading() > ExtensionSubsystem.ExtensionConstants.SNAP_1 && robot.drivebaseSubsystem.getExternalHeading() < ExtensionSubsystem.ExtensionConstants.SNAP_2));
+        turretAdjustLeftButton.whilePressed(new TurretTranslateCommand(robot.extensionSubsystem, 0.05, ()-> DRIVE_CONNECTED && (RobotConstants.getAlliance()== Alliance.RED ^ (robot.drivebaseSubsystem.getExternalHeading() > ExtensionSubsystem.ExtensionConstants.SNAP_1 && robot.drivebaseSubsystem.getExternalHeading() < ExtensionSubsystem.ExtensionConstants.SNAP_2))));
+        turretAdjustRightButton.whilePressed(new TurretTranslateCommand(robot.extensionSubsystem,   -0.05, ()-> DRIVE_CONNECTED && (RobotConstants.getAlliance()== Alliance.RED ^ (robot.drivebaseSubsystem.getExternalHeading() > ExtensionSubsystem.ExtensionConstants.SNAP_1 && robot.drivebaseSubsystem.getExternalHeading() < ExtensionSubsystem.ExtensionConstants.SNAP_2))));
+
     }
 
 

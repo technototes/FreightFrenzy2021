@@ -148,6 +148,7 @@ public final class CommandScheduler {
         commandMap.forEach((c1, b)->{
             if(b.getAsBoolean() || c1.isRunning()) c1.run();
         });
+        // i hate this
         requirementMap.keySet().forEach(Subsystem::periodic);
     }
 }

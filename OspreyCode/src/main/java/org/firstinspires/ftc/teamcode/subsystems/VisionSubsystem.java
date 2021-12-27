@@ -19,8 +19,6 @@ import static org.firstinspires.ftc.teamcode.subsystems.VisionSubsystem.VisionCo
 import static org.firstinspires.ftc.teamcode.subsystems.VisionSubsystem.VisionConstants.ROTATION;
 import static org.firstinspires.ftc.teamcode.subsystems.VisionSubsystem.VisionConstants.WIDTH;
 
-// Credits to team 7303 RoboAvatars, adjusted by team 3954 Pink to the Future
-
 public class VisionSubsystem implements Subsystem, Loggable {
     @Config
     public static class VisionConstants {

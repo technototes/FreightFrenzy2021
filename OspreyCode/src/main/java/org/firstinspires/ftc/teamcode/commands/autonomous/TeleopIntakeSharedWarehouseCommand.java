@@ -25,13 +25,6 @@ public class TeleopIntakeSharedWarehouseCommand extends SequentialCommandGroup {
     public void initialize() {
         super.initialize();
         RobotConstants.stopDeposit();
-        drivebaseSubsystem.setExternalHeading(drivebaseSubsystem.getExternalHeading()+Math.toRadians(RobotConstants.getAlliance().selectOf(-90, 90)));
     }
 
-    @Override
-    public void end(boolean cancel) {
-        super.end(cancel);
-        drivebaseSubsystem.setExternalHeading(drivebaseSubsystem.getExternalHeading()+ Math.toRadians(RobotConstants.getAlliance().selectOf(90, -90)));
-
-    }
 }

@@ -22,7 +22,7 @@ public class ArmSharedCommand extends ArmCommand {
 
     @Override
     public void end(boolean cancel) {
-        subsystem.carry();
+        if(!cancel) subsystem.carry();
     }
 }
 

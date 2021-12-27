@@ -17,7 +17,7 @@ public class RobotConstants {
     @Config
     public static class AutoRedConstants {
         public static ConfigurablePose CYCLE_START = new ConfigurablePose(12, -63, toRadians(90));
-        public static ConfigurablePose ALLIANCE_HUB = new ConfigurablePose(7, -50, toRadians(125));
+        public static ConfigurablePose ALLIANCE_HUB = new ConfigurablePose(8, -52, toRadians(125));
         public static ConfigurablePose CYCLE_TRENCH = new ConfigurablePose(26, -63.5, toRadians(180));
         public static ConfigurablePose CYCLE_INTERMEDIATE = new ConfigurablePose(34, -63.5, toRadians(180));
         public static ConfigurablePose[] AUTO_WAREHOUSE = new ConfigurablePose[]{
@@ -32,14 +32,14 @@ public class RobotConstants {
         public static ConfigurablePose DUCK_START = new ConfigurablePose(-36, -63, toRadians(90));
         public static ConfigurablePose DUCK_HUB = new ConfigurablePose(-33, -52, toRadians(55));
         public static ConfigurablePose CAROUSEL = new ConfigurablePose(-60, -59, toRadians(0));
-        public static ConfigurablePose DUCK_INTAKE_START = new ConfigurablePose(-20, -60, toRadians(135));
-        public static ConfigurablePose DUCK_INTAKE_END = new ConfigurablePose(-62, -61, toRadians(45));
+        public static ConfigurablePose DUCK_INTAKE_START = new ConfigurablePose(-20, -58, toRadians(135));
+        public static ConfigurablePose DUCK_INTAKE_END = new ConfigurablePose(-56, -61, toRadians(45));
         public static ConfigurablePose SQUARE = new ConfigurablePose(-67, -36, toRadians(0));
-        public static ConfigurablePose BARRIER_PARK = new ConfigurablePose(60, -40, toRadians(180));
+        public static ConfigurablePose BARRIER_PARK = new ConfigurablePose(60, -35, toRadians(180));
 
 
         public static ConfigurablePose SHARED_TRENCH = new ConfigurablePose(64, -23, toRadians(90));
-        public static ConfigurablePose SHARED_HUB = new ConfigurablePose(62.5, -17, toRadians(100));
+        public static ConfigurablePose SHARED_HUB = new ConfigurablePose(64, -17, toRadians(100));
         public static ConfigurablePose SHARED_INTAKE = new ConfigurablePose(64, -50, toRadians(85));
     }
     @Config
@@ -58,16 +58,16 @@ public class RobotConstants {
         };
 
         public static ConfigurablePose DUCK_START = new ConfigurablePose(-36, 63, toRadians(-90));
-        public static ConfigurablePose DUCK_HUB = new ConfigurablePose(-33, 52, toRadians(-55));
-        public static ConfigurablePose CAROUSEL = new ConfigurablePose(-62, 59, toRadians(-90));
-        public static ConfigurablePose DUCK_INTAKE_START = new ConfigurablePose(-20, 60, toRadians(-135));
-        public static ConfigurablePose DUCK_INTAKE_END = new ConfigurablePose(-62, 61, toRadians(-45));
+        public static ConfigurablePose DUCK_HUB = new ConfigurablePose(-32, 52, toRadians(-55));
+        public static ConfigurablePose CAROUSEL = new ConfigurablePose(-60, 59, toRadians(-90));
+        public static ConfigurablePose DUCK_INTAKE_START = new ConfigurablePose(-20, 58, toRadians(-135));
+        public static ConfigurablePose DUCK_INTAKE_END = new ConfigurablePose(-56, 61, toRadians(-45));
         public static ConfigurablePose SQUARE = new ConfigurablePose(-67, 36, toRadians(0));
-        public static ConfigurablePose BARRIER_PARK = new ConfigurablePose(60, 40, toRadians(-180));
+        public static ConfigurablePose BARRIER_PARK = new ConfigurablePose(60, 35, toRadians(-180));
 
-        public static ConfigurablePose SHARED_TRENCH = new ConfigurablePose(63.5, 30, toRadians(-90));
-        public static ConfigurablePose SHARED_HUB = new ConfigurablePose(63.5, 20, toRadians(-90));
-        public static ConfigurablePose SHARED_INTAKE = new ConfigurablePose(63.5, 50, toRadians(-90));
+        public static ConfigurablePose SHARED_TRENCH = new ConfigurablePose(64, 23, toRadians(-90));
+        public static ConfigurablePose SHARED_HUB = new ConfigurablePose(64, 17, toRadians(-90));
+        public static ConfigurablePose SHARED_INTAKE = new ConfigurablePose(64, 50, toRadians(-90));
 
     }
 
@@ -121,12 +121,7 @@ public class RobotConstants {
                     .setVelConstraint((a, e, c, d) -> 100)
                     .lineTo(BARRIER_SELECT.get().vec())
                     .build(),
-            CAROUSEL_TO_DUCK_INTAKE = b -> b.apply(CAROUSEL_SELECT.get())
-                    .turn(DUCK_INTAKE_START_SELECT.get().getHeading()-CAROUSEL_SELECT.get().getHeading())
-                    .lineToLinearHeading(DUCK_INTAKE_START_SELECT.get())
-                    .turn(DUCK_INTAKE_END_SELECT.get().getHeading()-DUCK_INTAKE_START_SELECT.get().getHeading())
-                    .lineToLinearHeading(DUCK_INTAKE_END_SELECT.get())
-                    .build(),
+
             HUB_TO_PARK = b->b.apply(ALLIANCE_HUB_SELECT.get())
                     .setReversed(true)
                     .setAccelConstraint((a, e, c, d) -> 30)
@@ -146,7 +141,15 @@ public class RobotConstants {
                     .setAccelConstraint((a, e, c, d) -> 60)
                     .setVelConstraint((a, e, c, d)->70)
                     .lineToSplineHeading(SHARED_INTAKE_SELECT.get())
-                    .build();
+                    .build(),
+    CAROUSEL_TO_DUCK_INTAKE = b -> b.apply(CAROUSEL_SELECT.get())
+//            .setAccelConstraint((a, e, c, d)->20)
+//            .setVelConstraint((a, e, c, d)->30)
+            .turn(DUCK_INTAKE_START_SELECT.get().getHeading()-CAROUSEL_SELECT.get().getHeading())
+            .lineToLinearHeading(DUCK_INTAKE_START_SELECT.get())
+            .turn(DUCK_INTAKE_END_SELECT.get().getHeading()-DUCK_INTAKE_START_SELECT.get().getHeading())
+            .lineToLinearHeading(DUCK_INTAKE_END_SELECT.get())
+            .build();
 
 
     public static final BiFunction<Function<Pose2d, TrajectorySequenceBuilder>, Integer, TrajectorySequence>
@@ -164,15 +167,18 @@ public class RobotConstants {
             WAREHOUSE_TO_HUB = (b, p) -> b.apply(new Pose2d(
                 Math.max(p.get().getX(), ALLIANCE_TRENCH_SELECT.get().getX()+1),
                 ALLIANCE_TRENCH_SELECT.get().getY(),
+//            p.get().getY(),
                 p.get().getHeading()))
             .lineToSplineHeading(ALLIANCE_TRENCH_SELECT.get())
+//            .splineToSplineHeading(ALLIANCE_TRENCH_SELECT.get(), toRadians(180))
             .setAccelConstraint((a, e, c, d) -> 30)
 
             .splineTo(ALLIANCE_HUB_SELECT.get().vec(), ALLIANCE_HUB_SELECT.get().getHeading())
             .build(),
             WAREHOUSE_TO_SHARED_HUB = (b, p) -> b.apply(new Pose2d(
-                    SHARED_TRENCH_SELECT.get().getX(),
-                    p.get().getY(),
+                    p.get().getX(),
+//                    p.get().getY(),
+                    SHARED_TRENCH_SELECT.get().getY(),
                     p.get().getHeading()))
                     .lineToSplineHeading(SHARED_TRENCH_SELECT.get())
                     .splineToSplineHeading(SHARED_HUB_SELECT.get(), SHARED_HUB_SELECT.get().getHeading())

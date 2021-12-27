@@ -19,7 +19,8 @@ import org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem;
 public class TeleopDepositAllianceCommand extends SequentialCommandGroup {
     public DrivebaseSubsystem drivebaseSubsystem;
     public TeleopDepositAllianceCommand(DrivebaseSubsystem drive, IntakeSubsystem intake, LiftSubsystem lift, ArmSubsystem deposit, ExtensionSubsystem extension) {
-        super(new DriveRelocalizeCycleCommand(drive),
+        super(new WaitCommand(0.3),
+                drive::relocalizeUnsafe,
                 new RegenerativeTrajectorySequenceCommand(drive, RobotConstants.WAREHOUSE_TO_HUB, drive)
                         .alongWith(new IntakeOutCommand(intake).withTimeout(0.5),
                                 //new WaitCommand(0.3).andThen(new DriveRelocalizeCycleCommand(drive)),
@@ -32,13 +33,5 @@ public class TeleopDepositAllianceCommand extends SequentialCommandGroup {
     public void initialize() {
         super.initialize();
         RobotConstants.startDeposit();
-        drivebaseSubsystem.setExternalHeading(drivebaseSubsystem.getExternalHeading()+Math.toRadians(RobotConstants.getAlliance().selectOf(-90, 90)));
-    }
-
-    @Override
-    public void end(boolean cancel) {
-        super.end(cancel);
-        drivebaseSubsystem.setExternalHeading(drivebaseSubsystem.getExternalHeading()+ Math.toRadians(RobotConstants.getAlliance().selectOf(90, -90)));
-
     }
 }

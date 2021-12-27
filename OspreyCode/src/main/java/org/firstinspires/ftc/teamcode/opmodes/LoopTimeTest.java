@@ -30,8 +30,8 @@ public class LoopTimeTest extends CommandOpMode {
     public void uponInit() {
         sensor = new Rev2MDistanceSensor("fdistance").setDistanceUnit(DistanceUnit.INCH);
 
-        driverGamepad.dpadUp.whenPressed(()->hz++);
-        driverGamepad.dpadDown.whenPressed(()->hz--);
+        driverGamepad.dpadUp.whenPressed(()->sensorLoops++);
+        driverGamepad.dpadDown.whenPressed(()->sensorLoops--);
 
     }
 

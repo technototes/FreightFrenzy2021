@@ -10,17 +10,26 @@ import com.technototes.library.hardware.motor.EncodedMotor;
 import com.technototes.library.hardware.sensor.IMU;
 import com.technototes.library.hardware.sensor.Rev2MDistanceSensor;
 import com.technototes.library.util.Alliance;
+import com.technototes.library.util.MapUtils;
+import com.technototes.path.geometry.ConfigurablePose;
+import com.technototes.path.subsystem.DistanceSensorLocalizer;
 import com.technototes.path.subsystem.MecanumConstants;
 import com.technototes.path.subsystem.MecanumDrivebaseSubsystem;
 
 import org.firstinspires.ftc.teamcode.Hardware;
+import org.firstinspires.ftc.teamcode.RobotConstants;
 
 import java.util.function.Supplier;
 
 import static org.firstinspires.ftc.teamcode.subsystems.DrivebaseSubsystem.DriveConstants.FRONT_SENSOR_DISTANCE;
+import static org.firstinspires.ftc.teamcode.subsystems.DrivebaseSubsystem.DriveConstants.FRONT_SENSOR_POSE;
+import static org.firstinspires.ftc.teamcode.subsystems.DrivebaseSubsystem.DriveConstants.LEFT_SENSOR_POSE;
+import static org.firstinspires.ftc.teamcode.subsystems.DrivebaseSubsystem.DriveConstants.RIGHT_SENSOR_POSE;
 import static org.firstinspires.ftc.teamcode.subsystems.DrivebaseSubsystem.DriveConstants.SIDE_SENSOR_DISTANCE;
 import static org.firstinspires.ftc.teamcode.subsystems.DrivebaseSubsystem.DriveConstants.TIP_AUTHORITY;
 import static org.firstinspires.ftc.teamcode.subsystems.DrivebaseSubsystem.DriveConstants.TIP_TOLERANCE;
+
+import android.util.Pair;
 
 @SuppressWarnings("unused")
 
@@ -89,6 +98,11 @@ public class DrivebaseSubsystem extends MecanumDrivebaseSubsystem implements Sup
 
         public static double TIP_AUTHORITY = 0.9;
 
+        public static ConfigurablePose LEFT_SENSOR_POSE = new ConfigurablePose(0.5, -5.5, Math.toRadians(-90));
+        public static ConfigurablePose RIGHT_SENSOR_POSE = new ConfigurablePose(0.5, 5.5, Math.toRadians(90));
+        public static ConfigurablePose FRONT_SENSOR_POSE = new ConfigurablePose(-5, -2.5, Math.toRadians(180));
+
+
     }
 
     public Rev2MDistanceSensor left, right, front;
@@ -96,11 +110,17 @@ public class DrivebaseSubsystem extends MecanumDrivebaseSubsystem implements Sup
 
     public float xOffset, yOffset;
 
+    public DistanceSensorLocalizer distanceSensorLocalizer;
+
     public DrivebaseSubsystem(EncodedMotor<DcMotorEx> fl, EncodedMotor<DcMotorEx> fr,
                               EncodedMotor<DcMotorEx> rl, EncodedMotor<DcMotorEx> rr,
                               IMU i, Rev2MDistanceSensor l, Rev2MDistanceSensor r, Rev2MDistanceSensor f) {
         super(fl, fr, rl, rr, i, () -> DriveConstants.class);
 
+        distanceSensorLocalizer = new DistanceSensorLocalizer(i, MapUtils.of(
+                        new Pair<>(l, LEFT_SENSOR_POSE.toPose()),
+                        new Pair<>(r, RIGHT_SENSOR_POSE.toPose()),
+                        new Pair<>(f, FRONT_SENSOR_POSE.toPose())));
         left = l;
         right = r;
         front = f;
@@ -113,6 +133,18 @@ public class DrivebaseSubsystem extends MecanumDrivebaseSubsystem implements Sup
 
     public DrivebaseSubsystem(Hardware hardware){
         this(hardware.flDriveMotor, hardware.frDriveMotor, hardware.rlDriveMotor, hardware.rrDriveMotor, hardware.imu, hardware.leftRangeSensor, hardware.rightRangeSensor, hardware.frontRangeSensor);
+    }
+
+
+    public void relocalize(){
+
+        distanceSensorLocalizer.update();
+        setPoseEstimate(distanceSensorLocalizer.getSafePoseEstimate(getPoseEstimate()));
+    }
+    public void relocalizeUnsafe(){
+
+        distanceSensorLocalizer.update();
+        setPoseEstimate(distanceSensorLocalizer.getPoseEstimate());
     }
 
 
@@ -162,6 +194,8 @@ public class DrivebaseSubsystem extends MecanumDrivebaseSubsystem implements Sup
     public void resetGyro(){
         xOffset = imu.getAngularOrientation().secondAngle;
         yOffset = imu.getAngularOrientation().thirdAngle;
+        distanceSensorLocalizer.setGyroOffset(imu.gyroHeadingInRadians()-Math.toRadians(RobotConstants.getAlliance().selectOf(-90, 90)));
+
     }
 
     public void setSafeDrivePower(Pose2d raw){
@@ -178,6 +212,7 @@ public class DrivebaseSubsystem extends MecanumDrivebaseSubsystem implements Sup
     public Pose2d get() {
         return getPoseEstimate();
     }
+
 
 
 }
