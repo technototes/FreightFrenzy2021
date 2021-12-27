@@ -1,19 +1,23 @@
 package org.firstinspires.ftc.teamcode;
 
-import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.CAP_CONNECTED;
 import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.CAROUSEL_CONNECTED;
 import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.DRIVE_CONNECTED;
 import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.DUMP_CONNECTED;
 import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.INTAKE_CONNECTED;
 
+import com.technototes.library.command.CommandScheduler;
 import com.technototes.library.control.CommandAxis;
 import com.technototes.library.control.CommandButton;
 import com.technototes.library.control.CommandGamepad;
 import com.technototes.library.control.Stick;
+import com.technototes.library.util.Alliance;
 
-import org.firstinspires.ftc.teamcode.commands.RumbleTestCommand;
-import org.firstinspires.ftc.teamcode.commands.carousel.CarouselLeftCommand;
-import org.firstinspires.ftc.teamcode.commands.carousel.CarouselRightCommand;
+
+import org.firstinspires.ftc.teamcode.commands.autonomous.AutonomousConstants;
+import org.firstinspires.ftc.teamcode.commands.carousel.CarouselBlueFastCommand;
+import org.firstinspires.ftc.teamcode.commands.carousel.CarouselBlueSlowCommand;
+import org.firstinspires.ftc.teamcode.commands.carousel.CarouselRedFastCommand;
+import org.firstinspires.ftc.teamcode.commands.carousel.CarouselRedSlowCommand;
 import org.firstinspires.ftc.teamcode.commands.drivebase.DriveCommand;
 import org.firstinspires.ftc.teamcode.commands.drivebase.ResetGyroCommand;
 import org.firstinspires.ftc.teamcode.commands.drivebase.SetSpeedCommand;
@@ -28,7 +32,6 @@ import org.firstinspires.ftc.teamcode.commands.intake.IntakeSafeCommand;
 import org.firstinspires.ftc.teamcode.commands.intake.IntakeStopCommand;
 
 public class Controls {
-
     public CommandGamepad gamepad;
 
     public Robot robot;
@@ -39,14 +42,17 @@ public class Controls {
     public CommandButton intakeInButton, intakeOutButton;
     public CommandAxis intakeInTrigger, intakeOutTrigger;
 
-    public CommandButton carouselLeftButton, carouselRightButton;
+    public CommandButton carouselSlowButton, carouselFastButton;
 
     public Stick driveLeftStick, driveRightStick;
-    public CommandButton resetGyroButton, snailSpeedButton;
+    public CommandButton resetGyroButton, driveStraightenButton, snailSpeedButton;
 
-    public Controls(CommandGamepad g, Robot r) {
+    public Alliance alliance;
+
+    public Controls(CommandGamepad g, Robot r, Alliance alliance) {
         gamepad = g;
         robot = r;
+        this.alliance = alliance;
 
         collectButton = gamepad.leftBumper;
         carryButton = gamepad.rightBumper;
@@ -61,19 +67,28 @@ public class Controls {
         intakeInButton = gamepad.cross;
         intakeOutButton = gamepad.circle;
 
-        carouselLeftButton = gamepad.square; // slow
-        carouselRightButton = gamepad.triangle; // fast
+        carouselSlowButton = gamepad.square;
+        carouselFastButton = gamepad.triangle;
 
         resetGyroButton = gamepad.rightStickButton;
         snailSpeedButton = gamepad.leftStickButton;
 
         driveLeftStick = gamepad.leftStick;
         driveRightStick = gamepad.rightStick;
+        driveStraightenButton = gamepad.options;
+
+
 
         if (DRIVE_CONNECTED) bindDriveControls();
         if (INTAKE_CONNECTED) bindIntakeControls();
-        if (CAROUSEL_CONNECTED) bindCarouselControls();
-        if (CAP_CONNECTED) bindCapControls();
+        if (CAROUSEL_CONNECTED) {
+            if (alliance == Alliance.RED) {
+                bindCarouselRedControls();
+            }
+            else {
+                bindCarouselBlueControls();
+            }
+        }
         if (DUMP_CONNECTED) bindBucketControls();
     }
 
@@ -87,7 +102,9 @@ public class Controls {
     }
 
     public void bindDriveControls() {
-        robot.drivebaseSubsystem.setDefaultCommand(new DriveCommand(robot.drivebaseSubsystem, driveLeftStick, driveRightStick));
+        // TODO: Fix DefaultCommands so they don't interfere with other drivebase commands
+        // robot.drivebaseSubsystem.setDefaultCommand(new DriveCommand(robot.drivebaseSubsystem, driveLeftStick, driveRightStick));
+        CommandScheduler.getInstance().scheduleJoystick(new DriveCommand(robot.drivebaseSubsystem, driveLeftStick, driveRightStick, driveStraightenButton));
         resetGyroButton.whenPressed(new ResetGyroCommand(robot.drivebaseSubsystem));
         snailSpeedButton.whilePressedOnce(new SetSpeedCommand(robot.drivebaseSubsystem));
     }
@@ -102,13 +119,12 @@ public class Controls {
         intakeOutTrigger.whenInverseToggled(new IntakeStopCommand(robot.intakeSubsystem));
     }
 
-    public void bindCarouselControls() {
-        carouselLeftButton.whilePressedOnce(new CarouselLeftCommand(robot.carouselSubsystem));
-//        carouselLeftButton.whenPressed(new RumbleTestCommand(gamepad));
-        carouselRightButton.whilePressedOnce(new CarouselRightCommand(robot.carouselSubsystem));
+    public void bindCarouselRedControls() {
+        carouselSlowButton.whilePressedOnce(new CarouselRedSlowCommand(robot.carouselSubsystem));
+        carouselFastButton.whilePressedOnce(new CarouselRedFastCommand(robot.carouselSubsystem));
     }
-
-    public void bindCapControls() {
-
+    public void bindCarouselBlueControls() {
+        carouselSlowButton.whilePressedOnce(new CarouselBlueSlowCommand(robot.carouselSubsystem));
+        carouselFastButton.whilePressedOnce(new CarouselBlueFastCommand(robot.carouselSubsystem));
     }
 }

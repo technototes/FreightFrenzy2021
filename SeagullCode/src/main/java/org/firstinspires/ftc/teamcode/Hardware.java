@@ -20,10 +20,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 public class Hardware {
     @Config
     public static class HardwareConstants {
-        public static String LIFT = "lift";
-
-        public static String DUMP = "dump";
-
         public static String FL_MOTOR = "flmotor";
         public static String FR_MOTOR = "frmotor";
         public static String RL_MOTOR = "rlmotor";
@@ -37,8 +33,6 @@ public class Hardware {
 
         public static String INTAKE = "intake";
 
-        public static String CAP = "cap";
-
         public static String BUCKET = "bucket";
         public static String ARM = "arm";
 
@@ -47,17 +41,12 @@ public class Hardware {
         public static String RIGHT_RANGE = "right_range";
     }
 
-    public EncodedMotor<DcMotorEx> liftMotor;
-
-
-    public Servo armServo;
-
     public EncodedMotor<DcMotorEx> flDriveMotor;
     public EncodedMotor<DcMotorEx> frDriveMotor;
     public EncodedMotor<DcMotorEx> rlDriveMotor;
     public EncodedMotor<DcMotorEx> rrDriveMotor;
     public IMU imu;
-    public Rev2MDistanceSensor bucketRangeSensor;
+    public Rev2MDistanceSensor bucketDistanceSensor;
 
     public EncodedMotor<DcMotorEx> intakeMotor;
 
@@ -65,16 +54,12 @@ public class Hardware {
 
     public Webcam camera;
 
-    public Servo capServo;
-
-    public Servo dumpServo;
-
     public Servo bucketServo;
     public EncodedMotor<DcMotorEx> bucketMotor;
 
-    public Rev2MDistanceSensor frontRangeSensor;
-    public Rev2MDistanceSensor leftRangeSensor;
-    public Rev2MDistanceSensor rightRangeSensor;
+    public Rev2MDistanceSensor frontDistanceSensor;
+    public Rev2MDistanceSensor leftDistanceSensor;
+    public Rev2MDistanceSensor rightDistanceSensor;
 
     public Hardware() {
         if (DRIVE_CONNECTED) {
@@ -83,9 +68,9 @@ public class Hardware {
             rlDriveMotor = new EncodedMotor<>(RL_MOTOR);
             rrDriveMotor = new EncodedMotor<>(RR_MOTOR);
             imu = new IMU(HardwareConstants.IMU).remapAxes(AxesOrder.YXZ, AxesSigns.NNN);
-//            frontRangeSensor = new RangeSensor(FRONT_RANGE);
-//            leftRangeSensor = new RangeSensor(LEFT_RANGE);
-//            rightRangeSensor = new RangeSensor(RIGHT_RANGE);
+            frontDistanceSensor = new Rev2MDistanceSensor(FRONT_RANGE).setDistanceUnit(DistanceUnit.INCH);
+            leftDistanceSensor = new Rev2MDistanceSensor(LEFT_RANGE).setDistanceUnit(DistanceUnit.INCH);
+            rightDistanceSensor = new Rev2MDistanceSensor(RIGHT_RANGE).setDistanceUnit(DistanceUnit.INCH);
         }
         if (CAROUSEL_CONNECTED) {
             carouselMotor = new Motor<>(CAROUSEL);
@@ -97,14 +82,10 @@ public class Hardware {
             intakeMotor = new EncodedMotor<>(INTAKE);
         }
 
-        if (CAP_CONNECTED) {
-            capServo = new Servo(CAP);
-        }
-
         if (DUMP_CONNECTED) {
             bucketServo = new Servo(BUCKET);
             bucketMotor = new EncodedMotor<DcMotorEx>(ARM).invert();
-            bucketRangeSensor = new Rev2MDistanceSensor(BUCKET_RANGE).setDistanceUnit(DistanceUnit.INCH);
+            bucketDistanceSensor = new Rev2MDistanceSensor(BUCKET_RANGE).setDistanceUnit(DistanceUnit.INCH);
         }
     }
 }
