@@ -106,6 +106,9 @@ public class DumpSubsystem implements Subsystem, Supplier<Double>, Loggable {
 
     public void setMotorPosition(double position){
         pidController_motor.setTargetPosition(Range.clip(position, MOTOR_LOWER_LIMIT, MOTOR_UPPER_LIMIT) * ARM_POSITION_SCALE);
+        if (bucketServo.getPosition() == BucketConstant.BUCKET_DUMP){
+            bucketServo.setPosition(BucketConstant.BUCKET_CARRY);
+        }
     }
 
     static double getScaledMotorPosition(double position) {
