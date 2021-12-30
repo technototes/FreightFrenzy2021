@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.commands.autonomous;
 
+import static com.technototes.path.subsystem.MecanumDrivebaseSubsystem.getAccelerationConstraint;
 import static java.lang.Math.toRadians;
 
 import com.acmerobotics.dashboard.config.Config;
@@ -14,9 +15,9 @@ import java.util.function.Function;
 public class AutonomousConstants {
     public static class RedConstants {
         public static Pose2d DUCK_START = new Pose2d(-36, -63, toRadians(-90));
-        public static Pose2d DUCK_ALLIANCE_HUB_LEVEL3 = new Pose2d(-30, -38, toRadians(-125));
-        public static Pose2d DUCK_CAROUSEL = new Pose2d(-66, -58, toRadians(-90));
-        public static Pose2d DUCK_PARK = new Pose2d(-67, -31, toRadians(180));
+        public static Pose2d DUCK_ALLIANCE_HUB_LEVEL3 = new Pose2d(-28, -38, toRadians(-125));
+        public static Pose2d DUCK_CAROUSEL = new Pose2d(-64, -60, toRadians(-90));
+        public static Pose2d DUCK_PARK = new Pose2d(-67, -35, toRadians(180));
         public static Pose2d DEPOT_START = new Pose2d(0, -66, toRadians(-90));
         public static Pose2d DEPOT_ALLIANCE_HUB_LEVEL3 = new Pose2d(-10, -45, toRadians(-68));
         public static Pose2d DEPOT_GAP = new Pose2d(20, -68, toRadians(0));
@@ -46,6 +47,7 @@ public class AutonomousConstants {
                         .build(),
               RED_DUCK_ALLIANCE_HUB_TO_CAROUSEL = b -> b.apply(RedConstants.DUCK_ALLIANCE_HUB_LEVEL3)
                         .lineToLinearHeading(RedConstants.DUCK_CAROUSEL)
+                        .setAccelConstraint(getAccelerationConstraint(30))
                         .build(),
               RED_DUCK_CAROUSEL_TO_PARK = b -> b.apply(RedConstants.DUCK_CAROUSEL)
                         .lineToLinearHeading(RedConstants.DUCK_PARK)
