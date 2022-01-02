@@ -12,29 +12,37 @@ import java.util.function.Supplier;
 
 public class CarouselSubsystem implements Subsystem, Supplier<Double> {
 
-  public static class CarouselConstants{
-    public static double CAROUSEL_RIGHT_SPEED = 0.5;
-    public static double CAROUSEL_LEFT_SPEED = -0.5;
-    public static double CAROUSEL_STOP_SPEED = 0;
-  }
+    public static class CarouselConstants{
+        public static double CAROUSEL_STOP_SPEED = 0;
+        public static double CAROUSEL_BLUE_SLOW = 0.5;
+        public static double CAROUSEL_BLUE_FAST = 1;
+        public static double CAROUSEL_RED_SLOW = -0.5;
+        public static double CAROUSEL_RED_FAST = -1;
+    }
 
-  public Motor<DcMotorEx> motor;
-  public CarouselSubsystem(Motor<DcMotorEx> m){
-    motor = m;
-  }
-  public void right() {
-    motor.setSpeed(CAROUSEL_RIGHT_SPEED);
-  }
+    public Motor<DcMotorEx> motor;
+    public CarouselSubsystem(Motor<DcMotorEx> m){
+        motor = m;
+    }
+    public void stop() {
+        motor.setSpeed(CAROUSEL_STOP_SPEED);
+    }
+    public void red_slow(){
+        motor.setSpeed(CAROUSEL_RED_SLOW);
+    }
+    public void red_fast(){
+        motor.setSpeed(CAROUSEL_RED_FAST);
+    }
+    public void blue_slow(){
+        motor.setSpeed(CAROUSEL_BLUE_SLOW);
+    }
+    public void blue_fast(){
+        motor.setSpeed(CAROUSEL_BLUE_FAST);
+    }
 
 
-  public void left() {
-    motor.setSpeed(CAROUSEL_LEFT_SPEED);
-  }
-  public void stop() {
-    motor.setSpeed(CAROUSEL_STOP_SPEED);
-  }
-  @Override
-  public Double get() {
-    return motor.getSpeed();
-  }
+    @Override
+    public Double get() {
+        return motor.getSpeed();
+    }
 }

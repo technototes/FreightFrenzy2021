@@ -5,7 +5,6 @@ import static org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem.LiftConsta
 import static org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem.LiftConstants.LIFT_UPPER_LIMIT;
 import static org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem.LiftConstants.PID;
 
-import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.control.PIDCoefficients;
 import com.acmerobotics.roadrunner.control.PIDFController;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -18,12 +17,13 @@ import java.util.function.Supplier;
 
 @SuppressWarnings("unused")
 public class LiftSubsystem implements Subsystem, Supplier<Double> {
-    @Config
+    //cringe but otherwise code borks for some reason i am confused plz help
+    @com.acmerobotics.dashboard.config.Config
     public static class LiftConstants {
         public static double LIFT_UPPER_LIMIT = 400.0;
         public static double LIFT_LOWER_LIMIT = 0.0;
         //300 for single slide
-        public static double COLLECT = 0, NEUTRAL = 100, LEVEL_1 = 50, LEVEL_2 = 200, LEVEL_3 = 400;
+        public static double COLLECT = 0, NEUTRAL = 100, LEVEL_1 = 50, LEVEL_2 = 100, LEVEL_3 = 400;
 
         public static double DEADZONE = 30;
 
@@ -94,6 +94,7 @@ public class LiftSubsystem implements Subsystem, Supplier<Double> {
     }
 
     public boolean isLifted(){
-        return pidController.getTargetPosition()>10;
+        return pidController.getTargetPosition()>100;
     }
+
 }

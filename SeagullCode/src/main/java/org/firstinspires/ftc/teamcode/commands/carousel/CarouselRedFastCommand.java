@@ -2,17 +2,17 @@ package org.firstinspires.ftc.teamcode.commands.carousel;
 import com.technototes.library.command.Command;
 import org.firstinspires.ftc.teamcode.subsystems.CarouselSubsystem;
 
-public class CarouselLeftCommand implements Command{
-    private CarouselSubsystem subsystem;
+public class CarouselRedFastCommand implements Command{
+    private CarouselSubsystem carouselSubsystem;
 
-    public CarouselLeftCommand(CarouselSubsystem s) {
-        subsystem = s;
+    public CarouselRedFastCommand(CarouselSubsystem s) {
+        carouselSubsystem = s;
         addRequirements(s);
     }
 
     @Override
     public void execute() {
-        subsystem.left();
+        carouselSubsystem.red_fast();
     }
 
     @Override
@@ -22,7 +22,7 @@ public class CarouselLeftCommand implements Command{
 
     @Override
     public void end(boolean cancel) {
-        subsystem.stop();
+        carouselSubsystem.stop();
 
     }
 }

@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.commands.autonomous;
 
 import com.technototes.library.command.SequentialCommandGroup;
-import com.technototes.library.command.WaitCommand;
 import com.technototes.path.command.TrajectorySequenceCommand;
 
 import org.firstinspires.ftc.teamcode.RobotConstants;
@@ -18,6 +17,6 @@ public class AutoDuckPreloadCommand extends SequentialCommandGroup {
         super(new TrajectorySequenceCommand(drive, RobotConstants.DUCK_DEPOSIT_PRELOAD)
                 //.alongWith(new LiftBarcodeSelectCommand(lift, vision)
                 .alongWith(new DepositPreloadCommand(depot, extension, lift, vision)),
-                new BucketDumpCommand(depot).sleep(0.3));
+                new BucketDumpCommand(depot));
     }
 }

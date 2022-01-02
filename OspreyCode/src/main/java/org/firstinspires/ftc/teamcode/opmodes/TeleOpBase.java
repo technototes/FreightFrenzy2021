@@ -29,11 +29,11 @@ public abstract class TeleOpBase extends CommandOpMode implements Loggable {
         controls = new BaseControls(robot, driverGamepad, codriverGamepad);
     }
 
-    @TeleOp
+    @TeleOp(name="\uD83D\uDFE5 \uD83C\uDFAE Red TeleOp")
     @Alliance.Red
     public static class RedTeleOp extends TeleOpBase {}
 
-    @TeleOp
+    @TeleOp(name="\uD83D\uDD35 \uD83C\uDFAE Blue Teleop")
     @Alliance.Blue
     public static class BlueTeleOp extends TeleOpBase {}
 

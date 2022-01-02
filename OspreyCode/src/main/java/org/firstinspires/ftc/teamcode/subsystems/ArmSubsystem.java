@@ -30,10 +30,10 @@ public class ArmSubsystem implements Subsystem, Supplier<String> {
     @Config
     public static class ArmConstants {
         //public static double MIN = 0, MAX = 0.5;
-        public static double DUMP = 0.5, CARRY = 0.25, FAKE_CARRY = 0.15, COLLECT = 0.03, AUTO_CARRY = 0.25;
-        public static double IN = 0, UP = 0.3, OUT = 0.5, DOWN = 0.75;
+        public static double DUMP = 0.55, CARRY = 0.25, FAKE_CARRY = 0.15, COLLECT = 0.05, AUTO_CARRY = 0.25;
+        public static double IN = 0.02, UP = 0.3, OUT = 0.5, DOWN = 0.75;
         public static double DIFFERENTIAL = 2.8;
-        public static ServoController.Constraints CONSTRAINTS = new ServoController.Constraints(1.5, 2, 5);
+        public static ServoController.Constraints CONSTRAINTS = new ServoController.Constraints(3, 3, 5);
     }
 
     public Servo dumpServo;

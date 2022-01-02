@@ -12,11 +12,7 @@ import com.technototes.library.logger.Log;
 import com.technototes.library.logger.Loggable;
 import com.technototes.library.subsystem.Subsystem;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
-
 import java.util.function.Supplier;
-
-import kotlin.jvm.functions.Function2;
 
 public class DumpSubsystem implements Subsystem, Supplier<Double>, Loggable {
     static class BucketConstant{
@@ -89,8 +85,6 @@ public class DumpSubsystem implements Subsystem, Supplier<Double>, Loggable {
     long lastSpeedMeasureTimeMillis = 0;
     double lastBucketEncoderPosition = 0.0;
 
-    Telemetry telemetry;
-
     PIDFController pidController_motor;
 
     // Maximum acceleration in absolute units of change of 'speed' per second squared
@@ -112,6 +106,9 @@ public class DumpSubsystem implements Subsystem, Supplier<Double>, Loggable {
 
     public void setMotorPosition(double position){
         pidController_motor.setTargetPosition(Range.clip(position, MOTOR_LOWER_LIMIT, MOTOR_UPPER_LIMIT) * ARM_POSITION_SCALE);
+        if (bucketServo.getPosition() == BucketConstant.BUCKET_DUMP){
+            bucketServo.setPosition(BucketConstant.BUCKET_CARRY);
+        }
     }
 
     static double getScaledMotorPosition(double position) {
@@ -161,10 +158,6 @@ public class DumpSubsystem implements Subsystem, Supplier<Double>, Loggable {
         lastSpeedMeasureTimeMillis = currentTimeMillis;
         bucketSpeed = newSpeed;
         bucketMotor.setSpeed(newSpeed);
-        if (telemetry != null){
-            telemetry.addLine(get().toString());
-            telemetry.update();
-        }
 
         // Set the bucket servo position based on the arm positions
         double bucketPosition = tryGetBucketPositionFromArm(getScaledMotorPosition(rawMotorPosition));

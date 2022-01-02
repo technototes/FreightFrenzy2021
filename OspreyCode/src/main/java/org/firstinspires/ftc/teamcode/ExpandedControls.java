@@ -1,37 +1,14 @@
 package org.firstinspires.ftc.teamcode;
 
 
-import com.technototes.library.control.Binding;
 import com.technototes.library.control.CommandAxis;
-import com.technototes.library.control.CommandBinding;
 import com.technototes.library.control.CommandButton;
 import com.technototes.library.control.CommandGamepad;
 import com.technototes.library.control.CommandInput;
 import com.technototes.library.util.Enablable;
 
-import org.firstinspires.ftc.teamcode.commands.arm.ArmAllianceCommand;
-import org.firstinspires.ftc.teamcode.commands.arm.ArmCommand;
-import org.firstinspires.ftc.teamcode.commands.arm.ArmInCommand;
-import org.firstinspires.ftc.teamcode.commands.arm.ArmSharedCommand;
 import org.firstinspires.ftc.teamcode.commands.arm.BucketDumpVariableCommand;
-import org.firstinspires.ftc.teamcode.commands.extension.ExtensionCollectCommand;
-import org.firstinspires.ftc.teamcode.commands.extension.ExtensionCommand;
-import org.firstinspires.ftc.teamcode.commands.extension.ExtensionLeftOutCommand;
-import org.firstinspires.ftc.teamcode.commands.extension.ExtensionLeftSideCommand;
-import org.firstinspires.ftc.teamcode.commands.extension.ExtensionOutCommand;
-import org.firstinspires.ftc.teamcode.commands.extension.ExtensionRightOutCommand;
-import org.firstinspires.ftc.teamcode.commands.extension.ExtensionRightSideCommand;
 import org.firstinspires.ftc.teamcode.commands.extension.ExtensionTranslateCommand;
-import org.firstinspires.ftc.teamcode.commands.lift.LiftCollectCommand;
-import org.firstinspires.ftc.teamcode.commands.lift.LiftCommand;
-import org.firstinspires.ftc.teamcode.commands.lift.LiftLevel2Command;
-import org.firstinspires.ftc.teamcode.commands.lift.LiftLevel3Command;
-import org.firstinspires.ftc.teamcode.commands.lift.LiftSharedCommand;
-import org.firstinspires.ftc.teamcode.subsystems.ArmSubsystem;
-import org.firstinspires.ftc.teamcode.subsystems.ExtensionSubsystem;
-import org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem;
-
-import java.util.function.Function;
 
 public class ExpandedControls extends BaseControls implements Enablable<ExpandedControls> {
 

@@ -18,6 +18,6 @@ public class BucketDumpCommand implements Command {
 
     @Override
     public boolean isFinished() {
-        return getRuntime().seconds()>0.2;
+        return getRuntime().seconds()>0.3;
     }
 }

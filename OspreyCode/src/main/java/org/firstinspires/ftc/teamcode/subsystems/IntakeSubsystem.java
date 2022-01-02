@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode.subsystems;
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.technototes.library.hardware.motor.Motor;
-import com.technototes.library.hardware.sensor.RangeSensor;
 import com.technototes.library.subsystem.Subsystem;
 
 import java.util.function.Supplier;
@@ -18,8 +17,8 @@ public class IntakeSubsystem implements Subsystem, Supplier<Double> {
 
     @Config
     public static class IntakeConstants{
-        public static double INTAKE_IN_SPEED = 0.7;
-        public static double INTAKE_OUT_SPEED = -0.7;
+        public static double INTAKE_IN_SPEED = 1;
+        public static double INTAKE_OUT_SPEED = -1;
         public static double INTAKE_STOP_SPEED = 0;
     }
 

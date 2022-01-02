@@ -25,11 +25,11 @@ public abstract class AutoDuckBase extends CommandOpMode implements Loggable {
         CommandScheduler.getInstance().scheduleInit(new VisionBarcodeCommand(robot.visionSubsystem));
         CommandScheduler.getInstance().scheduleOnceForState(new AutoDuckCommand(robot.drivebaseSubsystem, robot.intakeSubsystem, robot.liftSubsystem, robot.armSubsystem, robot.extensionSubsystem, robot.visionSubsystem, robot.carouselSubsystem)  , OpModeState.RUN);
     }
-    @Autonomous
+    @Autonomous(name="\uD83D\uDD35 \uD83E\uDD86 Blue Duck")
     @Alliance.Blue
     public static class DuckBlueAuto extends AutoDuckBase {}
 
-    @Autonomous
+    @Autonomous(name="\uD83D\uDFE5 \uD83E\uDD86 Red Duck")
     @Alliance.Red
     public static class DuckRedAuto extends AutoDuckBase {}
 

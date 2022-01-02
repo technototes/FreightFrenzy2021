@@ -6,7 +6,7 @@ import com.technototes.library.hardware.motor.EncodedMotor;
 import com.technototes.library.hardware.motor.Motor;
 import com.technototes.library.hardware.sensor.IMU;
 import com.technototes.library.hardware.sensor.IMU.AxesSigns;
-import com.technototes.library.hardware.sensor.RangeSensor;
+import com.technototes.library.hardware.sensor.Rev2MDistanceSensor;
 import com.technototes.library.hardware.servo.Servo;
 import com.technototes.library.logger.Loggable;
 import com.technototes.vision.hardware.Webcam;
@@ -65,9 +65,9 @@ public class Hardware implements Loggable {
     public EncodedMotor<DcMotorEx> rlDriveMotor;
     public EncodedMotor<DcMotorEx> rrDriveMotor;
     public IMU imu;
-    public RangeSensor leftRangeSensor;
-    public RangeSensor rightRangeSensor;
-    public RangeSensor frontRangeSensor;
+    public Rev2MDistanceSensor leftRangeSensor;
+    public Rev2MDistanceSensor rightRangeSensor;
+    public Rev2MDistanceSensor frontRangeSensor;
     public Motor<DcMotorEx> intakeMotor;
 
     public Motor<DcMotorEx> carouselMotor;
@@ -94,9 +94,9 @@ public class Hardware implements Loggable {
             rlDriveMotor = new EncodedMotor<>(RL_MOTOR);
             rrDriveMotor = new EncodedMotor<>(RR_MOTOR);
             imu = new IMU(HardwareConstants.IMU).remapAxes(AxesOrder.YXZ, AxesSigns.NPP);
-            leftRangeSensor = new RangeSensor(L_RANGE).setDistanceUnit(DistanceUnit.INCH);
-            rightRangeSensor = new RangeSensor(R_RANGE).setDistanceUnit(DistanceUnit.INCH);
-            frontRangeSensor = new RangeSensor(F_RANGE).setDistanceUnit(DistanceUnit.INCH);
+            leftRangeSensor = new Rev2MDistanceSensor(L_RANGE).setDistanceUnit(DistanceUnit.INCH);
+            rightRangeSensor = new Rev2MDistanceSensor(R_RANGE).setDistanceUnit(DistanceUnit.INCH);
+            frontRangeSensor = new Rev2MDistanceSensor(F_RANGE).setDistanceUnit(DistanceUnit.INCH);
         }
         if(CAROUSEL_CONNECTED){
             carouselMotor = new Motor<>(CAROUSEL);

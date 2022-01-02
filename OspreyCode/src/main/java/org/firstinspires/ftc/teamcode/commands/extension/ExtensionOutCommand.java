@@ -20,7 +20,7 @@ public class ExtensionOutCommand extends ExtensionCommand{
 
     @Override
     public void execute() {
-        if(getRuntime().seconds()<0.7) extensionSubsystem.setSlide(ExtensionConstants.STEAL_SHARED);
+        if(getRuntime().seconds()<0.7) extensionSubsystem.setSlide(ExtensionConstants.TELEOP_ALLIANCE);
         else{
             extensionSubsystem.setSlide(slideTarget);
             extensionSubsystem.setTurret(turretTarget);

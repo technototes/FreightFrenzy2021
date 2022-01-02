@@ -15,7 +15,7 @@ import org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem;
 public class AutoParkBarrierCommand extends SequentialCommandGroup {
     public AutoParkBarrierCommand(DrivebaseSubsystem drive, LiftSubsystem lift, ArmSubsystem deposit, ExtensionSubsystem extension){
         super(new DepositCollectCommand(deposit, extension, lift),
-                new ConditionalCommand(()-> CommandScheduler.getInstance().getOpModeRuntime()>25),
+                new ConditionalCommand(()-> CommandScheduler.getInstance().getOpModeRuntime()>24),
                 new TrajectorySequenceCommand(drive, RobotConstants.HUB_BARRIER_PARK));
     }
 }
