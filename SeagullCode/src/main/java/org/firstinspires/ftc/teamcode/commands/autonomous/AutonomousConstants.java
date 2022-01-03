@@ -21,19 +21,19 @@ public class AutonomousConstants {
         public static Pose2d DEPOT_START = new Pose2d(0, -66, toRadians(-90));
         public static Pose2d DEPOT_ALLIANCE_HUB_LEVEL3 = new Pose2d(-10, -45, toRadians(-68));
         public static Pose2d DEPOT_GAP = new Pose2d(20, -68, toRadians(0));
-        public static Pose2d DEPOT_COLLECT1 = new Pose2d(46, -68, toRadians(0));
-        public static Pose2d DEPOT_COLLECT2 = new Pose2d(50, -68, toRadians(0));
+        public static Pose2d DEPOT_COLLECT1 = new Pose2d(46, -65, toRadians(0));
+        public static Pose2d DEPOT_COLLECT2 = new Pose2d(50, -64, toRadians(0));
     }
     public static class BlueConstants {
         public static Pose2d DUCK_START = new Pose2d(-36, 63, toRadians(90));
-        public static Pose2d DUCK_ALLIANCE_HUB_LEVEL3 = new Pose2d(-23, 38, toRadians(120));
+        public static Pose2d DUCK_ALLIANCE_HUB_LEVEL3 = new Pose2d(-20, 38, toRadians(120));
         public static Pose2d DUCK_CAROUSEL = new Pose2d(-59, 59, toRadians(180));
-        public static Pose2d DUCK_PARK = new Pose2d(-62, 30, toRadians(180));
+        public static Pose2d DUCK_PARK = new Pose2d(-62, 34, toRadians(180));
         public static Pose2d DEPOT_START = new Pose2d(0, 66, toRadians(90));
-        public static Pose2d DEPOT_ALLIANCE_HUB_LEVEL3 = new Pose2d(-5, 43, toRadians(55));
-        public static Pose2d DEPOT_GAP = new Pose2d(20, 69, toRadians(0));
-        public static Pose2d DEPOT_COLLECT1 = new Pose2d(46, 69, toRadians(0));
-        public static Pose2d DEPOT_COLLECT2 = new Pose2d(48, 69, toRadians(0));
+        public static Pose2d DEPOT_ALLIANCE_HUB_LEVEL3 = new Pose2d(1, 45, toRadians(55));
+        public static Pose2d DEPOT_GAP = new Pose2d(20, 68, toRadians(0));
+        public static Pose2d DEPOT_COLLECT1 = new Pose2d(46, 65, toRadians(0));
+        public static Pose2d DEPOT_COLLECT2 = new Pose2d(48, 64, toRadians(0));
     }
 
     public static Alliance ALLIANCE = Alliance.BLUE;
@@ -57,13 +57,14 @@ public class AutonomousConstants {
                         .build(),
               RED_ALLIANCE_HUB_LEVEL3_TO_DEPOT_COLLECT1 = b -> b.apply(RedConstants.DEPOT_ALLIANCE_HUB_LEVEL3)
                         .splineTo(RedConstants.DEPOT_GAP.vec(), RedConstants.DEPOT_GAP.getHeading())
-                        .setVelConstraint((a, c, d, e)->25)
-                        .lineTo(RedConstants.DEPOT_COLLECT1.vec())
+                     //   .setVelConstraint((a, c, d, e)->25)
+                        .setAccelConstraint(getAccelerationConstraint(20))
+                        .splineTo(RedConstants.DEPOT_COLLECT1.vec(), RedConstants.DEPOT_COLLECT1.getHeading())
                         .build(),
               RED_ALLIANCE_HUB_LEVEL3_TO_DEPOT_COLLECT2 = b -> b.apply(RedConstants.DEPOT_ALLIANCE_HUB_LEVEL3)
                         .splineTo(RedConstants.DEPOT_GAP.vec(), RedConstants.DEPOT_GAP.getHeading())
-                        .setVelConstraint((a, c, d, e)->25)
-                        .lineTo(RedConstants.DEPOT_COLLECT2.vec())
+                        //.setVelConstraint((a, c, d, e)->25)
+                        .splineTo(RedConstants.DEPOT_COLLECT2.vec(), RedConstants.DEPOT_COLLECT2.getHeading())
                         .build(),
               RED_DEPOT_COLLECT1_TO_ALLIANCE_HUB_LEVEL3 = b -> b.apply(RedConstants.DEPOT_COLLECT1)
                         .lineToLinearHeading(RedConstants.DEPOT_GAP)
@@ -83,18 +84,18 @@ public class AutonomousConstants {
               BLUE_DEPOT_START_TO_ALLIANCE_HUB_LEVEL3 = b -> b.apply(BlueConstants.DEPOT_START)
                         .lineToLinearHeading(BlueConstants.DEPOT_ALLIANCE_HUB_LEVEL3)
                         .build(),
-              BLUE_ALLIANCE_HUB_LEVEL3_TO_CAROUSEL = b -> b.apply(BlueConstants.DEPOT_ALLIANCE_HUB_LEVEL3)
+              BLUE_ALLIANCE_HUB_LEVEL3_TO_CAROUSEL = b -> b.apply(BlueConstants.DUCK_ALLIANCE_HUB_LEVEL3)
                         .lineToLinearHeading(BlueConstants.DUCK_CAROUSEL)
                         .build(),
               BLUE_ALLIANCE_HUB_LEVEL3_TO_DEPOT_COLLECT1 = b -> b.apply(BlueConstants.DEPOT_ALLIANCE_HUB_LEVEL3)
                         .splineTo(BlueConstants.DEPOT_GAP.vec(), BlueConstants.DEPOT_GAP.getHeading())
                         .setVelConstraint((a, c, d, e)->20)
-                        .lineToLinearHeading(BlueConstants.DEPOT_COLLECT1)
+                        .splineTo(BlueConstants.DEPOT_COLLECT1.vec(), BlueConstants.DEPOT_COLLECT1.getHeading())
                         .build(),
               BLUE_ALLIANCE_HUB_LEVEL3_TO_DEPOT_COLLECT2 = b -> b.apply(BlueConstants.DEPOT_ALLIANCE_HUB_LEVEL3)
                         .splineTo(BlueConstants.DEPOT_GAP.vec(), BlueConstants.DEPOT_GAP.getHeading())
                         .setVelConstraint((a, c, d, e)->20)
-                        .lineToLinearHeading(BlueConstants.DEPOT_COLLECT2)
+                        .splineTo(BlueConstants.DEPOT_COLLECT2.vec(), BlueConstants.DEPOT_COLLECT2.getHeading())
                         .build(),
               BLUE_DEPOT_COLLECT1_TO_ALLIANCE_HUB_LEVEL_3 = b -> b.apply(BlueConstants.DEPOT_COLLECT1)
                         .lineToLinearHeading(BlueConstants.DEPOT_GAP)
