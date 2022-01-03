@@ -33,7 +33,6 @@ public class CarouselSubsystem implements Subsystem, Supplier<Double> {
 
     public CarouselSubsystem(Motor<DcMotorEx> m){
         motor = m;
-        motor.getDevice().setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
 
     public void right(){motor.setSpeed(MAX_SPEED);}

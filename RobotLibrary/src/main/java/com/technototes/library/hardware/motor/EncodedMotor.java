@@ -186,4 +186,19 @@ public class EncodedMotor<T extends DcMotorSimple> extends Motor<T> implements S
         //if(getDevice() instanceof DcMotor) ((DcMotor) getDevice()).setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         super.setSpeed(speed);
     }
+
+    @Override
+    public EncodedMotor<T> brake() {
+        return (EncodedMotor<T>) super.brake();
+    }
+
+    @Override
+    public EncodedMotor<T> coast() {
+        return (EncodedMotor<T>) super.coast();
+    }
+
+    @Override
+    public EncodedMotor<T> setOutputLimits(double mi, double ma) {
+        return (EncodedMotor<T>) super.setOutputLimits(mi, ma);
+    }
 }

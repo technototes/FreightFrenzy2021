@@ -1,12 +1,13 @@
 package org.firstinspires.ftc.teamcode.opmodes;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.technototes.library.hardware.sensor.Rev2MDistanceSensor;
 import com.technototes.library.logger.Log;
 import com.technototes.library.structure.CommandOpMode;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-
+@Disabled
 @TeleOp(name="looptimetest")
 public class LoopTimeTest extends CommandOpMode {
     public Rev2MDistanceSensor sensor;
@@ -28,7 +29,7 @@ public class LoopTimeTest extends CommandOpMode {
 
     @Override
     public void uponInit() {
-        sensor = new Rev2MDistanceSensor("fdistance").setDistanceUnit(DistanceUnit.INCH);
+        sensor = new Rev2MDistanceSensor("fdistance").onUnit(DistanceUnit.INCH);
 
         driverGamepad.dpadUp.whenPressed(()->sensorLoops++);
         driverGamepad.dpadDown.whenPressed(()->sensorLoops--);

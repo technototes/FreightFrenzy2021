@@ -3,7 +3,7 @@ package com.technototes.library.hardware.servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
-public class ServoController {
+public class ServoProfiler {
     private final Servo servo;
     private double maxVel, maxAccel, targetPosition, servoRange, targetTolerance;
     private final ElapsedTime deltaTime;
@@ -31,7 +31,7 @@ public class ServoController {
         }
     }
 
-    public ServoController(Servo s) {
+    public ServoProfiler(Servo s) {
         servo = s;
         setServoRange(0.75);
         setTargetTolerance(0.01);
@@ -39,33 +39,33 @@ public class ServoController {
         delta = 0;
     }
 
-    public ServoController setConstraints(double vel, double accel, double prop) {
+    public ServoProfiler setConstraints(double vel, double accel, double prop) {
         maxVel = vel;
         maxAccel = accel;
         proportion = prop;
         return this;
     }
-    public ServoController setConstraints(Constraints c) {
+    public ServoProfiler setConstraints(Constraints c) {
         return setConstraints(c.maxVelocity, c.maxAcceleration, c.proportion);
     }
 
-    public ServoController setServoRange(double rangeInRotations) {
+    public ServoProfiler setServoRange(double rangeInRotations) {
         servoRange = rangeInRotations;
         return this;
     }
 
-    public ServoController setTargetPosition(double target) {
+    public ServoProfiler setTargetPosition(double target) {
         targetPosition = target;
         deltaTime.reset();
         return this;
     }
 
-    public ServoController setTargetTolerance(double tolerance) {
+    public ServoProfiler setTargetTolerance(double tolerance) {
         targetTolerance = tolerance;
         return this;
     }
     //fun method to update servo
-    public ServoController update() {
+    public ServoProfiler update() {
         //if at the target dont do anything
         if (isAtTarget()) return this;
         // set the past delta pos

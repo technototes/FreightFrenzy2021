@@ -17,9 +17,9 @@ public class RobotConstants {
     @Config
     public static class AutoRedConstants {
         public static ConfigurablePose CYCLE_START = new ConfigurablePose(12, -63, toRadians(90));
-        public static ConfigurablePose ALLIANCE_HUB = new ConfigurablePose(8, -52, toRadians(125));
-        public static ConfigurablePose CYCLE_TRENCH = new ConfigurablePose(26, -63.5, toRadians(180));
-        public static ConfigurablePose CYCLE_INTERMEDIATE = new ConfigurablePose(34, -63.5, toRadians(180));
+        public static ConfigurablePose ALLIANCE_HUB = new ConfigurablePose(6, -52, toRadians(125));
+        public static ConfigurablePose CYCLE_TRENCH = new ConfigurablePose(24, -63.5, toRadians(180));
+        public static ConfigurablePose CYCLE_INTERMEDIATE = new ConfigurablePose(40, -63.5, toRadians(180));
         public static ConfigurablePose[] AUTO_WAREHOUSE = new ConfigurablePose[]{
                 new ConfigurablePose(44, -63.5, toRadians(190)),
                 new ConfigurablePose(46, -63.5, toRadians(190)),
@@ -30,10 +30,10 @@ public class RobotConstants {
         };
 
         public static ConfigurablePose DUCK_START = new ConfigurablePose(-36, -63, toRadians(90));
-        public static ConfigurablePose DUCK_HUB = new ConfigurablePose(-33, -52, toRadians(55));
+        public static ConfigurablePose DUCK_HUB = new ConfigurablePose(-32, -52, toRadians(55));
         public static ConfigurablePose CAROUSEL = new ConfigurablePose(-60, -59, toRadians(0));
         public static ConfigurablePose DUCK_INTAKE_START = new ConfigurablePose(-20, -58, toRadians(135));
-        public static ConfigurablePose DUCK_INTAKE_END = new ConfigurablePose(-56, -61, toRadians(45));
+        public static ConfigurablePose DUCK_INTAKE_END = new ConfigurablePose(-59, -61, toRadians(45));
         public static ConfigurablePose SQUARE = new ConfigurablePose(-67, -36, toRadians(0));
         public static ConfigurablePose BARRIER_PARK = new ConfigurablePose(60, -35, toRadians(180));
 
@@ -61,7 +61,7 @@ public class RobotConstants {
         public static ConfigurablePose DUCK_HUB = new ConfigurablePose(-32, 52, toRadians(-55));
         public static ConfigurablePose CAROUSEL = new ConfigurablePose(-60, 59, toRadians(-90));
         public static ConfigurablePose DUCK_INTAKE_START = new ConfigurablePose(-20, 58, toRadians(-135));
-        public static ConfigurablePose DUCK_INTAKE_END = new ConfigurablePose(-56, 61, toRadians(-45));
+        public static ConfigurablePose DUCK_INTAKE_END = new ConfigurablePose(-59, 61, toRadians(-45));
         public static ConfigurablePose SQUARE = new ConfigurablePose(-67, 36, toRadians(0));
         public static ConfigurablePose BARRIER_PARK = new ConfigurablePose(60, 35, toRadians(-180));
 

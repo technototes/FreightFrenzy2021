@@ -18,6 +18,6 @@ public class DepositAllianceCommand extends SequentialCommandGroup {
 //                RobotConstants.getAlliance().selectOf(
 //                        new ExtensionLeftSideCommand(extension, OUT),
 //                        new ExtensionRightSideCommand(extension, OUT)),
-                new ArmAllianceCommand(arm)));
+                new ArmAllianceCommand(arm)).sleep(0.2));
     }
 }

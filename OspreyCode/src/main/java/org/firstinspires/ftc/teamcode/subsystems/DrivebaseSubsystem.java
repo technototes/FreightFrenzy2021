@@ -56,7 +56,9 @@ public class DrivebaseSubsystem extends MecanumDrivebaseSubsystem implements Sup
         @GearRatio
         public static double GEAR_RATIO = 1 / 13.7; // output (wheel) speed / input (motor) speed
         @TrackWidth
-        public static double TRACK_WIDTH = 9.5; // in
+        public static double TRACK_WIDTH = 9; // in
+        @WheelBase
+        public static double WHEEL_BASE = 8.5;
         @KV
         public static double kV = 1.0 / MecanumConstants.rpmToVelocity(MAX_RPM, WHEEL_RADIUS, GEAR_RATIO);
         @KA
@@ -76,7 +78,7 @@ public class DrivebaseSubsystem extends MecanumDrivebaseSubsystem implements Sup
         @TransPID
         public static PIDCoefficients TRANSLATIONAL_PID = new PIDCoefficients(8, 0, 0);
         @HeadPID
-        public static PIDCoefficients HEADING_PID = new PIDCoefficients(8, 0, 0);
+        public static PIDCoefficients HEADING_PID = new PIDCoefficients(4, 0, 0);
 
         @LateralMult
         public static double LATERAL_MULTIPLIER = 1;

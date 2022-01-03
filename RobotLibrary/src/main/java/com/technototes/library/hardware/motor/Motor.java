@@ -1,5 +1,6 @@
 package com.technototes.library.hardware.motor;
 
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.Range;
 import com.technototes.library.hardware.HardwareDevice;
@@ -64,6 +65,15 @@ public class Motor<T extends DcMotorSimple> extends HardwareDevice<T> implements
      */
     public void setSpeed(double speed) {
         device.setPower(Range.clip(speed, min, max));
+    }
+
+    public Motor<T> brake(){
+        if(getDevice() instanceof DcMotor) ((DcMotor) getDevice()).setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        return this;
+    }
+    public Motor<T> coast(){
+        if(getDevice() instanceof DcMotor) ((DcMotor) getDevice()).setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        return this;
     }
 
 

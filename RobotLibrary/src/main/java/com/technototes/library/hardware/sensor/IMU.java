@@ -1,6 +1,7 @@
 package com.technototes.library.hardware.sensor;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.hardware.bosch.BNO055IMUImpl;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AngularVelocity;
@@ -12,7 +13,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
  *
  */
 @SuppressWarnings("unused")
-public class IMU extends Sensor<BNO055IMU> implements IGyro {
+public class IMU extends Sensor<BNO055IMUImpl> implements IGyro {
 
 
     public enum AxesSigns {
@@ -39,7 +40,7 @@ public class IMU extends Sensor<BNO055IMU> implements IGyro {
      *
      * @param device The imu device
      */
-    public IMU(BNO055IMU device) {
+    public IMU(BNO055IMUImpl device) {
         super(device);
         parameters = new BNO055IMU.Parameters();
         degrees();

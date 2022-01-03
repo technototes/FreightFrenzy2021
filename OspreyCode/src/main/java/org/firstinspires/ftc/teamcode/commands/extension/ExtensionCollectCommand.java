@@ -9,13 +9,6 @@ public class ExtensionCollectCommand extends ExtensionCommand{
         super(subsystem, ExtensionConstants.IN, ExtensionConstants.CENTER);
     }
 
-
-    @Override
-    public void execute() {
-        extensionSubsystem.setTurret(turretTarget);
-        extensionSubsystem.setSlide(slideTarget);
-    }
-
     @Override
     public boolean isFinished() {
         return getRuntime().seconds()>0.4;

@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.opmodes;
 
 import static org.firstinspires.ftc.teamcode.Robot.SubsystemConstants.DRIVE_CONNECTED;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.technototes.library.logger.Log;
 import com.technototes.library.structure.CommandOpMode;
@@ -12,7 +13,7 @@ import org.firstinspires.ftc.teamcode.RobotConstants;
 import org.firstinspires.ftc.teamcode.commands.drivebase.DriveCommand;
 import org.firstinspires.ftc.teamcode.commands.drivebase.DriveResetCommand;
 import org.firstinspires.ftc.teamcode.subsystems.DrivebaseSubsystem;
-
+@Disabled
 @TeleOp(name="drive test")
 public class DriveTest extends CommandOpMode {
     @Log(name="drive pose")

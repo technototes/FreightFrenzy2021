@@ -25,8 +25,8 @@ public class CapSubsystem implements Subsystem, Supplier<Double> {
         setDefaultCommand(new CapTimeCommand(this));
     }
 
-    public boolean setCap(double pos){
-        return capServo.setPositionAsync(pos, 1);
+    public void setCap(double pos){
+        capServo.setPosition(pos);
     }
 
     @Override

@@ -55,7 +55,7 @@ public class Rev2MDistanceSensor extends Sensor<DistanceSensor> implements IDist
      * @param distanceUnit The unit
      * @return This
      */
-    public Rev2MDistanceSensor setDistanceUnit(DistanceUnit distanceUnit) {
+    public Rev2MDistanceSensor onUnit(DistanceUnit distanceUnit) {
         this.distanceUnit = distanceUnit;
         return this;
     }

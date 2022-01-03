@@ -68,9 +68,9 @@ public class Hardware {
             rlDriveMotor = new EncodedMotor<>(RL_MOTOR);
             rrDriveMotor = new EncodedMotor<>(RR_MOTOR);
             imu = new IMU(HardwareConstants.IMU).remapAxes(AxesOrder.YXZ, AxesSigns.NNN);
-            frontDistanceSensor = new Rev2MDistanceSensor(FRONT_RANGE).setDistanceUnit(DistanceUnit.INCH);
-            leftDistanceSensor = new Rev2MDistanceSensor(LEFT_RANGE).setDistanceUnit(DistanceUnit.INCH);
-            rightDistanceSensor = new Rev2MDistanceSensor(RIGHT_RANGE).setDistanceUnit(DistanceUnit.INCH);
+            frontDistanceSensor = new Rev2MDistanceSensor(FRONT_RANGE).onUnit(DistanceUnit.INCH);
+            leftDistanceSensor = new Rev2MDistanceSensor(LEFT_RANGE).onUnit(DistanceUnit.INCH);
+            rightDistanceSensor = new Rev2MDistanceSensor(RIGHT_RANGE).onUnit(DistanceUnit.INCH);
         }
         if (CAROUSEL_CONNECTED) {
             carouselMotor = new Motor<>(CAROUSEL);
@@ -85,7 +85,7 @@ public class Hardware {
         if (DUMP_CONNECTED) {
             bucketServo = new Servo(BUCKET);
             bucketMotor = new EncodedMotor<DcMotorEx>(ARM).invert();
-            bucketDistanceSensor = new Rev2MDistanceSensor(BUCKET_RANGE).setDistanceUnit(DistanceUnit.INCH);
+            bucketDistanceSensor = new Rev2MDistanceSensor(BUCKET_RANGE).onUnit(DistanceUnit.INCH);
         }
     }
 }

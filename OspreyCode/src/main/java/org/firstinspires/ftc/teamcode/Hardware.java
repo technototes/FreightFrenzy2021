@@ -78,15 +78,15 @@ public class Hardware implements Loggable {
 
     public Hardware() {
         if(LIFT_CONNECTED) {
-            liftMotor = new EncodedMotor<>(LIFT);
+            liftMotor = new EncodedMotor<DcMotorEx>(LIFT).brake().zeroEncoder().setOutputLimits(-0.9, 0.2);
         }
         if(DEPOSIT_CONNECTED) {
-            dumpServo = new Servo(DUMP).invert().setStartingPosition(ArmSubsystem.ArmConstants.CARRY);
-            armServo = new Servo(ARM).setStartingPosition(ArmSubsystem.ArmConstants.UP);
+            dumpServo = new Servo(DUMP).invert().startAt(ArmSubsystem.ArmConstants.CARRY);
+            armServo = new Servo(ARM).startAt(ArmSubsystem.ArmConstants.UP);
         }
         if(EXTENSION_CONNECTED){
-            slideServo = new Servo(SLIDE).setStartingPosition(ExtensionSubsystem.ExtensionConstants.IN);
-            turretServo = new Servo(TURRET).setStartingPosition(ExtensionSubsystem.ExtensionConstants.CENTER);
+            slideServo = new Servo(SLIDE).startAt(ExtensionSubsystem.ExtensionConstants.IN);
+            turretServo = new Servo(TURRET).startAt(ExtensionSubsystem.ExtensionConstants.CENTER);
         }
         if(DRIVE_CONNECTED) {
             flDriveMotor = new EncodedMotor<>(FL_MOTOR);
@@ -94,12 +94,12 @@ public class Hardware implements Loggable {
             rlDriveMotor = new EncodedMotor<>(RL_MOTOR);
             rrDriveMotor = new EncodedMotor<>(RR_MOTOR);
             imu = new IMU(HardwareConstants.IMU).remapAxes(AxesOrder.YXZ, AxesSigns.NPP);
-            leftRangeSensor = new Rev2MDistanceSensor(L_RANGE).setDistanceUnit(DistanceUnit.INCH);
-            rightRangeSensor = new Rev2MDistanceSensor(R_RANGE).setDistanceUnit(DistanceUnit.INCH);
-            frontRangeSensor = new Rev2MDistanceSensor(F_RANGE).setDistanceUnit(DistanceUnit.INCH);
+            leftRangeSensor = new Rev2MDistanceSensor(L_RANGE).onUnit(DistanceUnit.INCH);
+            rightRangeSensor = new Rev2MDistanceSensor(R_RANGE).onUnit(DistanceUnit.INCH);
+            frontRangeSensor = new Rev2MDistanceSensor(F_RANGE).onUnit(DistanceUnit.INCH);
         }
         if(CAROUSEL_CONNECTED){
-            carouselMotor = new Motor<>(CAROUSEL);
+            carouselMotor = new Motor<DcMotorEx>(CAROUSEL).brake();
         }
         if(VISION_CONNECTED){
             camera = new Webcam(CAMERA);
@@ -108,7 +108,7 @@ public class Hardware implements Loggable {
             intakeMotor = new Motor<>(INTAKE);
         }
         if(CAP_CONNECTED){
-            capServo = new Servo(CAP).setStartingPosition(CapSubsystem.CapConstants.COLLECT );
+            capServo = new Servo(CAP).startAt(CapSubsystem.CapConstants.COLLECT);
         }
     }
 }

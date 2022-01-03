@@ -52,7 +52,6 @@ public class Robot implements Loggable {
     @Log.NumberSlider(name = "Cap", color = Color.MAGENTA)
     public CapSubsystem capSubsystem;
 
-    @LogConfig.Disabled
     public VisionSubsystem visionSubsystem;
 
     public Robot(Hardware hardware){

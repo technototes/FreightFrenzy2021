@@ -16,8 +16,7 @@ import org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem;
 
 public class AutoDepositDuckCommand extends SequentialCommandGroup {
     public AutoDepositDuckCommand(DrivebaseSubsystem drive, ArmSubsystem depot, ExtensionSubsystem extension, LiftSubsystem lift, IntakeSubsystem intake) {
-        super(()->drive.setPoseEstimate(drive.getPoseEstimate().plus(new Pose2d(-4,0,0))),
-                new TrajectorySequenceCommand(drive, RobotConstants.DUCK_INTAKE_TO_HUB)
+        super(new TrajectorySequenceCommand(drive, RobotConstants.DUCK_INTAKE_TO_HUB)
                 .alongWith(new IntakeOutCommand(intake).withTimeout(0.5),
                         new DepositAllianceCommand(depot, extension, lift)),
                 new BucketDumpCommand(depot).sleep(0.3));
