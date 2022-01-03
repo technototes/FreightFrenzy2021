@@ -53,11 +53,11 @@ public class DrivebaseSubsystem extends MecanumDrivebaseSubsystem implements Sup
         @MaxVelo
         public static double MAX_VEL = 60;
         @MaxAccel
-        public static double MAX_ACCEL = 45;
+        public static double MAX_ACCEL = 35;
         @MaxAngleVelo
-        public static double MAX_ANG_VEL = Math.toRadians(60);
+        public static double MAX_ANG_VEL = Math.toRadians(180);
         @MaxAngleAccel
-        public static double MAX_ANG_ACCEL = Math.toRadians(60);
+        public static double MAX_ANG_ACCEL = Math.toRadians(90);
 
         @TransPID
         public static PIDCoefficients TRANSLATIONAL_PID = new PIDCoefficients(8, 0, 0);
@@ -79,12 +79,12 @@ public class DrivebaseSubsystem extends MecanumDrivebaseSubsystem implements Sup
 
     }
 
-    @Log.Number (name = "Front Range Sensor")
-    public Rev2MDistanceSensor front_distance;
-    @Log.Number (name = "Left Range Sensor")
-    public Rev2MDistanceSensor left_distance;
-    @Log.Number (name = "Right Range Sensor")
-    public Rev2MDistanceSensor right_distance;
+    //@Log.Number (name = "Front Range Sensor")
+    //public Rev2MDistanceSensor front_distance;
+    //@Log.Number (name = "Left Range Sensor")
+    //public Rev2MDistanceSensor left_distance;
+    //@Log.Number (name = "Right Range Sensor")
+    //public Rev2MDistanceSensor right_distance;
 
     private static final boolean ENABLE_POSE_DIAGNOSTICS = false;
 
@@ -96,9 +96,9 @@ public class DrivebaseSubsystem extends MecanumDrivebaseSubsystem implements Sup
                               IMU i,
                               Rev2MDistanceSensor front, Rev2MDistanceSensor left, Rev2MDistanceSensor right) {
         super(fl, fr, rl, rr, i, () -> DriveConstants.class);
-        this.front_distance = front;
-        this.left_distance = left;
-        this.right_distance = right;
+        //this.front_distance = front;
+        //this.left_distance = left;
+        //this.right_distance = right;
     }
 
     @Override
@@ -111,7 +111,9 @@ public class DrivebaseSubsystem extends MecanumDrivebaseSubsystem implements Sup
         if (ENABLE_POSE_DIAGNOSTICS) {
             updatePoseEstimate();
             Pose2d pose = getPoseEstimate();
-            poseDisplay = pose.toString();
+            Pose2d poseVelocity = getPoseVelocity();
+            poseDisplay = pose.toString() + " : " + (poseVelocity != null ? poseVelocity.toString() : "<null>");
+            System.out.println("Pose: " + poseDisplay);
         }
     }
 }

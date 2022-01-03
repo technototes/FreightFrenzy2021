@@ -5,7 +5,7 @@ import com.technototes.library.command.SequentialCommandGroup;
 import com.technototes.library.command.WaitCommand;
 import com.technototes.path.command.TrajectorySequenceCommand;
 
-import org.firstinspires.ftc.teamcode.commands.carousel.CarouselSpinCommand;
+import org.firstinspires.ftc.teamcode.commands.carousel.AutoCarouselSpinCommand;
 import org.firstinspires.ftc.teamcode.commands.dump.DumpCollectCommand;
 import org.firstinspires.ftc.teamcode.commands.dump.DumpUnloadTopLevelCommand;
 import org.firstinspires.ftc.teamcode.subsystems.CarouselSubsystem;
@@ -19,7 +19,7 @@ public class AutoBlueDuckCommandGroup extends SequentialCommandGroup {
                 new WaitCommand(0.3),
                 new DumpCollectCommand(bucket),
                   new TrajectorySequenceCommand(drive, AutonomousConstants.BLUE_ALLIANCE_HUB_LEVEL3_TO_CAROUSEL),
-                  new CarouselSpinCommand(carousel).withTimeout(3),
+                  new AutoCarouselSpinCommand(carousel).withTimeout(3),
                   new TrajectorySequenceCommand(drive, AutonomousConstants.BLUE_DUCK_CAROUSEL_TO_PARK),
                   CommandScheduler.getInstance()::terminateOpMode);
     }

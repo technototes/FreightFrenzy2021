@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.subsystems;
 import static org.firstinspires.ftc.teamcode.subsystems.CarouselSubsystem.CarouselConstants.*;
 
 import com.acmerobotics.dashboard.config.Config;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.technototes.library.hardware.motor.Motor;
 import com.technototes.library.subsystem.Subsystem;
@@ -23,6 +24,7 @@ public class CarouselSubsystem implements Subsystem, Supplier<Double> {
     public Motor<DcMotorEx> motor;
     public CarouselSubsystem(Motor<DcMotorEx> m){
         motor = m;
+        motor.getDevice().setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
     public void stop() {
         motor.setSpeed(CAROUSEL_STOP_SPEED);

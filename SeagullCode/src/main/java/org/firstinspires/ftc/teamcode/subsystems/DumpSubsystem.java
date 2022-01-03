@@ -41,7 +41,7 @@ public class DumpSubsystem implements Subsystem, Supplier<Double>, Loggable {
          */
         static final double BUCKET_COLLECT = 0.05;
         static final double BUCKET_CARRY = 0.3;
-        static final double BUCKET_DUMP = 0.75;
+        static final double BUCKET_DUMP = 0.77;
 
         // Range of values where the bucket should be in the carry position
         static final double ARM_CARRY_LIMIT_MIN = (ARM_COLLECT + ARM_CARRY) / 3;
@@ -106,6 +106,9 @@ public class DumpSubsystem implements Subsystem, Supplier<Double>, Loggable {
 
     public void setMotorPosition(double position){
         pidController_motor.setTargetPosition(Range.clip(position, MOTOR_LOWER_LIMIT, MOTOR_UPPER_LIMIT) * ARM_POSITION_SCALE);
+        if (bucketServo.getPosition() == BucketConstant.BUCKET_DUMP){
+            bucketServo.setPosition(BucketConstant.BUCKET_CARRY);
+        }
     }
 
     static double getScaledMotorPosition(double position) {
