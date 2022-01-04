@@ -136,7 +136,7 @@ public class BaseControls {
 
     public void bindLiftControls() {
         sharedHubButton.whileReleasedOnce(new WaitCommand(0.3).andThen(new LiftSharedCommand(robot.liftSubsystem).withTimeout(0.5)).asConditional(RobotConstants::isDepositing));
-        allianceHubButton.whileReleasedOnce(new WaitCommand(0.3).andThen(new LiftLevelCommand(robot.liftSubsystem).withTimeout(0.5)).asConditional(RobotConstants::isDepositing));
+        allianceHubButton.whileReleasedOnce(new WaitCommand(0.1).andThen(new LiftLevelCommand(robot.liftSubsystem).withTimeout(0.5)).asConditional(RobotConstants::isDepositing));
         toIntakeButton.whenPressed(new LiftLevel1Command(robot.liftSubsystem).withTimeout(0.8).andThen(new LiftCollectCommand(robot.liftSubsystem).withTimeout(0.4)));
         liftAdjustUpButton.whilePressed(new LiftTranslateCommand(robot.liftSubsystem, 50));
         liftAdjustDownButton.whilePressed(new LiftTranslateCommand(robot.liftSubsystem, -50));
@@ -149,7 +149,7 @@ public class BaseControls {
         }
         robot.drivebaseSubsystem.setDefaultCommand(new DriveCommand(robot.drivebaseSubsystem, driveLeftStick, driveRightStick));
         robot.drivebaseSubsystem.setExternalHeading(Math.toRadians(180));
-        allianceHubButton.whenPressed(new DriveSpeedCommand(robot.drivebaseSubsystem).cancelUpon(toIntakeButton));
+//        allianceHubButton.whenPressed(new DriveSpeedCommand(robot.drivebaseSubsystem).cancelUpon(toIntakeButton));
         resetGyroButton.whenPressed(new DriveResetCommand(robot.drivebaseSubsystem));
         snailSpeedButton.whilePressedOnce(new DriveSpeedCommand(robot.drivebaseSubsystem));
     }

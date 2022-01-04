@@ -100,7 +100,7 @@ public class DumpSubsystem implements Subsystem, Supplier<Double>, Loggable {
         this.bucketMotor = motor;
         this.bucketServo = servo;
         pidController_motor = new PIDFController(pidCoefficients_motor, 0, 0, 0);
-        pidController_motor.setOutputBounds(-1.0, 1.0); // DC motor can't go beyond full speed
+        pidController_motor.setOutputBounds(-0.5, 0.5); // DC motor can't go beyond full speed
         this.bucketMotor.zeroEncoder();
     }
 

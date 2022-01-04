@@ -34,6 +34,7 @@ public class IntakeSubsystem implements Subsystem, Supplier<Double> {
   public IntakeSubsystem(EncodedMotor<DcMotorEx> m, Rev2MDistanceSensor r) {
     motor = m;
     motor.setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    motor.setPIDFCoeffecients(20,0,0,0);
     rangeSensor = r;
   }
 

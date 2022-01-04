@@ -78,7 +78,7 @@ public class Hardware implements Loggable {
 
     public Hardware() {
         if(LIFT_CONNECTED) {
-            liftMotor = new EncodedMotor<DcMotorEx>(LIFT).brake().zeroEncoder().setOutputLimits(-0.9, 0.2);
+            liftMotor = new EncodedMotor<DcMotorEx>(LIFT).brake().zeroEncoder().setOutputLimits(-1, 0.2);
         }
         if(DEPOSIT_CONNECTED) {
             dumpServo = new Servo(DUMP).invert().startAt(ArmSubsystem.ArmConstants.CARRY);
