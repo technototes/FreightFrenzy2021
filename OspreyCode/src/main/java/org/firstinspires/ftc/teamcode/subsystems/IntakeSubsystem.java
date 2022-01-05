@@ -2,31 +2,46 @@ package org.firstinspires.ftc.teamcode.subsystems;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.util.ElapsedTime;
 import com.technototes.library.hardware.motor.Motor;
+import com.technototes.library.hardware.sensor.ColorDistanceSensor;
 import com.technototes.library.subsystem.Subsystem;
+import com.technototes.library.util.Range;
 
 import java.util.function.Supplier;
 
 import static org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem.IntakeConstants.*;
 
+import org.firstinspires.ftc.teamcode.RobotState;
+
 /**
  * Subsystem holding methods used for Intake commands. Intake will be responsible for bringing
  * freight in and out of our robot
  */
-public class IntakeSubsystem implements Subsystem, Supplier<Double> {
+public class IntakeSubsystem implements Subsystem, Supplier<String> {
 
     @Config
     public static class IntakeConstants{
         public static double INTAKE_IN_SPEED = 1;
         public static double INTAKE_OUT_SPEED = -1;
         public static double INTAKE_STOP_SPEED = 0;
+
+        public static double DETECTION_DISTANCE = 1;
+
+        public static Range CUBE_RANGE = new Range(0, 1000);
+        public static Range DUCK_RANGE = new Range(1000, 2000);
+        public static Range BALL_RANGE = new Range(2000, 3000);
+
+
     }
 
     public Motor<DcMotorEx> motor;
 
+    public ColorDistanceSensor sensor;
 
-    public IntakeSubsystem(Motor<DcMotorEx> m){
+    public IntakeSubsystem(Motor<DcMotorEx> m, ColorDistanceSensor s){
         motor = m;
+        sensor = s;
     }
 
     /**
@@ -50,8 +65,27 @@ public class IntakeSubsystem implements Subsystem, Supplier<Double> {
         motor.setSpeed(INTAKE_STOP_SPEED);
     }
 
+    double distance, light;
+
     @Override
-    public Double get() {
-        return motor.getSpeed();
+    public String get() {
+        return "Distance: "+distance+", Raw Light: "+light+", Freight: "+parseFreight();
     }
+    ElapsedTime t = new ElapsedTime();
+    @Override
+    public void periodic() {
+        if(t.seconds() > 0.1){
+            t.reset();
+            distance = sensor.getDistance();
+            light = sensor.getLight();
+        }
+    }
+
+    public RobotState.Freight parseFreight(){
+        if(CUBE_RANGE.inRange(light)) return RobotState.Freight.CUBE;
+        if(DUCK_RANGE.inRange(light)) return RobotState.Freight.DUCK;
+        if(BALL_RANGE.inRange(light)) return RobotState.Freight.BALL;
+        return RobotState.Freight.NONE;
+    }
+
 }

@@ -4,6 +4,7 @@ import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.technototes.library.hardware.motor.EncodedMotor;
 import com.technototes.library.hardware.motor.Motor;
+import com.technototes.library.hardware.sensor.ColorDistanceSensor;
 import com.technototes.library.hardware.sensor.IMU;
 import com.technototes.library.hardware.sensor.IMU.AxesSigns;
 import com.technototes.library.hardware.sensor.Rev2MDistanceSensor;
@@ -47,6 +48,7 @@ public class Hardware implements Loggable {
         public static String CAMERA = "webcam";
 
         public static String INTAKE = "intake";
+        public static String INTAKE_COLOR = "irange";
 
         public static String CAP = "cap";
 
@@ -68,7 +70,9 @@ public class Hardware implements Loggable {
     public Rev2MDistanceSensor leftRangeSensor;
     public Rev2MDistanceSensor rightRangeSensor;
     public Rev2MDistanceSensor frontRangeSensor;
+    
     public Motor<DcMotorEx> intakeMotor;
+    public ColorDistanceSensor intakeSensor;
 
     public Motor<DcMotorEx> carouselMotor;
 
@@ -77,18 +81,18 @@ public class Hardware implements Loggable {
     public Webcam camera;
 
     public Hardware() {
-        if(LIFT_CONNECTED) {
-            liftMotor = new EncodedMotor<DcMotorEx>(LIFT).brake().zeroEncoder().setOutputLimits(-0.9, 0.2);
+        if(LIFT_ENABLED) {
+            liftMotor = new EncodedMotor<DcMotorEx>(LIFT).brake().tare();
         }
-        if(DEPOSIT_CONNECTED) {
+        if(DEPOSIT_ENABLED) {
             dumpServo = new Servo(DUMP).invert().startAt(ArmSubsystem.ArmConstants.CARRY);
             armServo = new Servo(ARM).startAt(ArmSubsystem.ArmConstants.UP);
         }
-        if(EXTENSION_CONNECTED){
+        if(EXTENSION_ENABLED){
             slideServo = new Servo(SLIDE).startAt(ExtensionSubsystem.ExtensionConstants.IN);
-            turretServo = new Servo(TURRET).startAt(ExtensionSubsystem.ExtensionConstants.CENTER);
+            turretServo = new Servo(TURRET).startAt(ExtensionSubsystem.ExtensionConstants.CENTER).expandedRange();
         }
-        if(DRIVE_CONNECTED) {
+        if(DRIVE_ENABLED) {
             flDriveMotor = new EncodedMotor<>(FL_MOTOR);
             frDriveMotor = new EncodedMotor<>(FR_MOTOR);
             rlDriveMotor = new EncodedMotor<>(RL_MOTOR);
@@ -98,16 +102,17 @@ public class Hardware implements Loggable {
             rightRangeSensor = new Rev2MDistanceSensor(R_RANGE).onUnit(DistanceUnit.INCH);
             frontRangeSensor = new Rev2MDistanceSensor(F_RANGE).onUnit(DistanceUnit.INCH);
         }
-        if(CAROUSEL_CONNECTED){
+        if(CAROUSEL_ENABLED){
             carouselMotor = new Motor<DcMotorEx>(CAROUSEL).brake();
         }
-        if(VISION_CONNECTED){
+        if(VISION_ENABLED){
             camera = new Webcam(CAMERA);
         }
-        if(INTAKE_CONNECTED){
+        if(INTAKE_ENABLED){
             intakeMotor = new Motor<>(INTAKE);
+            intakeSensor = new ColorDistanceSensor(INTAKE_COLOR).onUnit(DistanceUnit.INCH);
         }
-        if(CAP_CONNECTED){
+        if(CAP_ENABLED){
             capServo = new Servo(CAP).startAt(CapSubsystem.CapConstants.COLLECT);
         }
     }

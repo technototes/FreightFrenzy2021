@@ -6,11 +6,10 @@ import com.technototes.library.command.WaitCommand;
 import com.technototes.path.command.RegenerativeTrajectorySequenceCommand;
 
 import org.firstinspires.ftc.teamcode.RobotConstants;
+import org.firstinspires.ftc.teamcode.RobotState;
 import org.firstinspires.ftc.teamcode.commands.arm.BucketDumpCommand;
 import org.firstinspires.ftc.teamcode.commands.deposit.DepositAllianceCommand;
 import org.firstinspires.ftc.teamcode.commands.deposit.DepositSharedCommand;
-import org.firstinspires.ftc.teamcode.commands.drivebase.DriveRelocalizeCycleCommand;
-import org.firstinspires.ftc.teamcode.commands.drivebase.DriveRelocalizeSharedCommand;
 import org.firstinspires.ftc.teamcode.commands.intake.IntakeOutCommand;
 import org.firstinspires.ftc.teamcode.subsystems.ArmSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.DrivebaseSubsystem;
@@ -35,7 +34,7 @@ public class TeleopDepositSharedCommand extends SequentialCommandGroup {
     @Override
     public void initialize() {
         super.initialize();
-        RobotConstants.startDeposit();
+        RobotState.startDeposit();
     }
 
 }

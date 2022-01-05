@@ -46,7 +46,7 @@ public class Servo extends HardwareDevice<com.qualcomm.robotcore.hardware.Servo>
         return this;
     }
 
-    public Servo expandRange(){
+    public Servo expandedRange(){
         return scalePWM(500, 2500);
     }
 
@@ -91,7 +91,7 @@ public class Servo extends HardwareDevice<com.qualcomm.robotcore.hardware.Servo>
      * @param max The maximum of the range
      * @return this
      */
-    public Servo setRange(double min, double max) {
+    public Servo onRange(double min, double max) {
         getDevice().scaleRange(min, max);
         return this;
     }

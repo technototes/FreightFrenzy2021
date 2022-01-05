@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.technototes.library.command.CommandScheduler;
 import com.technototes.library.control.CommandGamepad;
-import com.technototes.library.hardware.HardwareDevice;
+import com.technototes.library.hardware2.HardwareBuilder;
 import com.technototes.library.logger.Logger;
 
 /** Class for command based op modes
@@ -54,7 +54,7 @@ public abstract class CommandOpMode extends LinearOpMode {
         opModeTimer.reset();
         driverGamepad = new CommandGamepad(gamepad1);
         codriverGamepad = new CommandGamepad(gamepad2);
-        HardwareDevice.hardwareMap = hardwareMap;
+        HardwareBuilder.initMap(hardwareMap);
         CommandScheduler.resetScheduler().setOpMode(this);
         uponInit();
         logger = new Logger(this);

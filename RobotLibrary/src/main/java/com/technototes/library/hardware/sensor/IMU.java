@@ -16,6 +16,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 public class IMU extends Sensor<BNO055IMUImpl> implements IGyro {
 
 
+    private double angleOffset = 0;
+
     public enum AxesSigns {
         PPP(0b000),
         PPN(0b001),
@@ -79,10 +81,6 @@ public class IMU extends Sensor<BNO055IMUImpl> implements IGyro {
         getDevice().initialize(parameters);
         return this;
     }
-    @Override
-    public double getSensorValue() {
-        return gyroHeading();
-    }
 
     /** Get gyro heading
      *
@@ -93,7 +91,7 @@ public class IMU extends Sensor<BNO055IMUImpl> implements IGyro {
         return getAngularOrientation().firstAngle;
     }
     public double gyroHeading(AngleUnit unit) {
-        return unit.fromUnit(device.getAngularOrientation().angleUnit, getAngularOrientation().firstAngle);
+        return unit.fromUnit(device.getAngularOrientation().angleUnit, gyroHeading()-angleOffset);
     }
 
     @Override
@@ -104,6 +102,11 @@ public class IMU extends Sensor<BNO055IMUImpl> implements IGyro {
     @Override
     public double gyroHeadingInRadians() {
         return gyroHeading(AngleUnit.RADIANS);
+    }
+
+    @Override
+    public void setHeading(double newHeading) {
+        angleOffset = gyroHeading()-newHeading;
     }
 
     public IMU remapAxes(AxesOrder order, AxesSigns signs) {

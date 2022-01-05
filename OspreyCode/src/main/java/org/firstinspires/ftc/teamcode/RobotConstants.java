@@ -185,45 +185,6 @@ public class RobotConstants {
                     .build();
 
 
-    private static AllianceHubStrategy allianceHubStrategy;
-    private static SharedHubStrategy sharedHubStrategy;
 
-    public static AllianceHubStrategy getAllianceStrategy() {
-        return allianceHubStrategy;
-    }
-
-    public static SharedHubStrategy getSharedStrategy() {
-        return sharedHubStrategy;
-    }
-
-    public static void strategy1(){
-        setStrategy(AllianceHubStrategy.HIGH, SharedHubStrategy.OWN);
-    }
-    public static void strategy2(){
-        setStrategy(AllianceHubStrategy.MID, SharedHubStrategy.STEAL);
-    }
-
-    public static void setStrategy(AllianceHubStrategy allianceHubStrategy, SharedHubStrategy sharedHubStrategy) {
-        RobotConstants.allianceHubStrategy = allianceHubStrategy;
-        RobotConstants.sharedHubStrategy = sharedHubStrategy;
-    }
-
-    public enum AllianceHubStrategy {
-        HIGH, MID;
-    }
-
-    public enum SharedHubStrategy {
-        OWN, STEAL;
-    }
-    private static boolean depositTarget = false;
-    public static void startDeposit(){
-        depositTarget = true;
-    }
-    public static void stopDeposit(){
-        depositTarget = false;
-    }
-    public static boolean isDepositing(){
-        return depositTarget;
-    }
 }
 

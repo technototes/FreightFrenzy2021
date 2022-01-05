@@ -151,7 +151,7 @@ public class EncodedMotor<T extends DcMotorSimple> extends Motor<T> implements S
     /** Zero the encoder
      * @return This
      */
-    public EncodedMotor<T> zeroEncoder(){
+    public EncodedMotor<T> tare(){
         encoder.zeroEncoder();
         return this;
     }
@@ -198,7 +198,7 @@ public class EncodedMotor<T extends DcMotorSimple> extends Motor<T> implements S
     }
 
     @Override
-    public EncodedMotor<T> setOutputLimits(double mi, double ma) {
-        return (EncodedMotor<T>) super.setOutputLimits(mi, ma);
+    public EncodedMotor<T> setLimits(double mi, double ma) {
+        return (EncodedMotor<T>) super.setLimits(mi, ma);
     }
 }

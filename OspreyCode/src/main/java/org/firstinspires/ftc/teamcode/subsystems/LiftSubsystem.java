@@ -63,7 +63,7 @@ public class LiftSubsystem implements Subsystem, Supplier<Double> {
      */
     @Override
     public void periodic() {
-            liftMotor.setSpeed(-pidController.update(-liftMotor.get()));
+            liftMotor.setSpeed(Range.clip(-pidController.update(-liftMotor.get()), -0.9, 0.2));
     }
 
     /**

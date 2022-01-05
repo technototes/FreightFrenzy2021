@@ -40,7 +40,7 @@ public class LoopTimeTest extends CommandOpMode {
     public void runLoop() {
         long l = System.currentTimeMillis();
         for(int i = 0; i < sensorLoops; i++){
-            distance = sensor.getSensorValue();
+            distance = sensor.getDistance();
         }
         if(sensorLoops!=0) timePerSensorCall = (System.currentTimeMillis()-l)/sensorLoops;
         hz = 1000.0/(System.currentTimeMillis()-pastTime);

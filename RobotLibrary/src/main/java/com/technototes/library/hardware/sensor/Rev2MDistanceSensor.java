@@ -12,7 +12,8 @@ public class Rev2MDistanceSensor extends Sensor<DistanceSensor> implements IDist
 
     private DistanceUnit distanceUnit;
 
-    /** Create a range sensor
+    /**
+     * Create a range sensor
      *
      * @param device The sensor device
      */
@@ -20,7 +21,8 @@ public class Rev2MDistanceSensor extends Sensor<DistanceSensor> implements IDist
         super(device);
     }
 
-    /** Create a range sensor
+    /**
+     * Create a range sensor
      *
      * @param deviceName The device name
      */
@@ -28,40 +30,37 @@ public class Rev2MDistanceSensor extends Sensor<DistanceSensor> implements IDist
         super(deviceName);
     }
 
-    @Override
-    public double getSensorValue() {
-        return getDevice().getDistance(distanceUnit);
-    }
-
-    /** Get the value with a specified distance Unit
+    /**
+     * Get the value with a specified distance Unit
      *
      * @param distanceUnit The unit
      * @return The distance
      */
-    public double getSensorValue(DistanceUnit distanceUnit) {
+    @Override
+    public double getDistance(DistanceUnit distanceUnit) {
         return getDevice().getDistance(distanceUnit);
     }
 
-    /** Get the current distance unit
+    /**
+     * Get the current distance unit
      *
      * @return The distance unit
      */
-    public DistanceUnit getDistanceUnit() {
+    @Override
+    public DistanceUnit getUnit() {
         return distanceUnit;
     }
 
-    /** Set the distance unit
+
+    /**
+     * Set the distance unit
      *
      * @param distanceUnit The unit
      * @return This
      */
+    @Override
     public Rev2MDistanceSensor onUnit(DistanceUnit distanceUnit) {
         this.distanceUnit = distanceUnit;
         return this;
-    }
-
-    @Override
-    public double getDistance() {
-        return getSensorValue();
     }
 }

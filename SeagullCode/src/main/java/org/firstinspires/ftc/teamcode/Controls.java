@@ -102,7 +102,6 @@ public class Controls {
     }
 
     public void bindDriveControls() {
-        // TODO: Fix DefaultCommands so they don't interfere with other drivebase commands
         // robot.drivebaseSubsystem.setDefaultCommand(new DriveCommand(robot.drivebaseSubsystem, driveLeftStick, driveRightStick));
         CommandScheduler.getInstance().scheduleJoystick(new DriveCommand(robot.drivebaseSubsystem, driveLeftStick, driveRightStick, driveStraightenButton));
         resetGyroButton.whenPressed(new ResetGyroCommand(robot.drivebaseSubsystem));

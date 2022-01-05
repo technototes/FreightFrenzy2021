@@ -32,7 +32,7 @@ public class Motor<T extends DcMotorSimple> extends HardwareDevice<T> implements
         super(deviceName);
     }
 
-    public Motor<T> setOutputLimits(double mi, double ma){
+    public Motor<T> setLimits(double mi, double ma){
         min = Range.clip(mi, -1, 1);
         max = Range.clip(ma, -1, 1);
         return this;

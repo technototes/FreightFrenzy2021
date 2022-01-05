@@ -15,7 +15,7 @@ import org.firstinspires.ftc.teamcode.subsystems.DrivebaseSubsystem;
 import java.util.function.DoubleSupplier;
 @Config
 public class DriveCommand implements Command {
-    public static boolean HEADING_LOCK = true;
+    public static boolean HEADING_LOCK = false;
     public static double TARGET_HEADING_TOLERANCE = 2;
     public static double P = 0.4, I = 3/5.0, D = 0.8;
     public DrivebaseSubsystem subsystem;
@@ -49,7 +49,7 @@ public class DriveCommand implements Command {
     public double getTurn(){
 
         double heading = subsystem.getRawExternalHeading();
-        if(Math.abs(r.getAsDouble())>0.05){
+        if(!HEADING_LOCK || Math.abs(r.getAsDouble())>0.05){
             wasTurning = true;
             t.reset();
             past = heading;

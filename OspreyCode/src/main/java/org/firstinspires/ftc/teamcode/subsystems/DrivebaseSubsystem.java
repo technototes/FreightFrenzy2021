@@ -149,50 +149,6 @@ public class DrivebaseSubsystem extends MecanumDrivebaseSubsystem implements Sup
         setPoseEstimate(distanceSensorLocalizer.getPoseEstimate());
     }
 
-
-    public void relocalizeCyclePose(Alliance alliance){
-        //to make sure all sensors are valid
-        double xAdj = front.getSensorValue(),
-                yAdj = alliance.selectOf(right, left).getSensorValue();
-        xAdj*=Math.abs(Math.cos(getExternalHeading()));
-        yAdj*=Math.abs(Math.cos(getExternalHeading()));
-        if(xAdj > 90 || yAdj > 20) return;
-        setPoseEstimate(new Pose2d(
-                FRONT_SENSOR_DISTANCE-xAdj,
-                alliance.selectOf(yAdj-SIDE_SENSOR_DISTANCE, SIDE_SENSOR_DISTANCE-yAdj),
-                getExternalHeading()));
-    }
-
-    public void relocalizeSharedPose(Alliance alliance){
-        //to make sure all sensors are valid
-        double xAdj = alliance.selectOf(left, right).getSensorValue(),
-                yAdj = front.getSensorValue();
-        xAdj*=Math.abs(Math.sin(getExternalHeading()));
-        yAdj*=Math.abs(Math.sin(getExternalHeading()));
-        if(xAdj > 20 || yAdj > 90) return;
-        setPoseEstimate(new Pose2d(
-                SIDE_SENSOR_DISTANCE-xAdj,
-                alliance.selectOf(yAdj-FRONT_SENSOR_DISTANCE, FRONT_SENSOR_DISTANCE-yAdj),
-                getExternalHeading()));
-    }
-
-
-
-    public void relocalizeDuckPose(Alliance alliance){
-        //to make sure all sensors are valid
-        double xAdj = alliance.selectOf(front, left).getSensorValue(),
-                yAdj = alliance.selectOf(left, front).getSensorValue();
-        xAdj*=Math.abs(Math.cos(getExternalHeading()));
-        yAdj*=Math.abs(Math.cos(getExternalHeading()));
-
-        if(xAdj > 20 || yAdj > 20) return;
-        setPoseEstimate(new Pose2d(
-                alliance.selectOf(xAdj-FRONT_SENSOR_DISTANCE, xAdj-SIDE_SENSOR_DISTANCE),
-                alliance.selectOf(yAdj-SIDE_SENSOR_DISTANCE, FRONT_SENSOR_DISTANCE-yAdj),
-                getExternalHeading()));
-    }
-
-
     public void resetGyro(){
         xOffset = imu.getAngularOrientation().secondAngle;
         yOffset = imu.getAngularOrientation().thirdAngle;

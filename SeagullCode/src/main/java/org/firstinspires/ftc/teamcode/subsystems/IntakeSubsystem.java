@@ -27,6 +27,7 @@ public class IntakeSubsystem implements Subsystem, Supplier<Double> {
 
   private final Rev2MDistanceSensor rangeSensor;
 
+  //TODO i dont like having gamepads in subsystems
   private CommandGamepad gamepad;
 
   private State currentState = State.STOP;
@@ -53,7 +54,7 @@ public class IntakeSubsystem implements Subsystem, Supplier<Double> {
   }
 
   private double getSensorDistance() {
-    return rangeSensor.getSensorValue();
+    return rangeSensor.getDistance();
   }
 
   // Want:
