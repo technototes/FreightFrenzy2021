@@ -70,7 +70,7 @@ public class Hardware implements Loggable {
     public Rev2MDistanceSensor leftRangeSensor;
     public Rev2MDistanceSensor rightRangeSensor;
     public Rev2MDistanceSensor frontRangeSensor;
-    
+
     public Motor<DcMotorEx> intakeMotor;
     public ColorDistanceSensor intakeSensor;
 

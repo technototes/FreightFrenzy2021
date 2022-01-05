@@ -17,7 +17,7 @@ import java.util.function.DoubleSupplier;
 public class DriveCommand implements Command {
     public static boolean HEADING_LOCK = false;
     public static double TARGET_HEADING_TOLERANCE = 2;
-    public static double P = 0.4, I = 3/5.0, D = 0.8;
+    public static double P = 0.4, I = 0, D = 0;
     public DrivebaseSubsystem subsystem;
     public DoubleSupplier x, y, r;
     private double targetHeading;
@@ -41,7 +41,7 @@ public class DriveCommand implements Command {
                 new Pose2d(
                         input.getX(),
                         input.getY(),
-                         getTurn())
+                        -Math.pow(r.getAsDouble()*subsystem.speed, 3))
         );
     }
     ElapsedTime t = new ElapsedTime();

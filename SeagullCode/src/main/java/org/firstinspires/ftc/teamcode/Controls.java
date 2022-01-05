@@ -27,6 +27,7 @@ import org.firstinspires.ftc.teamcode.commands.dump.DumpUnloadBottomLevelCommand
 import org.firstinspires.ftc.teamcode.commands.dump.DumpUnloadMiddleLevelCommand;
 import org.firstinspires.ftc.teamcode.commands.dump.DumpUnloadSharedHubCommand;
 import org.firstinspires.ftc.teamcode.commands.dump.DumpUnloadTopLevelCommand;
+import org.firstinspires.ftc.teamcode.commands.intake.IntakeInCommand;
 import org.firstinspires.ftc.teamcode.commands.intake.IntakeOutCommand;
 import org.firstinspires.ftc.teamcode.commands.intake.IntakeSafeCommand;
 import org.firstinspires.ftc.teamcode.commands.intake.IntakeStopCommand;
@@ -36,13 +37,12 @@ public class Controls {
 
     public Robot robot;
 
-    public CommandButton carryButton, collectButton, topDepositButton,
-              middleDepositButton, bottomDepositButton, sharedDepositButton;
+    public CommandButton topDepositButton, middleDepositButton, sharedDepositButton;
 
     public CommandButton intakeInButton, intakeOutButton;
-    public CommandAxis intakeInTrigger, intakeOutTrigger;
+    public CommandAxis intakeInTrigger, carryDepositButton;
 
-    public CommandButton carouselSlowButton, carouselFastButton;
+    public CommandButton carouselSlowButton;
 
     public Stick driveLeftStick, driveRightStick;
     public CommandButton resetGyroButton, driveStraightenButton, snailSpeedButton;
@@ -54,28 +54,24 @@ public class Controls {
         robot = r;
         this.alliance = alliance;
 
-        collectButton = gamepad.leftBumper;
-        carryButton = gamepad.rightBumper;
-        sharedDepositButton = gamepad.dpadLeft;
-        bottomDepositButton = gamepad.dpadDown;
+        sharedDepositButton = gamepad.leftBumper;
         middleDepositButton = gamepad.dpadRight;
-        topDepositButton = gamepad.dpadUp;
+        topDepositButton = gamepad.rightBumper;
+        carryDepositButton = gamepad.leftTrigger;
 
         intakeInTrigger = gamepad.rightTrigger;
-        intakeOutTrigger = gamepad.leftTrigger;
 
         intakeInButton = gamepad.cross;
         intakeOutButton = gamepad.circle;
 
-        carouselSlowButton = gamepad.square;
-        carouselFastButton = gamepad.triangle;
+        carouselSlowButton = gamepad.triangle;
 
         resetGyroButton = gamepad.rightStickButton;
         snailSpeedButton = gamepad.circle;
 
         driveLeftStick = gamepad.leftStick;
         driveRightStick = gamepad.rightStick;
-        driveStraightenButton = gamepad.cross;
+        driveStraightenButton = gamepad.square;
 
 
 
@@ -93,12 +89,10 @@ public class Controls {
     }
 
     public void bindBucketControls() {
-        carryButton.whenPressed(new DumpCarryCommand(robot.dumpSubsystem));
-        collectButton.whenPressed(new DumpCollectCommand(robot.dumpSubsystem));
-        topDepositButton.whenPressed(new DumpUnloadTopLevelCommand(robot.dumpSubsystem));
-        middleDepositButton.whenPressed(new DumpUnloadMiddleLevelCommand(robot.dumpSubsystem));
-        bottomDepositButton.whenPressed(new DumpUnloadBottomLevelCommand(robot.dumpSubsystem));
-        sharedDepositButton.whenPressed(new DumpUnloadSharedHubCommand(robot.dumpSubsystem));
+        intakeInTrigger.whenPressed(new DumpCollectCommand(robot.dumpSubsystem).andThen(new IntakeSafeCommand(robot.intakeSubsystem, robot.dumpSubsystem, gamepad)));
+        topDepositButton.whenPressed(new DumpUnloadTopLevelCommand(robot.dumpSubsystem).alongWith(new IntakeStopCommand(robot.intakeSubsystem)));
+        sharedDepositButton.whenPressed(new DumpUnloadSharedHubCommand(robot.dumpSubsystem).alongWith(new IntakeStopCommand(robot.intakeSubsystem)));
+        carryDepositButton.whenPressed(new DumpCarryCommand(robot.dumpSubsystem).alongWith(new IntakeStopCommand(robot.intakeSubsystem)));
     }
 
     public void bindDriveControls() {
@@ -109,17 +103,15 @@ public class Controls {
     }
 
     public void bindIntakeControls() {
-        intakeInTrigger.whenPressed(new IntakeSafeCommand(robot.intakeSubsystem, robot.dumpSubsystem, gamepad));
-        intakeOutTrigger.whenToggled(new IntakeOutCommand(robot.intakeSubsystem));
-        intakeOutTrigger.whenInverseToggled(new IntakeStopCommand(robot.intakeSubsystem));
+        intakeInButton.whenPressed(new IntakeSafeCommand(robot.intakeSubsystem, robot.dumpSubsystem, gamepad));
+        intakeOutButton.whenPressed(new IntakeOutCommand(robot.intakeSubsystem));
+        intakeOutButton.whenReleased(new IntakeStopCommand(robot.intakeSubsystem));
     }
 
     public void bindCarouselRedControls() {
         carouselSlowButton.whilePressedOnce(new CarouselRedSlowCommand(robot.carouselSubsystem));
-        carouselFastButton.whilePressedOnce(new CarouselRedFastCommand(robot.carouselSubsystem));
     }
     public void bindCarouselBlueControls() {
         carouselSlowButton.whilePressedOnce(new CarouselBlueSlowCommand(robot.carouselSubsystem));
-        carouselFastButton.whilePressedOnce(new CarouselBlueFastCommand(robot.carouselSubsystem));
     }
 }

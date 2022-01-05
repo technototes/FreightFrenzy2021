@@ -148,7 +148,7 @@ public class BaseControls {
         }
         robot.drivebaseSubsystem.setDefaultCommand(new DriveCommand(robot.drivebaseSubsystem, driveLeftStick, driveRightStick));
         robot.drivebaseSubsystem.setExternalHeading(Math.toRadians(180));
-        allianceHubButton.whenPressed(new DriveSpeedCommand(robot.drivebaseSubsystem).cancelUpon(toIntakeButton));
+//        allianceHubButton.whenPressed(new DriveSpeedCommand(robot.drivebaseSubsystem).cancelUpon(toIntakeButton));
         resetGyroButton.whenPressed(new DriveResetCommand(robot.drivebaseSubsystem));
         snailSpeedButton.whilePressedOnce(new DriveSpeedCommand(robot.drivebaseSubsystem));
     }
