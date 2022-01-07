@@ -29,7 +29,7 @@ import org.firstinspires.ftc.teamcode.subsystems.ExtensionSubsystem;
 
 
 public class Hardware2 {
-    @Config
+    @com.acmerobotics.dashboard.config.Config
     public static class Hardware2Constants{
         public static String LIFT = "lift";
 

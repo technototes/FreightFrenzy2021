@@ -20,15 +20,12 @@ public class ExtensionOutCommand extends ExtensionCommand{
 
     @Override
     public void execute() {
-        if(getRuntime().seconds()<0.7) extensionSubsystem.setSlide(ExtensionConstants.TELEOP_ALLIANCE);
-        else{
             extensionSubsystem.setSlide(slideTarget);
             extensionSubsystem.setTurret(turretTarget);
-        }
     }
 
     @Override
     public boolean isFinished() {
-        return getRuntime().seconds()>1;
+        return getRuntime().seconds()>0.6;
     }
 }

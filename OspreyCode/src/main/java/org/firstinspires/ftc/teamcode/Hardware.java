@@ -1,7 +1,11 @@
 package org.firstinspires.ftc.teamcode;
 
+import static org.firstinspires.ftc.teamcode.Hardware.HardwareConstants.*;
+import static org.firstinspires.ftc.teamcode.Robot.SubsystemConstants.*;
+
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.technototes.library.hardware.Speaker;
 import com.technototes.library.hardware.motor.EncodedMotor;
 import com.technototes.library.hardware.motor.Motor;
 import com.technototes.library.hardware.sensor.ColorDistanceSensor;
@@ -14,15 +18,12 @@ import com.technototes.vision.hardware.Webcam;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-import org.firstinspires.ftc.teamcode.subsystems.CapSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ArmSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.CapSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ExtensionSubsystem;
 
-import static org.firstinspires.ftc.teamcode.Hardware.HardwareConstants.*;
-import static org.firstinspires.ftc.teamcode.Robot.SubsystemConstants.*;
-
 public class Hardware implements Loggable {
-    @Config
+    @com.acmerobotics.dashboard.config.Config
     public static class HardwareConstants{
         public static String LIFT = "lift";
 
@@ -52,7 +53,12 @@ public class Hardware implements Loggable {
 
         public static String CAP = "cap";
 
+
+
+
     }
+
+    public Speaker speaker;
 
     public EncodedMotor<DcMotorEx> liftMotor;
 
@@ -81,6 +87,9 @@ public class Hardware implements Loggable {
     public Webcam camera;
 
     public Hardware() {
+        if(SPEAKER_CONNECTED){
+            speaker = new Speaker();
+        }
         if(LIFT_ENABLED) {
             liftMotor = new EncodedMotor<DcMotorEx>(LIFT).brake().tare();
         }

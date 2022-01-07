@@ -4,18 +4,24 @@ import androidx.annotation.Nullable;
 
 import com.technototes.library.structure.CommandOpMode;
 import com.technototes.library.subsystem.Subsystem;
+import com.technototes.library.util.Periodic;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.BooleanSupplier;
 
 public final class CommandScheduler {
 
     private final Map<Command, BooleanSupplier> commandMap;
-    private final Map<Subsystem, List<Command>> requirementMap;
+    private final Map<Subsystem, Set<Command>> requirementMap;
     private final Map<Subsystem, Command> defaultMap;
+
+    private final Set<Periodic> registered;
+
     private CommandOpMode opMode;
 
     public CommandScheduler setOpMode(CommandOpMode c) {
@@ -51,6 +57,7 @@ public final class CommandScheduler {
         commandMap = new HashMap<>();
         requirementMap = new HashMap<>();
         defaultMap = new HashMap<>();
+        registered = new LinkedHashSet<>();
     }
 
     public CommandScheduler schedule(Command command) {
@@ -115,6 +122,11 @@ public final class CommandScheduler {
         return this;
     }
 
+    public CommandScheduler register(Periodic p){
+        registered.add(p);
+        return this;
+    }
+
 
     @Nullable
     public Command getDefault(Subsystem s) {
@@ -123,19 +135,25 @@ public final class CommandScheduler {
 
     @Nullable
     public Command getCurrent(Subsystem s) {
-        return requirementMap.getOrDefault(s, new ArrayList<>()).stream()
-                .filter(Command::isRunning).findAny().orElse(getDefault(s));
+        if(requirementMap.get(s) == null) return null;
+        for(Command c : requirementMap.get(s)){
+            if(c.isRunning()) return c;
+        }
+        return getDefault(s);
     }
 
     public CommandScheduler schedule(Command command, BooleanSupplier supplier) {
         commandMap.put(command, supplier);
         for (Subsystem s : command.getRequirements()) {
-            requirementMap.putIfAbsent(s, new ArrayList<>());
+            requirementMap.putIfAbsent(s, new LinkedHashSet<>());
             requirementMap.get(s).add(command);
+            register(s);
         }
         return this;
     }
     public void run() {
+        //better way to do this soontm
+
         commandMap.forEach((c1, b) -> {
             if (c1.justStarted()) {
                 for (Subsystem s : c1.getRequirements()) {
@@ -148,7 +166,6 @@ public final class CommandScheduler {
         commandMap.forEach((c1, b)->{
             if(b.getAsBoolean() || c1.isRunning()) c1.run();
         });
-        // i hate this
-        requirementMap.keySet().forEach(Subsystem::periodic);
+        registered.forEach(Periodic::periodic);
     }
 }

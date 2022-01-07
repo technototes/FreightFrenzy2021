@@ -22,9 +22,8 @@ public class TeleopDepositAllianceCommand extends SequentialCommandGroup {
         super(new WaitCommand(0.3),
                 drive::relocalizeUnsafe,
                 new RegenerativeTrajectorySequenceCommand(drive, RobotConstants.WAREHOUSE_TO_HUB, drive)
-                        .alongWith(new IntakeOutCommand(intake).withTimeout(0.5),
-                                //new WaitCommand(0.3).andThen(new DriveRelocalizeCycleCommand(drive)),
-                                new WaitCommand(0.8).andThen(new DepositAllianceCommand(deposit, extension, lift))),
+                        .alongWith(new IntakeOutCommand(intake).withTimeout(0.3)
+                                .andThen(new DepositAllianceCommand(deposit, extension, lift))),
                 new BucketDumpCommand(deposit));
         drivebaseSubsystem = drive;
     }

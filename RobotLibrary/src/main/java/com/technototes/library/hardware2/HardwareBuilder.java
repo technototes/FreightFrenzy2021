@@ -1,10 +1,8 @@
 package com.technototes.library.hardware2;
 
-import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.HardwareDevice;
+import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import java.util.function.Consumer;
 import java.util.function.UnaryOperator;
 
 public class HardwareBuilder<T> {
@@ -14,7 +12,6 @@ public class HardwareBuilder<T> {
         return hardwareMap;
     }
     public static void initMap(HardwareMap h){
-        if(hardwareMap != null) return;
         //fix to maintain old code
         com.technototes.library.hardware.HardwareDevice.hardwareMap = h;
         hardwareMap = h;
@@ -93,12 +90,27 @@ public class HardwareBuilder<T> {
         return new MotorBuilder(name);
     }
 
-    public static DcMotorEx motor(String name, UnaryOperator<MotorBuilder> c){
-        return c.apply(motor(name)).build();
-    }
-
-
     public static ServoBuilder servo(String name){
         return new ServoBuilder(name);
+    }
+
+    public static AnalogBuilder analog(int port){
+        return new AnalogBuilder(port);
+    }
+
+    public static CRServoBuilder crServo(int port){
+        return new CRServoBuilder(port);
+    }
+
+    public static DigitalBuilder digital(int port){
+        return new DigitalBuilder(port);
+    }
+
+    public static MotorBuilder motor(int port){
+        return new MotorBuilder(port);
+    }
+
+    public static ServoBuilder servo(int port){
+        return new ServoBuilder(port);
     }
 }

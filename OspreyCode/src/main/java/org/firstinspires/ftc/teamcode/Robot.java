@@ -12,6 +12,7 @@ import org.firstinspires.ftc.teamcode.subsystems.DrivebaseSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ExtensionSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.SpeakerSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.VisionSubsystem;
 
 import static org.firstinspires.ftc.teamcode.Robot.SubsystemConstants.*;
@@ -27,10 +28,11 @@ public class Robot implements Loggable {
         public static boolean INTAKE_ENABLED = true;
         public static boolean VISION_ENABLED = true;
         public static boolean CAP_ENABLED = false;
+        public static boolean SPEAKER_CONNECTED = true;
 
     }
 
-    @Log.NumberBar(name = "Lift", min = 0, max = 1100, scale = 100, completeBarColor = Color.PURPLE)
+    @Log.NumberBar(name = "Lift", min = 0, max = 500, scale = 100, completeBarColor = Color.PURPLE)
     public LiftSubsystem liftSubsystem;
 
     @Log(name = "Deposit", entryColor = Color.PINK)
@@ -53,7 +55,12 @@ public class Robot implements Loggable {
 
     public VisionSubsystem visionSubsystem;
 
+    @Log(name="Song", color = Color.WHITE, index = 0)
+    public SpeakerSubsystem speakerSubsystem;
+
     public Robot(Hardware hardware){
+        if(SPEAKER_CONNECTED) speakerSubsystem = new SpeakerSubsystem(hardware.speaker);
+
         if(LIFT_ENABLED) liftSubsystem = new LiftSubsystem(hardware.liftMotor);
 
         if(DEPOSIT_ENABLED) armSubsystem = new ArmSubsystem(hardware.dumpServo, hardware.armServo);

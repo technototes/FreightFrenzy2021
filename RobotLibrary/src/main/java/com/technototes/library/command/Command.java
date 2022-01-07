@@ -125,6 +125,9 @@ public interface Command extends Runnable, Supplier<Command.CommandState> {
         return raceWith(new ConditionalCommand(condition));
     }
 
+    default ChoiceCommand onlyIf(BooleanSupplier choiceCondition){
+        return new ChoiceCommand(choiceCondition, this);
+    }
 
     /**
      * Run the commmand
