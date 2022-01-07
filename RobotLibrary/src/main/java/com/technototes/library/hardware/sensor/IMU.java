@@ -1,6 +1,7 @@
 package com.technototes.library.hardware.sensor;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.hardware.bosch.BNO055IMUImpl;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AngularVelocity;
@@ -12,8 +13,10 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
  *
  */
 @SuppressWarnings("unused")
-public class IMU extends Sensor<BNO055IMU> implements IGyro {
+public class IMU extends Sensor<BNO055IMUImpl> implements IGyro {
 
+
+    private double angleOffset = 0;
 
     public enum AxesSigns {
         PPP(0b000),
@@ -39,7 +42,7 @@ public class IMU extends Sensor<BNO055IMU> implements IGyro {
      *
      * @param device The imu device
      */
-    public IMU(BNO055IMU device) {
+    public IMU(BNO055IMUImpl device) {
         super(device);
         parameters = new BNO055IMU.Parameters();
         degrees();
@@ -78,10 +81,6 @@ public class IMU extends Sensor<BNO055IMU> implements IGyro {
         getDevice().initialize(parameters);
         return this;
     }
-    @Override
-    public double getSensorValue() {
-        return gyroHeading();
-    }
 
     /** Get gyro heading
      *
@@ -92,7 +91,7 @@ public class IMU extends Sensor<BNO055IMU> implements IGyro {
         return getAngularOrientation().firstAngle;
     }
     public double gyroHeading(AngleUnit unit) {
-        return unit.fromUnit(device.getAngularOrientation().angleUnit, getAngularOrientation().firstAngle);
+        return unit.fromUnit(device.getAngularOrientation().angleUnit, gyroHeading()-angleOffset);
     }
 
     @Override
@@ -105,6 +104,11 @@ public class IMU extends Sensor<BNO055IMU> implements IGyro {
         return gyroHeading(AngleUnit.RADIANS);
     }
 
+    @Override
+    public void setHeading(double newHeading) {
+        angleOffset = gyroHeading()-newHeading;
+    }
+
     public IMU remapAxes(AxesOrder order, AxesSigns signs) {
         try {
             // the indices correspond with the 2-bit encodings specified in the datasheet
@@ -112,7 +116,7 @@ public class IMU extends Sensor<BNO055IMU> implements IGyro {
             int axisMapConfig = 0;
             axisMapConfig |= (indices[0] << 4);
             axisMapConfig |= (indices[1] << 2);
-            axisMapConfig |= (indices[2] << 0);
+            axisMapConfig |= (indices[2]);
 
             // the BNO055 driver flips the first orientation vector so we also flip here
             int axisMapSign = signs.bVal ^ (0b100 >> indices[0]);

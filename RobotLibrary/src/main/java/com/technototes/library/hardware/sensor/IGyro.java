@@ -7,4 +7,9 @@ public interface IGyro {
 
     double gyroHeadingInRadians();
 
+    void setHeading(double newHeading);
+
+    default void zero(){
+        setHeading(0);
+    }
 }

@@ -15,6 +15,7 @@ import org.firstinspires.ftc.teamcode.subsystems.VisionSubsystem;
 public class AutoDuckCommand extends SequentialCommandGroup {
     public AutoDuckCommand(DrivebaseSubsystem drive, IntakeSubsystem intake, LiftSubsystem lift, ArmSubsystem deposit, ExtensionSubsystem extension, VisionSubsystem vision, CarouselSubsystem carousel) {
         super(() -> drive.setPoseEstimate(RobotConstants.DUCK_START_SELECT.get()),
+                ()->drive.distanceSensorLocalizer.setGyroOffset(-RobotConstants.DUCK_START_SELECT.get().getHeading()),
                 new AutoDuckPreloadCommand(drive, deposit, extension, lift, vision),
                 new AutoCarouselCommand(drive, lift, deposit, extension, carousel),
                 new AutoIntakeDuckCommand(drive, intake),

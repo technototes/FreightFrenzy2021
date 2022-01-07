@@ -11,7 +11,7 @@ public class ArmRaiseInCommand extends ArmCommand {
 
     @Override
     public void execute() {
-        subsystem.fakeCarry();
+        if(getRuntime().seconds()>0.2) subsystem.fakeCarry();
          subsystem.up();
     }
 

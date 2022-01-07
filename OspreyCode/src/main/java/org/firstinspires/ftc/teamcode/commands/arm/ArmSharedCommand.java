@@ -17,12 +17,12 @@ public class ArmSharedCommand extends ArmCommand {
 
     @Override
     public boolean isFinished() {
-        return getRuntime().seconds()>1;
+        return getRuntime().seconds()>0.7;
     }
 
     @Override
     public void end(boolean cancel) {
-        subsystem.carry();
+        if(!cancel) subsystem.carry();
     }
 }
 

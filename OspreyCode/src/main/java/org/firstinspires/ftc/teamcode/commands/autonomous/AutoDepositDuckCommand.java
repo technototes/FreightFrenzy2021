@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.commands.autonomous;
 
+import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.technototes.library.command.SequentialCommandGroup;
 import com.technototes.path.command.TrajectorySequenceCommand;
 

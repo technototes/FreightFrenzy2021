@@ -41,7 +41,7 @@ public class DumpSubsystem implements Subsystem, Supplier<Double>, Loggable {
          */
         static final double BUCKET_COLLECT = 0.05;
         static final double BUCKET_CARRY = 0.3;
-        static final double BUCKET_DUMP = 0.75;
+        static final double BUCKET_DUMP = 0.77;
 
         // Range of values where the bucket should be in the carry position
         static final double ARM_CARRY_LIMIT_MIN = (ARM_COLLECT + ARM_CARRY) / 3;
@@ -51,6 +51,7 @@ public class DumpSubsystem implements Subsystem, Supplier<Double>, Loggable {
     public static class ArmConstant {
         // Note: these are in units of full circle (0 = start, -1 or 1 = full rotation)
         public static final double ARM_COLLECT = 0;
+        //TODO make this higher
         public static final double ARM_CARRY = -.2;
         public static final double ARM_TOP_LEVEL = -0.42;
         public static final double ARM_MIDDLE_LEVEL = -0.47;
@@ -72,6 +73,7 @@ public class DumpSubsystem implements Subsystem, Supplier<Double>, Loggable {
         /**
          * so called dead-zone, in encoder ticks
          */
+        //TODO make this higher
         static final double TOLERANCE_ZONE_TICKS = ARM_POSITION_SCALE / 360; // one degree
     }
     
@@ -101,7 +103,7 @@ public class DumpSubsystem implements Subsystem, Supplier<Double>, Loggable {
         this.bucketServo = servo;
         pidController_motor = new PIDFController(pidCoefficients_motor, 0, 0, 0);
         pidController_motor.setOutputBounds(-1.0, 1.0); // DC motor can't go beyond full speed
-        this.bucketMotor.zeroEncoder();
+        this.bucketMotor.tare();
     }
 
     public void setMotorPosition(double position){

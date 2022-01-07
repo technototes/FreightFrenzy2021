@@ -5,6 +5,7 @@ import com.technototes.library.command.WaitCommand;
 import com.technototes.path.command.TrajectorySequenceCommand;
 
 import org.firstinspires.ftc.teamcode.RobotConstants;
+import org.firstinspires.ftc.teamcode.RobotState;
 import org.firstinspires.ftc.teamcode.commands.deposit.DepositCollectCommand;
 import org.firstinspires.ftc.teamcode.commands.intake.IntakeInCommand;
 import org.firstinspires.ftc.teamcode.subsystems.ArmSubsystem;
@@ -24,14 +25,7 @@ public class TeleopIntakeAllianceWarehouseCommand extends SequentialCommandGroup
     @Override
     public void initialize() {
         super.initialize();
-        RobotConstants.stopDeposit();
-        drivebaseSubsystem.setExternalHeading(drivebaseSubsystem.getExternalHeading()+Math.toRadians(RobotConstants.getAlliance().selectOf(-90, 90)));
+        RobotState.stopDeposit();
     }
 
-    @Override
-    public void end(boolean cancel) {
-        super.end(cancel);
-        drivebaseSubsystem.setExternalHeading(drivebaseSubsystem.getExternalHeading()+ Math.toRadians(RobotConstants.getAlliance().selectOf(90, -90)));
-
-    }
 }

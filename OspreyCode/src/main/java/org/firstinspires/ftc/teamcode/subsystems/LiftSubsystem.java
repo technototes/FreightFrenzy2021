@@ -20,10 +20,10 @@ public class LiftSubsystem implements Subsystem, Supplier<Double> {
     //cringe but otherwise code borks for some reason i am confused plz help
     @com.acmerobotics.dashboard.config.Config
     public static class LiftConstants {
-        public static double LIFT_UPPER_LIMIT = 400.0;
+        public static double LIFT_UPPER_LIMIT = 600.0;
         public static double LIFT_LOWER_LIMIT = 0.0;
         //300 for single slide
-        public static double COLLECT = 0, NEUTRAL = 100, LEVEL_1 = 50, LEVEL_2 = 100, LEVEL_3 = 400;
+        public static double COLLECT = 5, NEUTRAL = 100, LEVEL_1 = 50, LEVEL_2 = 100, LEVEL_3 = 500;
 
         public static double DEADZONE = 30;
 
@@ -36,9 +36,6 @@ public class LiftSubsystem implements Subsystem, Supplier<Double> {
 
     public LiftSubsystem(EncodedMotor<DcMotorEx> l){
         liftMotor = l;
-        l.getDevice().setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        l.zeroEncoder();
-        l.setOutputLimits(-0.9, 0.2);
         pidController = new PIDFController(PID, 0, 0, 0, (x,y)->0.2);
     }
 
@@ -66,7 +63,7 @@ public class LiftSubsystem implements Subsystem, Supplier<Double> {
      */
     @Override
     public void periodic() {
-            liftMotor.setSpeed(-pidController.update(-liftMotor.get()));
+            liftMotor.setSpeed(Range.clip(-pidController.update(-liftMotor.get()), -0.9, 0.2));
     }
 
     /**
