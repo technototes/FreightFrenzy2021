@@ -1,8 +1,8 @@
 package com.technototes.library.control;
 
 import com.qualcomm.robotcore.hardware.Gamepad;
-import com.technototes.library.util.Enablable;
-import com.technototes.library.util.Periodic;
+import com.technototes.library.general.Enablable;
+import com.technototes.library.general.Periodic;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.function.BooleanSupplier;

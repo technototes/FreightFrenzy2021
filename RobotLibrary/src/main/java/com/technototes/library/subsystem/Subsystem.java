@@ -2,7 +2,7 @@ package com.technototes.library.subsystem;
 
 import com.technototes.library.command.Command;
 import com.technototes.library.command.CommandScheduler;
-import com.technototes.library.util.Periodic;
+import com.technototes.library.general.Periodic;
 
 public interface Subsystem extends Periodic {
 

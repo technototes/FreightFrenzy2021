@@ -1,4 +1,4 @@
-package com.technototes.library.util;
+package com.technototes.library.general;
 
 /** An interface for classes to have the periodic function
  * @author Alex Stedman

@@ -1,4 +1,4 @@
-package com.technototes.library.util;
+package com.technototes.library.general;
 
 /** Interface for anything that can be inverted
  * @author Alex Stedman

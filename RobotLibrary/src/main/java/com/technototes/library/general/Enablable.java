@@ -1,4 +1,4 @@
-package com.technototes.library.util;
+package com.technototes.library.general;
 
 public interface Enablable<T extends Enablable<T>> {
     default T enable(){

@@ -121,7 +121,7 @@ public class Hardware2 {
             intakeSensor = colorRange(INTAKE_COLOR).build();
         }
         if(CAP_ENABLED){
-            capServo = servo(CAP).at(CapSubsystem.CapConstants.COLLECT).build() ;
+            capServo = servo(CAP).at(CapSubsystem.CapConstants.COLLECT).build();
         }
     }
 }
