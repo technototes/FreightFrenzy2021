@@ -66,7 +66,6 @@ public class BarcodePipeline extends OpenCvPipeline implements Supplier<Integer>
     @Override
     public Mat processFrame(Mat input)
     {
-        Mat output = input.clone();
         try
         {
             // Process Image
@@ -84,7 +83,7 @@ public class BarcodePipeline extends OpenCvPipeline implements Supplier<Integer>
             Imgproc.findContours(processed, contours, new Mat(), Imgproc.RETR_LIST, Imgproc.CHAIN_APPROX_SIMPLE);
 
             // Draw Contours
-            if(DISPLAY) Imgproc.drawContours(output, contours, -1, DISPLAY_COLOR);
+            if(DISPLAY) Imgproc.drawContours(input, contours, -1, DISPLAY_COLOR);
 
             // Loop Through Contours
             for (MatOfPoint contour : contours)
@@ -121,18 +120,18 @@ public class BarcodePipeline extends OpenCvPipeline implements Supplier<Integer>
             }
             if (first && maxRect.area() > MIN_AREA)
             {
-                if(DISPLAY) Imgproc.rectangle(output, maxRect, DISPLAY_COLOR, 2);
+                if(DISPLAY) Imgproc.rectangle(input, maxRect, DISPLAY_COLOR, 2);
             }
             // Draw Borders
             if(DISPLAY) {
-                Imgproc.rectangle(output, new Rect(BORDER_LEFT_X, BORDER_TOP_Y, input.width() - BORDER_RIGHT_X - BORDER_LEFT_X, input.height() - BORDER_BOTTOM_Y - BORDER_TOP_Y), DISPLAY_COLOR, 2);
-                Imgproc.circle(output, LEFT, VARIANCE, DISPLAY_COLOR);
-                Imgproc.circle(output, CENTER, VARIANCE, DISPLAY_COLOR);
-                Imgproc.circle(output, RIGHT, VARIANCE, DISPLAY_COLOR);
+                Imgproc.rectangle(input, new Rect(BORDER_LEFT_X, BORDER_TOP_Y, input.width() - BORDER_RIGHT_X - BORDER_LEFT_X, input.height() - BORDER_BOTTOM_Y - BORDER_TOP_Y), DISPLAY_COLOR, 2);
+                Imgproc.circle(input, LEFT, VARIANCE, DISPLAY_COLOR);
+                Imgproc.circle(input, CENTER, VARIANCE, DISPLAY_COLOR);
+                Imgproc.circle(input, RIGHT, VARIANCE, DISPLAY_COLOR);
 
                 // Display Data
 
-                Imgproc.putText(output, "Area: " + getRectArea() + " Midpoint: " + getRectMidpointXY().x + " , " + getRectMidpointXY().y+ " Selection: "+get(), new Point(20, input.height() - 20), Imgproc.FONT_HERSHEY_PLAIN, 0.6, DISPLAY_COLOR, 1);
+                Imgproc.putText(input, "Area: " + getRectArea() + " Midpoint: " + getRectMidpointXY().x + " , " + getRectMidpointXY().y+ " Selection: "+get(), new Point(20, input.height() - 20), Imgproc.FONT_HERSHEY_PLAIN, 0.6, DISPLAY_COLOR, 1);
             }
             loopcounter++;
         } catch (Exception e) {
@@ -145,11 +144,11 @@ public class BarcodePipeline extends OpenCvPipeline implements Supplier<Integer>
         }
 
         try {
-            Thread.sleep(1000);
+            Thread.sleep(100);
         } catch (InterruptedException ignored) {
         }
 
-        return output;
+        return input;
     }
     public int getRectHeight(){return maxRect.height;}
     public int getRectWidth(){ return maxRect.width; }
