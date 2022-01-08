@@ -47,9 +47,6 @@ public class BarcodePipeline extends OpenCvPipeline implements Supplier<Integer>
         }
         public static ArmPosition position;
 
-        public static Mat YCrCb = new Mat();
-        public static Mat Cr = new Mat();
-
         /**
          * the boundaries of each region
          * the up and down might be flipped
@@ -72,8 +69,6 @@ public class BarcodePipeline extends OpenCvPipeline implements Supplier<Integer>
         public static int REGION_3_DOWN = 200;
         public static int REGION_3_UP = 0;
 
-
-
 //        public final static Point REGION_1_TOPLEFT_ANCHOR_POINT = new Point(REGION_1_LEFT, REGION_1_UP);
 //        public final static Point REGION_2_TOPLEFT_ANCHOR_POINT = new Point(REGION_2_LEFT, REGION_2_UP);
 //        public final static Point REGION_3_TOPLEFT_ANCHOR_POINT = new Point(REGION_3_LEFT, REGION_3_UP);
@@ -94,6 +89,8 @@ public class BarcodePipeline extends OpenCvPipeline implements Supplier<Integer>
 
 
     public Mat region_1_Cr, region_2_Cr, region_3_Cr;
+    public Mat YCrCb = new Mat();
+    public Mat Cr = new Mat();
 
 
     public volatile boolean on_square_1 = false;
@@ -126,10 +123,6 @@ public class BarcodePipeline extends OpenCvPipeline implements Supplier<Integer>
         region_1_Cr = Cr.submat(new Rect(region_1_pointA, region_1_pointB));
         region_2_Cr = Cr.submat(new Rect(region_2_pointA, region_2_pointB));
         region_3_Cr = Cr.submat(new Rect(region_3_pointA, region_3_pointB));
-
-
-
-
 
     }
 
