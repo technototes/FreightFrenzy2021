@@ -5,16 +5,18 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.technototes.library.control.CommandGamepad;
 import com.technototes.library.hardware.motor.EncodedMotor;
 import com.technototes.library.hardware.sensor.Rev2MDistanceSensor;
+import com.technototes.library.logger.Log;
+import com.technototes.library.logger.Loggable;
 import com.technototes.library.subsystem.Subsystem;
 
 import java.util.function.Supplier;
 
-public class IntakeSubsystem implements Subsystem, Supplier<Double> {
+public class IntakeSubsystem implements Subsystem, Supplier<Double>, Loggable {
   public static class IntakeConstant {
     public static double INTAKE_IN_SPEED = -0.85;
     public static double INTAKE_OUT_SPEED = 1.0;
     public static double INTAKE_STOP_SPEED = 0;
-    public static double DETECTION_THRESHOLD = 2.0;
+    public static double DETECTION_THRESHOLD = 3.0;
   }
 
   public enum State {
@@ -26,6 +28,9 @@ public class IntakeSubsystem implements Subsystem, Supplier<Double> {
   private final EncodedMotor<DcMotorEx> motor;
 
   private final Rev2MDistanceSensor rangeSensor;
+
+  @Log.Number (name = "Bucket sensor")
+  public double bucketDistance;
 
   //TODO i dont like having gamepads in subsystems
   private CommandGamepad gamepad;
@@ -55,7 +60,9 @@ public class IntakeSubsystem implements Subsystem, Supplier<Double> {
   }
 
   private double getSensorDistance() {
-    return rangeSensor.getDistance();
+    final double dist = rangeSensor.getDistance();
+    bucketDistance = dist;
+    return dist;
   }
 
   // Want:
