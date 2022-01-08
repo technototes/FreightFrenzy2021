@@ -29,6 +29,6 @@ public class RedDuckAuto extends CommandOpMode implements Loggable {
         robot = new Robot(hardware);
         robot.drivebaseSubsystem.setPoseEstimate(AutonomousConstants.RedConstants.DUCK_START);
 
-        CommandScheduler.getInstance().scheduleForState(new AutoRedDuckCommandGroup(robot.drivebaseSubsystem, robot.carouselSubsystem, robot.dumpSubsystem), OpModeState.RUN);
+        CommandScheduler.getInstance().scheduleForState(new AutoRedDuckCommandGroup(robot.drivebaseSubsystem, robot.carouselSubsystem, robot.dumpSubsystem, robot.intakeSubsystem), OpModeState.RUN);
     }
 }
