@@ -89,17 +89,21 @@ public class AutonomousConstants {
     RED_DEPOT_START_TO_ALLIANCE_HUB_LEVEL2 = b -> b.apply(RedConstants.DEPOT_START)
             .lineToLinearHeading(RedConstants.DEPOT_ALLIANCE_HUB_LEVEL2)
             .build(),
-            RED_ALLIANCE_HUB_LEVEL2_TO_DEPOT_COLLECT = b -> b.apply(RedConstants.DEPOT_ALLIANCE_HUB_LEVEL2)
+            RED_ALLIANCE_HUB_LEVEL2_TO_DEPOT_COLLECT1 = b -> b.apply(RedConstants.DEPOT_ALLIANCE_HUB_LEVEL2)
                     .lineToLinearHeading(RedConstants.DEPOT_GAP)
                     .setVelConstraint((a, c, d, e) -> 25)
                     .lineTo(RedConstants.DEPOT_COLLECT1.vec())
                     .build(),
-            RED_ALLIANCE_HUB_LEVEL2_TO_DEPOT_PARK = b -> b.apply(RedConstants.DEPOT_ALLIANCE_HUB_LEVEL2)
+            RED_ALLIANCE_HUB_LEVEL2_TO_DEPOT_COLLECT2 = b -> b.apply(RedConstants.DEPOT_ALLIANCE_HUB_LEVEL2)
                     .lineToLinearHeading(RedConstants.DEPOT_GAP)
                     .setVelConstraint((a, c, d, e) -> 25)
                     .lineTo(RedConstants.DEPOT_COLLECT2.vec())
                     .build(),
-            RED_DEPOT_COLLECT_TO_ALLIANCE_HUB_LEVEL2 = b -> b.apply(RedConstants.DEPOT_COLLECT1)
+            RED_DEPOT_COLLECT1_TO_ALLIANCE_HUB_LEVEL2 = b -> b.apply(RedConstants.DEPOT_COLLECT1)
+                    .lineToLinearHeading(RedConstants.DEPOT_GAP)
+                    .lineToLinearHeading(RedConstants.DEPOT_ALLIANCE_HUB_LEVEL2)
+                    .build(),
+            RED_DEPOT_COLLECT2_TO_ALLIANCE_HUB_LEVEL2 = b -> b.apply(RedConstants.DEPOT_COLLECT2)
                     .lineToLinearHeading(RedConstants.DEPOT_GAP)
                     .lineToLinearHeading(RedConstants.DEPOT_ALLIANCE_HUB_LEVEL2)
                     .build(),
@@ -115,17 +119,21 @@ public class AutonomousConstants {
     RED_DEPOT_START_TO_ALLIANCE_HUB_LEVEL1 = b -> b.apply(RedConstants.DEPOT_START)
             .lineToLinearHeading(RedConstants.DEPOT_ALLIANCE_HUB_LEVEL1)
             .build(),
-            RED_ALLIANCE_HUB_LEVEL1_TO_DEPOT_COLLECT = b -> b.apply(RedConstants.DEPOT_ALLIANCE_HUB_LEVEL1)
+            RED_ALLIANCE_HUB_LEVEL1_TO_DEPOT_COLLECT1 = b -> b.apply(RedConstants.DEPOT_ALLIANCE_HUB_LEVEL1)
                     .lineToLinearHeading(RedConstants.DEPOT_GAP)
                     .setVelConstraint((a, c, d, e) -> 25)
                     .lineTo(RedConstants.DEPOT_COLLECT1.vec())
                     .build(),
-            RED_ALLIANCE_HUB_LEVEL1_TO_DEPOT_PARK = b -> b.apply(RedConstants.DEPOT_ALLIANCE_HUB_LEVEL1)
+            RED_ALLIANCE_HUB_LEVEL1_TO_DEPOT_COLLECT2 = b -> b.apply(RedConstants.DEPOT_ALLIANCE_HUB_LEVEL1)
                     .lineToLinearHeading(RedConstants.DEPOT_GAP)
                     .setVelConstraint((a, c, d, e) -> 25)
                     .lineTo(RedConstants.DEPOT_COLLECT2.vec())
                     .build(),
-            RED_DEPOT_COLLECT_TO_ALLIANCE_HUB_LEVEL1 = b -> b.apply(RedConstants.DEPOT_COLLECT1)
+            RED_DEPOT_COLLECT1_TO_ALLIANCE_HUB_LEVEL1 = b -> b.apply(RedConstants.DEPOT_COLLECT1)
+                    .lineToLinearHeading(RedConstants.DEPOT_GAP)
+                    .lineToLinearHeading(RedConstants.DEPOT_ALLIANCE_HUB_LEVEL1)
+                    .build(),
+            RED_DEPOT_COLLECT2_TO_ALLIANCE_HUB_LEVEL1 = b -> b.apply(RedConstants.DEPOT_COLLECT2)
                     .lineToLinearHeading(RedConstants.DEPOT_GAP)
                     .lineToLinearHeading(RedConstants.DEPOT_ALLIANCE_HUB_LEVEL1)
                     .build(),
@@ -178,20 +186,25 @@ public class AutonomousConstants {
             BLUE_ALLIANCE_HUB_LEVEL2_TO_CAROUSEL = b -> b.apply(BlueConstants.DEPOT_ALLIANCE_HUB_LEVEL2)
                     .lineToLinearHeading(BlueConstants.DUCK_CAROUSEL)
                     .build(),
-            BLUE_ALLIANCE_HUB_LEVEL2_TO_DEPOT_COLLECT = b -> b.apply(BlueConstants.DEPOT_ALLIANCE_HUB_LEVEL2)
+            BLUE_ALLIANCE_HUB_LEVEL2_TO_DEPOT_COLLECT1 = b -> b.apply(BlueConstants.DEPOT_ALLIANCE_HUB_LEVEL2)
                     .lineToLinearHeading(BlueConstants.DEPOT_GAP)
                     .setVelConstraint((a, c, d, e) -> 20)
                     .lineToLinearHeading(BlueConstants.DEPOT_COLLECT1)
                     .build(),
-            BLUE_ALLIANCE_HUB_LEVEL2_TO_DEPOT_PARK = b -> b.apply(BlueConstants.DEPOT_ALLIANCE_HUB_LEVEL2)
+            BLUE_ALLIANCE_HUB_LEVEL2_TO_DEPOT_COLLECT2 = b -> b.apply(BlueConstants.DEPOT_ALLIANCE_HUB_LEVEL2)
                     .lineToLinearHeading(BlueConstants.DEPOT_GAP)
                     .setVelConstraint((a, c, d, e) -> 20)
                     .lineToLinearHeading(BlueConstants.DEPOT_COLLECT2)
                     .build(),
-            BLUE_DEPOT_COLLECT_TO_ALLIANCE_HUB_LEVEL_2 = b -> b.apply(BlueConstants.DEPOT_COLLECT1)
+            BLUE_DEPOT_COLLECT1_TO_ALLIANCE_HUB_LEVEL_2 = b -> b.apply(BlueConstants.DEPOT_COLLECT1)
                     .lineToLinearHeading(BlueConstants.DEPOT_GAP)
                     .lineToLinearHeading(BlueConstants.DEPOT_ALLIANCE_HUB_LEVEL2)
                     .build(),
+            BLUE_DEPOT_COLLECT2_TO_ALLIANCE_HUB_LEVEL_2 = b -> b.apply(BlueConstants.DEPOT_COLLECT2)
+                    .lineToLinearHeading(BlueConstants.DEPOT_GAP)
+                    .lineToLinearHeading(BlueConstants.DEPOT_ALLIANCE_HUB_LEVEL2)
+                    .build(),
+
     /**
      * --------------------Blue Lower Level-----------------------------------------------
      */
@@ -204,17 +217,21 @@ public class AutonomousConstants {
             BLUE_ALLIANCE_HUB_LEVEL1_TO_CAROUSEL = b -> b.apply(BlueConstants.DEPOT_ALLIANCE_HUB_LEVEL1)
                     .lineToLinearHeading(BlueConstants.DUCK_CAROUSEL)
                     .build(),
-            BLUE_ALLIANCE_HUB_LEVEL1_TO_DEPOT_COLLECT = b -> b.apply(BlueConstants.DEPOT_ALLIANCE_HUB_LEVEL1)
+            BLUE_ALLIANCE_HUB_LEVEL1_TO_DEPOT_COLLECT1 = b -> b.apply(BlueConstants.DEPOT_ALLIANCE_HUB_LEVEL1)
                     .lineToLinearHeading(BlueConstants.DEPOT_GAP)
                     .setVelConstraint((a, c, d, e) -> 20)
                     .lineToLinearHeading(BlueConstants.DEPOT_COLLECT1)
                     .build(),
-            BLUE_ALLIANCE_HUB_LEVEL1_TO_DEPOT_PARK = b -> b.apply(BlueConstants.DEPOT_ALLIANCE_HUB_LEVEL1)
+            BLUE_ALLIANCE_HUB_LEVEL1_TO_DEPOT_COLLECT2 = b -> b.apply(BlueConstants.DEPOT_ALLIANCE_HUB_LEVEL1)
                     .lineToLinearHeading(BlueConstants.DEPOT_GAP)
                     .setVelConstraint((a, c, d, e) -> 20)
                     .lineToLinearHeading(BlueConstants.DEPOT_COLLECT2)
                     .build(),
-            BLUE_DEPOT_COLLECT_TO_ALLIANCE_HUB_LEVEL_1 = b -> b.apply(BlueConstants.DEPOT_COLLECT1)
+            BLUE_DEPOT_COLLECT1_TO_ALLIANCE_HUB_LEVEL_1 = b -> b.apply(BlueConstants.DEPOT_COLLECT1)
+                    .lineToLinearHeading(BlueConstants.DEPOT_GAP)
+                    .lineToLinearHeading(BlueConstants.DEPOT_ALLIANCE_HUB_LEVEL1)
+                    .build(),
+            BLUE_DEPOT_COLLECT2_TO_ALLIANCE_HUB_LEVEL_1 = b -> b.apply(BlueConstants.DEPOT_COLLECT2)
                     .lineToLinearHeading(BlueConstants.DEPOT_GAP)
                     .lineToLinearHeading(BlueConstants.DEPOT_ALLIANCE_HUB_LEVEL1)
                     .build();
