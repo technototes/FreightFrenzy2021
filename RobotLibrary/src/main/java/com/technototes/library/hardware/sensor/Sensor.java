@@ -8,7 +8,7 @@ import com.technototes.library.hardware.Sensored;
  * @param <T> The Sensor hardware device
  */
 @SuppressWarnings("unused")
-public abstract class Sensor<T> extends HardwareDevice<T> implements Sensored {
+public abstract class Sensor<T extends com.qualcomm.robotcore.hardware.HardwareDevice> extends HardwareDevice<T> {
     /** Crease sensor
      *
      * @param device The device

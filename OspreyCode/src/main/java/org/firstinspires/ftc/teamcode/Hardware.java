@@ -1,27 +1,29 @@
 package org.firstinspires.ftc.teamcode;
 
+import static org.firstinspires.ftc.teamcode.Hardware.HardwareConstants.*;
+import static org.firstinspires.ftc.teamcode.Robot.SubsystemConstants.*;
+
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.technototes.library.hardware.Speaker;
 import com.technototes.library.hardware.motor.EncodedMotor;
 import com.technototes.library.hardware.motor.Motor;
+import com.technototes.library.hardware.sensor.ColorDistanceSensor;
 import com.technototes.library.hardware.sensor.IMU;
 import com.technototes.library.hardware.sensor.IMU.AxesSigns;
-import com.technototes.library.hardware.sensor.RangeSensor;
+import com.technototes.library.hardware.sensor.Rev2MDistanceSensor;
 import com.technototes.library.hardware.servo.Servo;
 import com.technototes.library.logger.Loggable;
 import com.technototes.vision.hardware.Webcam;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-import org.firstinspires.ftc.teamcode.subsystems.CapSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ArmSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.CapSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ExtensionSubsystem;
 
-import static org.firstinspires.ftc.teamcode.Hardware.HardwareConstants.*;
-import static org.firstinspires.ftc.teamcode.Robot.SubsystemConstants.*;
-
 public class Hardware implements Loggable {
-    @Config
+    @com.acmerobotics.dashboard.config.Config
     public static class HardwareConstants{
         public static String LIFT = "lift";
 
@@ -47,10 +49,16 @@ public class Hardware implements Loggable {
         public static String CAMERA = "webcam";
 
         public static String INTAKE = "intake";
+        public static String INTAKE_COLOR = "irange";
 
         public static String CAP = "cap";
 
+
+
+
     }
+
+    public Speaker speaker;
 
     public EncodedMotor<DcMotorEx> liftMotor;
 
@@ -65,10 +73,12 @@ public class Hardware implements Loggable {
     public EncodedMotor<DcMotorEx> rlDriveMotor;
     public EncodedMotor<DcMotorEx> rrDriveMotor;
     public IMU imu;
-    public RangeSensor leftRangeSensor;
-    public RangeSensor rightRangeSensor;
-    public RangeSensor frontRangeSensor;
+    public Rev2MDistanceSensor leftRangeSensor;
+    public Rev2MDistanceSensor rightRangeSensor;
+    public Rev2MDistanceSensor frontRangeSensor;
+
     public Motor<DcMotorEx> intakeMotor;
+    public ColorDistanceSensor intakeSensor;
 
     public Motor<DcMotorEx> carouselMotor;
 
@@ -77,38 +87,42 @@ public class Hardware implements Loggable {
     public Webcam camera;
 
     public Hardware() {
-        if(LIFT_CONNECTED) {
-            liftMotor = new EncodedMotor<>(LIFT);
+        if(SPEAKER_CONNECTED){
+            speaker = new Speaker();
         }
-        if(DEPOSIT_CONNECTED) {
-            dumpServo = new Servo(DUMP).invert().setStartingPosition(ArmSubsystem.ArmConstants.CARRY);
-            armServo = new Servo(ARM).setStartingPosition(ArmSubsystem.ArmConstants.UP);
+        if(LIFT_ENABLED) {
+            liftMotor = new EncodedMotor<DcMotorEx>(LIFT).brake().tare();
         }
-        if(EXTENSION_CONNECTED){
-            slideServo = new Servo(SLIDE).setStartingPosition(ExtensionSubsystem.ExtensionConstants.IN);
-            turretServo = new Servo(TURRET).setStartingPosition(ExtensionSubsystem.ExtensionConstants.CENTER);
+        if(DEPOSIT_ENABLED) {
+            dumpServo = new Servo(DUMP).invert().startAt(ArmSubsystem.ArmConstants.CARRY);
+            armServo = new Servo(ARM).startAt(ArmSubsystem.ArmConstants.UP);
         }
-        if(DRIVE_CONNECTED) {
+        if(EXTENSION_ENABLED){
+            slideServo = new Servo(SLIDE).startAt(ExtensionSubsystem.ExtensionConstants.IN);
+            turretServo = new Servo(TURRET).startAt(ExtensionSubsystem.ExtensionConstants.CENTER).expandedRange();
+        }
+        if(DRIVE_ENABLED) {
             flDriveMotor = new EncodedMotor<>(FL_MOTOR);
             frDriveMotor = new EncodedMotor<>(FR_MOTOR);
             rlDriveMotor = new EncodedMotor<>(RL_MOTOR);
             rrDriveMotor = new EncodedMotor<>(RR_MOTOR);
             imu = new IMU(HardwareConstants.IMU).remapAxes(AxesOrder.YXZ, AxesSigns.NPP);
-            leftRangeSensor = new RangeSensor(L_RANGE).setDistanceUnit(DistanceUnit.INCH);
-            rightRangeSensor = new RangeSensor(R_RANGE).setDistanceUnit(DistanceUnit.INCH);
-            frontRangeSensor = new RangeSensor(F_RANGE).setDistanceUnit(DistanceUnit.INCH);
+            leftRangeSensor = new Rev2MDistanceSensor(L_RANGE).onUnit(DistanceUnit.INCH);
+            rightRangeSensor = new Rev2MDistanceSensor(R_RANGE).onUnit(DistanceUnit.INCH);
+            frontRangeSensor = new Rev2MDistanceSensor(F_RANGE).onUnit(DistanceUnit.INCH);
         }
-        if(CAROUSEL_CONNECTED){
-            carouselMotor = new Motor<>(CAROUSEL);
+        if(CAROUSEL_ENABLED){
+            carouselMotor = new Motor<DcMotorEx>(CAROUSEL).brake();
         }
-        if(VISION_CONNECTED){
+        if(VISION_ENABLED){
             camera = new Webcam(CAMERA);
         }
-        if(INTAKE_CONNECTED){
+        if(INTAKE_ENABLED){
             intakeMotor = new Motor<>(INTAKE);
+            intakeSensor = new ColorDistanceSensor(INTAKE_COLOR).onUnit(DistanceUnit.INCH);
         }
-        if(CAP_CONNECTED){
-            capServo = new Servo(CAP).setStartingPosition(CapSubsystem.CapConstants.COLLECT );
+        if(CAP_ENABLED){
+            capServo = new Servo(CAP).startAt(CapSubsystem.CapConstants.COLLECT);
         }
     }
 }

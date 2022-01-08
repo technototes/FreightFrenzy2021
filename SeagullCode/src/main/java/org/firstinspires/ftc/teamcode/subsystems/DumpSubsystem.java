@@ -12,11 +12,7 @@ import com.technototes.library.logger.Log;
 import com.technototes.library.logger.Loggable;
 import com.technototes.library.subsystem.Subsystem;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
-
 import java.util.function.Supplier;
-
-import kotlin.jvm.functions.Function2;
 
 public class DumpSubsystem implements Subsystem, Supplier<Double>, Loggable {
     static class BucketConstant{
@@ -38,24 +34,25 @@ public class DumpSubsystem implements Subsystem, Supplier<Double>, Loggable {
          * COMBINATION_LEVEL1 unload the block to level 1 of the shelf
          *
          * for just bare servo
-         * 0.25 is 45 degrees
+         * 0.25 is 67.5 degrees
          * 0.5 is 135 degrees
-         * 0.75 is 180 degrees
+         * 0.75 is 202.5 degrees
          * 1 is 270 degrees
          */
         static final double BUCKET_COLLECT = 0.05;
-        static final double BUCKET_CARRY = 0.3;
-        static final double BUCKET_DUMP = 0.75;
+        static final double BUCKET_CARRY = 0.28;
+        static final double BUCKET_DUMP = 0.77;
 
         // Range of values where the bucket should be in the carry position
-        static final double ARM_CARRY_LIMIT_MIN = (ARM_COLLECT + ARM_CARRY) / 3;
+        static final double ARM_CARRY_LIMIT_MIN = ((ARM_COLLECT + ARM_CARRY) * 2) / 3;
         static final double ARM_CARRY_LIMIT_MAX = (ARM_CARRY + ARM_TOP_LEVEL) / 2;
     }
 
     public static class ArmConstant {
         // Note: these are in units of full circle (0 = start, -1 or 1 = full rotation)
         public static final double ARM_COLLECT = 0;
-        public static final double ARM_CARRY = -.2;
+        //TODO make this higher
+        public static final double ARM_CARRY = -.25;
         public static final double ARM_TOP_LEVEL = -0.42;
         public static final double ARM_MIDDLE_LEVEL = -0.47;
         public static final double ARM_BOTTOM_LEVEL = -0.61;
@@ -76,6 +73,7 @@ public class DumpSubsystem implements Subsystem, Supplier<Double>, Loggable {
         /**
          * so called dead-zone, in encoder ticks
          */
+        //TODO make this higher
         static final double TOLERANCE_ZONE_TICKS = ARM_POSITION_SCALE / 360; // one degree
     }
     
@@ -88,8 +86,6 @@ public class DumpSubsystem implements Subsystem, Supplier<Double>, Loggable {
     public double bucketSpeed = 0.0;
     long lastSpeedMeasureTimeMillis = 0;
     double lastBucketEncoderPosition = 0.0;
-
-    Telemetry telemetry;
 
     PIDFController pidController_motor;
 
@@ -107,11 +103,14 @@ public class DumpSubsystem implements Subsystem, Supplier<Double>, Loggable {
         this.bucketServo = servo;
         pidController_motor = new PIDFController(pidCoefficients_motor, 0, 0, 0);
         pidController_motor.setOutputBounds(-1.0, 1.0); // DC motor can't go beyond full speed
-        this.bucketMotor.zeroEncoder();
+        this.bucketMotor.tare();
     }
 
     public void setMotorPosition(double position){
         pidController_motor.setTargetPosition(Range.clip(position, MOTOR_LOWER_LIMIT, MOTOR_UPPER_LIMIT) * ARM_POSITION_SCALE);
+        if (bucketServo.getPosition() == BucketConstant.BUCKET_DUMP){
+            bucketServo.setPosition(BucketConstant.BUCKET_CARRY);
+        }
     }
 
     static double getScaledMotorPosition(double position) {
@@ -161,10 +160,6 @@ public class DumpSubsystem implements Subsystem, Supplier<Double>, Loggable {
         lastSpeedMeasureTimeMillis = currentTimeMillis;
         bucketSpeed = newSpeed;
         bucketMotor.setSpeed(newSpeed);
-        if (telemetry != null){
-            telemetry.addLine(get().toString());
-            telemetry.update();
-        }
 
         // Set the bucket servo position based on the arm positions
         double bucketPosition = tryGetBucketPositionFromArm(getScaledMotorPosition(rawMotorPosition));

@@ -1,17 +1,16 @@
-# Road Runner Quickstart
+# 2021-2022 Competition Code;
 
-An example FTC project using [Road Runner](https://github.com/acmerobotics/road-runner). **Note:** Road Runner is in alpha and many of its APIs are incubating.
+The Technototes Teams 16750 and 20403 competition code for the 2021-2022 season Freight Frenzy.
 
-## Installation
+## Index
 
-For more detailed instructions on getting Road Runner setup in your own project, see the [Road Runner README](https://github.com/acmerobotics/road-runner#core).
+There are many modules in this project, here is whats what:
+ - FtcRobotController is the built-in module to every project that contains core implementation of the SDK
+ - OspreyCode is the TeamCode module for FTC Team 16750's competition robot, Osprey
+ - SeagullCode is the TeamCode module for FTC Team 20403's competition robot, Seagull
+ - RobotLibrary is the core library module (command based, color telemetry, utility classes)
+ - Path is the [Road Runner](https://github.com/acmerobotics/road-runner) implementation
+ - Vision is the [EasyOpenCV](https://github.com/openftc/easyopencv) implementation
 
-1. Download or clone this repo with `git clone https://github.com/acmerobotics/road-runner-quickstart`.
-
-1. Open the project in Android Studio and build `TeamCode` like any other `ftc_app` project.
-
-1. If you have trouble with multidex, enable proguard by changing `useProguard` to `true` in `build.common.gradle`.
-
-## Documentation
-
-Check out the new [online quickstart documentation](https://acme-robotics.gitbook.io/road-runner/quickstart/introduction).
+## TechnoLib
+Want our library modules for your code? Check [Technolib out here](https://github.com/technototes/technolib).

@@ -18,10 +18,10 @@ public class AutonomousLoopCommandGroup extends SequentialCommandGroup {
             new DumpUnloadTopLevelCommand(bucket).withTimeout(3), // Bucket command
                 new WaitCommand(0.5),
                 new DumpCollectCommand(bucket),
-                new TrajectorySequenceCommand(drive, AutonomousConstants.RED_ALLIANCE_HUB_LEVEL3_TO_DEPOT_COLLECT),
+                new TrajectorySequenceCommand(drive, AutonomousConstants.RED_ALLIANCE_HUB_LEVEL3_TO_DEPOT_COLLECT1),
                 new IntakeInCommand(intake),
                 new WaitCommand(0.5),
                 new IntakeStopCommand(intake),
-                new TrajectorySequenceCommand(drive, AutonomousConstants.RED_DEPOT_COLLECT_TO_ALLIANCE_HUB_LEVEL3));
+                new TrajectorySequenceCommand(drive, AutonomousConstants.RED_DEPOT_COLLECT1_TO_ALLIANCE_HUB_LEVEL3));
     }
 }

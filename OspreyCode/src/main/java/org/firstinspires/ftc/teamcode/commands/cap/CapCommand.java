@@ -20,11 +20,12 @@ public class CapCommand implements Command {
 
     @Override
     public void execute() {
+        subsystem.setCap(supplier.getAsDouble());
     }
 
     @Override
     public boolean isFinished() {
-        return subsystem.setCap(supplier.getAsDouble());
+        return getRuntime().seconds()>1;
     }
 
 }

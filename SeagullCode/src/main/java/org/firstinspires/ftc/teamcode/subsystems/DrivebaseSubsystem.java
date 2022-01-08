@@ -7,6 +7,9 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.technototes.library.hardware.motor.EncodedMotor;
 import com.technototes.library.hardware.sensor.IMU;
+import com.technototes.library.hardware.sensor.Rev2MDistanceSensor;
+import com.technototes.library.logger.Loggable;
+import com.technototes.library.logger.Log;
 import com.technototes.path.subsystem.MecanumConstants;
 import com.technototes.path.subsystem.MecanumDrivebaseSubsystem;
 
@@ -14,7 +17,7 @@ import java.util.function.Supplier;
 
 @SuppressWarnings("unused")
 
-public class DrivebaseSubsystem extends MecanumDrivebaseSubsystem implements Supplier<Pose2d> {
+public class DrivebaseSubsystem extends MecanumDrivebaseSubsystem implements Supplier<Pose2d>, Loggable {
 
     @Config
     public abstract static class DriveConstants implements MecanumConstants {
@@ -37,7 +40,9 @@ public class DrivebaseSubsystem extends MecanumDrivebaseSubsystem implements Sup
         @GearRatio
         public static double GEAR_RATIO = 1 / 19.2; // output (wheel) speed / input (motor) speed
         @TrackWidth
-        public static double TRACK_WIDTH = 11; // in
+        public static double TRACK_WIDTH = 10; // in
+        @WheelBase
+        public static double WHEEL_BASE = 8.5; // in
         @KV
         public static double kV = 1.0 / MecanumConstants.rpmToVelocity(MAX_RPM, WHEEL_RADIUS, GEAR_RATIO);
         @KA
@@ -48,11 +53,11 @@ public class DrivebaseSubsystem extends MecanumDrivebaseSubsystem implements Sup
         @MaxVelo
         public static double MAX_VEL = 60;
         @MaxAccel
-        public static double MAX_ACCEL = 45;
+        public static double MAX_ACCEL = 35;
         @MaxAngleVelo
-        public static double MAX_ANG_VEL = Math.toRadians(60);
+        public static double MAX_ANG_VEL = Math.toRadians(180);
         @MaxAngleAccel
-        public static double MAX_ANG_ACCEL = Math.toRadians(60);
+        public static double MAX_ANG_ACCEL = Math.toRadians(90);
 
         @TransPID
         public static PIDCoefficients TRANSLATIONAL_PID = new PIDCoefficients(8, 0, 0);
@@ -60,7 +65,7 @@ public class DrivebaseSubsystem extends MecanumDrivebaseSubsystem implements Sup
         public static PIDCoefficients HEADING_PID = new PIDCoefficients(8, 0, 0);
 
         @LateralMult
-        public static double LATERAL_MULTIPLIER = 1;
+        public static double LATERAL_MULTIPLIER = 1.14; // Lateral position is off by 14%
 
         @VXWeight
         public static double VX_WEIGHT = 1;
@@ -74,30 +79,41 @@ public class DrivebaseSubsystem extends MecanumDrivebaseSubsystem implements Sup
 
     }
 
-    // public RangeSensor left, right;
-//    protected FtcDashboard dashboard;
+    //@Log.Number (name = "Front Range Sensor")
+    //public Rev2MDistanceSensor front_distance;
+    //@Log.Number (name = "Left Range Sensor")
+    //public Rev2MDistanceSensor left_distance;
+    //@Log.Number (name = "Right Range Sensor")
+    //public Rev2MDistanceSensor right_distance;
 
+    private static final boolean ENABLE_POSE_DIAGNOSTICS = false;
+
+    @Log (name="Pose2d: ")
+    public String poseDisplay = ENABLE_POSE_DIAGNOSTICS ? "" : null;
 
     public DrivebaseSubsystem(EncodedMotor<DcMotorEx> fl, EncodedMotor<DcMotorEx> fr,
                               EncodedMotor<DcMotorEx> rl, EncodedMotor<DcMotorEx> rr,
-                              IMU i) {
+                              IMU i,
+                              Rev2MDistanceSensor front, Rev2MDistanceSensor left, Rev2MDistanceSensor right) {
         super(fl, fr, rl, rr, i, () -> DriveConstants.class);
-
-        // left = l;
-        // right = r;
-
-//        dashboard = FtcDashboard.getInstance();
-//        dashboard.setTelemetryTransmissionInterval(25);
+        //this.front_distance = front;
+        //this.left_distance = left;
+        //this.right_distance = right;
     }
-
-    /*
-    public DrivebaseSubsystem() {
-        this(Hardware.flDriveMotor, Hardware.frDriveMotor, Hardware.rlDriveMotor, Hardware.rrDriveMotor, Hardware.imu);
-    }
-    */
 
     @Override
     public Pose2d get() {
         return getPoseEstimate();
+    }
+
+    @Override
+    public void periodic() {
+        if (ENABLE_POSE_DIAGNOSTICS) {
+            updatePoseEstimate();
+            Pose2d pose = getPoseEstimate();
+            Pose2d poseVelocity = getPoseVelocity();
+            poseDisplay = pose.toString() + " : " + (poseVelocity != null ? poseVelocity.toString() : "<null>");
+            System.out.println("Pose: " + poseDisplay);
+        }
     }
 }

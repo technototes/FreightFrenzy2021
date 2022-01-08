@@ -1,8 +1,9 @@
 package org.firstinspires.ftc.teamcode.commands.lift;
 
-import static org.firstinspires.ftc.teamcode.RobotConstants.AllianceHubStrategy.HIGH;
-import static org.firstinspires.ftc.teamcode.RobotConstants.AllianceHubStrategy.MID;
-import static org.firstinspires.ftc.teamcode.RobotConstants.getAllianceStrategy;
+
+import static org.firstinspires.ftc.teamcode.RobotState.AllianceHubStrategy.HIGH;
+import static org.firstinspires.ftc.teamcode.RobotState.AllianceHubStrategy.MID;
+import static org.firstinspires.ftc.teamcode.RobotState.getAllianceStrategy;
 
 import android.util.Pair;
 

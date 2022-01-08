@@ -1,9 +1,10 @@
 package org.firstinspires.ftc.teamcode.commands.extension;
 
-import static org.firstinspires.ftc.teamcode.RobotConstants.SharedHubStrategy.OWN;
-import static org.firstinspires.ftc.teamcode.RobotConstants.SharedHubStrategy.STEAL;
+
 import static org.firstinspires.ftc.teamcode.RobotConstants.getAlliance;
-import static org.firstinspires.ftc.teamcode.RobotConstants.getSharedStrategy;
+import static org.firstinspires.ftc.teamcode.RobotState.SharedHubStrategy.OWN;
+import static org.firstinspires.ftc.teamcode.RobotState.SharedHubStrategy.STEAL;
+import static org.firstinspires.ftc.teamcode.RobotState.getSharedStrategy;
 import static org.firstinspires.ftc.teamcode.subsystems.ExtensionSubsystem.ExtensionConstants.LEFT;
 import static org.firstinspires.ftc.teamcode.subsystems.ExtensionSubsystem.ExtensionConstants.SHARED;
 import static org.firstinspires.ftc.teamcode.subsystems.ExtensionSubsystem.ExtensionConstants.STEAL_SHARED;

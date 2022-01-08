@@ -2,6 +2,8 @@ package org.firstinspires.ftc.teamcode.opmodes;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.technototes.library.command.CommandScheduler;
+import com.technototes.library.command.SequentialCommandGroup;
+import com.technototes.library.command.WaitCommand;
 import com.technototes.library.logger.Loggable;
 import com.technototes.library.structure.CommandOpMode;
 import com.technototes.library.util.Alliance;
@@ -24,7 +26,14 @@ public abstract class AutoDuckBase extends CommandOpMode implements Loggable {
         robot = new Robot(hardware);
         CommandScheduler.getInstance().scheduleInit(new VisionBarcodeCommand(robot.visionSubsystem));
         CommandScheduler.getInstance().scheduleOnceForState(new AutoDuckCommand(robot.drivebaseSubsystem, robot.intakeSubsystem, robot.liftSubsystem, robot.armSubsystem, robot.extensionSubsystem, robot.visionSubsystem, robot.carouselSubsystem)  , OpModeState.RUN);
+        CommandScheduler.getInstance().scheduleInit(new WaitCommand(40).andThen(robot.speakerSubsystem::playJeopardy));
+        CommandScheduler.getInstance().scheduleOnceForState(robot.speakerSubsystem::playAmogus, OpModeState.RUN);
     }
+    @Override
+    public void end() {
+        hardware.speaker.stop();
+    }
+
     @Autonomous(name="\uD83D\uDD35 \uD83E\uDD86 Blue Duck")
     @Alliance.Blue
     public static class DuckBlueAuto extends AutoDuckBase {}

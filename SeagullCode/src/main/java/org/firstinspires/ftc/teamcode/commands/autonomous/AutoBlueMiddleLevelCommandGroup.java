@@ -17,7 +17,7 @@ import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
 public class AutoBlueMiddleLevelCommandGroup extends SequentialCommandGroup {
     public AutoBlueMiddleLevelCommandGroup(DrivebaseSubsystem drive, DumpSubsystem bucket, IntakeSubsystem intake) {
         super(
-                new TrajectorySequenceCommand(drive, AutonomousConstants.BLUE_DEPOT_START_TO_ALLIANCE_HUB_LEVEL2), // Different duck constant
+                new TrajectorySequenceCommand(drive, AutonomousConstants.BLUE_DEPOT_START_TO_ALLIANCE_HUB_LEVEL3), // Different duck constant
                 new DumpUnloadTopLevelCommand(bucket).withTimeout(1.5),
                 new WaitCommand(0.3),
                 new DumpCollectCommand(bucket),

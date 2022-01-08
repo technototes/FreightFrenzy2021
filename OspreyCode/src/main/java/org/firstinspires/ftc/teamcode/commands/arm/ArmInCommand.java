@@ -17,7 +17,7 @@ public class ArmInCommand extends ArmCommand {
 
     @Override
     public boolean isFinished() {
-        return getRuntime().seconds()>0.3;
+        return getRuntime().seconds()>0.6;
     }
 }
 

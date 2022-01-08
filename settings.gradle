@@ -1,5 +1,5 @@
 include ':FtcRobotController'
-include ':OspreyCode', ':SeagullCode', ':PenguinCode'
+include ':OspreyCode', ':SeagullCode'
 include ':RobotLibrary'
 include ':Vision'
 include ':Path'

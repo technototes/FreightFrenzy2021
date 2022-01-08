@@ -1,9 +1,10 @@
 package com.technototes.library.hardware.servo;
 
-import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.hardware.PwmControl;
+import com.qualcomm.robotcore.hardware.ServoImplEx;
 import com.qualcomm.robotcore.util.Range;
 import com.technototes.library.hardware.*;
-import com.technototes.library.util.Invertable;
+import com.technototes.library.general.Invertable;
 
 /** Class for servos
  * @author Alex Stedman
@@ -33,9 +34,18 @@ public class Servo extends HardwareDevice<com.qualcomm.robotcore.hardware.Servo>
      * @param position The servo position
      * @return this
      */
-    public Servo setStartingPosition(double position) {
+    public Servo startAt(double position) {
         setPosition(position);
         return this;
+    }
+
+    public Servo scalePWM(double min, double max){
+        if(getDevice() instanceof ServoImplEx) ((ServoImplEx) getDevice()).setPwmRange(new PwmControl.PwmRange(min, max));
+        return this;
+    }
+
+    public Servo expandedRange(){
+        return scalePWM(500, 2500);
     }
 
     @Override
@@ -60,24 +70,6 @@ public class Servo extends HardwareDevice<com.qualcomm.robotcore.hardware.Servo>
         setPosition(getPosition()+incAmount);
     }
 
-    private ElapsedTime t;
-    private double startingPosition, startTargetPos;
-    public boolean setPositionAsync(double targetPos, double time){
-        if(t == null || startTargetPos != targetPos){
-            t = new ElapsedTime();
-            startingPosition = getPosition();
-            startTargetPos = targetPos;
-        }
-        setPosition(startingPosition+(targetPos-startingPosition)*(t.seconds()/time));
-        if(Math.abs(getPosition()-targetPos)<0.01){
-            t = null;
-            return true;
-        }
-        return false;
-
-    }
-
-
     @Override
     public double getSensorValue() {
         return inverted ? 1-device.getPosition() : device.getPosition();
@@ -97,7 +89,7 @@ public class Servo extends HardwareDevice<com.qualcomm.robotcore.hardware.Servo>
      * @param max The maximum of the range
      * @return this
      */
-    public Servo setRange(double min, double max) {
+    public Servo onRange(double min, double max) {
         getDevice().scaleRange(min, max);
         return this;
     }

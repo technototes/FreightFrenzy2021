@@ -1,5 +1,8 @@
 package com.technototes.library.util;
 
+import java.util.Arrays;
+import java.util.function.DoublePredicate;
+
 /** Class with various math functions
  * @author Alex Stedman
  */
@@ -82,5 +85,20 @@ public class MathUtils {
     public static double map(double x, double in_min, double in_max, double out_min, double out_max)
     {
         return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+    }
+
+    public static double closestTo(double d, double... values){
+        int lowestDif = 0;
+        for(int i = 1; i < values.length; i++){
+            if(Math.abs(values[lowestDif]-d) > Math.abs(values[i]-d)) lowestDif = i;
+        }
+        return values[lowestDif];
+    }
+    public static int closestTo(double d, int... values){
+        int lowestDif = 0;
+        for(int i = 1; i < values.length; i++){
+            if(Math.abs(values[lowestDif]-d) > Math.abs(values[i]-d)) lowestDif = i;
+        }
+        return values[lowestDif];
     }
 }

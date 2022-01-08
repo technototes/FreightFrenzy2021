@@ -9,6 +9,7 @@ import com.technototes.library.util.Color;
 import com.technototes.vision.hardware.Webcam;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.teamcode.opmodes.TeleOpBase;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
@@ -19,8 +20,6 @@ import static org.firstinspires.ftc.teamcode.subsystems.VisionSubsystem.VisionCo
 import static org.firstinspires.ftc.teamcode.subsystems.VisionSubsystem.VisionConstants.ROTATION;
 import static org.firstinspires.ftc.teamcode.subsystems.VisionSubsystem.VisionConstants.WIDTH;
 
-// Credits to team 7303 RoboAvatars, adjusted by team 3954 Pink to the Future
-
 public class VisionSubsystem implements Subsystem, Loggable {
     @Config
     public static class VisionConstants {
@@ -30,6 +29,7 @@ public class VisionSubsystem implements Subsystem, Loggable {
 
     }
 
+    @LogConfig.Blacklist({TeleOpBase.RedTeleOp.class, TeleOpBase.BlueTeleOp.class})
     @LogConfig.Run(duringRun = false, duringInit = true)
     @Log.Number(name = "Barcode", color = Color.GREEN)
     public BarcodePipeline barcodePipeline = new BarcodePipeline();

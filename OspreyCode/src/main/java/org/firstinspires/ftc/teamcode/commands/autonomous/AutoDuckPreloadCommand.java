@@ -15,7 +15,6 @@ import org.firstinspires.ftc.teamcode.subsystems.VisionSubsystem;
 public class AutoDuckPreloadCommand extends SequentialCommandGroup {
     public AutoDuckPreloadCommand(DrivebaseSubsystem drive, ArmSubsystem depot, ExtensionSubsystem extension, LiftSubsystem lift, VisionSubsystem vision) {
         super(new TrajectorySequenceCommand(drive, RobotConstants.DUCK_DEPOSIT_PRELOAD)
-                //.alongWith(new LiftBarcodeSelectCommand(lift, vision)
                 .alongWith(new DepositPreloadCommand(depot, extension, lift, vision)),
                 new BucketDumpCommand(depot));
     }
