@@ -30,7 +30,9 @@ public class AutonomousConstants {
         public static Pose2d DUCK_START = new Pose2d(-36, 63, toRadians(90));
         public static Pose2d DUCK_ALLIANCE_HUB_LEVEL3 = new Pose2d(-20, 38, toRadians(120));
         public static Pose2d DUCK_CAROUSEL = new Pose2d(-59, 59, toRadians(180));
-        public static Pose2d DUCK_PARK = new Pose2d(-62, 34, toRadians(180));
+        public static Pose2d DUCK_COLLECT1 = new Pose2d(-60, 60, toRadians(90));
+        public static Pose2d DUCK_COLLECT2 = new Pose2d(-50, 60, toRadians(90));
+        public static Pose2d DUCK_PARK = new Pose2d(-62, 36, toRadians(180));
         public static Pose2d DEPOT_START = new Pose2d(0, 66, toRadians(90));
         public static Pose2d DEPOT_ALLIANCE_HUB_LEVEL3 = new Pose2d(-10, 42, toRadians(55));
         public static Pose2d DEPOT_GAP = new Pose2d(20, 67, toRadians(0));
@@ -88,12 +90,27 @@ public class AutonomousConstants {
                         .splineTo(RedConstants.DEPOT_ALLIANCE_HUB_LEVEL3.vec(), RedConstants.DEPOT_ALLIANCE_HUB_LEVEL3.getHeading()+Math.PI)
                         .build(),
               /************************************************************************************/
-              BLUE_DUCK_CAROUSEL_TO_PARK = b -> b.apply(BlueConstants.DUCK_CAROUSEL)
-                        .lineToLinearHeading(BlueConstants.DUCK_PARK)
-                        .build(),
               BLUE_DUCK_START_TO_ALLIANCE_HUB_LEVEL_3 = b -> b.apply(BlueConstants.DUCK_START)
                         .lineToLinearHeading(BlueConstants.DUCK_ALLIANCE_HUB_LEVEL3)
                         .build(),
+              BLUE_DUCK_CAROUSEL_TO_COLLECT1 = b -> b.apply(BlueConstants.DUCK_CAROUSEL)
+                              .lineToLinearHeading(BlueConstants.DUCK_COLLECT1)
+                              .build(),
+
+              BLUE_DUCK_COLLECT1_TO_COLLECT2 = b -> b.apply(BlueConstants.DUCK_COLLECT1)
+                              .lineToLinearHeading(BlueConstants.DUCK_COLLECT2)
+                              .build(),
+              BLUE_DUCK_COLLECT2_TO_COLLECT1 = b -> b.apply(BlueConstants.DUCK_COLLECT2)
+                              .lineToLinearHeading(BlueConstants.DUCK_COLLECT1)
+                              .build(),
+
+              BLUE_DUCK_COLLECT2_TO_ALLIANCE_HUB_LEVEL3 = b -> b.apply(BlueConstants.DUCK_COLLECT2)
+                              .lineToLinearHeading(BlueConstants.DUCK_ALLIANCE_HUB_LEVEL3)
+                              .build(),
+
+              BLUE_DUCK_ALLIANCE_HUB_LEVEL3_TO_PARK = b -> b.apply(BlueConstants.DUCK_ALLIANCE_HUB_LEVEL3)
+                              .lineToLinearHeading(BlueConstants.DUCK_PARK)
+                              .build(),
               BLUE_DEPOT_START_TO_ALLIANCE_HUB_LEVEL3 = b -> b.apply(BlueConstants.DEPOT_START)
                         .lineToLinearHeading(BlueConstants.DEPOT_ALLIANCE_HUB_LEVEL3)
                         .build(),
