@@ -28,6 +28,7 @@ public class AutoRedDuckCommandGroup extends SequentialCommandGroup {
                   new TrajectorySequenceCommand(drive, AutonomousConstants.RED_DUCK_COLLECT2_TO_COLLECT1),
                   new TrajectorySequenceCommand(drive, AutonomousConstants.RED_DUCK_COLLECT1_TO_COLLECT2),
                   new TrajectorySequenceCommand(drive, AutonomousConstants.RED_DUCK_COLLECT2_TO_COLLECT1),
+                  new TrajectorySequenceCommand(drive, AutonomousConstants.RED_DUCK_COLLECT1_TO_COLLECT2),
                   new IntakeStopCommand(intake),
                   new TrajectorySequenceCommand(drive, AutonomousConstants.RED_DUCK_COLLECT2_TO_ALLIANCE_HUB_LEVEL3),
                   new AutonomousBucketDumpCommand(dump),
