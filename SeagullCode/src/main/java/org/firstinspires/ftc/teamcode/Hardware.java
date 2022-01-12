@@ -84,7 +84,7 @@ public class Hardware {
 
         if (DUMP_CONNECTED) {
             bucketServo = new Servo(BUCKET);
-            bucketMotor = new EncodedMotor<DcMotorEx>(ARM).invert();
+            bucketMotor = new EncodedMotor<>(ARM);
             bucketDistanceSensor = new Rev2MDistanceSensor(BUCKET_RANGE).onUnit(DistanceUnit.INCH);
         }
     }

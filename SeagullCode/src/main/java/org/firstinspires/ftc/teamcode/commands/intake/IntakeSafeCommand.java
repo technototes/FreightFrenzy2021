@@ -38,6 +38,7 @@ public class IntakeSafeCommand implements Command {
     @Override
     public boolean isFinished(){
         return intake.hasCargo();
+
     }
 
     @Override
