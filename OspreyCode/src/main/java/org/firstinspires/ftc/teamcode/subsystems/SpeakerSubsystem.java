@@ -12,30 +12,31 @@ public class SpeakerSubsystem implements Subsystem, Supplier<String> {
     @com.acmerobotics.dashboard.config.Config
     public static class SpeakerConstants{
         public static String AMOGUS = "among4";
-        public static String JEOPARDY = "among4";
-        public static String TERRARIA = "among4";
-        public static String COUNTDOWN = "among4";
+        public static String JEOPARDY = "";
+        public static String TERRARIA = "";
+        public static String COUNTDOWN = "";
     }
     public Speaker speaker;
 
     public SpeakerSubsystem(Speaker s){
-        speaker = s.addSongs(AMOGUS, JEOPARDY, TERRARIA, COUNTDOWN);
+        speaker = s.addSongs(AMOGUS);
     }
 
     public void playAmogus(){
-        speaker.start(AMOGUS);
+
+        //speaker.start(AMOGUS);
     }
 
     public void playJeopardy(){
-        speaker.start(AMOGUS);
+        //TODO speaker.start(JEOPARDY);
     }
 
     public void playCountdown(){
-        speaker.start(COUNTDOWN);
+        //TODO speaker.start(COUNTDOWN);
     }
 
     public void playTerraria(){
-        speaker.start(TERRARIA);
+        //TODO speaker.start(TERRARIA);
     }
 
     @Override

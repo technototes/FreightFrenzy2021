@@ -272,6 +272,9 @@ public class GamepadBase<T extends ButtonBase, U extends AxisBase> implements Pe
     public void rumbleBlips(int blips){
         gamepad.rumbleBlips(blips);
     }
+    public void rumbleBlip(){
+        rumbleBlips(1);
+    }
     public void rumble(double seconds){
         gamepad.rumble((int) (seconds*1000));
     }

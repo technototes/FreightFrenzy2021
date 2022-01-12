@@ -10,7 +10,7 @@ public class IntakeSafeCommand extends IntakeInCommand {
 
     @Override
     public boolean isFinished() {
-        return RobotState.hasFreight();
+        return RobotState.hasFreight() && getRuntime().seconds()>1;
     }
 
     @Override

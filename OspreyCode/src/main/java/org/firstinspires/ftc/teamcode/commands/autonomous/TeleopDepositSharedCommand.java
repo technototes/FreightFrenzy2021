@@ -37,4 +37,9 @@ public class TeleopDepositSharedCommand extends SequentialCommandGroup {
         RobotState.startDeposit();
     }
 
+    @Override
+    public void end(boolean cancel) {
+        RobotState.stopDeposit();
+        super.end(cancel);
+    }
 }

@@ -8,7 +8,6 @@ import com.technototes.library.control.CommandInput;
 import com.technototes.library.control.Stick;
 import com.technototes.library.util.Alliance;
 
-import org.firstinspires.ftc.teamcode.commands.arm.ArmRaiseInCommand;
 import org.firstinspires.ftc.teamcode.commands.arm.ArmSharedCommand;
 import org.firstinspires.ftc.teamcode.commands.autonomous.TeleopDepositAllianceCommand;
 import org.firstinspires.ftc.teamcode.commands.autonomous.TeleopDepositSharedCommand;
@@ -39,7 +38,7 @@ import org.firstinspires.ftc.teamcode.subsystems.ExtensionSubsystem;
 
 import static org.firstinspires.ftc.teamcode.Robot.SubsystemConstants.CAP_ENABLED;
 import static org.firstinspires.ftc.teamcode.Robot.SubsystemConstants.CAROUSEL_ENABLED;
-import static org.firstinspires.ftc.teamcode.Robot.SubsystemConstants.DEPOSIT_ENABLED;
+import static org.firstinspires.ftc.teamcode.Robot.SubsystemConstants.ARM_ENABLED;
 import static org.firstinspires.ftc.teamcode.Robot.SubsystemConstants.DRIVE_ENABLED;
 import static org.firstinspires.ftc.teamcode.Robot.SubsystemConstants.EXTENSION_ENABLED;
 import static org.firstinspires.ftc.teamcode.Robot.SubsystemConstants.INTAKE_ENABLED;
@@ -115,7 +114,7 @@ public class Controls {
 
     public void bindControls(){
         if (LIFT_ENABLED) bindLiftControls();
-        if (DEPOSIT_ENABLED) bindArmControls();
+        if (ARM_ENABLED) bindArmControls();
         if (DRIVE_ENABLED) bindDriveControls();
         if (INTAKE_ENABLED) bindIntakeControls();
         if (CAROUSEL_ENABLED) bindCarouselControls();
@@ -124,26 +123,28 @@ public class Controls {
 
         strategy1Button.whenPressed(RobotState::strategy1);
         strategy2Button.whenPressed(RobotState::strategy2);
+
+
     }
 
     public void bindArmControls() {
         dumpAxis.whilePressedOnce(new BucketDumpVariableCommand(robot.armSubsystem, dumpAxis).asConditional(EXTENSION_ENABLED ? robot.extensionSubsystem::isSlideOut : ()->true));
-        toIntakeButton.whenPressed(new WaitCommand(0).andThen(new ArmRaiseInCommand(robot.armSubsystem).andThen(new ArmInCommand(robot.armSubsystem)).withTimeout(1.5)));
+        toIntakeButton.whenPressed(new ArmInCommand(robot.armSubsystem));
         allianceHubButton.whileReleasedOnce( new ArmAllianceCommand(robot.armSubsystem).asConditional(RobotState::isDepositing));
         sharedHubButton.whileReleasedOnce(new ArmSharedCommand(robot.armSubsystem).asConditional(RobotState::isDepositing));
 
     }
 
     public void bindLiftControls() {
-        sharedHubButton.whileReleasedOnce(new WaitCommand(0.3).andThen(new LiftSharedCommand(robot.liftSubsystem).withTimeout(0.5)).asConditional(RobotState::isDepositing));
-        allianceHubButton.whileReleasedOnce(new WaitCommand(0.3).andThen(new LiftLevelCommand(robot.liftSubsystem).withTimeout(0.5)).asConditional(RobotState::isDepositing));
-        toIntakeButton.whenPressed(new LiftLevel1Command(robot.liftSubsystem).withTimeout(0.8).andThen(new LiftCollectCommand(robot.liftSubsystem).withTimeout(0.4)));
+        sharedHubButton.whileReleasedOnce(new LiftSharedCommand(robot.liftSubsystem).withTimeout(0.5).asConditional(RobotState::isDepositing));
+        allianceHubButton.whileReleasedOnce(new LiftLevelCommand(robot.liftSubsystem).withTimeout(0.5).asConditional(RobotState::isDepositing));
+        toIntakeButton.whenPressed(new LiftLevel1Command(robot.liftSubsystem).alongWith(new WaitCommand(1)).andThen(new LiftCollectCommand(robot.liftSubsystem).withTimeout(0.4)));
         liftAdjustUpButton.whilePressed(new LiftTranslateCommand(robot.liftSubsystem, 50));
         liftAdjustDownButton.whilePressed(new LiftTranslateCommand(robot.liftSubsystem, -50));
     }
 
     public void bindDriveControls() {
-        if(EXTENSION_ENABLED && DEPOSIT_ENABLED && LIFT_ENABLED && INTAKE_ENABLED){
+        if(EXTENSION_ENABLED && ARM_ENABLED && LIFT_ENABLED && INTAKE_ENABLED){
             allianceHubButton.whilePressed( new TeleopDepositAllianceCommand(robot.drivebaseSubsystem, robot.intakeSubsystem, robot.liftSubsystem, robot.armSubsystem, robot.extensionSubsystem).andThen(new TeleopIntakeAllianceWarehouseCommand(robot.drivebaseSubsystem, robot.intakeSubsystem, robot.liftSubsystem, robot.armSubsystem, robot.extensionSubsystem)));
             sharedHubButton.whilePressed(new TeleopDepositSharedCommand(robot.drivebaseSubsystem, robot.intakeSubsystem, robot.liftSubsystem, robot.armSubsystem, robot.extensionSubsystem).andThen(new TeleopIntakeSharedWarehouseCommand(robot.drivebaseSubsystem, robot.intakeSubsystem, robot.liftSubsystem, robot.armSubsystem, robot.extensionSubsystem)));
         }
@@ -155,7 +156,8 @@ public class Controls {
     }
 
     public void bindIntakeControls() {
-        toIntakeButton.whenPressed(new WaitCommand(1.5).andThen(new IntakeSafeCommand(robot.intakeSubsystem)));
+        if(ARM_ENABLED) toIntakeButton.whenPressed( new WaitCommand(1.2).andThen(new IntakeSafeCommand(robot.intakeSubsystem).andThen(robot.armSubsystem::slightCarry, driverGamepad::rumbleBlip).withTimeout(5)));
+        else toIntakeButton.whenPressed(new WaitCommand(1).andThen(new IntakeSafeCommand(robot.intakeSubsystem)));
         intakeInButton.whilePressedContinuous(new IntakeInCommand(robot.intakeSubsystem));
         intakeOutButton.whilePressedOnce(new IntakeOutCommand(robot.intakeSubsystem));
         allianceHubButton.whenReleased(new IntakeOutCommand(robot.intakeSubsystem).withTimeout(0.2));

@@ -18,7 +18,7 @@ import org.firstinspires.ftc.teamcode.subsystems.ExtensionSubsystem;
 
 public class ExtensionSideCommand extends ChoiceCommand {
     public ExtensionSideCommand(ExtensionSubsystem subsystem) {
-        super(new Pair<>(()->getSharedStrategy() == OWN, new ExtensionOutCommand(subsystem, SHARED, getAlliance().selectOf(RIGHT, LEFT))),
+        super(new Pair<>(()->getSharedStrategy() == OWN,  new ExtensionOutCommand(subsystem, SHARED, getAlliance().selectOf(RIGHT, LEFT))),
                 new Pair<>(()->getSharedStrategy() == STEAL, new ExtensionOutCommand(subsystem, STEAL_SHARED,  getAlliance().selectOf(LEFT, RIGHT))));
     }
 }

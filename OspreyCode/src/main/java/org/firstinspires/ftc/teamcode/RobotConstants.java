@@ -17,11 +17,11 @@ public class RobotConstants {
     @Config
     public static class AutoRedConstants {
         public static ConfigurablePose CYCLE_START = new ConfigurablePose(12, -63, toRadians(90));
-        public static ConfigurablePose ALLIANCE_HUB = new ConfigurablePose(6, -52, toRadians(125));
+        public static ConfigurablePose ALLIANCE_HUB = new ConfigurablePose(7, -52, toRadians(125));
         public static ConfigurablePose CYCLE_TRENCH = new ConfigurablePose(24, -63.5, toRadians(180));
         public static ConfigurablePose CYCLE_INTERMEDIATE = new ConfigurablePose(40, -63.5, toRadians(180));
         public static ConfigurablePose[] AUTO_WAREHOUSE = new ConfigurablePose[]{
-                new ConfigurablePose(44, -63.5, toRadians(190)),
+//                new ConfigurablePose(44, -63.5, toRadians(190)),
                 new ConfigurablePose(46, -63.5, toRadians(190)),
                 new ConfigurablePose(48, -63.5, toRadians(190)),
                 new ConfigurablePose(50, -63.5, toRadians(190)),
@@ -46,11 +46,11 @@ public class RobotConstants {
     @Config
     public static class AutoBlueConstants {
         public static ConfigurablePose CYCLE_START = new ConfigurablePose(12, 63, toRadians(-90));
-        public static ConfigurablePose ALLIANCE_HUB = new ConfigurablePose(6, 52, toRadians(-125));
+        public static ConfigurablePose ALLIANCE_HUB = new ConfigurablePose(7, 52, toRadians(-125));
         public static ConfigurablePose CYCLE_TRENCH = new ConfigurablePose(24, 63.5, toRadians(-180));
         public static ConfigurablePose CYCLE_INTERMEDIATE = new ConfigurablePose(40, 63.5, toRadians(-180));
         public static ConfigurablePose[] AUTO_WAREHOUSE = new ConfigurablePose[]{
-                new ConfigurablePose(44, 63.5, toRadians(-190)),
+//                new ConfigurablePose(44, 63.5, toRadians(-190)),
                 new ConfigurablePose(46, 63.5, toRadians(-190)),
                 new ConfigurablePose(48, 63.5, toRadians(-190)),
                 new ConfigurablePose(50, 63.5, toRadians(-190)),
@@ -104,19 +104,19 @@ public class RobotConstants {
 
     public static final Function<Function<Pose2d, TrajectorySequenceBuilder>, TrajectorySequence>
             CYCLE_DEPOSIT_PRELOAD = b -> b.apply(CYCLE_START_SELECT.get())
-            .setAccelConstraint((a, e, c, d) -> 40)
+            .setAccelConstraint((a, e, c, d) -> 30)
             .lineToLinearHeading(ALLIANCE_HUB_SELECT.get())
             .build(),
             DUCK_DEPOSIT_PRELOAD = b -> b.apply(DUCK_START_SELECT.get())
-                    .setAccelConstraint((a, e, c, d) -> 40)
+                    .setAccelConstraint((a, e, c, d) -> 30)
                     .lineToLinearHeading(DUCK_ALLIANCE_HUB_SELECT.get())
                     .build(),
             HUB_TO_CAROUSEL = b -> b.apply(DUCK_ALLIANCE_HUB_SELECT.get())
-                    .setAccelConstraint((a, e, c, d) -> 40)
+                    .setAccelConstraint((a, e, c, d) -> 30)
                     .lineToLinearHeading(CAROUSEL_SELECT.get())
                     .build(),
             HUB_TO_SQUARE = b -> b.apply(DUCK_ALLIANCE_HUB_SELECT.get())
-                    .setAccelConstraint((a, e, c, d) -> 40)
+                    .setAccelConstraint((a, e, c, d) -> 30)
                     .lineToLinearHeading(SQUARE_SELECT.get())
                     .build(),
             HUB_BARRIER_PARK = b -> b.apply(DUCK_ALLIANCE_HUB_SELECT.get())
@@ -127,21 +127,21 @@ public class RobotConstants {
 
             HUB_TO_PARK = b->b.apply(ALLIANCE_HUB_SELECT.get())
                     .setReversed(true)
-                    .setAccelConstraint((a, e, c, d) -> 40)
+                    .setAccelConstraint((a, e, c, d) -> 30)
                     .splineTo(ALLIANCE_TRENCH_SELECT.get().vec(), 0)
-                    .setAccelConstraint((a, e, c, d) -> 100)
+//                    .setAccelConstraint((a, e, c, d) -> 100)
 //                    .setVelConstraint((a, e, c, d)->70)
                     .lineToSplineHeading(CYCLE_INTERMEDIATE_SELECT.get())
                     .build(),
             DUCK_INTAKE_TO_HUB = b -> b.apply(DUCK_INTAKE_END_SELECT.get())
-                    .setAccelConstraint((a, e, c, d) -> 40)
+                    .setAccelConstraint((a, e, c, d) -> 30)
                     .lineToLinearHeading(DUCK_ALLIANCE_HUB_SELECT.get())
                     .build(),
             SHARED_HUB_TO_WAREHOUSE = b -> b.apply(SHARED_HUB_SELECT.get())
                     .setReversed(true)
-                    .setAccelConstraint((a, e, c, d) -> 40)
+                    .setAccelConstraint((a, e, c, d) -> 30)
                     .splineTo(SHARED_TRENCH_SELECT.get().vec(), toRadians(RobotConstants.getAlliance().selectOf(-90, 90)))
-                    .setAccelConstraint((a, e, c, d) -> 100)
+//                    .setAccelConstraint((a, e, c, d) -> 100)
 //                    .setVelConstraint((a, e, c, d)->70)
                     .lineToSplineHeading(SHARED_INTAKE_SELECT.get())
                     .build(),
@@ -158,9 +158,9 @@ public class RobotConstants {
     public static final BiFunction<Function<Pose2d, TrajectorySequenceBuilder>, Integer, TrajectorySequence>
             HUB_TO_WAREHOUSE = (b, i) -> b.apply(ALLIANCE_HUB_SELECT.get())
             .setReversed(true)
-            .setAccelConstraint((a, e, c, d) -> 40)
+            .setAccelConstraint((a, e, c, d) -> 30)
             .splineTo(ALLIANCE_TRENCH_SELECT.get().vec(), 0)
-            .setAccelConstraint((a, e, c, d) -> 100)
+            .setAccelConstraint((a, e, c, d) -> 60)
 //            .setVelConstraint((a, e, c, d)->70)
             .lineToSplineHeading(CYCLE_INTERMEDIATE_SELECT.get())
             .lineToSplineHeading(CYCLE_INTAKE_SELECT.apply(i))
@@ -174,7 +174,7 @@ public class RobotConstants {
                 p.get().getHeading()))
             .lineToSplineHeading(ALLIANCE_TRENCH_SELECT.get())
 //            .splineToSplineHeading(ALLIANCE_TRENCH_SELECT.get(), toRadians(180))
-            .setAccelConstraint((a, e, c, d) -> 40)
+            .setAccelConstraint((a, e, c, d) -> 30)
 
             .splineTo(ALLIANCE_HUB_SELECT.get().vec(), ALLIANCE_HUB_SELECT.get().getHeading())
             .build(),

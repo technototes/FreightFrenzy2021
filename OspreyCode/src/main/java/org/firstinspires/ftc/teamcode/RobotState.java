@@ -34,12 +34,12 @@ public class RobotState {
     public enum SharedHubStrategy {
         OWN, STEAL
     }
-    private static boolean depositTarget = false;
+    private static boolean depositTarget = true;
     public static void startDeposit(){
         depositTarget = true;
     }
     public static void stopDeposit(){
-        depositTarget = false;
+        depositTarget = true;
     }
     public static boolean isDepositing(){
         return depositTarget;

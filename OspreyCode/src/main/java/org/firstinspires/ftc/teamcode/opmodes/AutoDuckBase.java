@@ -27,7 +27,7 @@ public abstract class AutoDuckBase extends CommandOpMode implements Loggable {
         CommandScheduler.getInstance().scheduleInit(new VisionBarcodeCommand(robot.visionSubsystem));
         CommandScheduler.getInstance().scheduleOnceForState(new AutoDuckCommand(robot.drivebaseSubsystem, robot.intakeSubsystem, robot.liftSubsystem, robot.armSubsystem, robot.extensionSubsystem, robot.visionSubsystem, robot.carouselSubsystem)  , OpModeState.RUN);
         CommandScheduler.getInstance().scheduleInit(new WaitCommand(40).andThen(robot.speakerSubsystem::playJeopardy));
-        CommandScheduler.getInstance().scheduleOnceForState(robot.speakerSubsystem::playAmogus, OpModeState.RUN);
+        CommandScheduler.getInstance().scheduleForState(new SequentialCommandGroup(robot.speakerSubsystem::playAmogus, new WaitCommand(40)), OpModeState.RUN);
     }
     @Override
     public void end() {

@@ -23,11 +23,11 @@ public class LiftSubsystem implements Subsystem, Supplier<Double> {
         public static double LIFT_UPPER_LIMIT = 600.0;
         public static double LIFT_LOWER_LIMIT = 0.0;
         //300 for single slide
-        public static double COLLECT = 5, NEUTRAL = 100, LEVEL_1 = 50, LEVEL_2 = 100, LEVEL_3 = 500;
+        public static double COLLECT = 0, NEUTRAL = 100, LEVEL_1 = 50, LEVEL_2 = 200, LEVEL_3 = 600;
 
         public static double DEADZONE = 30;
 
-        public static PIDCoefficients PID = new PIDCoefficients(0.02, 0, 0.001);
+        public static PIDCoefficients PID = new PIDCoefficients(0.008, 0, 0.0005);
 
     }
     public EncodedMotor<DcMotorEx> liftMotor;
@@ -36,7 +36,7 @@ public class LiftSubsystem implements Subsystem, Supplier<Double> {
 
     public LiftSubsystem(EncodedMotor<DcMotorEx> l){
         liftMotor = l;
-        pidController = new PIDFController(PID, 0, 0, 0, (x,y)->0.2);
+        pidController = new PIDFController(PID, 0, 0, 0, (x,y)->0.1);
     }
 
     public void setLiftPosition(double pos){
