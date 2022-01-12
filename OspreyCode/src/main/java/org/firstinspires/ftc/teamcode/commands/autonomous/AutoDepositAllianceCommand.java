@@ -19,7 +19,7 @@ public class AutoDepositAllianceCommand extends SequentialCommandGroup {
         super(drive::relocalize,
                 new RegenerativeTrajectorySequenceCommand(drive, RobotConstants.WAREHOUSE_TO_HUB, drive)
                         .alongWith(new IntakeOutCommand(intake).withTimeout(0.3)
-                                .andThen(new DepositAllianceCommand(deposit, extension, lift))),
+                                .andThen(new WaitCommand(0.3).andThen(new DepositAllianceCommand(deposit, extension, lift)))),
                 new BucketDumpCommand(deposit));
     }
 }

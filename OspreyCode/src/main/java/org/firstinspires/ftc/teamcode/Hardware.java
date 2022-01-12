@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode;
 import static org.firstinspires.ftc.teamcode.Hardware.HardwareConstants.*;
 import static org.firstinspires.ftc.teamcode.Robot.SubsystemConstants.*;
 
-import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.technototes.library.hardware.Speaker;
 import com.technototes.library.hardware.motor.EncodedMotor;
@@ -93,7 +92,7 @@ public class Hardware implements Loggable {
         if(LIFT_ENABLED) {
             liftMotor = new EncodedMotor<DcMotorEx>(LIFT).brake().tare();
         }
-        if(DEPOSIT_ENABLED) {
+        if(ARM_ENABLED) {
             dumpServo = new Servo(DUMP).invert().startAt(ArmSubsystem.ArmConstants.CARRY);
             armServo = new Servo(ARM).startAt(ArmSubsystem.ArmConstants.UP);
         }

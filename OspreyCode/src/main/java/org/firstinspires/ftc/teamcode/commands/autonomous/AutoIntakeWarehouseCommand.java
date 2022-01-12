@@ -16,7 +16,7 @@ import org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem;
 
 public class AutoIntakeWarehouseCommand extends SequentialCommandGroup {
     public AutoIntakeWarehouseCommand(DrivebaseSubsystem drive, IntakeSubsystem intake, LiftSubsystem lift, ArmSubsystem deposit, ExtensionSubsystem extension, int cycle) {
-        super(new TrajectorySequenceCommand(drive, RobotConstants.HUB_TO_WAREHOUSE, cycle).raceWith(new WaitCommand(1.6).andThen(new IntakeSafeCommand(intake)))
+        super(new TrajectorySequenceCommand(drive, RobotConstants.HUB_TO_WAREHOUSE, cycle).alongWith(new WaitCommand(1.2).andThen(new IntakeInCommand(intake)))
                 .alongWith(new DepositCollectCommand(deposit, extension, lift)));
     }
 }

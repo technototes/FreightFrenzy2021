@@ -28,9 +28,9 @@ public class IntakeSubsystem implements Subsystem, Supplier<String> {
 
         public static double DETECTION_DISTANCE = 3;
 
-        public static Range CUBE_RANGE = new Range(800, 1100);
-        public static Range DUCK_RANGE = new Range(800, 1100);
-        public static Range BALL_RANGE = new Range(800, 1100);
+        public static Range CUBE_RANGE = new Range(400, 2100);
+        public static Range DUCK_RANGE = new Range(400, 2100);
+        public static Range BALL_RANGE = new Range(400, 2100);
 
         public static double SENSOR_REFRESH_RATE = 10;
     }
