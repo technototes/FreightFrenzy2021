@@ -29,7 +29,7 @@ public class BlueDuckWithViz extends CommandOpMode implements Loggable {
         robot.drivebaseSubsystem.setPoseEstimate(AutonomousConstants.BlueConstants.DUCK_START);
 
         CommandScheduler.getInstance().scheduleForState(
-                new AutoBlueDuckCommandGroup(robot.drivebaseSubsystem, robot.carouselSubsystem, robot.dumpSubsystem),
+                new AutoBlueDuckCommandGroup(robot.drivebaseSubsystem, robot.carouselSubsystem, robot.dumpSubsystem, robot.intakeSubsystem),
                 OpModeState.RUN);
     }
 }
