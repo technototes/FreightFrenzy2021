@@ -40,8 +40,8 @@ public class DumpSubsystem implements Subsystem, Supplier<Double>, Loggable {
          * 1 is 270 degrees
          */
         static final double BUCKET_COLLECT = 0.05;
-        static final double BUCKET_CARRY = 0.28;
-        static final double BUCKET_DUMP = 0.77;
+        static final double BUCKET_CARRY = 0.29;
+        static final double BUCKET_DUMP = 0.7;
 
         // Range of values where the bucket should be in the carry position
         static final double ARM_CARRY_LIMIT_MIN = ((ARM_COLLECT + ARM_CARRY) * 2) / 3;
@@ -102,7 +102,7 @@ public class DumpSubsystem implements Subsystem, Supplier<Double>, Loggable {
         this.bucketMotor = motor;
         this.bucketServo = servo;
         pidController_motor = new PIDFController(pidCoefficients_motor, 0, 0, 0);
-        pidController_motor.setOutputBounds(-1.0, 1.0); // DC motor can't go beyond full speed
+        pidController_motor.setOutputBounds(-0.7, 0.7); // DC motor can't go beyond full speed
         this.bucketMotor.tare();
     }
 
