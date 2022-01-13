@@ -15,7 +15,6 @@ import org.firstinspires.ftc.teamcode.commands.autonomous.AutoBlueDuckCommandGro
 import org.firstinspires.ftc.teamcode.commands.autonomous.AutonomousConstants;
 
 @Autonomous(name = "Blue Duck")
-@SuppressWarnings("unused")
 public class BlueDuckWithoutViz extends CommandOpMode implements Loggable {
     public Robot robot;
     public Hardware hardware;
