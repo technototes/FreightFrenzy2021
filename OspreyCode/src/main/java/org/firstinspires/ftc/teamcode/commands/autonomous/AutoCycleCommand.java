@@ -14,8 +14,8 @@ import org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.VisionSubsystem;
 @Config
 public class AutoCycleCommand extends SequentialCommandGroup {
-    public static int MAX_AUTO_CYCLES = 7;
-    public static int TIME_TO_STOP = 25;
+    public static int MAX_AUTO_CYCLES = 5;
+    public static int TIME_TO_STOP = 30;
     public AutoCycleCommand(DrivebaseSubsystem drive, IntakeSubsystem intake, LiftSubsystem lift, ArmSubsystem deposit, ExtensionSubsystem extension, VisionSubsystem vision){
         super(()->drive.setPoseEstimate(RobotConstants.CYCLE_START_SELECT.get()),
                 ()->drive.distanceSensorLocalizer.setGyroOffset(-RobotConstants.CYCLE_START_SELECT.get().getHeading()),

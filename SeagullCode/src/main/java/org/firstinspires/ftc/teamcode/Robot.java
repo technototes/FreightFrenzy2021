@@ -18,7 +18,6 @@ public class Robot implements Loggable {
         public static boolean CAROUSEL_CONNECTED = true;
         public static boolean INTAKE_CONNECTED = true;
         public static boolean VISION_CONNECTED = true;
-        public static boolean CAP_CONNECTED = false;
         public static boolean DUMP_CONNECTED = true;
     }
     public DrivebaseSubsystem drivebaseSubsystem;

@@ -13,8 +13,8 @@ import java.util.function.Supplier;
 
 public class IntakeSubsystem implements Subsystem, Supplier<Double>, Loggable {
   public static class IntakeConstant {
-    public static double INTAKE_IN_SPEED = -0.85;
-    public static double INTAKE_OUT_SPEED = 1.0;
+    public static double INTAKE_IN_SPEED = 0.85;
+    public static double INTAKE_OUT_SPEED = -1.0;
     public static double INTAKE_STOP_SPEED = 0;
     public static double DETECTION_THRESHOLD = 3.0;
   }
@@ -38,7 +38,7 @@ public class IntakeSubsystem implements Subsystem, Supplier<Double>, Loggable {
   private State currentState = State.STOP;
 
   public IntakeSubsystem(EncodedMotor<DcMotorEx> m, Rev2MDistanceSensor r) {
-    motor = m;
+    this.motor = m;
     motor.setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
     motor.setPIDFCoeffecients(20,0,0,0);
     rangeSensor = r;

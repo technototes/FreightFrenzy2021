@@ -21,7 +21,7 @@ public class Robot implements Loggable {
     @Config
     public static class SubsystemConstants {
         public static boolean LIFT_ENABLED = true;
-        public static boolean DEPOSIT_ENABLED = true;
+        public static boolean ARM_ENABLED = true;
         public static boolean EXTENSION_ENABLED = true;
         public static boolean DRIVE_ENABLED = true;
         public static boolean CAROUSEL_ENABLED = true;
@@ -63,7 +63,7 @@ public class Robot implements Loggable {
 
         if(LIFT_ENABLED) liftSubsystem = new LiftSubsystem(hardware.liftMotor);
 
-        if(DEPOSIT_ENABLED) armSubsystem = new ArmSubsystem(hardware.dumpServo, hardware.armServo);
+        if(ARM_ENABLED) armSubsystem = new ArmSubsystem(hardware.dumpServo, hardware.armServo);
 
         if(EXTENSION_ENABLED) extensionSubsystem = new ExtensionSubsystem(hardware.slideServo, hardware.turretServo);
 

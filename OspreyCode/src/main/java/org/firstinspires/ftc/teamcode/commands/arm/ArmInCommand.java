@@ -11,13 +11,13 @@ public class ArmInCommand extends ArmCommand {
 
     @Override
     public void execute() {
-        if(getRuntime().seconds()>0.2) subsystem.in();
+        subsystem.in();
         subsystem.collect();
     }
 
     @Override
     public boolean isFinished() {
-        return getRuntime().seconds()>0.6;
+        return getRuntime().seconds()>0.8;
     }
 }
 

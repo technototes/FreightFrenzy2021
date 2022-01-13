@@ -33,4 +33,10 @@ public class TeleopDepositAllianceCommand extends SequentialCommandGroup {
         super.initialize();
         RobotState.startDeposit();
     }
+
+    @Override
+    public void end(boolean cancel) {
+        RobotState.stopDeposit();
+        super.end(cancel);
+    }
 }

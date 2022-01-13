@@ -22,10 +22,5 @@ public class TeleopIntakeSharedWarehouseCommand extends SequentialCommandGroup {
                 new WaitCommand(0.3));
         drivebaseSubsystem = drive;
     }
-    @Override
-    public void initialize() {
-        super.initialize();
-        RobotState.stopDeposit();
-    }
 
 }

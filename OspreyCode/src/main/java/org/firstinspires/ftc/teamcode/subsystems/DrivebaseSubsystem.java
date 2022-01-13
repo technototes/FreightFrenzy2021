@@ -78,7 +78,7 @@ public class DrivebaseSubsystem extends MecanumDrivebaseSubsystem implements Sup
         @TransPID
         public static PIDCoefficients TRANSLATIONAL_PID = new PIDCoefficients(8, 0, 0);
         @HeadPID
-        public static PIDCoefficients HEADING_PID = new PIDCoefficients(4, 0, 0);
+        public static PIDCoefficients HEADING_PID = new PIDCoefficients(5, 0, 0);
 
         @LateralMult
         public static double LATERAL_MULTIPLIER = 1;

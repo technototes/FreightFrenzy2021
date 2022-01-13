@@ -6,14 +6,13 @@ import static org.firstinspires.ftc.teamcode.Hardware2.Hardware2Constants.*;
 
 import static org.firstinspires.ftc.teamcode.Robot.SubsystemConstants.CAP_ENABLED;
 import static org.firstinspires.ftc.teamcode.Robot.SubsystemConstants.CAROUSEL_ENABLED;
-import static org.firstinspires.ftc.teamcode.Robot.SubsystemConstants.DEPOSIT_ENABLED;
+import static org.firstinspires.ftc.teamcode.Robot.SubsystemConstants.ARM_ENABLED;
 import static org.firstinspires.ftc.teamcode.Robot.SubsystemConstants.DRIVE_ENABLED;
 import static org.firstinspires.ftc.teamcode.Robot.SubsystemConstants.EXTENSION_ENABLED;
 import static org.firstinspires.ftc.teamcode.Robot.SubsystemConstants.INTAKE_ENABLED;
 import static org.firstinspires.ftc.teamcode.Robot.SubsystemConstants.LIFT_ENABLED;
 import static org.firstinspires.ftc.teamcode.Robot.SubsystemConstants.VISION_ENABLED;
 
-import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.ColorRangeSensor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -92,7 +91,7 @@ public class Hardware2 {
         if(LIFT_ENABLED) {
             liftMotor = motor(LIFT).brake().tare().build();
         }
-        if(DEPOSIT_ENABLED) {
+        if(ARM_ENABLED) {
             dumpServo = servo(DUMP).reverse().at(ArmSubsystem.ArmConstants.CARRY).build();
             armServo = servo(ARM).at(ArmSubsystem.ArmConstants.UP).build();
         }

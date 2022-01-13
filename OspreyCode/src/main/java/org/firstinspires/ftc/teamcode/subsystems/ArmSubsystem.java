@@ -17,7 +17,10 @@ import static org.firstinspires.ftc.teamcode.subsystems.ArmSubsystem.ArmConstant
 import static org.firstinspires.ftc.teamcode.subsystems.ArmSubsystem.ArmConstants.FAKE_CARRY;
 import static org.firstinspires.ftc.teamcode.subsystems.ArmSubsystem.ArmConstants.IN;
 import static org.firstinspires.ftc.teamcode.subsystems.ArmSubsystem.ArmConstants.OUT;
+import static org.firstinspires.ftc.teamcode.subsystems.ArmSubsystem.ArmConstants.SLIGHT_CARRY;
 import static org.firstinspires.ftc.teamcode.subsystems.ArmSubsystem.ArmConstants.UP;
+
+import org.firstinspires.ftc.teamcode.RobotState;
 
 @SuppressWarnings("unused")
 
@@ -30,10 +33,10 @@ public class ArmSubsystem implements Subsystem, Supplier<String> {
     @Config
     public static class ArmConstants {
         //public static double MIN = 0, MAX = 0.5;
-        public static double DUMP = 0.55, CARRY = 0.25, FAKE_CARRY = 0.15, COLLECT = 0.05, AUTO_CARRY = 0.25;
+        public static double DUMP = 0.55, CARRY = 0.25, FAKE_CARRY = 0.15, COLLECT = 0.04, AUTO_CARRY = 0.3, SLIGHT_CARRY = 0.15;
         public static double IN = 0.02, UP = 0.3, OUT = 0.6, DOWN = 0.75;
         public static double DIFFERENTIAL = 2.8;
-        public static ServoProfiler.Constraints CONSTRAINTS = new ServoProfiler.Constraints(3, 3, 5);
+        public static ServoProfiler.Constraints CONSTRAINTS = new ServoProfiler.Constraints(2, 3, 5);
     }
 
     public Servo dumpServo;
@@ -126,6 +129,10 @@ public class ArmSubsystem implements Subsystem, Supplier<String> {
     public String get() {
         return "ARM: "+armServo.getPosition()+", DUMP: "+ targetDumpPosition;
         //return "EXTENSION: "+differential.getAverage()+", DUMP: "+differential.getDeviation();
+    }
+
+    public void slightCarry(){
+        setDump(SLIGHT_CARRY);
     }
 
     private double targetDumpPosition = 0.2;
