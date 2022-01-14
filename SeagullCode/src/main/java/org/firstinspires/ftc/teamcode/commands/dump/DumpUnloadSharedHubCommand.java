@@ -17,14 +17,11 @@ public class DumpUnloadSharedHubCommand implements Command {
 
     @Override
     public void initialize() {
-        dumpSys.setMotorPosition(ARM_MIDDLE_LEVEL);
+        dumpSys.setMotorPosition(ARM_SHARED_HUB_LEVEL);
     }
 
     @Override
     public void execute() {
-      if (getRuntime().seconds() > 0.5) {
-          dumpSys.setMotorPosition(ARM_SHARED_HUB_LEVEL);
-      }
     }
 
     @Override
