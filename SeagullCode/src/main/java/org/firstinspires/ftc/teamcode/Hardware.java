@@ -58,8 +58,8 @@ public class Hardware {
     public EncodedMotor<DcMotorEx> bucketMotor;
 
     public Rev2MDistanceSensor frontDistanceSensor;
-    public Rev2MDistanceSensor leftDistanceSensor;
-    public Rev2MDistanceSensor rightDistanceSensor;
+//    public Rev2MDistanceSensor leftDistanceSensor;
+//    public Rev2MDistanceSensor rightDistanceSensor;
 
     public Hardware() {
         if (DRIVE_CONNECTED) {
@@ -69,8 +69,8 @@ public class Hardware {
             rrDriveMotor = new EncodedMotor<>(RR_MOTOR);
             imu = new IMU(HardwareConstants.IMU).remapAxes(AxesOrder.YXZ, AxesSigns.NNN);
             frontDistanceSensor = new Rev2MDistanceSensor(FRONT_RANGE).onUnit(DistanceUnit.INCH);
-            leftDistanceSensor = new Rev2MDistanceSensor(LEFT_RANGE).onUnit(DistanceUnit.INCH);
-            rightDistanceSensor = new Rev2MDistanceSensor(RIGHT_RANGE).onUnit(DistanceUnit.INCH);
+//            leftDistanceSensor = new Rev2MDistanceSensor(LEFT_RANGE).onUnit(DistanceUnit.INCH);
+//            rightDistanceSensor = new Rev2MDistanceSensor(RIGHT_RANGE).onUnit(DistanceUnit.INCH);
         }
         if (CAROUSEL_CONNECTED) {
             carouselMotor = new Motor<>(CAROUSEL);
