@@ -9,6 +9,7 @@ import com.technototes.library.util.Alliance;
 
 import org.firstinspires.ftc.teamcode.Hardware;
 import org.firstinspires.ftc.teamcode.Robot;
+import org.firstinspires.ftc.teamcode.commands.VisionCommand;
 import org.firstinspires.ftc.teamcode.commands.autonomous.AutoBlueDepotVizCommandGroup;
 import org.firstinspires.ftc.teamcode.commands.autonomous.AutoBlueDuckCommandGroup;
 import org.firstinspires.ftc.teamcode.commands.autonomous.AutonomousConstants;
@@ -29,7 +30,7 @@ public class BlueDepotWithViz extends CommandOpMode implements Loggable {
         hardware = new Hardware();
         robot = new Robot(hardware);
         robot.drivebaseSubsystem.setPoseEstimate(AutonomousConstants.BlueConstants.DEPOT_START);
-
+        CommandScheduler.getInstance().scheduleInit(new VisionCommand(robot.visionSubsystem));
         CommandScheduler.getInstance().scheduleForState(
                   new AutoBlueDepotVizCommandGroup(robot.drivebaseSubsystem, robot.dumpSubsystem, robot.intakeSubsystem, robot.visionSubsystem),
             CommandOpMode.OpModeState.RUN);

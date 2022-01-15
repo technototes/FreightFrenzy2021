@@ -19,7 +19,12 @@ import java.util.function.Supplier;
 import com.acmerobotics.dashboard.config.Config;
 
 import static org.firstinspires.ftc.teamcode.subsystems.BarcodePipeline.BarcodeConstants.*;
-public class BarcodePipeline extends OpenCvPipeline implements Supplier<Integer> {
+
+import com.technototes.library.logger.LogConfig;
+import com.technototes.library.logger.Loggable;
+import com.technototes.library.logger.Log;
+
+public class BarcodePipeline extends OpenCvPipeline implements Supplier<Integer>, Loggable{
 
     @Config
     public static class BarcodeConstants {
@@ -92,9 +97,14 @@ public class BarcodePipeline extends OpenCvPipeline implements Supplier<Integer>
     public Mat YCrCb = new Mat();
     public Mat Cr = new Mat();
 
-
+    @LogConfig.Run(duringRun = false, duringInit = true)
+    @Log.Boolean (name="sq1")
     public volatile boolean on_square_1 = false;
-    public volatile boolean on_square_2 = false;
+    @LogConfig.Run(duringRun = false, duringInit = true)
+    @Log.Boolean (name="sq2")
+    public volatile boolean on_square_2 = true;
+    @LogConfig.Run(duringRun = false, duringInit = true)
+    @Log.Boolean (name="sq3")
     public volatile boolean on_square_3 = false;
 
     private final Mat mat = new Mat();
@@ -144,9 +154,7 @@ public class BarcodePipeline extends OpenCvPipeline implements Supplier<Integer>
         red_avg[1] = (int) Core.mean(region_2_Cr).val[0];
         red_avg[2] = (int) Core.mean(region_3_Cr).val[0];
 
-
-
-        int max = -1;
+        int max = 0;
         if (red_avg[0] > red_avg[1]){
             max = 0;
         }else{
@@ -158,7 +166,7 @@ public class BarcodePipeline extends OpenCvPipeline implements Supplier<Integer>
         Imgproc.rectangle(input, region_1_pointA, region_1_pointB, ((max == 0) ? RED : BLUE), 2);
         Imgproc.rectangle(input, region_2_pointA, region_2_pointB, ((max == 1) ? RED : BLUE), 2);
         Imgproc.rectangle(input, region_3_pointA, region_3_pointB, ((max == 2) ? RED : BLUE), 2);
-
+//        System.out.printf("ASDF Read Max Value: %d\n", max);
         on_square_1 = max == 0;
         on_square_2 = max == 1;
         on_square_3 = max == 2;

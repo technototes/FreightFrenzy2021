@@ -14,7 +14,7 @@ import org.firstinspires.ftc.teamcode.subsystems.VisionSubsystem;
 public class HeightSelectBlueDepotCommand extends ChoiceCommand {
     public HeightSelectBlueDepotCommand(DrivebaseSubsystem drive, DumpSubsystem dump, IntakeSubsystem intake, VisionSubsystem vision) {
         super(new Pair<>(vision.barcodePipeline::zero, new UnloadTopBlueDepotCommandGroup(drive, dump, intake, vision)),
-                  new Pair<>(vision.barcodePipeline::one, new UnloadTopBlueDepotCommandGroup(drive, dump, intake, vision)),
+                  new Pair<>(vision.barcodePipeline::one, new UnloadMiddleBlueDepotCommandGroup(drive, dump, intake, vision)),
                   new Pair<>(vision.barcodePipeline::two, new UnloadTopBlueDepotCommandGroup(drive, dump, intake, vision)));
     }
 }
