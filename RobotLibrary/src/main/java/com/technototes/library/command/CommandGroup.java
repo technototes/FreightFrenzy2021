@@ -45,7 +45,7 @@ public abstract class CommandGroup implements Command {
         //makes true if command just finished
         commandMap.replaceAll((command, bool) -> command.justFinished() ? true : bool);
         if (cancelIfAnyCancelled && commandMap.keySet().stream().anyMatch(Command::isCancelled)) {
-            this.cancel();
+            this.setState(CommandState.FINISHED);
         }
     }
 

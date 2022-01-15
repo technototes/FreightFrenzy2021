@@ -78,17 +78,17 @@ public class DumpSubsystem implements Subsystem, Supplier<Double>, Loggable {
     }
     
     // These must be public for the logging functionality
-    @Log.Number (name = "Bucket motor")
+    //@Log.Number (name = "Bucket motor")
     public EncodedMotor<DcMotorEx> bucketMotor;
-    @Log.Number (name = "Bucket Servo")
+    //@Log.Number (name = "Bucket Servo")
     public Servo bucketServo;
-    @Log.Number (name = "Bucket power")
+    ///@Log.Number (name = "Bucket power")
     public double bucketPower = 0.0;
-    @Log.Number (name = "Bucket ticks per second")
+    //@Log.Number (name = "Bucket ticks per second")
     public double bucketTicksPerSecond = 0.0;
-    @Log.Number (name = "Bucket acceleration")
+    //@Log.Number (name = "Bucket acceleration")
     public double bucketAcceleration = 0.0;
-    @Log.Number (name = "Bucket loop time secs")
+    //@Log.Number (name = "Bucket loop time secs")
     public double bucketLoopTimeSecs = 0.0;
 
     private static final boolean ENABLE_ARM_DIAGNOSTICS = false;
