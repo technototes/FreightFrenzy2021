@@ -11,6 +11,7 @@ import com.technototes.library.util.Alliance;
 
 import org.firstinspires.ftc.teamcode.Hardware;
 import org.firstinspires.ftc.teamcode.Robot;
+import org.firstinspires.ftc.teamcode.commands.VisionCommand;
 import org.firstinspires.ftc.teamcode.commands.autonomous.AutoRedDuckCommandGroup;
 import org.firstinspires.ftc.teamcode.commands.autonomous.AutonomousConstants;
 
@@ -28,7 +29,7 @@ public class RedDuckWithViz extends CommandOpMode implements Loggable {
         hardware = new Hardware();
         robot = new Robot(hardware);
         robot.drivebaseSubsystem.setPoseEstimate(AutonomousConstants.RedConstants.DUCK_START);
-
+        CommandScheduler.getInstance().scheduleInit(new VisionCommand(robot.visionSubsystem));
         CommandScheduler.getInstance().scheduleForState(new AutoRedDuckCommandGroup(robot.drivebaseSubsystem, robot.carouselSubsystem, robot.dumpSubsystem, robot.intakeSubsystem), OpModeState.RUN);
     }
 }
