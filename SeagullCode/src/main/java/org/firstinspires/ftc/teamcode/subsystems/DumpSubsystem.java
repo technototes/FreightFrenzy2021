@@ -40,12 +40,12 @@ public class DumpSubsystem implements Subsystem, Supplier<Double>, Loggable {
          * 1 is 270 degrees
          */
         static final double BUCKET_COLLECT = 0.05;
-        static final double BUCKET_CARRY = 0.29;
+        static final double BUCKET_CARRY = 0.31;
         static final double BUCKET_DUMP = 0.7;
 
         // Range of values where the bucket should be in the carry position
-        static final double ARM_CARRY_LIMIT_MIN = ((ARM_COLLECT + ARM_CARRY) * 2) / 3;
-        static final double ARM_CARRY_LIMIT_MAX = (ARM_CARRY + ARM_TOP_LEVEL) / 2;
+        static final double ARM_CARRY_LIMIT_MIN = (ARM_COLLECT + ARM_CARRY) / 2;
+        static final double ARM_CARRY_LIMIT_MAX = (ARM_CARRY + ARM_TOP_LEVEL * 2) / 3;
     }
 
     public static class ArmConstant {
@@ -62,7 +62,7 @@ public class DumpSubsystem implements Subsystem, Supplier<Double>, Loggable {
         static final double MOTOR_LOWER_LIMIT = ARM_BOTTOM_LEVEL;
         static final double MOTOR_UPPER_LIMIT = ARM_COLLECT;
 
-        static final PIDCoefficients pidCoefficients_motor = new PIDCoefficients(0.002, 0, 0);
+        static final PIDCoefficients pidCoefficients_motor = new PIDCoefficients(0.0015, 0.0, 0.00010);
 
         // The motor speed value required to keep the arm level to counteract gravity
         static final double MOTOR_GRAVITY_SPEED_FACTOR = -0.02;
@@ -78,12 +78,21 @@ public class DumpSubsystem implements Subsystem, Supplier<Double>, Loggable {
     }
     
     // These must be public for the logging functionality
-    @Log.Number (name = "Bucket motor")
+    //@Log.Number (name = "Bucket motor")
     public EncodedMotor<DcMotorEx> bucketMotor;
-    @Log.Number (name = "Bucket Servo")
+    //@Log.Number (name = "Bucket Servo")
     public Servo bucketServo;
-    @Log.Number (name = "Bucket speed")
-    public double bucketSpeed = 0.0;
+    ///@Log.Number (name = "Bucket power")
+    public double bucketPower = 0.0;
+    //@Log.Number (name = "Bucket ticks per second")
+    public double bucketTicksPerSecond = 0.0;
+    //@Log.Number (name = "Bucket acceleration")
+    public double bucketAcceleration = 0.0;
+    //@Log.Number (name = "Bucket loop time secs")
+    public double bucketLoopTimeSecs = 0.0;
+
+    private static final boolean ENABLE_ARM_DIAGNOSTICS = false;
+
     long lastSpeedMeasureTimeMillis = 0;
     double lastBucketEncoderPosition = 0.0;
 
@@ -156,15 +165,32 @@ public class DumpSubsystem implements Subsystem, Supplier<Double>, Loggable {
         long currentTimeMillis = System.currentTimeMillis();
         double deltaTimeSecs = (currentTimeMillis - lastSpeedMeasureTimeMillis) / 1000.0;
         double ticksPerSecond = (deltaTimeSecs > EPSILON) ? (rawMotorPosition - lastBucketEncoderPosition) / deltaTimeSecs : 0.0;
-        double newSpeed = getAccelerationLimitedBucketSpeed(bucketSpeed, pidController_motor.update(rawMotorPosition, ticksPerSecond), deltaTimeSecs);
+        double newPower = pidController_motor.update(rawMotorPosition, ticksPerSecond);
+        newPower = getAccelerationLimitedBucketSpeed(bucketPower, newPower, deltaTimeSecs);
+        bucketMotor.setSpeed(newPower);
+
+        final boolean stopped = (newPower == 0) && (bucketPower == 0);
+        bucketAcceleration =  (deltaTimeSecs > EPSILON) ? (bucketTicksPerSecond - ticksPerSecond) / deltaTimeSecs : 0.0;
         lastSpeedMeasureTimeMillis = currentTimeMillis;
-        bucketSpeed = newSpeed;
-        bucketMotor.setSpeed(newSpeed);
+        bucketTicksPerSecond = ticksPerSecond;
+        bucketPower = newPower;
+        bucketLoopTimeSecs = deltaTimeSecs;
+        lastBucketEncoderPosition = rawMotorPosition;
 
         // Set the bucket servo position based on the arm positions
         double bucketPosition = tryGetBucketPositionFromArm(getScaledMotorPosition(rawMotorPosition));
         if (!Double.isNaN(bucketPosition)) {
             bucketServo.setPosition(bucketPosition);
+        }
+
+        if (ENABLE_ARM_DIAGNOSTICS && !stopped) {
+            System.out.println("Arm: Current time: " + currentTimeMillis
+                    + ", Loop time delta: " + bucketLoopTimeSecs
+                    + ", Power: " + bucketPower
+                    + ", Position: " + lastBucketEncoderPosition
+                    + ", Ticks per second: " + bucketTicksPerSecond
+                    + ", Accelerations " + bucketAcceleration
+            );
         }
     }
 

@@ -26,6 +26,16 @@ class DumpSubsystemTest {
         assertEquals(0.1, DumpSubsystem.getAccelerationLimitedBucketSpeed(0.0, 0.1, 1.0), EPSILON);
         assertEquals(0.2, DumpSubsystem.getAccelerationLimitedBucketSpeed(0.0, 0.2, 1.0), EPSILON);
 
+        if (MAX_BUCKET_ACCELERATION < 10.0) {
+            assertEquals(MAX_BUCKET_ACCELERATION * 0.1,
+                    DumpSubsystem.getAccelerationLimitedBucketSpeed(0.0, 1.0, 0.1), EPSILON);
+        }
+
+        if (MAX_BUCKET_ACCELERATION < 9.0) {
+            assertEquals(MAX_BUCKET_ACCELERATION * 0.1 + 0.1,
+                    DumpSubsystem.getAccelerationLimitedBucketSpeed(0.1, 1.0, 0.1), EPSILON);
+        }
+
         assertEquals(MAX_BUCKET_ACCELERATION * MAX_ACCELERATION_MEASUREMENT_SECS,
                 DumpSubsystem.getAccelerationLimitedBucketSpeed(0.0, 1.0, MAX_ACCELERATION_MEASUREMENT_SECS * 2), EPSILON);
         assertEquals(-MAX_BUCKET_ACCELERATION * MAX_ACCELERATION_MEASUREMENT_SECS,

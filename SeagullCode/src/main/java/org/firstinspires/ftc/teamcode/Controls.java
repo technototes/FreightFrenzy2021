@@ -6,6 +6,7 @@ import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.DUMP_CONNECTED
 import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.INTAKE_CONNECTED;
 
 import com.technototes.library.command.CommandScheduler;
+import com.technototes.library.command.SequentialCommandGroup;
 import com.technototes.library.control.CommandAxis;
 import com.technototes.library.control.CommandButton;
 import com.technototes.library.control.CommandGamepad;
@@ -89,7 +90,11 @@ public class Controls {
     }
 
     public void bindBucketControls() {
-        intakeInTrigger.whenPressed(new DumpCollectCommand(robot.dumpSubsystem).andThen(new IntakeSafeCommand(robot.intakeSubsystem, robot.dumpSubsystem, gamepad)));
+        intakeInTrigger.whenPressed(
+                new SequentialCommandGroup(true,
+                new DumpCollectCommand(robot.dumpSubsystem),
+                new IntakeSafeCommand(robot.intakeSubsystem, robot.dumpSubsystem, gamepad))
+        );
         topDepositButton.whenPressed(new DumpUnloadTopLevelCommand(robot.dumpSubsystem).alongWith(new IntakeStopCommand(robot.intakeSubsystem)));
         sharedDepositButton.whenPressed(new DumpUnloadSharedHubCommand(robot.dumpSubsystem).alongWith(new IntakeStopCommand(robot.intakeSubsystem)));
         carryDepositButton.whenPressed(new DumpCarryCommand(robot.dumpSubsystem).alongWith(new IntakeStopCommand(robot.intakeSubsystem)));
