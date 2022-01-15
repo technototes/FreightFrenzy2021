@@ -18,12 +18,12 @@ import org.firstinspires.ftc.teamcode.subsystems.VisionSubsystem;
 public class UnloadBottomBlueDuckCommandGroup extends SequentialCommandGroup {
     public UnloadBottomBlueDuckCommandGroup(DrivebaseSubsystem drive, DumpSubsystem bucket, IntakeSubsystem intake, VisionSubsystem vision) {
         super(
-                new TrajectorySequenceCommand(drive, AutonomousConstants.BLUE_DUCK_START_TO_ALLIANCE_HUB_LEVEL1), // Different duck constant
+                new TrajectorySequenceCommand(drive, AutonomousConstants.BLUE_DUCK_START_TO_ALLIANCE_HUB_LEVEL_1), // Different duck constant
                 new DumpUnloadBottomLevelCommand(bucket).withTimeout(1.5),
                 new WaitCommand(1),
                 new DumpCollectCommand(bucket),
                 new IntakeInCommand(intake), // Intake command - spin the intake before arrived at the depot
-                new TrajectorySequenceCommand(drive, AutonomousConstants.BLUE_ALLIANCE_HUB_LEVEL1_TO_DUCK_COLLECT1), // Different park command
+                new TrajectorySequenceCommand(drive, AutonomousConstants.BLUE_ALLIANCE_HUB_LEVEL1_TO_CAROUSEL), // Different park command
 
                 CommandScheduler.getInstance()::terminateOpMode); //ending
     }

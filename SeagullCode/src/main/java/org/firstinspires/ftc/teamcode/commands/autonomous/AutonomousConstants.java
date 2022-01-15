@@ -159,6 +159,7 @@ public class AutonomousConstants {
               RED_DUCK_ALLIANCE_HUB_LEVEL1_TO_CAROUSEL = b -> b.apply(RedConstants.DUCK_ALLIANCE_HUB_LEVEL1)
                         .lineToLinearHeading(RedConstants.DUCK_CAROUSEL)
                         .build(),
+
     /************************************************************************************/
     BLUE_DUCK_CAROUSEL_TO_PARK = b -> b.apply(BlueConstants.DUCK_CAROUSEL)
               .lineToLinearHeading(BlueConstants.DUCK_PARK)

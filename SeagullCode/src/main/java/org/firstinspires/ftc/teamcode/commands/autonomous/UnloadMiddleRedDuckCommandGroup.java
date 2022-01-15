@@ -22,7 +22,7 @@ public class UnloadMiddleRedDuckCommandGroup extends SequentialCommandGroup {
                 new WaitCommand(1),
                 new DumpCollectCommand(bucket),
                 new IntakeInCommand(intake), // Intake command - spin the intake before arrived at the depot
-                new TrajectorySequenceCommand(drive, AutonomousConstants.RED_ALLIANCE_HUB_LEVEL2_TO_DUCK_COLLECT1), // Different park command
+                new TrajectorySequenceCommand(drive, AutonomousConstants.RED_DUCK_ALLIANCE_HUB_LEVEL2_TO_CAROUSEL), // Different park command
 
                 CommandScheduler.getInstance()::terminateOpMode); //ending
     }
