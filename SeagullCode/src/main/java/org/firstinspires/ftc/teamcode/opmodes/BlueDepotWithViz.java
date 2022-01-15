@@ -15,7 +15,6 @@ import org.firstinspires.ftc.teamcode.commands.autonomous.AutoBlueDuckCommandGro
 import org.firstinspires.ftc.teamcode.commands.autonomous.AutonomousConstants;
 import org.firstinspires.ftc.teamcode.commands.autonomous.BlueDepotRemainderCommandGroup;
 import org.firstinspires.ftc.teamcode.commands.autonomous.HeightSelectBlueDepotCommand;
-import org.firstinspires.ftc.teamcode.commands.autonomous.HeightSelectCommand;
 
 @Autonomous(name = "Blue Depot Viz")
 @SuppressWarnings("unused")
