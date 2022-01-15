@@ -6,35 +6,34 @@ package org.firstinspires.ftc.teamcode.commands.autonomous;
           import com.technototes.library.command.WaitCommand;
           import com.technototes.path.command.TrajectorySequenceCommand;
 
+          import org.firstinspires.ftc.teamcode.commands.carousel.AutoCarouselSpinCommand;
+          import org.firstinspires.ftc.teamcode.commands.dump.DumpCarryCommand;
           import org.firstinspires.ftc.teamcode.commands.dump.DumpCollectCommand;
           import org.firstinspires.ftc.teamcode.commands.dump.DumpUnloadTopLevelCommand;
           import org.firstinspires.ftc.teamcode.commands.intake.IntakeInCommand;
           import org.firstinspires.ftc.teamcode.commands.intake.IntakeOutCommand;
           import org.firstinspires.ftc.teamcode.commands.intake.IntakeStopCommand;
+          import org.firstinspires.ftc.teamcode.subsystems.CarouselSubsystem;
           import org.firstinspires.ftc.teamcode.subsystems.DumpSubsystem;
           import org.firstinspires.ftc.teamcode.subsystems.DrivebaseSubsystem;
           import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
           import org.firstinspires.ftc.teamcode.subsystems.VisionSubsystem;
 
 public class RedDuckRemainderCommandGroup extends SequentialCommandGroup {
-    public RedDuckRemainderCommandGroup(DrivebaseSubsystem drive, DumpSubsystem bucket, IntakeSubsystem intake, VisionSubsystem vision) {
+    public RedDuckRemainderCommandGroup(DrivebaseSubsystem drive, DumpSubsystem dump, IntakeSubsystem intake, CarouselSubsystem carousel) {
         super(
-/*
-Wrong
- */
-                  new TrajectorySequenceCommand(drive, AutonomousConstants.BLUE_DEPOT_COLLECT1_TO_ALLIANCE_HUB_LEVEL_3).alongWith(new IntakeOutCommand(intake).sleep(0.5).andThen(new IntakeStopCommand(intake))),
-                  new DumpUnloadTopLevelCommand(bucket).withTimeout(1.5),
-                  new WaitCommand(1),
-                  new DumpCollectCommand(bucket), // Bucket dump command
-                  new IntakeInCommand(intake), // Intake command - spin the intake before arrived at the depot
-                  new TrajectorySequenceCommand(drive, AutonomousConstants.BLUE_ALLIANCE_HUB_LEVEL3_TO_DEPOT_COLLECT2),
-
-                  new TrajectorySequenceCommand(drive, AutonomousConstants.BLUE_DEPOT_COLLECT2_TO_ALLIANCE_HUB_LEVEL_3).alongWith(new IntakeOutCommand(intake).sleep(0.5).andThen(new IntakeStopCommand(intake))),
-                  new DumpUnloadTopLevelCommand(bucket).withTimeout(1.5),
-                  new WaitCommand(1),
-                  new DumpCollectCommand(bucket), // Bucket dump command
-                  new TrajectorySequenceCommand(drive, AutonomousConstants.BLUE_ALLIANCE_HUB_LEVEL3_TO_DEPOT_COLLECT1),
-
+                  new AutoCarouselSpinCommand(carousel).withTimeout(4),
+                  new DumpCarryCommand(dump),
+                  new DumpCollectCommand(dump),
+                  new TrajectorySequenceCommand(drive, AutonomousConstants.RED_DUCK_CAROUSEL_TO_COLLECT1),
+                  new IntakeInCommand(intake),
+                  new AutoRedDuckCollectCommand(drive),
+                  new IntakeStopCommand(intake),
+                  new TrajectorySequenceCommand(drive, AutonomousConstants.RED_DUCK_COLLECT2_TO_ALLIANCE_HUB_LEVEL3),
+                  new AutonomousBucketDumpCommand(dump),
+                  new TrajectorySequenceCommand(drive, AutonomousConstants.RED_DUCK_ALLIANCE_HUB_LEVEL3_TO_PARK),
+                  new DumpCarryCommand(dump),
+                  new DumpCollectCommand(dump),
                   CommandScheduler.getInstance()::terminateOpMode); //ending
     }
 }
