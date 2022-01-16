@@ -22,7 +22,7 @@ public class AutoRedDuckCommandGroup extends SequentialCommandGroup {
                   new AutoCarouselSpinCommand(carousel).withTimeout(4),
                   new DumpCarryCommand(dump),
                   new DumpCollectCommand(dump),
-                  new TrajectorySequenceCommand(drive, AutonomousConstants.RED_DUCK_CAROUSEL_TO_COLLECT1),
+                  new TrajectorySequenceCommand(drive, AutonomousConstants.RED_DUCK_CAROUSEL_TO_DUCK_COLLECT1),
                   new IntakeInCommand(intake),
                   new AutoRedDuckCollectCommand(drive),
                   new IntakeStopCommand(intake),

@@ -121,6 +121,8 @@ public class BarcodePipeline extends OpenCvPipeline implements Supplier<Integer>
     }
 
 
+
+
     public void inputToCr(Mat input){
         Imgproc.cvtColor(input, YCrCb, Imgproc.COLOR_RGB2YCrCb);
         Core.extractChannel(YCrCb, Cr, 1);

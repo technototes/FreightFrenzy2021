@@ -8,11 +8,11 @@ import org.firstinspires.ftc.teamcode.subsystems.DrivebaseSubsystem;
 
 public class AutoRedDuckCollectCommand extends SequentialCommandGroup {
     public AutoRedDuckCollectCommand(DrivebaseSubsystem drive){
-        super(new TrajectorySequenceCommand(drive, AutonomousConstants.RED_DUCK_COLLECT1_TO_COLLECT2),
-                new TrajectorySequenceCommand(drive, AutonomousConstants.RED_DUCK_COLLECT2_TO_COLLECT1),
-                new TrajectorySequenceCommand(drive, AutonomousConstants.RED_DUCK_COLLECT1_TO_COLLECT2),
-                new TrajectorySequenceCommand(drive, AutonomousConstants.RED_DUCK_COLLECT2_TO_COLLECT1),
-                new TrajectorySequenceCommand(drive, AutonomousConstants.RED_DUCK_COLLECT1_TO_COLLECT2),
+        super(new TrajectorySequenceCommand(drive, AutonomousConstants.RED_DUCK_COLLECT1_TO_DUCK_COLLECT2),
+                new TrajectorySequenceCommand(drive, AutonomousConstants.RED_DUCK_COLLECT2_TO_DUCK_COLLECT1),
+                new TrajectorySequenceCommand(drive, AutonomousConstants.RED_DUCK_COLLECT1_TO_DUCK_COLLECT2),
+                new TrajectorySequenceCommand(drive, AutonomousConstants.RED_DUCK_COLLECT2_TO_DUCK_COLLECT1),
+                new TrajectorySequenceCommand(drive, AutonomousConstants.RED_DUCK_COLLECT1_TO_DUCK_COLLECT2),
                 CommandScheduler.getInstance()::terminateOpMode);
     }
 

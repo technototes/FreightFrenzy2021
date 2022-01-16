@@ -61,13 +61,13 @@ public class AutonomousConstants {
                         .lineToLinearHeading(RedConstants.DUCK_CAROUSEL)
                         .setAccelConstraint(getAccelerationConstraint(30))
                         .build(),
-              RED_DUCK_CAROUSEL_TO_COLLECT1 = b -> b.apply(RedConstants.DUCK_CAROUSEL)
+              RED_DUCK_CAROUSEL_TO_DUCK_COLLECT1 = b -> b.apply(RedConstants.DUCK_CAROUSEL)
                         .lineToLinearHeading(RedConstants.DUCK_COLLECT1)
                         .build(),
-              RED_DUCK_COLLECT1_TO_COLLECT2 = b -> b.apply(RedConstants.DUCK_COLLECT1)
+              RED_DUCK_COLLECT1_TO_DUCK_COLLECT2 = b -> b.apply(RedConstants.DUCK_COLLECT1)
                       .lineToLinearHeading(RedConstants.DUCK_COLLECT2)
                       .build(),
-              RED_DUCK_COLLECT2_TO_COLLECT1 = b -> b.apply(RedConstants.DUCK_COLLECT2)
+              RED_DUCK_COLLECT2_TO_DUCK_COLLECT1 = b -> b.apply(RedConstants.DUCK_COLLECT2)
                     .lineToLinearHeading(RedConstants.DUCK_COLLECT1)
                     .build(),
               RED_DUCK_COLLECT2_TO_ALLIANCE_HUB_LEVEL3 = b -> b.apply(RedConstants.DUCK_COLLECT2)
@@ -167,13 +167,13 @@ public class AutonomousConstants {
               BLUE_DUCK_START_TO_ALLIANCE_HUB_LEVEL_3 = b -> b.apply(BlueConstants.DUCK_START)
                         .lineToLinearHeading(BlueConstants.DUCK_ALLIANCE_HUB_LEVEL3)
                         .build(),
-              BLUE_DUCK_CAROUSEL_TO_COLLECT1 = b -> b.apply(BlueConstants.DUCK_CAROUSEL)
+              BLUE_DUCK_CAROUSEL_TO_DUCK_COLLECT1 = b -> b.apply(BlueConstants.DUCK_CAROUSEL)
                               .lineToLinearHeading(BlueConstants.DUCK_COLLECT1)
                               .build(),
-              BLUE_DUCK_COLLECT1_TO_COLLECT2 = b -> b.apply(BlueConstants.DUCK_COLLECT1)
+              BLUE_DUCK_COLLECT1_TO_DUCK_COLLECT2 = b -> b.apply(BlueConstants.DUCK_COLLECT1)
                               .lineToLinearHeading(BlueConstants.DUCK_COLLECT2)
                               .build(),
-              BLUE_DUCK_COLLECT2_TO_COLLECT1 = b -> b.apply(BlueConstants.DUCK_COLLECT2)
+              BLUE_DUCK_COLLECT2_TO_DUCK_COLLECT1 = b -> b.apply(BlueConstants.DUCK_COLLECT2)
                               .lineToLinearHeading(BlueConstants.DUCK_COLLECT1)
                               .build(),
               BLUE_DUCK_COLLECT2_TO_ALLIANCE_HUB_LEVEL3 = b -> b.apply(BlueConstants.DUCK_COLLECT2)
