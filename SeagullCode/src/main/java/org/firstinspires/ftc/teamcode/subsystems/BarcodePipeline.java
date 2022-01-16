@@ -191,9 +191,16 @@ public class BarcodePipeline extends OpenCvPipeline implements Supplier<Integer>
         Imgproc.rectangle(input, currentConfig.region2, ((max == 1) ? RED : BLUE), 2);
         Imgproc.rectangle(input, currentConfig.region3, ((max == 2) ? RED : BLUE), 2);
 //        System.out.printf("ASDF Read Max Value: %d\n", max);
-        on_square_1 = max == 0;
-        on_square_2 = max == 1;
-        on_square_3 = max == 2;
+        if ((Math.max(red_avg[0], red_avg[1]) > 10) && red_avg[2] > 10){
+            on_square_1 = max == 0;
+            on_square_2 = max == 1;
+            on_square_3 = max == 2;
+        }
+        else{
+            on_square_1 = true;
+            on_square_2 = false;
+            on_square_3 = false;
+        }
 
 
 
