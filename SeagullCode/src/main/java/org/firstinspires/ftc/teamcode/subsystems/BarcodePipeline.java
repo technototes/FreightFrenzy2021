@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.DuckOrDepot;
 import org.firstinspires.ftc.teamcode.commands.autonomous.AutonomousConstants;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
@@ -23,6 +24,7 @@ import static org.firstinspires.ftc.teamcode.subsystems.BarcodePipeline.BarcodeC
 import com.technototes.library.logger.LogConfig;
 import com.technototes.library.logger.Loggable;
 import com.technototes.library.logger.Log;
+import com.technototes.library.util.Alliance;
 
 public class BarcodePipeline extends OpenCvPipeline implements Supplier<Integer>, Loggable{
 
@@ -50,6 +52,7 @@ public class BarcodePipeline extends OpenCvPipeline implements Supplier<Integer>
             MEDIUM,
             LOW,
         }
+
         public static ArmPosition position;
 
         /**
@@ -59,20 +62,36 @@ public class BarcodePipeline extends OpenCvPipeline implements Supplier<Integer>
 
         static final Scalar BLUE = new Scalar(0, 0, 255);
         static final Scalar RED = new Scalar(255, 0, 0);
-        public static int REGION_1_LEFT = 0;
-        public static int REGION_1_RIGHT = 100;
-        public static int REGION_1_DOWN = 200;
-        public static int REGION_1_UP = 0;
-
-        public static int REGION_2_LEFT = 100;
-        public static int REGION_2_RIGHT = 200;
-        public static int REGION_2_DOWN = 200;
-        public static int REGION_2_UP = 0;
-
-        public static int REGION_3_LEFT = 200;
-        public static int REGION_3_RIGHT = 300;
-        public static int REGION_3_DOWN = 200;
-        public static int REGION_3_UP = 0;
+        public static class CameraConfig {
+            final Alliance alliance;
+            final DuckOrDepot side;
+            final Rect region1;
+            final Rect region2;
+            final Rect region3;
+            CameraConfig(Alliance alliance, DuckOrDepot side, int top1, int left1, int bottom1, int right1,
+                         int top2, int left2, int bottom2, int right2,
+                         int top3, int left3, int bottom3, int right3) {
+                this.alliance = alliance;
+                this.side = side;
+                this.region1 = new Rect(new Point(top1, left1), new Point(bottom1, right1));
+                this.region2 = new Rect(new Point(top2, left2), new Point(bottom2, right2));
+                this.region3 = new Rect(new Point(top3, left3), new Point(bottom3, right3));
+            }
+        }
+        private static final CameraConfig cameraConfigs[] = {
+                new CameraConfig(Alliance.BLUE, DuckOrDepot.DEPOT, 0,   0, 100, 200,
+                        100, 0, 200, 200,
+                        200, 0, 300, 200),
+                new CameraConfig(Alliance.BLUE, DuckOrDepot.DUCK,  0,   0, 100, 200,
+                        100, 0, 200, 200,
+                        200, 0, 300, 200),
+                new CameraConfig(Alliance.RED,  DuckOrDepot.DEPOT, 0,   0, 100, 200,
+                        100, 0, 200, 200,
+                        200, 0, 300, 200),
+                new CameraConfig(Alliance.RED,  DuckOrDepot.DUCK,  0,   0, 100, 200,
+                        100, 0, 200, 200,
+                        200, 0, 300, 200)
+        };
 
 //        public final static Point REGION_1_TOPLEFT_ANCHOR_POINT = new Point(REGION_1_LEFT, REGION_1_UP);
 //        public final static Point REGION_2_TOPLEFT_ANCHOR_POINT = new Point(REGION_2_LEFT, REGION_2_UP);
@@ -83,16 +102,11 @@ public class BarcodePipeline extends OpenCvPipeline implements Supplier<Integer>
 
     public Exception debug;
 
-    public Point region_1_pointA = new Point(REGION_1_LEFT, REGION_1_UP);
-    public Point region_1_pointB = new Point(REGION_1_RIGHT, REGION_1_DOWN);
-    public Point region_2_pointA = new Point(REGION_2_LEFT, REGION_2_UP);
-    public Point region_2_pointB = new Point(REGION_2_RIGHT, REGION_2_DOWN);
-    public Point region_3_pointA = new Point(REGION_3_LEFT, REGION_3_UP);
-    public Point region_3_pointB = new Point(REGION_3_RIGHT, REGION_3_DOWN);
 
 
 
 
+    private CameraConfig currentConfig = null;
     public Mat region_1_Cr, region_2_Cr, region_3_Cr;
     public Mat YCrCb = new Mat();
     public Mat Cr = new Mat();
@@ -132,9 +146,17 @@ public class BarcodePipeline extends OpenCvPipeline implements Supplier<Integer>
 
         inputToCr(firstFrame);
 
-        region_1_Cr = Cr.submat(new Rect(region_1_pointA, region_1_pointB));
-        region_2_Cr = Cr.submat(new Rect(region_2_pointA, region_2_pointB));
-        region_3_Cr = Cr.submat(new Rect(region_3_pointA, region_3_pointB));
+    }
+    public void setStartingPosition(Alliance alliance, DuckOrDepot side){
+        for (CameraConfig config : BarcodeConstants.cameraConfigs){
+            if (alliance.equals(config.alliance) && side.equals(config.side)){
+                region_1_Cr = Cr.submat(config.region1);
+                region_2_Cr = Cr.submat(config.region2);
+                region_3_Cr = Cr.submat(config.region3);
+                currentConfig = config;
+                break;
+            }
+        }
 
     }
 
@@ -165,9 +187,9 @@ public class BarcodePipeline extends OpenCvPipeline implements Supplier<Integer>
         if (red_avg[max] < red_avg[2]){
             max = 2;
         }
-        Imgproc.rectangle(input, region_1_pointA, region_1_pointB, ((max == 0) ? RED : BLUE), 2);
-        Imgproc.rectangle(input, region_2_pointA, region_2_pointB, ((max == 1) ? RED : BLUE), 2);
-        Imgproc.rectangle(input, region_3_pointA, region_3_pointB, ((max == 2) ? RED : BLUE), 2);
+        Imgproc.rectangle(input, currentConfig.region1, ((max == 0) ? RED : BLUE), 2);
+        Imgproc.rectangle(input, currentConfig.region2, ((max == 1) ? RED : BLUE), 2);
+        Imgproc.rectangle(input, currentConfig.region3, ((max == 2) ? RED : BLUE), 2);
 //        System.out.printf("ASDF Read Max Value: %d\n", max);
         on_square_1 = max == 0;
         on_square_2 = max == 1;

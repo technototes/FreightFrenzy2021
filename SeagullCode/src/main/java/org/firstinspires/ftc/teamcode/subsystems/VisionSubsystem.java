@@ -3,10 +3,12 @@ package org.firstinspires.ftc.teamcode.subsystems;
 import com.acmerobotics.dashboard.config.Config;
 import com.technototes.library.logger.Loggable;
 import com.technototes.library.subsystem.Subsystem;
+import com.technototes.library.util.Alliance;
 import com.technototes.vision.hardware.Camera;
 import com.technototes.vision.hardware.Webcam;
 import com.technototes.vision.subsystem.PipelineSubsystem;
 
+import org.firstinspires.ftc.teamcode.DuckOrDepot;
 import org.opencv.core.Mat;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 
@@ -24,6 +26,7 @@ public class VisionSubsystem implements Subsystem, Loggable {
   public BarcodePipeline barcodePipeline = new BarcodePipeline();
   public Webcam camera;
 
+
   public VisionSubsystem(Webcam c) {
 
     camera = c;
@@ -39,6 +42,10 @@ public class VisionSubsystem implements Subsystem, Loggable {
   public void stopBarcodePipeline(){
     camera.setPipeline(null);
     camera.closeCameraDeviceAsync(()->{});
+  }
+  public void setStartingPosition(Alliance alliance, DuckOrDepot side){
+    barcodePipeline.setStartingPosition(alliance, side);
+
   }
 
   public double get_green_position() {

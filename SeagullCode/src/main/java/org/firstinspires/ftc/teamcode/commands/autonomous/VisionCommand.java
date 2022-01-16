@@ -1,15 +1,19 @@
 package org.firstinspires.ftc.teamcode.commands.autonomous;
 
 import com.technototes.library.command.Command;
+import com.technototes.library.util.Alliance;
 
+import org.firstinspires.ftc.teamcode.DuckOrDepot;
 import org.firstinspires.ftc.teamcode.subsystems.VisionSubsystem;
 
 public class VisionCommand implements Command {
-    private VisionSubsystem subsystem;
-    public VisionCommand(VisionSubsystem s){
+    public VisionSubsystem subsystem;
+    public VisionCommand(VisionSubsystem s, Alliance alliance, DuckOrDepot side){
         subsystem = s;
-        addRequirements(s);
+        subsystem.setStartingPosition(alliance, side);
+        addRequirements(subsystem);
     }
+
     @Override
     public void initialize() {
         subsystem.startBarcodePipeline();

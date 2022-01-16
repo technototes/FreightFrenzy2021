@@ -2,19 +2,16 @@ package org.firstinspires.ftc.teamcode.opmodes;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.technototes.library.command.CommandScheduler;
-import com.technototes.library.command.SequentialCommandGroup;
 import com.technototes.library.logger.Loggable;
 import com.technototes.library.structure.CommandOpMode;
 import com.technototes.library.util.Alliance;
 
+import org.firstinspires.ftc.teamcode.DuckOrDepot;
 import org.firstinspires.ftc.teamcode.Hardware;
 import org.firstinspires.ftc.teamcode.Robot;
-import org.firstinspires.ftc.teamcode.commands.VisionCommand;
+import org.firstinspires.ftc.teamcode.commands.autonomous.VisionCommand;
 import org.firstinspires.ftc.teamcode.commands.autonomous.AutoBlueDepotVizCommandGroup;
-import org.firstinspires.ftc.teamcode.commands.autonomous.AutoBlueDuckCommandGroup;
 import org.firstinspires.ftc.teamcode.commands.autonomous.AutonomousConstants;
-import org.firstinspires.ftc.teamcode.commands.autonomous.BlueDepotRemainderCommandGroup;
-import org.firstinspires.ftc.teamcode.commands.autonomous.HeightSelectBlueDepotCommand;
 
 @Autonomous(name = "Blue Depot Viz")
 @SuppressWarnings("unused")
@@ -29,7 +26,7 @@ public class BlueDepotWithViz extends CommandOpMode implements Loggable {
         hardware = new Hardware();
         robot = new Robot(hardware);
         robot.drivebaseSubsystem.setPoseEstimate(AutonomousConstants.BlueConstants.DEPOT_START);
-        CommandScheduler.getInstance().scheduleInit(new VisionCommand(robot.visionSubsystem));
+        CommandScheduler.getInstance().scheduleInit(new VisionCommand(robot.visionSubsystem, Alliance.BLUE, DuckOrDepot.DEPOT));
         CommandScheduler.getInstance().scheduleForState(
                   new AutoBlueDepotVizCommandGroup(robot.drivebaseSubsystem, robot.dumpSubsystem, robot.intakeSubsystem, robot.visionSubsystem),
             CommandOpMode.OpModeState.RUN);
