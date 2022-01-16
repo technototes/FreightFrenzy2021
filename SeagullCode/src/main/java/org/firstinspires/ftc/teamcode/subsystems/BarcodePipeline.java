@@ -145,14 +145,14 @@ public class BarcodePipeline extends OpenCvPipeline implements Supplier<Integer>
     public void init(Mat firstFrame){
 
         inputToCr(firstFrame);
+        region_1_Cr = Cr.submat(currentConfig.region1);
+        region_2_Cr = Cr.submat(currentConfig.region2);
+        region_3_Cr = Cr.submat(currentConfig.region3);
 
     }
     public void setStartingPosition(Alliance alliance, DuckOrDepot side){
         for (CameraConfig config : BarcodeConstants.cameraConfigs){
             if (alliance.equals(config.alliance) && side.equals(config.side)){
-                region_1_Cr = Cr.submat(config.region1);
-                region_2_Cr = Cr.submat(config.region2);
-                region_3_Cr = Cr.submat(config.region3);
                 currentConfig = config;
                 break;
             }

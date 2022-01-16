@@ -3,6 +3,7 @@
  */
 package org.firstinspires.ftc.teamcode.opmodes;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.technototes.library.command.CommandScheduler;
 import com.technototes.library.logger.Loggable;
 import com.technototes.library.structure.CommandOpMode;
@@ -15,7 +16,7 @@ import org.firstinspires.ftc.teamcode.commands.autonomous.VisionCommand;
 import org.firstinspires.ftc.teamcode.commands.autonomous.AutoRedDuckVizCommandGroup;
 import org.firstinspires.ftc.teamcode.commands.autonomous.AutonomousConstants;
 
-//@Autonomous(name = "Red Duck")
+@Autonomous(name = "Red Duck Viz")
 @SuppressWarnings("unused")
 public class RedDuckWithViz extends CommandOpMode implements Loggable {
     public Robot robot;
