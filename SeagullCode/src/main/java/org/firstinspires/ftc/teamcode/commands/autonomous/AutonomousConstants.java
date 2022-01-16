@@ -198,11 +198,11 @@ public class AutonomousConstants {
                         .setVelConstraint((a, c, d, e)->20)
                         .splineTo(BlueConstants.DEPOT_COLLECT2.vec(), BlueConstants.DEPOT_COLLECT2.getHeading())
                         .build(),
-              BLUE_DEPOT_COLLECT1_TO_ALLIANCE_HUB_LEVEL_3 = b -> b.apply(BlueConstants.DEPOT_COLLECT1)
+              BLUE_DEPOT_COLLECT1_TO_ALLIANCE_HUB_LEVEL3 = b -> b.apply(BlueConstants.DEPOT_COLLECT1)
                         .lineToLinearHeading(BlueConstants.DEPOT_GAP)
                         .splineTo(BlueConstants.DEPOT_ALLIANCE_HUB_LEVEL3.vec(), BlueConstants.DEPOT_ALLIANCE_HUB_LEVEL3.getHeading()+Math.PI) // may be wrong, need to test out
                         .build(),
-              BLUE_DEPOT_COLLECT2_TO_ALLIANCE_HUB_LEVEL_3 = b -> b.apply(BlueConstants.DEPOT_COLLECT2)
+              BLUE_DEPOT_COLLECT2_TO_ALLIANCE_HUB_LEVEL3 = b -> b.apply(BlueConstants.DEPOT_COLLECT2)
                         .lineToLinearHeading(BlueConstants.DEPOT_GAP)
                         .splineTo(BlueConstants.DEPOT_ALLIANCE_HUB_LEVEL3.vec(), BlueConstants.DEPOT_ALLIANCE_HUB_LEVEL3.getHeading()+Math.PI) // may be wrong, need to test out
                         .build(),
