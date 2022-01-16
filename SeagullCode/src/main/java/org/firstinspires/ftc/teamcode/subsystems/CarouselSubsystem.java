@@ -19,6 +19,8 @@ public class CarouselSubsystem implements Subsystem, Supplier<Double> {
         public static double CAROUSEL_BLUE_FAST = 1;
         public static double CAROUSEL_RED_SLOW = -0.9;
         public static double CAROUSEL_RED_FAST = -1;
+        public static double CAROUSEL_AUTO_RED_SLOW = -0.6;
+        public static double CAROUSEL_AUTO_BLUE_SLOW = 0.6;
     }
 
     public Motor<DcMotorEx> motor;
@@ -40,6 +42,13 @@ public class CarouselSubsystem implements Subsystem, Supplier<Double> {
     }
     public void blue_fast(){
         motor.setSpeed(CAROUSEL_BLUE_FAST);
+    }
+
+    public void red_auto(){
+        motor.setSpeed(CAROUSEL_AUTO_RED_SLOW);
+    }
+    public void blue_auto(){
+        motor.setSpeed(CAROUSEL_AUTO_BLUE_SLOW);
     }
 
 
