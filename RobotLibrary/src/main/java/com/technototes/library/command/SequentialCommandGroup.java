@@ -14,15 +14,6 @@ public class SequentialCommandGroup extends CommandGroup {
         super(false, commands);
     }
 
-    /** Make sequential command group
-     *
-     * @param commands The commands to run
-     */
-    public SequentialCommandGroup(boolean b, Command... commands) {
-        super(b, commands);
-    }
-
-
     @Override
     public void schedule(Command c) {
         if(lastCommand == null){
@@ -39,7 +30,7 @@ public class SequentialCommandGroup extends CommandGroup {
      */
     @Override
     public boolean isFinished() {
-        return !commandMap.containsValue(false);
+        return lastCommand.justFinished() || anyCancelled;
     }
 
 
