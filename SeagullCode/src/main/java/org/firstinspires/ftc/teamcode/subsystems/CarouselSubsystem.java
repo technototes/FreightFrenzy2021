@@ -15,9 +15,9 @@ public class CarouselSubsystem implements Subsystem, Supplier<Double> {
 
     public static class CarouselConstants{
         public static double CAROUSEL_STOP_SPEED = 0;
-        public static double CAROUSEL_BLUE_SLOW = 0.9;
+        public static double CAROUSEL_BLUE_SLOW = 0.85;
         public static double CAROUSEL_BLUE_FAST = 1;
-        public static double CAROUSEL_RED_SLOW = -0.9;
+        public static double CAROUSEL_RED_SLOW = -0.85;
         public static double CAROUSEL_RED_FAST = -1;
         public static double CAROUSEL_AUTO_RED_SLOW = -0.6;
         public static double CAROUSEL_AUTO_BLUE_SLOW = 0.6;
