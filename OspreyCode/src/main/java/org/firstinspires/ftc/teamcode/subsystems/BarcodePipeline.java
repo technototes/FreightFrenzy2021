@@ -23,7 +23,7 @@ public class BarcodePipeline extends OpenCvPipeline implements Supplier<Integer>
     public static class BarcodeConstants {
         public static boolean DISPLAY = true;
         public static Scalar DISPLAY_COLOR = new Scalar(200, 0, 0);
-        public static Scalar LOWER_LIMIT = new Scalar(  100.0, 0.0, 0.0, 0.0);
+        public static Scalar LOWER_LIMIT = new Scalar(80.0, 0.0, 0.0, 0.0);
         public static Scalar UPPER_LIMIT = new Scalar(255.0, 80.0, 80.0, 255.0);
         public static int BORDER_LEFT_X = 0;   //amount of pixels from the left side of the cam to skip
         public static int BORDER_RIGHT_X = 0;   //amount of pixels from the right of the cam to skip
@@ -36,7 +36,7 @@ public class BarcodePipeline extends OpenCvPipeline implements Supplier<Integer>
         public static Point RIGHT = new Point(270, 120);
 
         public static int VARIANCE = 50;
-        public static double MIN_AREA = 500;
+        public static double MIN_AREA = 1000;
 
 
     }

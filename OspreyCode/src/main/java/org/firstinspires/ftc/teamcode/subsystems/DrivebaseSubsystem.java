@@ -16,6 +16,7 @@ import com.technototes.path.subsystem.DistanceSensorLocalizer;
 import com.technototes.path.subsystem.MecanumConstants;
 import com.technototes.path.subsystem.MecanumDrivebaseSubsystem;
 
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.Hardware;
 import org.firstinspires.ftc.teamcode.RobotConstants;
 
@@ -78,7 +79,7 @@ public class DrivebaseSubsystem extends MecanumDrivebaseSubsystem implements Sup
         @TransPID
         public static PIDCoefficients TRANSLATIONAL_PID = new PIDCoefficients(8, 0, 0);
         @HeadPID
-        public static PIDCoefficients HEADING_PID = new PIDCoefficients(5, 0, 0);
+        public static PIDCoefficients HEADING_PID = new PIDCoefficients(4, 0, 0);
 
         @LateralMult
         public static double LATERAL_MULTIPLIER = 1;
@@ -150,20 +151,22 @@ public class DrivebaseSubsystem extends MecanumDrivebaseSubsystem implements Sup
     }
 
     public void resetGyro(){
-        xOffset = imu.getAngularOrientation().secondAngle;
-        yOffset = imu.getAngularOrientation().thirdAngle;
-        distanceSensorLocalizer.setGyroOffset(imu.gyroHeadingInRadians()-Math.toRadians(RobotConstants.getAlliance().selectOf(-90, 90)));
+        Orientation i = imu.getAngularOrientation();
+        xOffset = i.secondAngle;
+        yOffset = i.thirdAngle;
+        distanceSensorLocalizer.setGyroOffset(i.firstAngle-Math.toRadians(RobotConstants.getAlliance().selectOf(-90, 90)));
 
     }
 
     public void setSafeDrivePower(Pose2d raw){
-
-        float x = 0, y = 0, adjX = xOffset-imu.getAngularOrientation().secondAngle, adjY = imu.getAngularOrientation().thirdAngle-yOffset;
+        Orientation i = imu.getAngularOrientation();
+        float x = 0, y = 0, adjX = xOffset-i.secondAngle, adjY = i.thirdAngle-yOffset;
         if(Math.abs(adjY) > TIP_TOLERANCE) y = adjY;
         if(Math.abs(adjX) > TIP_TOLERANCE) x = adjX;
 //        setWeightedDrivePower(raw.plus(new Pose2d(x>0 ? Math.max(x-TIP_TOLERANCE, 0) : Math.min(x+TIP_TOLERANCE, 0), y>0 ? Math.max(y-TIP_TOLERANCE, 0) : Math.min(y+TIP_TOLERANCE, 0), 0)));
         setWeightedDrivePower(raw.plus(new Pose2d(Range.clip(x*2, -TIP_AUTHORITY, TIP_AUTHORITY), Range.clip(y*2, -TIP_AUTHORITY, TIP_AUTHORITY), 0)));
     }
+
 
 
     @Override

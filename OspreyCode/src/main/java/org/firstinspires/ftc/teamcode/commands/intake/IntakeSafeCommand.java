@@ -15,6 +15,6 @@ public class IntakeSafeCommand extends IntakeInCommand {
 
     @Override
     public void end(boolean cancel) {
-        subsystem.stop();
+        if(!cancel) subsystem.stop();
     }
 }

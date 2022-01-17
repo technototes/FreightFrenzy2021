@@ -1,10 +1,12 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.acmerobotics.dashboard.config.Config;
+import com.technototes.library.logger.LogConfig;
 import com.technototes.library.util.Color;
 import com.technototes.library.logger.Log;
 import com.technototes.library.logger.Loggable;
 
+import org.firstinspires.ftc.teamcode.opmodes.TeleOpBase;
 import org.firstinspires.ftc.teamcode.subsystems.CapSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.CarouselSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ArmSubsystem;
@@ -41,6 +43,7 @@ public class Robot implements Loggable {
     @Log(name = "Extension", entryColor = Color.BLUE)
     public ExtensionSubsystem extensionSubsystem;
 
+    @LogConfig.Blacklist(TeleOpBase.class)
     @Log(name = "Drivebase", entryColor = Color.BLUE)
     public DrivebaseSubsystem drivebaseSubsystem;
 

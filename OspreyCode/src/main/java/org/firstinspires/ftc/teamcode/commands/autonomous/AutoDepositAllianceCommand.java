@@ -13,13 +13,15 @@ import org.firstinspires.ftc.teamcode.subsystems.DrivebaseSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ExtensionSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem;
-
+@com.acmerobotics.dashboard.config.Config
 public class AutoDepositAllianceCommand extends SequentialCommandGroup {
+   public static double TIME = 0.8;
     public AutoDepositAllianceCommand(DrivebaseSubsystem drive, IntakeSubsystem intake, LiftSubsystem lift, ArmSubsystem deposit, ExtensionSubsystem extension) {
         super(drive::relocalize,
                 new RegenerativeTrajectorySequenceCommand(drive, RobotConstants.WAREHOUSE_TO_HUB, drive)
-                        .alongWith(new IntakeOutCommand(intake).withTimeout(0.3)
-                                .andThen(new WaitCommand(0.3).andThen(new DepositAllianceCommand(deposit, extension, lift)))),
+                        .alongWith(deposit::slightCarry,
+                                new WaitCommand(0.3).andThen(new IntakeOutCommand(intake)).withTimeout(TIME)
+                                .andThen(new DepositAllianceCommand(deposit, extension, lift))),
                 new BucketDumpCommand(deposit));
     }
 }

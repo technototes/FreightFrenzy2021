@@ -23,7 +23,7 @@ public class LiftSubsystem implements Subsystem, Supplier<Double> {
         public static double LIFT_UPPER_LIMIT = 600.0;
         public static double LIFT_LOWER_LIMIT = 0.0;
         //300 for single slide
-        public static double COLLECT = 0, NEUTRAL = 100, LEVEL_1 = 50, LEVEL_2 = 200, LEVEL_3 = 600;
+        public static double COLLECT = 0, NEUTRAL = 150, LEVEL_1 = 100, LEVEL_2 = 200, LEVEL_3 = 550;
 
         public static double DEADZONE = 30;
 

@@ -132,7 +132,7 @@ public class Controls {
         toIntakeButton.whenPressed(new ArmInCommand(robot.armSubsystem));
         allianceHubButton.whileReleasedOnce( new ArmAllianceCommand(robot.armSubsystem).asConditional(RobotState::isDepositing));
         sharedHubButton.whileReleasedOnce(new ArmSharedCommand(robot.armSubsystem).asConditional(RobotState::isDepositing));
-
+        intakeInButton.whenPressed(new ArmInCommand(robot.armSubsystem));
     }
 
     public void bindLiftControls() {
@@ -144,10 +144,10 @@ public class Controls {
     }
 
     public void bindDriveControls() {
-        if(EXTENSION_ENABLED && ARM_ENABLED && LIFT_ENABLED && INTAKE_ENABLED){
-            allianceHubButton.whilePressed( new TeleopDepositAllianceCommand(robot.drivebaseSubsystem, robot.intakeSubsystem, robot.liftSubsystem, robot.armSubsystem, robot.extensionSubsystem).andThen(new TeleopIntakeAllianceWarehouseCommand(robot.drivebaseSubsystem, robot.intakeSubsystem, robot.liftSubsystem, robot.armSubsystem, robot.extensionSubsystem)));
-            sharedHubButton.whilePressed(new TeleopDepositSharedCommand(robot.drivebaseSubsystem, robot.intakeSubsystem, robot.liftSubsystem, robot.armSubsystem, robot.extensionSubsystem).andThen(new TeleopIntakeSharedWarehouseCommand(robot.drivebaseSubsystem, robot.intakeSubsystem, robot.liftSubsystem, robot.armSubsystem, robot.extensionSubsystem)));
-        }
+//        if(EXTENSION_ENABLED && ARM_ENABLED && LIFT_ENABLED && INTAKE_ENABLED){
+//            allianceHubButton.whilePressed( new TeleopDepositAllianceCommand(robot.drivebaseSubsystem, robot.intakeSubsystem, robot.liftSubsystem, robot.armSubsystem, robot.extensionSubsystem).andThen(new TeleopIntakeAllianceWarehouseCommand(robot.drivebaseSubsystem, robot.intakeSubsystem, robot.liftSubsystem, robot.armSubsystem, robot.extensionSubsystem)));
+//            sharedHubButton.whilePressed(new TeleopDepositSharedCommand(robot.drivebaseSubsystem, robot.intakeSubsystem, robot.liftSubsystem, robot.armSubsystem, robot.extensionSubsystem).andThen(new TeleopIntakeSharedWarehouseCommand(robot.drivebaseSubsystem, robot.intakeSubsystem, robot.liftSubsystem, robot.armSubsystem, robot.extensionSubsystem)));
+//        }
         robot.drivebaseSubsystem.setDefaultCommand(new DriveCommand(robot.drivebaseSubsystem, driveLeftStick, driveRightStick));
         robot.drivebaseSubsystem.setExternalHeading(Math.toRadians(180));
 //        allianceHubButton.whenPressed(new DriveSpeedCommand(robot.drivebaseSubsystem).cancelUpon(toIntakeButton));
@@ -156,9 +156,9 @@ public class Controls {
     }
 
     public void bindIntakeControls() {
-        if(ARM_ENABLED) toIntakeButton.whenPressed( new WaitCommand(1.2).andThen(new IntakeSafeCommand(robot.intakeSubsystem).andThen(robot.armSubsystem::slightCarry, driverGamepad::rumbleBlip).withTimeout(5)));
+        if(ARM_ENABLED) toIntakeButton.whenPressed( new WaitCommand(1.2).andThen(new IntakeSafeCommand(robot.intakeSubsystem).andThen(robot.armSubsystem::slightCarry, driverGamepad::rumbleBlip, new WaitCommand(0.5).andThen(new IntakeOutCommand(robot.intakeSubsystem).withTimeout(0.5))).withTimeout(4)));
         else toIntakeButton.whenPressed(new WaitCommand(1).andThen(new IntakeSafeCommand(robot.intakeSubsystem)));
-        intakeInButton.whilePressedContinuous(new IntakeInCommand(robot.intakeSubsystem));
+        intakeInButton.whilePressedContinuous(new IntakeSafeCommand(robot.intakeSubsystem).andThen(robot.armSubsystem::slightCarry, driverGamepad::rumbleBlip, new WaitCommand(0.5).andThen(new IntakeOutCommand(robot.intakeSubsystem).withTimeout(0.5))).withTimeout(4));
         intakeOutButton.whilePressedOnce(new IntakeOutCommand(robot.intakeSubsystem));
         allianceHubButton.whenReleased(new IntakeOutCommand(robot.intakeSubsystem).withTimeout(0.2));
         sharedHubButton.whenReleased(new IntakeOutCommand(robot.intakeSubsystem).withTimeout(0.2));
