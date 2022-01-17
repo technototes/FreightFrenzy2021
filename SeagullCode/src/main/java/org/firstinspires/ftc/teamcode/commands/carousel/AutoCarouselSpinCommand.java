@@ -17,8 +17,8 @@ public class AutoCarouselSpinCommand implements Command {
 
     @Override
     public void execute(){
-        if(AutonomousConstants.ALLIANCE == Alliance.RED) subsystem.red_slow();
-        else subsystem.blue_slow();
+        if(AutonomousConstants.ALLIANCE == Alliance.RED) subsystem.red_auto();
+        else subsystem.blue_auto();
     }
 
 

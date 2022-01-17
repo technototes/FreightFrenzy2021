@@ -14,7 +14,7 @@ import org.firstinspires.ftc.teamcode.Robot;
 import org.firstinspires.ftc.teamcode.commands.autonomous.AutoBlueDuckCommandGroup;
 import org.firstinspires.ftc.teamcode.commands.autonomous.AutonomousConstants;
 
-@Autonomous(name = "Blue Duck")
+@Autonomous(name = "Blue Ducky")
 @SuppressWarnings("unused")
 public class BlueDuckAuto extends CommandOpMode implements Loggable {
     public Robot robot;
