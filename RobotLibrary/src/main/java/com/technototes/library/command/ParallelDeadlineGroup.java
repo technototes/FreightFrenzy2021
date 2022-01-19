@@ -13,7 +13,7 @@ public class ParallelDeadlineGroup extends CommandGroup {
      * @param commands The commands for the group
      */
     public ParallelDeadlineGroup(Command command, Command... commands) {
-        super(true, commands);
+        super(false, commands);
         addCommands(command);
         deadline = command;
     }
@@ -22,6 +22,7 @@ public class ParallelDeadlineGroup extends CommandGroup {
     public void schedule(Command c) {
         CommandScheduler.getInstance().scheduleWithOther(this, c);
     }
+
 
     @Override
     public boolean isFinished() {

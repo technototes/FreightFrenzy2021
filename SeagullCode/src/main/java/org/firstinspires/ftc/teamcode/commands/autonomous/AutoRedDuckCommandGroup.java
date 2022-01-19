@@ -20,7 +20,7 @@ public class AutoRedDuckCommandGroup extends SequentialCommandGroup {
         super(new TrajectorySequenceCommand(drive, AutonomousConstants.RED_DUCK_START_TO_ALLIANCE_HUB_LEVEL3),
                   new AutonomousBucketDumpCommand(dump),
                   new TrajectorySequenceCommand(drive, AutonomousConstants.RED_DUCK_ALLIANCE_HUB_TO_CAROUSEL),
-                  new AutoCarouselSpinCommand(carousel).withTimeout(.75),
+                  new AutoCarouselSpinCommand(carousel).withTimeout(1),
                   new CarouselRedFastCommand(carousel).withTimeout(1),
                   new DumpCarryCommand(dump),
                   new DumpCollectCommand(dump),

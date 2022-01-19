@@ -20,7 +20,7 @@ public class AutoBlueDuckCommandGroup extends SequentialCommandGroup {
         super(new TrajectorySequenceCommand(drive, AutonomousConstants.BLUE_DUCK_START_TO_ALLIANCE_HUB_LEVEL_3),
                 new AutonomousBucketDumpCommand(dump),
                 new TrajectorySequenceCommand(drive, AutonomousConstants.BLUE_ALLIANCE_HUB_LEVEL3_TO_CAROUSEL),
-                new AutoCarouselSpinCommand(carousel).withTimeout(.75),
+                new AutoCarouselSpinCommand(carousel).withTimeout(1),
                 new CarouselBlueFastCommand(carousel).withTimeout(1),
                 new DumpCarryCommand(dump),
                 new DumpCollectCommand(dump),

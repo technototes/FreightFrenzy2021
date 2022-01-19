@@ -91,7 +91,8 @@ public class Controls {
 
     public void bindBucketControls() {
         intakeInTrigger.whenPressed(
-                new SequentialCommandGroup(new DumpCollectCommand(robot.dumpSubsystem),
+                new SequentialCommandGroup(true,
+                new DumpCollectCommand(robot.dumpSubsystem),
                 new IntakeSafeCommand(robot.intakeSubsystem, robot.dumpSubsystem, gamepad))
         );
         topDepositButton.whenPressed(new DumpUnloadTopLevelCommand(robot.dumpSubsystem).alongWith(new IntakeStopCommand(robot.intakeSubsystem)));
