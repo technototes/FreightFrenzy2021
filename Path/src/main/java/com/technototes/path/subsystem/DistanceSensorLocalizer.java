@@ -105,6 +105,6 @@ public class DistanceSensorLocalizer implements Localizer, Subsystem {
         return new Pose2d(
                 Math.abs(dif.getX()) < 10 ? poseEstimate.getX() : otherRef.getX(),
                 Math.abs(dif.getY()) < 10 ? poseEstimate.getY() : otherRef.getY(),
-                otherRef.getHeading());
+                Math.abs(dif.getHeading()) < Math.PI/4 ? poseEstimate.getHeading() : otherRef.getHeading());
     }
 }
