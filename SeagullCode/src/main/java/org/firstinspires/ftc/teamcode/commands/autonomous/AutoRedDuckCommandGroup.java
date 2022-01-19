@@ -5,6 +5,7 @@ import com.technototes.library.command.SequentialCommandGroup;
 import com.technototes.path.command.TrajectorySequenceCommand;
 
 import org.firstinspires.ftc.teamcode.commands.carousel.AutoCarouselSpinCommand;
+import org.firstinspires.ftc.teamcode.commands.carousel.CarouselRedFastCommand;
 import org.firstinspires.ftc.teamcode.commands.dump.DumpCarryCommand;
 import org.firstinspires.ftc.teamcode.commands.dump.DumpCollectCommand;
 import org.firstinspires.ftc.teamcode.commands.intake.IntakeInCommand;
@@ -19,7 +20,8 @@ public class AutoRedDuckCommandGroup extends SequentialCommandGroup {
         super(new TrajectorySequenceCommand(drive, AutonomousConstants.RED_DUCK_START_TO_ALLIANCE_HUB_LEVEL3),
                   new AutonomousBucketDumpCommand(dump),
                   new TrajectorySequenceCommand(drive, AutonomousConstants.RED_DUCK_ALLIANCE_HUB_TO_CAROUSEL),
-                  new AutoCarouselSpinCommand(carousel).withTimeout(4),
+                  new AutoCarouselSpinCommand(carousel).withTimeout(1),
+                  new CarouselRedFastCommand(carousel).withTimeout(.5),
                   new DumpCarryCommand(dump),
                   new DumpCollectCommand(dump),
                   new TrajectorySequenceCommand(drive, AutonomousConstants.RED_DUCK_CAROUSEL_TO_COLLECT1),
