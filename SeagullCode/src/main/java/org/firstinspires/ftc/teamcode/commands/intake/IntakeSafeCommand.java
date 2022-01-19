@@ -25,6 +25,7 @@ public class IntakeSafeCommand implements Command {
     @Override
     public void initialize() {
         if (intake.getState() == IntakeSubsystem.State.IN) {
+            intake.out();
             intake.stop();
         } else {
             intake.in();
@@ -44,6 +45,7 @@ public class IntakeSafeCommand implements Command {
     @Override
     public void end(boolean cancel){
         if(!cancel){
+            intake.out();
             intake.stop();
             dump.setMotorPosition(ARM_CARRY);
         }
