@@ -11,7 +11,7 @@ public class AxisBase extends ButtonBase implements DoubleSupplier, Periodic {
     /** The default trigger threshold
      *
      */
-    public static final double DEFAULT_TRIGGER_THRESHOLD = 0.1;
+    public static final double DEFAULT_TRIGGER_THRESHOLD = 0.05;
     private double triggerThreshold;
     protected DoubleSupplier doubleSupplier;
 
