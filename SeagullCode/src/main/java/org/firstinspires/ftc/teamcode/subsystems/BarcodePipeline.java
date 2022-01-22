@@ -73,19 +73,31 @@ public class BarcodePipeline extends OpenCvPipeline implements Supplier<Integer>
                 this.region3 = new Rect(new Point(top3, left3), new Point(bottom3, right3));
             }
         }
+        //for each location, want to know which rectangle corresponds to which spot and want to know if theres a spot
+        //we do not see
+        //left rect is 0, middle + right is 1, 2 is not visible
+
+
         private static final CameraConfig cameraConfigs[] = {
+                //blue depot- right rect = top level, center rect = middle level, left rect = nothing, cannot see
+                //barcode for bottom level
                 new CameraConfig(Alliance.BLUE, DuckOrDepot.DEPOT,
                         0,   0, 100, 200,
                         100, 0, 200, 200,
                         200, 0, 300, 200),
+               //blue duck - cannot see barcode for top level, center rect = middle level, right rect = bottom level
+               //left rect = nothing
                 new CameraConfig(Alliance.BLUE, DuckOrDepot.DUCK,
                         0,   0, 100, 200,
                         100, 0, 200, 200,
                         200, 0, 300, 200),
                 new CameraConfig(Alliance.RED,  DuckOrDepot.DEPOT,
+               //red depot - cannot see barcode for top level,  left rect = middle level, center rect = bottom level
+                //right rect = nothing
                         0,   0, 100, 200,
                         100, 0, 200, 200,
                         200, 0, 300, 200),
+                  //red duck - right rect = top level, center rect = middle level, left rect = lowest level
                 new CameraConfig(Alliance.RED,  DuckOrDepot.DUCK,
                         0,   0, 100, 200,
                         100, 0, 200, 200,
