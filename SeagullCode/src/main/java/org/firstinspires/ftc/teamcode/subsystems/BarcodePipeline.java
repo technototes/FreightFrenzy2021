@@ -56,14 +56,15 @@ public class BarcodePipeline extends OpenCvPipeline implements Supplier<Integer>
 
         static final Scalar BLUE = new Scalar(0, 0, 255);
         static final Scalar RED = new Scalar(255, 0, 0);
-        static final Scalar CYAN = new Scalar(0, 255, 255);
+        static final Scalar YELLOW = new Scalar(255, 255, 0);
         public static class CameraConfig {
             final Alliance alliance;
             final DuckOrDepot side;
             final Rect region1;
             final Rect region2;
             final Rect region3;
-            CameraConfig(Alliance alliance, DuckOrDepot side, int top1, int left1, int bottom1, int right1,
+            CameraConfig(Alliance alliance, DuckOrDepot side,
+                         int top1, int left1, int bottom1, int right1,
                          int top2, int left2, int bottom2, int right2,
                          int top3, int left3, int bottom3, int right3) {
                 this.alliance = alliance;
@@ -124,13 +125,13 @@ public class BarcodePipeline extends OpenCvPipeline implements Supplier<Integer>
 
     @LogConfig.Run(duringRun = false, duringInit = true)
     @Log.Boolean (name="sq1")
-    public volatile boolean on_square_1 = false;
+    public volatile boolean topDetected = false;
     @LogConfig.Run(duringRun = false, duringInit = true)
     @Log.Boolean (name="sq2")
-    public volatile boolean on_square_2 = true;
+    public volatile boolean middleDetected = true;
     @LogConfig.Run(duringRun = false, duringInit = true)
     @Log.Boolean (name="sq3")
-    public volatile boolean on_square_3 = false;
+    public volatile boolean bottomDetected = false;
 
     @LogConfig.Run(duringInit = true, duringRun = false)
     @Log.Number (name="red")
@@ -163,8 +164,13 @@ public class BarcodePipeline extends OpenCvPipeline implements Supplier<Integer>
         Scalar topEdge = new Scalar(180, 255, 255);
         Core.inRange(customColorSpace, top, topEdge, red2);
         Core.bitwise_or(red1, red2, Cr);
+
+        Mat not = new Mat();
+        Core.bitwise_not(Cr, not);
+        
         // flip the pixels that we're seeing as "red" to yellow!
         // also: Draw pixels by drawing a 1x1 rectangle is *masterful* code!
+        // TODO: This should use bitwise and/bitwise or to do this really...
         Rect r = new Rect(new Point(0,0), new Point(1,1));
         for (int i = 0; i < Cr.width(); i++) {
             for (int j = 0; j < Cr.height(); j++) {
@@ -173,7 +179,7 @@ public class BarcodePipeline extends OpenCvPipeline implements Supplier<Integer>
                     r.y = j;
                     r.width = 1;
                     r.height = 1;
-                    Imgproc.rectangle(input, r, CYAN);
+                    Imgproc.rectangle(input, r, YELLOW);
                 }
             }
         }
@@ -227,14 +233,14 @@ public class BarcodePipeline extends OpenCvPipeline implements Supplier<Integer>
         Imgproc.rectangle(input, currentConfig.region2, ((max == 1) ? RED : BLUE), 2);
         Imgproc.rectangle(input, currentConfig.region3, ((max == 2) ? RED : BLUE), 2);
         if ((Math.max(red_avg[0], red_avg[1]) > 20) && red_avg[2] > 20){
-            on_square_1 = max == 0;
-            on_square_2 = max == 1;
-            on_square_3 = max == 2;
+            topDetected = max == 0;
+            middleDetected = max == 1;
+            bottomDetected = max == 2;
         }
         else{
-            on_square_1 = true;
-            on_square_2 = false;
-            on_square_3 = false;
+            topDetected = true;
+            middleDetected = false;
+            bottomDetected = false;
         }
 
         /*
@@ -285,14 +291,14 @@ public class BarcodePipeline extends OpenCvPipeline implements Supplier<Integer>
 //    public boolean none(){
 //        return get() == -1;
 //    }
-    public boolean zero(){
-        return on_square_1;
+    public boolean top(){
+        return topDetected;
     }
-    public boolean one(){
-        return on_square_2;
+    public boolean middle(){
+        return middleDetected;
     }
-    public boolean two(){
-        return on_square_3;
+    public boolean bottom(){
+        return bottomDetected;
     }
 
 }
