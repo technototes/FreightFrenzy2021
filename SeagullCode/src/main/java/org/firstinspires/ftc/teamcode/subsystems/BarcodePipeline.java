@@ -2,20 +2,14 @@ package org.firstinspires.ftc.teamcode.subsystems;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.DuckOrDepot;
-import org.firstinspires.ftc.teamcode.commands.autonomous.AutonomousConstants;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
-import org.opencv.core.MatOfPoint;
-import org.opencv.core.MatOfPoint2f;
 import org.opencv.core.Point;
 import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
-import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
 import org.openftc.easyopencv.OpenCvPipeline;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.function.Supplier;
 import com.acmerobotics.dashboard.config.Config;
 
@@ -62,6 +56,7 @@ public class BarcodePipeline extends OpenCvPipeline implements Supplier<Integer>
 
         static final Scalar BLUE = new Scalar(0, 0, 255);
         static final Scalar RED = new Scalar(255, 0, 0);
+        static final Scalar CYAN = new Scalar(0, 255, 255);
         public static class CameraConfig {
             final Alliance alliance;
             final DuckOrDepot side;
@@ -79,16 +74,20 @@ public class BarcodePipeline extends OpenCvPipeline implements Supplier<Integer>
             }
         }
         private static final CameraConfig cameraConfigs[] = {
-                new CameraConfig(Alliance.BLUE, DuckOrDepot.DEPOT, 0,   0, 100, 200,
+                new CameraConfig(Alliance.BLUE, DuckOrDepot.DEPOT,
+                        0,   0, 100, 200,
                         100, 0, 200, 200,
                         200, 0, 300, 200),
-                new CameraConfig(Alliance.BLUE, DuckOrDepot.DUCK,  0,   0, 100, 200,
+                new CameraConfig(Alliance.BLUE, DuckOrDepot.DUCK,
+                        0,   0, 100, 200,
                         100, 0, 200, 200,
                         200, 0, 300, 200),
-                new CameraConfig(Alliance.RED,  DuckOrDepot.DEPOT, 0,   0, 100, 200,
+                new CameraConfig(Alliance.RED,  DuckOrDepot.DEPOT,
+                        0,   0, 100, 200,
                         100, 0, 200, 200,
                         200, 0, 300, 200),
-                new CameraConfig(Alliance.RED,  DuckOrDepot.DUCK,  0,   0, 100, 200,
+                new CameraConfig(Alliance.RED,  DuckOrDepot.DUCK,
+                        0,   0, 100, 200,
                         100, 0, 200, 200,
                         200, 0, 300, 200)
         };
@@ -108,7 +107,7 @@ public class BarcodePipeline extends OpenCvPipeline implements Supplier<Integer>
 
     private CameraConfig currentConfig = null;
     public Mat region_1_Cr, region_2_Cr, region_3_Cr;
-    public Mat YCrCb = new Mat();
+    public Mat customColorSpace = new Mat();
     public Mat Cr = new Mat();
 
     @LogConfig.Run(duringRun = false, duringInit = true)
@@ -120,6 +119,10 @@ public class BarcodePipeline extends OpenCvPipeline implements Supplier<Integer>
     @LogConfig.Run(duringRun = false, duringInit = true)
     @Log.Boolean (name="sq3")
     public volatile boolean on_square_3 = false;
+
+    @LogConfig.Run(duringInit = true, duringRun = false)
+    @Log.Number (name="red")
+    public volatile int redThreshhold = 0;
 
     private final Mat mat = new Mat();
     private final Mat processed = new Mat();
@@ -138,8 +141,30 @@ public class BarcodePipeline extends OpenCvPipeline implements Supplier<Integer>
 
 
     public void inputToCr(Mat input){
-        Imgproc.cvtColor(input, YCrCb, Imgproc.COLOR_RGB2YCrCb);
-        Core.extractChannel(YCrCb, Cr, 1);
+        Imgproc.cvtColor(input, customColorSpace, Imgproc.COLOR_RGB2HSV);
+        Mat red1 = new Mat();
+        Scalar bottom = new Scalar(0, 70, 50);
+        Scalar bottomEdge = new Scalar(10, 255, 255);
+        Core.inRange(customColorSpace, bottom, bottomEdge, red1);
+        Mat red2 = new Mat();
+        Scalar top = new Scalar(170, 70, 50);
+        Scalar topEdge = new Scalar(180, 255, 255);
+        Core.inRange(customColorSpace, top, topEdge, red2);
+        Core.bitwise_or(red1, red2, Cr);
+        // flip the pixels that we're seeing as "red" to yellow!
+        // also: Draw pixels by drawing a 1x1 rectangle is *masterful* code!
+        Rect r = new Rect(new Point(0,0), new Point(1,1));
+        for (int i = 0; i < Cr.width(); i++) {
+            for (int j = 0; j < Cr.height(); j++) {
+                if (Cr.get(j, i)[0] > 0) {
+                    r.x = i;
+                    r.y = j;
+                    r.width = 1;
+                    r.height = 1;
+                    Imgproc.rectangle(input, r, CYAN);
+                }
+            }
+        }
     }
 
     public void init(Mat firstFrame){
@@ -172,8 +197,6 @@ public class BarcodePipeline extends OpenCvPipeline implements Supplier<Integer>
 
         int [] red_avg = new int [3];
 
-
-
         red_avg[0] = (int) Core.mean(region_1_Cr).val[0];
         red_avg[1] = (int) Core.mean(region_2_Cr).val[0];
         red_avg[2] = (int) Core.mean(region_3_Cr).val[0];
@@ -187,11 +210,11 @@ public class BarcodePipeline extends OpenCvPipeline implements Supplier<Integer>
         if (red_avg[max] < red_avg[2]){
             max = 2;
         }
+        redThreshhold = red_avg[max];
         Imgproc.rectangle(input, currentConfig.region1, ((max == 0) ? RED : BLUE), 2);
         Imgproc.rectangle(input, currentConfig.region2, ((max == 1) ? RED : BLUE), 2);
         Imgproc.rectangle(input, currentConfig.region3, ((max == 2) ? RED : BLUE), 2);
-//        System.out.printf("ASDF Read Max Value: %d\n", max);
-        if ((Math.max(red_avg[0], red_avg[1]) > 10) && red_avg[2] > 10){
+        if ((Math.max(red_avg[0], red_avg[1]) > 20) && red_avg[2] > 20){
             on_square_1 = max == 0;
             on_square_2 = max == 1;
             on_square_3 = max == 2;
@@ -201,8 +224,6 @@ public class BarcodePipeline extends OpenCvPipeline implements Supplier<Integer>
             on_square_2 = false;
             on_square_3 = false;
         }
-
-
 
         /*
         Mat output = input.clone();
