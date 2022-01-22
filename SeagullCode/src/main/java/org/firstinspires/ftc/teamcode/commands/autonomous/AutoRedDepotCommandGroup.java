@@ -15,8 +15,8 @@ import org.firstinspires.ftc.teamcode.subsystems.DumpSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.DrivebaseSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
 
-public class AutoRedShippingHubCommandGroup extends SequentialCommandGroup {
-    public AutoRedShippingHubCommandGroup(DrivebaseSubsystem drive, DumpSubsystem bucket, IntakeSubsystem intake) {
+public class AutoRedDepotCommandGroup extends SequentialCommandGroup {
+    public AutoRedDepotCommandGroup(DrivebaseSubsystem drive, DumpSubsystem bucket, IntakeSubsystem intake) {
         super(
             new TrajectorySequenceCommand(drive, AutonomousConstants.RED_DEPOT_START_TO_ALLIANCE_HUB_LEVEL3).alongWith(new DumpCarryCommand(bucket)),
             new DumpUnloadTopLevelCommand(bucket),

@@ -7,16 +7,13 @@ import com.technototes.path.command.TrajectorySequenceCommand;
 
 import org.firstinspires.ftc.teamcode.commands.dump.DumpCollectCommand;
 import org.firstinspires.ftc.teamcode.commands.dump.DumpUnloadBottomLevelCommand;
-import org.firstinspires.ftc.teamcode.commands.dump.DumpUnloadMiddleLevelCommand;
-import org.firstinspires.ftc.teamcode.commands.dump.DumpUnloadTopLevelCommand;
 import org.firstinspires.ftc.teamcode.commands.intake.IntakeInCommand;
 import org.firstinspires.ftc.teamcode.subsystems.DrivebaseSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.DumpSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
-import org.firstinspires.ftc.teamcode.subsystems.VisionSubsystem;
 
 public class UnloadBottomRedDuckCommandGroup extends SequentialCommandGroup {
-    public UnloadBottomRedDuckCommandGroup(DrivebaseSubsystem drive, DumpSubsystem bucket, IntakeSubsystem intake, VisionSubsystem vision) {
+    public UnloadBottomRedDuckCommandGroup(DrivebaseSubsystem drive, DumpSubsystem bucket, IntakeSubsystem intake) {
         super(
                 new TrajectorySequenceCommand(drive, AutonomousConstants.RED_DUCK_START_TO_ALLIANCE_HUB_LEVEL1), // Different duck constant
                 new DumpUnloadBottomLevelCommand(bucket).withTimeout(1.5),

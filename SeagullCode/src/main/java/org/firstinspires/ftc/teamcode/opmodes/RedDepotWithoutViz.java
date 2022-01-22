@@ -8,7 +8,7 @@ import com.technototes.library.util.Alliance;
 
 import org.firstinspires.ftc.teamcode.Hardware;
 import org.firstinspires.ftc.teamcode.Robot;
-import org.firstinspires.ftc.teamcode.commands.autonomous.AutoRedShippingHubCommandGroup;
+import org.firstinspires.ftc.teamcode.commands.autonomous.AutoRedDepotCommandGroup;
 import org.firstinspires.ftc.teamcode.commands.autonomous.AutonomousConstants;
 
 @Autonomous(name = "Red Depot")
@@ -26,7 +26,7 @@ public class RedDepotWithoutViz extends CommandOpMode implements Loggable {
         robot.drivebaseSubsystem.setPoseEstimate(AutonomousConstants.RedConstants.DEPOT_START);
 
         CommandScheduler.getInstance().scheduleForState(
-                new AutoRedShippingHubCommandGroup(robot.drivebaseSubsystem, robot.dumpSubsystem, robot.intakeSubsystem),
+                new AutoRedDepotCommandGroup(robot.drivebaseSubsystem, robot.dumpSubsystem, robot.intakeSubsystem),
                 CommandOpMode.OpModeState.RUN);
     }
 }

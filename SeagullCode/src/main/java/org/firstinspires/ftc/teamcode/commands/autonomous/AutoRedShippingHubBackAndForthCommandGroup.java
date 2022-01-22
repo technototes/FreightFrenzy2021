@@ -19,9 +19,9 @@ public class AutoRedShippingHubBackAndForthCommandGroup extends SequentialComman
                 new DumpUnloadTopLevelCommand(bucket).withTimeout(3), // Bucket command
                 new WaitCommand(0.5),
                 new DumpCollectCommand(bucket),
-                new AutonomousLoopCommandGroup(drive,bucket,intake),
-                new AutonomousLoopCommandGroup(drive,bucket,intake),
-                new AutonomousLoopCommandGroup(drive,bucket,intake),
+                new AutonomousRedLoopCommandGroup(drive,bucket,intake),
+                new AutonomousRedLoopCommandGroup(drive,bucket,intake),
+                new AutonomousRedLoopCommandGroup(drive,bucket,intake),
                 new TrajectorySequenceCommand(drive, AutonomousConstants.RED_ALLIANCE_HUB_LEVEL3_TO_DEPOT_COLLECT1),
                 // new // Different park command TODO: /\/\/\ CHECK IF THIS IS GOOD RYAN TIO
                 CommandScheduler.getInstance()::terminateOpMode); //ending

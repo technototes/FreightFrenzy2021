@@ -23,7 +23,7 @@ public class RedDuckRemainderCommandGroup extends SequentialCommandGroup {
                   new DumpCollectCommand(dump),
                   new TrajectorySequenceCommand(drive, AutonomousConstants.RED_DUCK_CAROUSEL_TO_DUCK_COLLECT1),
                   new IntakeInCommand(intake),
-                  new AutoRedDuckCollectCommand(drive),
+                  new RedDuckCollectCommand(drive),
                   new IntakeStopCommand(intake),
                   new TrajectorySequenceCommand(drive, AutonomousConstants.RED_DUCK_COLLECT2_TO_ALLIANCE_HUB_LEVEL3),
                   new AutonomousBucketDumpCommand(dump),

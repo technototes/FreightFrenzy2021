@@ -16,7 +16,7 @@ import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.VisionSubsystem;
 
 public class UnloadBottomBlueDepotCommandGroup extends SequentialCommandGroup {
-    public UnloadBottomBlueDepotCommandGroup(DrivebaseSubsystem drive, DumpSubsystem bucket, IntakeSubsystem intake, VisionSubsystem vision) {
+    public UnloadBottomBlueDepotCommandGroup(DrivebaseSubsystem drive, DumpSubsystem bucket, IntakeSubsystem intake) {
         super(
                 new TrajectorySequenceCommand(drive, AutonomousConstants.BLUE_DEPOT_START_TO_ALLIANCE_HUB_LEVEL1), // Different duck constant
                 new DumpUnloadBottomLevelCommand(bucket).withTimeout(1.5),

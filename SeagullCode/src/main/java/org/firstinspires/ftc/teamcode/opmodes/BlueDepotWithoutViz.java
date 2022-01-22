@@ -9,7 +9,7 @@ import com.technototes.library.util.Alliance;
 import org.firstinspires.ftc.teamcode.Hardware;
 import org.firstinspires.ftc.teamcode.Robot;
 import org.firstinspires.ftc.teamcode.commands.autonomous.AutonomousConstants;
-import org.firstinspires.ftc.teamcode.commands.autonomous.AutoBlueShippingHubCommandGroup;
+import org.firstinspires.ftc.teamcode.commands.autonomous.AutoBlueDepotCommandGroup;
 
 @Autonomous(name = "Blue Depot")
 @SuppressWarnings("unused")
@@ -26,7 +26,7 @@ public class BlueDepotWithoutViz extends CommandOpMode implements Loggable {
         robot.drivebaseSubsystem.setPoseEstimate(AutonomousConstants.BlueConstants.DEPOT_START);
 
         CommandScheduler.getInstance().scheduleForState(
-                new AutoBlueShippingHubCommandGroup(robot.drivebaseSubsystem, robot.dumpSubsystem, robot.intakeSubsystem, robot.visionSubsystem),
+                new AutoBlueDepotCommandGroup(robot.drivebaseSubsystem, robot.dumpSubsystem, robot.intakeSubsystem, robot.visionSubsystem),
                 CommandOpMode.OpModeState.RUN);
     }
 }

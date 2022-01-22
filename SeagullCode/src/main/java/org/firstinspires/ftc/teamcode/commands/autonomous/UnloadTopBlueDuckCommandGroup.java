@@ -14,15 +14,14 @@ import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.VisionSubsystem;
 
 public class UnloadTopBlueDuckCommandGroup extends SequentialCommandGroup {
-    public UnloadTopBlueDuckCommandGroup(DrivebaseSubsystem drive, DumpSubsystem bucket, IntakeSubsystem intake, VisionSubsystem vision) {
+    public UnloadTopBlueDuckCommandGroup(DrivebaseSubsystem drive, DumpSubsystem bucket, IntakeSubsystem intake) {
         super(
-                  new TrajectorySequenceCommand(drive, AutonomousConstants.BLUE_DUCK_START_TO_ALLIANCE_HUB_LEVEL_3), // Different duck constant
-                  new DumpUnloadTopLevelCommand(bucket).withTimeout(1.5),
-                  new WaitCommand(1),
-                  new DumpCollectCommand(bucket),
-                  new IntakeInCommand(intake), // Intake command - spin the intake before arrived at the depot
-                  new TrajectorySequenceCommand(drive, AutonomousConstants.BLUE_ALLIANCE_HUB_LEVEL3_TO_CAROUSEL), // Different park command
-
-                  CommandScheduler.getInstance()::terminateOpMode); //ending
+                new TrajectorySequenceCommand(drive, AutonomousConstants.BLUE_DUCK_START_TO_ALLIANCE_HUB_LEVEL_3), // Different duck constant
+                new DumpUnloadTopLevelCommand(bucket).withTimeout(1.5),
+                new WaitCommand(1),
+                new DumpCollectCommand(bucket),
+                new IntakeInCommand(intake), // Intake command - spin the intake before arrived at the depot
+                new TrajectorySequenceCommand(drive, AutonomousConstants.BLUE_ALLIANCE_HUB_LEVEL3_TO_CAROUSEL) // Different park command
+        ); //ending
     }
 }

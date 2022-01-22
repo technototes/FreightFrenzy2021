@@ -12,8 +12,8 @@ import org.firstinspires.ftc.teamcode.subsystems.DumpSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.DrivebaseSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
 
-public class AutonomousLoopCommandGroup extends SequentialCommandGroup {
-    public AutonomousLoopCommandGroup(DrivebaseSubsystem drive, DumpSubsystem bucket, IntakeSubsystem intake){
+public class AutonomousRedLoopCommandGroup extends SequentialCommandGroup {
+    public AutonomousRedLoopCommandGroup(DrivebaseSubsystem drive, DumpSubsystem bucket, IntakeSubsystem intake){
         super(new DumpCollectCommand(bucket),
             new DumpUnloadTopLevelCommand(bucket).withTimeout(3), // Bucket command
                 new WaitCommand(0.5),
