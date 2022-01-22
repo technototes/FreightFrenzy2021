@@ -153,9 +153,6 @@ public class BarcodePipeline extends OpenCvPipeline implements Supplier<Integer>
     public BarcodePipeline(){
     }
 
-
-
-
     public void inputToCr(Mat input){
         Imgproc.cvtColor(input, customColorSpace, Imgproc.COLOR_RGB2HSV);
         Mat red1 = new Mat();
@@ -167,10 +164,9 @@ public class BarcodePipeline extends OpenCvPipeline implements Supplier<Integer>
         Scalar topEdge = new Scalar(180, 255, 255);
         Core.inRange(customColorSpace, top, topEdge, red2);
         Core.bitwise_or(red1, red2, Cr);
-
-        Mat not = new Mat();
-        Core.bitwise_not(Cr, not);
-        
+        // Make everything that's the color we're looking for turn white
+        Core.bitwise_or(Cr, input, input);
+        /*
         // flip the pixels that we're seeing as "red" to yellow!
         // also: Draw pixels by drawing a 1x1 rectangle is *masterful* code!
         // TODO: This should use bitwise and/bitwise or to do this really...
@@ -186,6 +182,7 @@ public class BarcodePipeline extends OpenCvPipeline implements Supplier<Integer>
                 }
             }
         }
+        */
     }
 
     public void init(Mat firstFrame){
@@ -216,62 +213,44 @@ public class BarcodePipeline extends OpenCvPipeline implements Supplier<Integer>
     {
         inputToCr(input);
 
-        int [] red_avg = new int [3];
+        // First, get the average red level of the region (or -1 if no region)
+        int red0 = region_1_Cr == null ? -1 : (int) Core.mean(region_1_Cr).val[0];
+        int red1 = region_2_Cr == null ? -1 : (int) Core.mean(region_2_Cr).val[0];
+        int red2 = region_3_Cr == null ? -1 : (int) Core.mean(region_3_Cr).val[0];
 
-        red_avg[0] = region_1_Cr == null ? -1 : (int) Core.mean(region_1_Cr).val[0];
-        red_avg[1] = region_2_Cr == null ? -1 : (int) Core.mean(region_2_Cr).val[0];
-        red_avg[2] = region_3_Cr == null ? -1 : (int) Core.mean(region_3_Cr).val[0];
-
-        int max = 0;
-        if (red_avg[0] > red_avg[1]){
-            max = 0;
-        }else{
-            max = 1;
-        }
-        if (red_avg[max] < red_avg[2]){
-            max = 2;
-        }
-        redThreshhold = red_avg[max];
-        if ((Math.max(red_avg[0], red_avg[1]) > 20) && red_avg[2] > 20){
-            topDetected = max == 0;
-            middleDetected = max == 1;
-            bottomDetected = max == 2;
-        }
-        else{
+        // Figure out how much is the most amount of red
+        int max_red = Math.max(Math.max(red0, red1), red2);
+        // If we have more than 20 as an average, we see a brick: set the 'Detected' bits
+        if (max_red > 20) {
+            topDetected = max_red == red0;
+            middleDetected = max_red == red1;
+            bottomDetected = max_red == red2;
+        } else {
+            // We didn't see enough red, so pick a region to defaul to
             topDetected = currentConfig.region1 == null;
             middleDetected = currentConfig.region2 == null;
             bottomDetected = currentConfig.region3 == null;
         }
+        // If we didn't detect any block at all, default to the top just in case
+        if (!topDetected && !middleDetected && !bottomDetected) {
+            topDetected = true;
+        }
+        // Draw rectangles to show what we're seeing
         if (currentConfig.region1 != null){
             Imgproc.rectangle(input, currentConfig.region1, (topDetected ? RED : BLUE), 2);
         } else {
-            Imgproc.rectangle(input, new Rect(100, 220, 15, 15), (topDetected ? RED : YELLOW), 2);
+            Imgproc.rectangle(input, new Rect(50, 220, 15, 15), (topDetected ? RED : YELLOW), 2);
         }
         if (currentConfig.region2 != null){
             Imgproc.rectangle(input, currentConfig.region2, (middleDetected ? RED : BLUE), 2);
         } else {
-            Imgproc.rectangle(input, new Rect(200, 220, 15, 15), (middleDetected ? RED : YELLOW), 2);
+            Imgproc.rectangle(input, new Rect(150, 220, 15, 15), (middleDetected ? RED : YELLOW), 2);
         }
         if (currentConfig.region3 != null){
             Imgproc.rectangle(input, currentConfig.region3, (bottomDetected ? RED : BLUE), 2);
         } else {
-            Imgproc.rectangle(input, new Rect(300, 220, 15, 15), (bottomDetected ? RED : YELLOW), 2);
+            Imgproc.rectangle(input, new Rect(250, 220, 15, 15), (bottomDetected ? RED : YELLOW), 2);
         }
-
-        /*
-        Mat output = input.clone();
-        try
-        {
-
-        } catch (Exception e) {
-            debug = e;
-            boolean error = true;
-        }
-        if(telemetry != null) {
-            telemetry.addLine(get().toString());
-            telemetry.update();
-        }
-*/
         return input;
     }
     public int getRectHeight(){return maxRect.height;}
