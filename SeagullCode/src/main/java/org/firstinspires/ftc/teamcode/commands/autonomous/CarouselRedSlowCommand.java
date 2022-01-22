@@ -14,7 +14,7 @@ public class CarouselRedSlowCommand implements Command{
 
     @Override
     public void execute() {
-        carouselSubsystem.red_auto();
+        carouselSubsystem.red_auto_slow();
     }
 
     @Override
