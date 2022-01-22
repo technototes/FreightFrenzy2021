@@ -93,8 +93,8 @@ public class BarcodePipeline extends OpenCvPipeline implements Supplier<Integer>
                         100, 0, 200, 200,
                         200, 0, 300, 200),
                 new CameraConfig(Alliance.RED,  DuckOrDepot.DEPOT,
-               //red depot - cannot see barcode for top level,  left rect = middle level, center rect = bottom level
-                //right rect = nothing
+               //red depot - center rect = top level, right rect = center level, left rect = nothing, cannot see barcode
+                //left rect = nothing
                         0,   0, 100, 200,
                         100, 0, 200, 200,
                         200, 0, 300, 200),
