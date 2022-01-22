@@ -44,10 +44,10 @@ public class CarouselSubsystem implements Subsystem, Supplier<Double> {
         motor.setSpeed(CAROUSEL_BLUE_FAST);
     }
 
-    public void red_auto(){
+    public void red_auto_slow(){
         motor.setSpeed(CAROUSEL_AUTO_RED_SLOW);
     }
-    public void blue_auto(){
+    public void blue_auto_slow(){
         motor.setSpeed(CAROUSEL_AUTO_BLUE_SLOW);
     }
 
