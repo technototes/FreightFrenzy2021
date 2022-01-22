@@ -13,22 +13,15 @@ import com.technototes.library.control.CommandGamepad;
 import com.technototes.library.control.Stick;
 import com.technototes.library.util.Alliance;
 
-
-import org.firstinspires.ftc.teamcode.commands.autonomous.AutonomousConstants;
-import org.firstinspires.ftc.teamcode.commands.carousel.CarouselBlueFastCommand;
 import org.firstinspires.ftc.teamcode.commands.carousel.CarouselBlueSlowCommand;
-import org.firstinspires.ftc.teamcode.commands.carousel.CarouselRedFastCommand;
 import org.firstinspires.ftc.teamcode.commands.carousel.CarouselRedSlowCommand;
 import org.firstinspires.ftc.teamcode.commands.drivebase.DriveCommand;
 import org.firstinspires.ftc.teamcode.commands.drivebase.ResetGyroCommand;
 import org.firstinspires.ftc.teamcode.commands.drivebase.SetSpeedCommand;
 import org.firstinspires.ftc.teamcode.commands.dump.DumpCarryCommand;
 import org.firstinspires.ftc.teamcode.commands.dump.DumpCollectCommand;
-import org.firstinspires.ftc.teamcode.commands.dump.DumpUnloadBottomLevelCommand;
-import org.firstinspires.ftc.teamcode.commands.dump.DumpUnloadMiddleLevelCommand;
 import org.firstinspires.ftc.teamcode.commands.dump.DumpUnloadSharedHubCommand;
 import org.firstinspires.ftc.teamcode.commands.dump.DumpUnloadTopLevelCommand;
-import org.firstinspires.ftc.teamcode.commands.intake.IntakeInCommand;
 import org.firstinspires.ftc.teamcode.commands.intake.IntakeOutCommand;
 import org.firstinspires.ftc.teamcode.commands.intake.IntakeSafeCommand;
 import org.firstinspires.ftc.teamcode.commands.intake.IntakeStopCommand;
@@ -89,7 +82,7 @@ public class Controls {
         if (DUMP_CONNECTED) bindBucketControls();
     }
 
-    public void bindBucketControls() {
+   public void bindBucketControls() {
         intakeInTrigger.whenPressed(
                 new SequentialCommandGroup(true,
                 new DumpCollectCommand(robot.dumpSubsystem),

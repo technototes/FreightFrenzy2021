@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.commands.intake;
 import static org.firstinspires.ftc.teamcode.subsystems.DumpSubsystem.ArmConstant.ARM_CARRY;
 
 import com.technototes.library.command.Command;
+import com.technototes.library.command.WaitCommand;
 import com.technototes.library.control.CommandGamepad;
 
 import org.firstinspires.ftc.teamcode.subsystems.DumpSubsystem;
@@ -26,6 +27,7 @@ public class IntakeSafeCommand implements Command {
     public void initialize() {
         if (intake.getState() == IntakeSubsystem.State.IN) {
             intake.out();
+            new WaitCommand(0.5);
             intake.stop();
         } else {
             intake.in();
@@ -46,6 +48,7 @@ public class IntakeSafeCommand implements Command {
     public void end(boolean cancel){
         if(!cancel){
             intake.out();
+            new WaitCommand(0.5);
             intake.stop();
             dump.setMotorPosition(ARM_CARRY);
         }
