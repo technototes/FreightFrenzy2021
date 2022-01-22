@@ -188,9 +188,9 @@ public class BarcodePipeline extends OpenCvPipeline implements Supplier<Integer>
     public void init(Mat firstFrame){
 
         inputToCr(firstFrame);
-        region_1_Cr = Cr.submat(currentConfig.region1);
-        region_2_Cr = Cr.submat(currentConfig.region2);
-        region_3_Cr = Cr.submat(currentConfig.region3);
+        region_1_Cr = currentConfig.region1 == null ? null  : Cr.submat(currentConfig.region1);
+        region_2_Cr = currentConfig.region2 == null ? null : Cr.submat(currentConfig.region2);
+        region_3_Cr = currentConfig.region3 == null ? null : Cr.submat(currentConfig.region3);
 
     }
     public void setStartingPosition(Alliance alliance, DuckOrDepot side){
@@ -215,9 +215,9 @@ public class BarcodePipeline extends OpenCvPipeline implements Supplier<Integer>
 
         int [] red_avg = new int [3];
 
-        red_avg[0] = (int) Core.mean(region_1_Cr).val[0];
-        red_avg[1] = (int) Core.mean(region_2_Cr).val[0];
-        red_avg[2] = (int) Core.mean(region_3_Cr).val[0];
+        red_avg[0] = region_1_Cr == null ? 0 : (int) Core.mean(region_1_Cr).val[0];
+        red_avg[1] = region_2_Cr == null ? 0 : (int) Core.mean(region_2_Cr).val[0];
+        red_avg[2] = region_3_Cr == null ? 0 : (int) Core.mean(region_3_Cr).val[0];
 
         int max = 0;
         if (red_avg[0] > red_avg[1]){
@@ -229,18 +229,24 @@ public class BarcodePipeline extends OpenCvPipeline implements Supplier<Integer>
             max = 2;
         }
         redThreshhold = red_avg[max];
-        Imgproc.rectangle(input, currentConfig.region1, ((max == 0) ? RED : BLUE), 2);
-        Imgproc.rectangle(input, currentConfig.region2, ((max == 1) ? RED : BLUE), 2);
-        Imgproc.rectangle(input, currentConfig.region3, ((max == 2) ? RED : BLUE), 2);
+        if (currentConfig.region1 != null){
+            Imgproc.rectangle(input, currentConfig.region1, ((max == 0) ? RED : BLUE), 2);
+        }
+        if (currentConfig.region2 != null){
+            Imgproc.rectangle(input, currentConfig.region2, ((max == 1) ? RED : BLUE), 2);
+        }
+        if (currentConfig != null){
+            Imgproc.rectangle(input, currentConfig.region3, ((max == 2) ? RED : BLUE), 2);
+        }
         if ((Math.max(red_avg[0], red_avg[1]) > 20) && red_avg[2] > 20){
             topDetected = max == 0;
             middleDetected = max == 1;
             bottomDetected = max == 2;
         }
         else{
-            topDetected = true;
-            middleDetected = false;
-            bottomDetected = false;
+            topDetected = currentConfig.region1 == null;
+            middleDetected = currentConfig.region2 == null;
+            bottomDetected = currentConfig.region3 == null;
         }
 
         /*
