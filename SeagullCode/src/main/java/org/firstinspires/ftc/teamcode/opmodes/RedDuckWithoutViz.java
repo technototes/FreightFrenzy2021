@@ -14,7 +14,7 @@ import org.firstinspires.ftc.teamcode.Robot;
 import org.firstinspires.ftc.teamcode.commands.autonomous.AutoRedDuckCommandGroup;
 import org.firstinspires.ftc.teamcode.commands.autonomous.AutonomousConstants;
 
-@Autonomous(name = "Red Duck")
+@Autonomous(name = "Red Ducky")
 @SuppressWarnings("unused")
 public class RedDuckWithoutViz extends CommandOpMode implements Loggable {
     public Robot robot;

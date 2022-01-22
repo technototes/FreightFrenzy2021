@@ -86,7 +86,7 @@ public class DrivebaseSubsystem extends MecanumDrivebaseSubsystem implements Sup
     //@Log.Number (name = "Right Range Sensor")
     //public Rev2MDistanceSensor right_distance;
 
-    private static final boolean ENABLE_POSE_DIAGNOSTICS = true;
+    private static final boolean ENABLE_POSE_DIAGNOSTICS = false;
 
     @Log (name="Pose2d: ")
     public String poseDisplay = ENABLE_POSE_DIAGNOSTICS ? "" : null;

@@ -7,14 +7,13 @@ import static org.firstinspires.ftc.teamcode.Robot.RobotConstants.INTAKE_CONNECT
 
 import com.technototes.library.command.CommandScheduler;
 import com.technototes.library.command.SequentialCommandGroup;
+import com.technototes.library.command.WaitCommand;
 import com.technototes.library.control.CommandAxis;
 import com.technototes.library.control.CommandButton;
 import com.technototes.library.control.CommandGamepad;
 import com.technototes.library.control.Stick;
 import com.technototes.library.util.Alliance;
 
-
-import org.firstinspires.ftc.teamcode.commands.autonomous.AutonomousConstants;
 import org.firstinspires.ftc.teamcode.commands.carousel.CarouselBlueFastCommand;
 import org.firstinspires.ftc.teamcode.commands.carousel.CarouselBlueSlowCommand;
 import org.firstinspires.ftc.teamcode.commands.carousel.CarouselRedFastCommand;
@@ -24,11 +23,8 @@ import org.firstinspires.ftc.teamcode.commands.drivebase.ResetGyroCommand;
 import org.firstinspires.ftc.teamcode.commands.drivebase.SetSpeedCommand;
 import org.firstinspires.ftc.teamcode.commands.dump.DumpCarryCommand;
 import org.firstinspires.ftc.teamcode.commands.dump.DumpCollectCommand;
-import org.firstinspires.ftc.teamcode.commands.dump.DumpUnloadBottomLevelCommand;
-import org.firstinspires.ftc.teamcode.commands.dump.DumpUnloadMiddleLevelCommand;
 import org.firstinspires.ftc.teamcode.commands.dump.DumpUnloadSharedHubCommand;
 import org.firstinspires.ftc.teamcode.commands.dump.DumpUnloadTopLevelCommand;
-import org.firstinspires.ftc.teamcode.commands.intake.IntakeInCommand;
 import org.firstinspires.ftc.teamcode.commands.intake.IntakeOutCommand;
 import org.firstinspires.ftc.teamcode.commands.intake.IntakeSafeCommand;
 import org.firstinspires.ftc.teamcode.commands.intake.IntakeStopCommand;
@@ -43,7 +39,7 @@ public class Controls {
     public CommandButton intakeInButton, intakeOutButton;
     public CommandAxis intakeInTrigger, carryDepositButton;
 
-    public CommandButton carouselSlowButton;
+    public CommandButton carouselButton;
 
     public Stick driveLeftStick, driveRightStick;
     public CommandButton resetGyroButton, driveStraightenButton, snailSpeedButton;
@@ -65,7 +61,7 @@ public class Controls {
         intakeInButton = gamepad.cross;
         intakeOutButton = gamepad.circle;
 
-        carouselSlowButton = gamepad.triangle;
+        carouselButton = gamepad.triangle;
 
         resetGyroButton = gamepad.rightStickButton;
         snailSpeedButton = gamepad.circle;
@@ -89,7 +85,7 @@ public class Controls {
         if (DUMP_CONNECTED) bindBucketControls();
     }
 
-    public void bindBucketControls() {
+   public void bindBucketControls() {
         intakeInTrigger.whenPressed(
                 new SequentialCommandGroup(true,
                 new DumpCollectCommand(robot.dumpSubsystem),
@@ -114,9 +110,13 @@ public class Controls {
     }
 
     public void bindCarouselRedControls() {
-        carouselSlowButton.whilePressedOnce(new CarouselRedSlowCommand(robot.carouselSubsystem));
+//        carouselButton.whilePressedOnce(new CarouselRedSlowCommand(robot.carouselSubsystem));
+        carouselButton.whilePressed(new CarouselRedSlowCommand(robot.carouselSubsystem));
+        carouselButton.whenReleased(new CarouselRedFastCommand(robot.carouselSubsystem).withTimeout(0.5));
     }
     public void bindCarouselBlueControls() {
-        carouselSlowButton.whilePressedOnce(new CarouselBlueSlowCommand(robot.carouselSubsystem));
+//        carouselButton.whilePressedOnce(new CarouselBlueSlowCommand(robot.carouselSubsystem));
+        carouselButton.whilePressed(new CarouselBlueSlowCommand(robot.carouselSubsystem));
+        carouselButton.whenReleased(new CarouselBlueFastCommand(robot.carouselSubsystem).withTimeout(0.5));
     }
 }

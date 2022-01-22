@@ -19,8 +19,8 @@ public class AutonomousConstants {
         public static Pose2d DUCK_ALLIANCE_HUB_LEVEL2 = new Pose2d(-28, -40, toRadians(-125));
         public static Pose2d DUCK_ALLIANCE_HUB_LEVEL1 = new Pose2d(-28, -42, toRadians(-125));
         public static Pose2d DUCK_CAROUSEL = new Pose2d(-64, -59, toRadians(-90));
-        public static Pose2d DUCK_COLLECT1 = new Pose2d(-60, -61, toRadians(-90));
-        public static Pose2d DUCK_COLLECT2 = new Pose2d(-50, -61, toRadians(-90));
+        public static Pose2d DUCK_COLLECT1 = new Pose2d(-60, -60, toRadians(-90));
+        public static Pose2d DUCK_COLLECT2 = new Pose2d(-48, -60, toRadians(-90));
         public static Pose2d DUCK_PARK = new Pose2d(-69, -36, toRadians(180));
         public static Pose2d DEPOT_START = new Pose2d(0, -66, toRadians(-90));
         public static Pose2d DEPOT_ALLIANCE_HUB_LEVEL3 = new Pose2d(-10, -45, toRadians(-68));
@@ -33,14 +33,14 @@ public class AutonomousConstants {
 
     public static class BlueConstants {
         public static Pose2d DUCK_START = new Pose2d(-36, 63, toRadians(90));
-        public static Pose2d DUCK_ALLIANCE_HUB_LEVEL3 = new Pose2d(-20, 38, toRadians(120));
-        public static Pose2d DUCK_ALLIANCE_HUB_LEVEL2 = new Pose2d(-20, 40, toRadians(120));
-        public static Pose2d DUCK_ALLIANCE_HUB_LEVEL1 = new Pose2d(-20, 42, toRadians(120));
+        public static Pose2d DUCK_ALLIANCE_HUB_LEVEL3 = new Pose2d(-20, 38, toRadians(125));
+        public static Pose2d DUCK_ALLIANCE_HUB_LEVEL2 = new Pose2d(-20, 40, toRadians(125));
+        public static Pose2d DUCK_ALLIANCE_HUB_LEVEL1 = new Pose2d(-20, 42, toRadians(125));
 
         public static Pose2d DUCK_CAROUSEL = new Pose2d(-59, 59, toRadians(180));
-        public static Pose2d DUCK_COLLECT1 = new Pose2d(-60, 61, toRadians(90));
-        public static Pose2d DUCK_COLLECT2 = new Pose2d(-50, 61, toRadians(90));
-        public static Pose2d DUCK_PARK = new Pose2d(-62, 36, toRadians(180));
+        public static Pose2d DUCK_COLLECT1 = new Pose2d(-55, 63, toRadians(90));
+        public static Pose2d DUCK_COLLECT2 = new Pose2d(-43, 63, toRadians(90));
+        public static Pose2d DUCK_PARK = new Pose2d(-68, 36, toRadians(180));
         public static Pose2d DEPOT_START = new Pose2d(0, 66, toRadians(90));
         public static Pose2d DEPOT_ALLIANCE_HUB_LEVEL3 = new Pose2d(-10, 42, toRadians(55));
         public static Pose2d DEPOT_ALLIANCE_HUB_LEVEL2 = new Pose2d(-10, 48, toRadians(60));
@@ -64,11 +64,11 @@ public class AutonomousConstants {
               RED_DUCK_CAROUSEL_TO_DUCK_COLLECT1 = b -> b.apply(RedConstants.DUCK_CAROUSEL)
                         .lineToLinearHeading(RedConstants.DUCK_COLLECT1)
                         .build(),
-              RED_DUCK_COLLECT1_TO_DUCK_COLLECT2 = b -> b.apply(RedConstants.DUCK_COLLECT1)
-                      .lineToLinearHeading(RedConstants.DUCK_COLLECT2)
+              RED_DUCK_COLLECT1_TO_COLLECT2 = b -> b.apply(RedConstants.DUCK_COLLECT1)
+                      .splineTo(RedConstants.DUCK_COLLECT2.vec(), RedConstants.DUCK_COLLECT2.getHeading())
                       .build(),
-              RED_DUCK_COLLECT2_TO_DUCK_COLLECT1 = b -> b.apply(RedConstants.DUCK_COLLECT2)
-                    .lineToLinearHeading(RedConstants.DUCK_COLLECT1)
+              RED_DUCK_COLLECT2_TO_COLLECT1 = b -> b.apply(RedConstants.DUCK_COLLECT2)
+                      .splineTo(RedConstants.DUCK_COLLECT1.vec(), RedConstants.DUCK_COLLECT1.getHeading())
                     .build(),
               RED_DUCK_COLLECT2_TO_ALLIANCE_HUB_LEVEL3 = b -> b.apply(RedConstants.DUCK_COLLECT2)
                       .lineToLinearHeading(RedConstants.DUCK_ALLIANCE_HUB_LEVEL3)
@@ -170,11 +170,12 @@ public class AutonomousConstants {
               BLUE_DUCK_CAROUSEL_TO_DUCK_COLLECT1 = b -> b.apply(BlueConstants.DUCK_CAROUSEL)
                               .lineToLinearHeading(BlueConstants.DUCK_COLLECT1)
                               .build(),
-              BLUE_DUCK_COLLECT1_TO_DUCK_COLLECT2 = b -> b.apply(BlueConstants.DUCK_COLLECT1)
-                              .lineToLinearHeading(BlueConstants.DUCK_COLLECT2)
+
+              BLUE_DUCK_COLLECT1_TO_COLLECT2 = b -> b.apply(BlueConstants.DUCK_COLLECT1)
+                              .splineTo(BlueConstants.DUCK_COLLECT2.vec(), BlueConstants.DUCK_COLLECT2.getHeading())
                               .build(),
-              BLUE_DUCK_COLLECT2_TO_DUCK_COLLECT1 = b -> b.apply(BlueConstants.DUCK_COLLECT2)
-                              .lineToLinearHeading(BlueConstants.DUCK_COLLECT1)
+              BLUE_DUCK_COLLECT2_TO_COLLECT1 = b -> b.apply(BlueConstants.DUCK_COLLECT2)
+                              .splineTo(BlueConstants.DUCK_COLLECT1.vec(), BlueConstants.DUCK_COLLECT2.getHeading())
                               .build(),
               BLUE_DUCK_COLLECT2_TO_ALLIANCE_HUB_LEVEL3 = b -> b.apply(BlueConstants.DUCK_COLLECT2)
                               .lineToLinearHeading(BlueConstants.DUCK_ALLIANCE_HUB_LEVEL3)
