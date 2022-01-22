@@ -64,14 +64,12 @@ public class BarcodePipeline extends OpenCvPipeline implements Supplier<Integer>
             final Rect region2;
             final Rect region3;
             CameraConfig(Alliance alliance, DuckOrDepot side,
-                         int top1, int left1, int bottom1, int right1,
-                         int top2, int left2, int bottom2, int right2,
-                         int top3, int left3, int bottom3, int right3) {
+                         Rect topRect, Rect midRect, Rect botRect) {
                 this.alliance = alliance;
                 this.side = side;
-                this.region1 = new Rect(new Point(top1, left1), new Point(bottom1, right1));
-                this.region2 = new Rect(new Point(top2, left2), new Point(bottom2, right2));
-                this.region3 = new Rect(new Point(top3, left3), new Point(bottom3, right3));
+                this.region1 = topRect;
+                this.region2 = midRect;
+                this.region3 = botRect;
             }
         }
         //for each location, want to know which rectangle corresponds to which spot and want to know if theres a spot
@@ -80,29 +78,38 @@ public class BarcodePipeline extends OpenCvPipeline implements Supplier<Integer>
 
 
         private static final CameraConfig cameraConfigs[] = {
-                //blue depot- right rect = top level, center rect = middle level, left rect = nothing, cannot see
-                //barcode for bottom level
+                // blue depot-
+                // right rect = top level
+                // center rect = middle level
+                // left rect = nothing, cannot see barcode for bottom level
                 new CameraConfig(Alliance.BLUE, DuckOrDepot.DEPOT,
-                        0,   0, 100, 200,
-                        100, 0, 200, 200,
-                        200, 0, 300, 200),
-               //blue duck - cannot see barcode for top level, center rect = middle level, right rect = bottom level
-               //left rect = nothing
+                        new Rect(200, 0, 100, 200),
+                        new Rect(50, 0, 100, 200),
+                        null),
+                // blue duck
+                // cannot see barcode for top level
+                // center rect = middle level
+                // right rect = bottom level
                 new CameraConfig(Alliance.BLUE, DuckOrDepot.DUCK,
-                        0,   0, 100, 200,
-                        100, 0, 200, 200,
-                        200, 0, 300, 200),
+                        null,
+                        new Rect(50,   0, 100, 200),
+                        new Rect(200, 0, 100, 200)),
+                // red depot
+                // center rect = top level
+                // right rect = middle level
+                // left rect = nothing, cannot see barcode
                 new CameraConfig(Alliance.RED,  DuckOrDepot.DEPOT,
-               //red depot - center rect = top level, right rect = center level, left rect = nothing, cannot see barcode
-                //left rect = nothing
-                        0,   0, 100, 200,
-                        100, 0, 200, 200,
-                        200, 0, 300, 200),
-                  //red duck - right rect = top level, center rect = middle level, left rect = lowest level
+                        new Rect(50, 0, 100, 200),
+                        new Rect(200, 0, 100, 200),
+                  null),
+                // red duck
+                // right rect = top level
+                // center rect = middle level
+                // lowest level = cannot see
                 new CameraConfig(Alliance.RED,  DuckOrDepot.DUCK,
-                        0,   0, 100, 200,
-                        100, 0, 200, 200,
-                        200, 0, 300, 200)
+                        new Rect(200, 0, 100, 200),
+                        new Rect(50, 0, 100, 200),
+                        null)
         };
 
 //        public final static Point REGION_1_TOPLEFT_ANCHOR_POINT = new Point(REGION_1_LEFT, REGION_1_UP);
@@ -114,23 +121,19 @@ public class BarcodePipeline extends OpenCvPipeline implements Supplier<Integer>
 
     public Exception debug;
 
-
-
-
-
     private CameraConfig currentConfig = null;
     public Mat region_1_Cr, region_2_Cr, region_3_Cr;
     public Mat customColorSpace = new Mat();
     public Mat Cr = new Mat();
 
     @LogConfig.Run(duringRun = false, duringInit = true)
-    @Log.Boolean (name="sq1")
+    @Log.Boolean (name="top")
     public volatile boolean topDetected = false;
     @LogConfig.Run(duringRun = false, duringInit = true)
-    @Log.Boolean (name="sq2")
+    @Log.Boolean (name="mid")
     public volatile boolean middleDetected = true;
     @LogConfig.Run(duringRun = false, duringInit = true)
-    @Log.Boolean (name="sq3")
+    @Log.Boolean (name="bot")
     public volatile boolean bottomDetected = false;
 
     @LogConfig.Run(duringInit = true, duringRun = false)
@@ -215,9 +218,9 @@ public class BarcodePipeline extends OpenCvPipeline implements Supplier<Integer>
 
         int [] red_avg = new int [3];
 
-        red_avg[0] = region_1_Cr == null ? 0 : (int) Core.mean(region_1_Cr).val[0];
-        red_avg[1] = region_2_Cr == null ? 0 : (int) Core.mean(region_2_Cr).val[0];
-        red_avg[2] = region_3_Cr == null ? 0 : (int) Core.mean(region_3_Cr).val[0];
+        red_avg[0] = region_1_Cr == null ? -1 : (int) Core.mean(region_1_Cr).val[0];
+        red_avg[1] = region_2_Cr == null ? -1 : (int) Core.mean(region_2_Cr).val[0];
+        red_avg[2] = region_3_Cr == null ? -1 : (int) Core.mean(region_3_Cr).val[0];
 
         int max = 0;
         if (red_avg[0] > red_avg[1]){
@@ -229,15 +232,6 @@ public class BarcodePipeline extends OpenCvPipeline implements Supplier<Integer>
             max = 2;
         }
         redThreshhold = red_avg[max];
-        if (currentConfig.region1 != null){
-            Imgproc.rectangle(input, currentConfig.region1, ((max == 0) ? RED : BLUE), 2);
-        }
-        if (currentConfig.region2 != null){
-            Imgproc.rectangle(input, currentConfig.region2, ((max == 1) ? RED : BLUE), 2);
-        }
-        if (currentConfig != null){
-            Imgproc.rectangle(input, currentConfig.region3, ((max == 2) ? RED : BLUE), 2);
-        }
         if ((Math.max(red_avg[0], red_avg[1]) > 20) && red_avg[2] > 20){
             topDetected = max == 0;
             middleDetected = max == 1;
@@ -247,6 +241,21 @@ public class BarcodePipeline extends OpenCvPipeline implements Supplier<Integer>
             topDetected = currentConfig.region1 == null;
             middleDetected = currentConfig.region2 == null;
             bottomDetected = currentConfig.region3 == null;
+        }
+        if (currentConfig.region1 != null){
+            Imgproc.rectangle(input, currentConfig.region1, (topDetected ? RED : BLUE), 2);
+        } else {
+            Imgproc.rectangle(input, new Rect(100, 220, 15, 15), (topDetected ? RED : YELLOW), 2);
+        }
+        if (currentConfig.region2 != null){
+            Imgproc.rectangle(input, currentConfig.region2, (middleDetected ? RED : BLUE), 2);
+        } else {
+            Imgproc.rectangle(input, new Rect(200, 220, 15, 15), (middleDetected ? RED : YELLOW), 2);
+        }
+        if (currentConfig.region3 != null){
+            Imgproc.rectangle(input, currentConfig.region3, (bottomDetected ? RED : BLUE), 2);
+        } else {
+            Imgproc.rectangle(input, new Rect(300, 220, 15, 15), (bottomDetected ? RED : YELLOW), 2);
         }
 
         /*
