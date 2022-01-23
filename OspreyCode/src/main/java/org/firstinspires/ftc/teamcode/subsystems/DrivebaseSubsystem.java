@@ -97,7 +97,7 @@ public class DrivebaseSubsystem extends MecanumDrivebaseSubsystem implements Sup
         public static double SIDE_SENSOR_DISTANCE = 65;
         public static double FRONT_SENSOR_DISTANCE = 65.5;
 
-        public static double TIP_TOLERANCE = Math.toRadians(5);
+        public static double TIP_TOLERANCE = Math.toRadians(10);
 
         public static double TIP_AUTHORITY = 0.9;
 

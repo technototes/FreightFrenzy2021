@@ -24,9 +24,9 @@ public class CarouselSubsystem implements Subsystem, Supplier<Double> {
     @Config
     public static class CarouselConstants{
         public static double MAX_SPEED = 1;
-        public static double MIN_SPEED = 0.2;
+        public static double MIN_SPEED = 0.25;
         public static double CAROUSEL_STOP_SPEED = 0;
-        public static double SPIN_OFFSET = 4;
+        public static double SPIN_OFFSET = 2.8;
     }
 
     public Motor<DcMotorEx> motor;

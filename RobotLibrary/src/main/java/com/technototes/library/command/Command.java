@@ -227,7 +227,7 @@ public interface Command extends Runnable, Supplier<Command.CommandState> {
 
 
     default void cancel() {
-        if (isRunning() && !isCancelled()) setState(CommandState.INTERRUPTED);
+        if (isRunning() && !justFinished()) setState(CommandState.INTERRUPTED);
     }
 
     static void clear() {

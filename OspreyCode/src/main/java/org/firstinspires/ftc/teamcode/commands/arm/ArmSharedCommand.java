@@ -17,7 +17,7 @@ public class ArmSharedCommand extends ArmCommand {
 
     @Override
     public boolean isFinished() {
-        return getRuntime().seconds()>0.7;
+        return getRuntime().seconds()>0.5;
     }
 
     @Override

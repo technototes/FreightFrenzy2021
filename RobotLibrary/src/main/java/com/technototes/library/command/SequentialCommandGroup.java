@@ -11,8 +11,10 @@ public class SequentialCommandGroup extends CommandGroup {
      * @param commands The commands to run
      */
     public SequentialCommandGroup(Command... commands) {
-        super(false, commands);
+        super(true, commands);
     }
+
+
 
     @Override
     public void schedule(Command c) {
@@ -30,7 +32,7 @@ public class SequentialCommandGroup extends CommandGroup {
      */
     @Override
     public boolean isFinished() {
-        return lastCommand.justFinished() || anyCancelled;
+        return lastCommand.justFinished() || (anyCancelled && !countCancel);
     }
 
 

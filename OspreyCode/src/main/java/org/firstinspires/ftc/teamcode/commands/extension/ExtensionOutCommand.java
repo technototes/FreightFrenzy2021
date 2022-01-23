@@ -21,7 +21,7 @@ public class ExtensionOutCommand extends ExtensionCommand{
     @Override
     public void execute() {
             extensionSubsystem.setSlide(slideTarget);
-            if(getRuntime().seconds()>0.5) extensionSubsystem.setTurret(turretTarget);
+            if(getRuntime().seconds()>0.3) extensionSubsystem.setTurret(turretTarget);
     }
 
     @Override

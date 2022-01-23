@@ -8,7 +8,7 @@ import java.util.Map;
  */
 public abstract class CommandGroup implements Command {
     protected Map<Command, Boolean> commandMap;
-    protected boolean cancelifAny, anyCancelled;
+    protected boolean countCancel, anyCancelled;
 
     /** Create a command group with commands
      *
@@ -17,7 +17,7 @@ public abstract class CommandGroup implements Command {
     public CommandGroup(boolean countCancel, Command... commands) {
         commandMap = new HashMap<>();
         addCommands(commands);
-        cancelifAny = countCancel;
+        this.countCancel = countCancel;
     }
 
     /** Add a command to the group
@@ -33,6 +33,16 @@ public abstract class CommandGroup implements Command {
         return this;
     }
 
+    public CommandGroup countCancel(){
+        countCancel = true;
+        return this;
+    }
+    public CommandGroup ignoreCancel(){
+        countCancel = false;
+        return this;
+    }
+
+
     public abstract void schedule(Command c);
 
     @Override
@@ -44,8 +54,8 @@ public abstract class CommandGroup implements Command {
     @Override
     public void execute() {
         //makes true if command just finished
-        commandMap.replaceAll((command, bool) -> (cancelifAny ? command.justFinished() : command.justFinishedNoCancel()) || bool);
-        anyCancelled = commandMap.keySet().stream().anyMatch(Command::isCancelled) || anyCancelled;
+        commandMap.replaceAll((command, bool) -> (countCancel ? command.justFinished() : command.justFinishedNoCancel()) || bool);
+         anyCancelled = commandMap.keySet().stream().anyMatch(Command::isCancelled) || anyCancelled;
     }
 
     @Override

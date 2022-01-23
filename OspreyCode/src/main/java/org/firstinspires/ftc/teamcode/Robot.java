@@ -7,6 +7,7 @@ import com.technototes.library.logger.Log;
 import com.technototes.library.logger.Loggable;
 
 import org.firstinspires.ftc.teamcode.opmodes.TeleOpBase;
+import org.firstinspires.ftc.teamcode.subsystems.BrakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.CapSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.CarouselSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ArmSubsystem;
@@ -30,8 +31,8 @@ public class Robot implements Loggable {
         public static boolean INTAKE_ENABLED = true;
         public static boolean VISION_ENABLED = true;
         public static boolean CAP_ENABLED = false;
-        public static boolean SPEAKER_CONNECTED = true;
-
+        public static boolean SPEAKER_ENABLED = true;
+        public static boolean BRAKE_ENABLED = true;
     }
 
     @Log.NumberBar(name = "Lift", min = 0, max = 500, scale = 100, completeBarColor = Color.PURPLE)
@@ -50,7 +51,7 @@ public class Robot implements Loggable {
     @Log.NumberSlider(name = "Carousel", sliderBackground = Color.CYAN, slider = Color.LIME)
     public CarouselSubsystem carouselSubsystem;
 
-    @Log(name = "Intake", entryColor = Color.RED)
+    @Log(name = "Intake", entryColor = Color.LIME)
     public IntakeSubsystem intakeSubsystem;
 
     @Log.NumberSlider(name = "Cap", color = Color.MAGENTA)
@@ -58,11 +59,17 @@ public class Robot implements Loggable {
 
     public VisionSubsystem visionSubsystem;
 
+    @LogConfig.Disabled
     @Log(name="Song", color = Color.WHITE, index = 0)
     public SpeakerSubsystem speakerSubsystem;
 
+    @Log.Boolean(name="Brake", trueColor = Color.RED, trueValue = "ACTIVE", falseColor = Color.GREEN, falseValue = "INACTIVE", index = 0)
+    public BrakeSubsystem brakeSubsystem;
+
     public Robot(Hardware hardware){
-        if(SPEAKER_CONNECTED) speakerSubsystem = new SpeakerSubsystem(hardware.speaker);
+        if(BRAKE_ENABLED) brakeSubsystem = new BrakeSubsystem(hardware.brake);
+
+        if(SPEAKER_ENABLED) speakerSubsystem = new SpeakerSubsystem(hardware.speaker);
 
         if(LIFT_ENABLED) liftSubsystem = new LiftSubsystem(hardware.liftMotor);
 

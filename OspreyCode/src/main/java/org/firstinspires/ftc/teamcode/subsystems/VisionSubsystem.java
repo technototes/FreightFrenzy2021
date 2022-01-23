@@ -25,7 +25,7 @@ public class VisionSubsystem implements Subsystem, Loggable {
     public static class VisionConstants {
         public static int WIDTH = 320;
         public static int HEIGHT = 240;
-        public static OpenCvCameraRotation ROTATION = OpenCvCameraRotation.UPRIGHT;
+        public static OpenCvCameraRotation ROTATION = OpenCvCameraRotation.UPSIDE_DOWN;
 
     }
 
