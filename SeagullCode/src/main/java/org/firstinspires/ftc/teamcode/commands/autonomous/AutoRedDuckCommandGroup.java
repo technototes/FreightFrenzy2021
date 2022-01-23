@@ -18,22 +18,8 @@ import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
 public class AutoRedDuckCommandGroup extends SequentialCommandGroup {
     public AutoRedDuckCommandGroup(DrivebaseSubsystem drive, CarouselSubsystem carousel, DumpSubsystem dump, IntakeSubsystem intake) {
         super(
-                new TrajectorySequenceCommand(drive, AutonomousConstants.RED_DUCK_START_TO_ALLIANCE_HUB_LEVEL3),
-                new AutonomousBucketDumpCommand(dump),
-                new TrajectorySequenceCommand(drive, AutonomousConstants.RED_DUCK_ALLIANCE_HUB_LEVEL3_TO_CAROUSEL),
-                new AutoCarouselSlowSpinCommand(carousel).withTimeout(1),
-                new AutoCarouselFastSpinCommand(carousel).withTimeout(0.9),
-                new DumpCarryCommand(dump),
-                new DumpCollectCommand(dump),
-                new TrajectorySequenceCommand(drive, AutonomousConstants.RED_DUCK_CAROUSEL_TO_DUCK_COLLECT1),
-                new IntakeInCommand(intake),
-                new RedDuckCollectCommand(drive),
-                new IntakeStopCommand(intake),
-                new TrajectorySequenceCommand(drive, AutonomousConstants.RED_DUCK_COLLECT2_TO_ALLIANCE_HUB_LEVEL3),
-                new AutonomousBucketDumpCommand(dump),
-                new TrajectorySequenceCommand(drive, AutonomousConstants.RED_DUCK_ALLIANCE_HUB_LEVEL3_TO_PARK),
-                new DumpCarryCommand(dump),
-                new DumpCollectCommand(dump),
+                new UnloadTopRedDuckCommandGroup(drive, dump, intake),
+                new RedDuckRemainderCommandGroup(drive, dump, intake, carousel),
 
                 CommandScheduler.getInstance()::terminateOpMode // ending the entire opmode
         );

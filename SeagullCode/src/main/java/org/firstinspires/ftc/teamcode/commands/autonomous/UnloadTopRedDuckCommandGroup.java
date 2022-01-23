@@ -15,10 +15,8 @@ public class UnloadTopRedDuckCommandGroup extends SequentialCommandGroup {
     public UnloadTopRedDuckCommandGroup(DrivebaseSubsystem drive, DumpSubsystem bucket, IntakeSubsystem intake) {
         super(
                 new TrajectorySequenceCommand(drive, AutonomousConstants.RED_DUCK_START_TO_ALLIANCE_HUB_LEVEL3), // Different duck constant
-                new DumpUnloadTopLevelCommand(bucket).withTimeout(1.5),
-                new WaitCommand(1),
-                new DumpCollectCommand(bucket),
-                new IntakeInCommand(intake), // Intake command - spin the intake before arrived at the depot
+                new DumpUnloadTopLevelCommand(bucket),
+                new WaitCommand(0.7),
                 new TrajectorySequenceCommand(drive, AutonomousConstants.RED_DUCK_ALLIANCE_HUB_LEVEL3_TO_CAROUSEL) // Different park command
         );
     }
