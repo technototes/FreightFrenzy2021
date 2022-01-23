@@ -110,6 +110,7 @@ public class AutonomousConstants {
                         .setVelConstraint((a, c, d, e) -> 25)
                         .lineTo(RedConstants.DEPOT_COLLECT1.vec())
                         .build(),
+    /*
               RED_ALLIANCE_HUB_LEVEL2_TO_DEPOT_COLLECT2 = b -> b.apply(RedConstants.DEPOT_ALLIANCE_HUB_LEVEL2)
                         .lineToLinearHeading(RedConstants.DEPOT_GAP)
                         .setVelConstraint((a, c, d, e) -> 25)
@@ -123,6 +124,7 @@ public class AutonomousConstants {
                         .lineToLinearHeading(RedConstants.DEPOT_GAP)
                         .lineToLinearHeading(RedConstants.DEPOT_ALLIANCE_HUB_LEVEL2)
                         .build(),
+     */
               RED_DUCK_START_TO_ALLIANCE_HUB_LEVEL2 = b -> b.apply(RedConstants.DUCK_START)
                         .lineToLinearHeading(RedConstants.DUCK_ALLIANCE_HUB_LEVEL2)
                         .build(),
@@ -140,6 +142,7 @@ public class AutonomousConstants {
                         .setVelConstraint((a, c, d, e) -> 25)
                         .lineTo(RedConstants.DEPOT_COLLECT1.vec())
                         .build(),
+    /*
               RED_ALLIANCE_HUB_LEVEL1_TO_DEPOT_COLLECT2 = b -> b.apply(RedConstants.DEPOT_ALLIANCE_HUB_LEVEL1)
                         .lineToLinearHeading(RedConstants.DEPOT_GAP)
                         .setVelConstraint((a, c, d, e) -> 25)
@@ -153,6 +156,7 @@ public class AutonomousConstants {
                         .lineToLinearHeading(RedConstants.DEPOT_GAP)
                         .lineToLinearHeading(RedConstants.DEPOT_ALLIANCE_HUB_LEVEL1)
                         .build(),
+     */
               RED_DUCK_START_TO_ALLIANCE_HUB_LEVEL1 = b -> b.apply(RedConstants.DUCK_START)
                         .lineToLinearHeading(RedConstants.DUCK_ALLIANCE_HUB_LEVEL1)
                         .build(),
@@ -161,9 +165,11 @@ public class AutonomousConstants {
                         .build(),
 
     /************************************************************************************/
+    /*
     BLUE_DUCK_CAROUSEL_TO_PARK = b -> b.apply(BlueConstants.DUCK_CAROUSEL)
               .lineToLinearHeading(BlueConstants.DUCK_PARK)
               .build(),
+     */
               BLUE_DUCK_START_TO_ALLIANCE_HUB_LEVEL_3 = b -> b.apply(BlueConstants.DUCK_START)
                         .lineToLinearHeading(BlueConstants.DUCK_ALLIANCE_HUB_LEVEL3)
                         .build(),
@@ -224,6 +230,7 @@ public class AutonomousConstants {
                         .setVelConstraint((a, c, d, e) -> 20)
                         .lineToLinearHeading(BlueConstants.DEPOT_COLLECT1)
                         .build(),
+    /*
               BLUE_ALLIANCE_HUB_LEVEL2_TO_DEPOT_COLLECT2 = b -> b.apply(BlueConstants.DEPOT_ALLIANCE_HUB_LEVEL2)
                         .lineToLinearHeading(BlueConstants.DEPOT_GAP)
                         .setVelConstraint((a, c, d, e) -> 20)
@@ -237,6 +244,7 @@ public class AutonomousConstants {
                         .lineToLinearHeading(BlueConstants.DEPOT_GAP)
                         .lineToLinearHeading(BlueConstants.DEPOT_ALLIANCE_HUB_LEVEL2)
                         .build(),
+     */
 
     /**
      * --------------------Blue Lower Level-----------------------------------------------
@@ -254,7 +262,8 @@ public class AutonomousConstants {
                         .lineToLinearHeading(BlueConstants.DEPOT_GAP)
                         .setVelConstraint((a, c, d, e) -> 20)
                         .lineToLinearHeading(BlueConstants.DEPOT_COLLECT1)
-                        .build(),
+                        .build();
+    /*
               BLUE_ALLIANCE_HUB_LEVEL1_TO_DEPOT_COLLECT2 = b -> b.apply(BlueConstants.DEPOT_ALLIANCE_HUB_LEVEL1)
                         .lineToLinearHeading(BlueConstants.DEPOT_GAP)
                         .setVelConstraint((a, c, d, e) -> 20)
@@ -268,5 +277,6 @@ public class AutonomousConstants {
                         .lineToLinearHeading(BlueConstants.DEPOT_GAP)
                         .lineToLinearHeading(BlueConstants.DEPOT_ALLIANCE_HUB_LEVEL1)
                         .build();
+     */
 }
 
