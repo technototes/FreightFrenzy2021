@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.commands.autonomous;
 
-import com.technototes.library.command.CommandScheduler;
 import com.technototes.library.command.SequentialCommandGroup;
 import com.technototes.library.command.WaitCommand;
 import com.technototes.path.command.TrajectorySequenceCommand;
@@ -20,8 +19,7 @@ public class UnloadMiddleBlueDuckCommandGroup extends SequentialCommandGroup {
                 new WaitCommand(1),
                 new DumpCollectCommand(bucket),
                 new IntakeInCommand(intake), // Intake command - spin the intake before arrived at the depot
-                new TrajectorySequenceCommand(drive, AutonomousConstants.BLUE_ALLIANCE_HUB_LEVEL2_TO_CAROUSEL), // Different park command
-
-                CommandScheduler.getInstance()::terminateOpMode); //ending
+                new TrajectorySequenceCommand(drive, AutonomousConstants.BLUE_ALLIANCE_HUB_LEVEL2_TO_CAROUSEL) // Different park command
+        );
     }
 }

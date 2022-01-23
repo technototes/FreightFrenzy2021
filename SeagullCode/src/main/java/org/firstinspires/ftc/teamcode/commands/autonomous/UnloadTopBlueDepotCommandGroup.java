@@ -20,6 +20,6 @@ public class UnloadTopBlueDepotCommandGroup extends SequentialCommandGroup {
                 new DumpCollectCommand(bucket),
                 new IntakeInCommand(intake), // Intake command - spin the intake before arrived at the depot
                 new TrajectorySequenceCommand(drive, AutonomousConstants.BLUE_ALLIANCE_HUB_LEVEL3_TO_DEPOT_COLLECT1) // Different park command
-        ); //ending
+        );
     }
 }
