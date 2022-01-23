@@ -79,44 +79,38 @@ public class BarcodePipeline extends OpenCvPipeline implements Supplier<Integer>
 
         private static final CameraConfig cameraConfigs[] = {
                 // blue depot-
-                // right rect = top level
-                // center rect = middle level
-                // left rect = nothing, cannot see barcode for bottom level
+                // top level: Right rectangle
+                // middle level: Center rectangle
+                // bottom level: Not in view
                 new CameraConfig(Alliance.BLUE, DuckOrDepot.DEPOT,
                         new Rect(200, 0, 100, 200),
                         new Rect(50, 0, 100, 200),
                         null),
                 // blue duck
-                // cannot see barcode for top level
-                // center rect = middle level
-                // right rect = bottom level
+                // top level: Not in view
+                // middle leve: Center rectangle
+                // bottom level: right rectangle
                 new CameraConfig(Alliance.BLUE, DuckOrDepot.DUCK,
                         null,
                         new Rect(50,   0, 100, 200),
                         new Rect(200, 0, 100, 200)),
                 // red depot
-                // center rect = top level
-                // right rect = middle level
-                // left rect = nothing, cannot see barcode
+                // top level: center rect
+                // middle level: right rect
+                // bottom level: not in view
                 new CameraConfig(Alliance.RED,  DuckOrDepot.DEPOT,
                         new Rect(50, 0, 100, 200),
                         new Rect(200, 0, 100, 200),
                   null),
                 // red duck
-                // right rect = top level
-                // center rect = middle level
-                // lowest level = cannot see
+                // top level: right rect
+                // middle level: center rect
+                // bottom level: not in view
                 new CameraConfig(Alliance.RED,  DuckOrDepot.DUCK,
                         new Rect(200, 0, 100, 200),
                         new Rect(50, 0, 100, 200),
                         null)
         };
-
-//        public final static Point REGION_1_TOPLEFT_ANCHOR_POINT = new Point(REGION_1_LEFT, REGION_1_UP);
-//        public final static Point REGION_2_TOPLEFT_ANCHOR_POINT = new Point(REGION_2_LEFT, REGION_2_UP);
-//        public final static Point REGION_3_TOPLEFT_ANCHOR_POINT = new Point(REGION_3_LEFT, REGION_3_UP);
-//        public final static Point REGION_4_TOPLEFT_ANCHOR_POINT = new Point(REGION_4_LEFT, REGION_4_UP);
-//        public final static Point REGION_5_TOPLEFT_ANCHOR_POINT = new Point(REGION_5_LEFT, REGION_5_UP);
     }
 
     public Exception debug;
