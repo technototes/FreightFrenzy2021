@@ -14,7 +14,7 @@ public abstract class CommandGroup implements Command {
      *
      * @param commands Commands for group
      */
-    public CommandGroup(boolean cancelIfAnyCancel, Command... commands) {
+    public CommandGroup(boolean countCancel, Command... commands) {
         commandMap = new HashMap<>();
         addCommands(commands);
         this.countCancel = countCancel;
