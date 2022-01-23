@@ -14,7 +14,7 @@ public class AutoBlueSlowCommand implements Command{
 
     @Override
     public void execute() {
-        carouselSubsystem.blue_auto();
+        carouselSubsystem.blue_auto_slow();
     }
 
     @Override
