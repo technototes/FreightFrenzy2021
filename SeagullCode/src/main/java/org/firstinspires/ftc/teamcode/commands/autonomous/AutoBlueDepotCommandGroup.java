@@ -14,6 +14,7 @@ public class AutoBlueDepotCommandGroup extends SequentialCommandGroup {
                 new UnloadTopBlueDepotCommandGroup(drive, bucket, intake), // Run the first half of the auto, at the top level
                 new BlueDepotRemainderCommandGroup(drive, bucket, intake),
 
-                CommandScheduler.getInstance()::terminateOpMode); //ending
+                CommandScheduler.getInstance()::terminateOpMode // ending the entire opmode
+        );
     }
 }

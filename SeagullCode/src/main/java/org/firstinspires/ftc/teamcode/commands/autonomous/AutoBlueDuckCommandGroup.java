@@ -33,7 +33,8 @@ public class AutoBlueDuckCommandGroup extends SequentialCommandGroup {
                 new TrajectorySequenceCommand(drive, AutonomousConstants.BLUE_DUCK_ALLIANCE_HUB_LEVEL3_TO_PARK),
                 new DumpCarryCommand(dump),
                 new DumpCollectCommand(dump),
-                CommandScheduler.getInstance()::terminateOpMode);
+                CommandScheduler.getInstance()::terminateOpMode // ending the entire opmode
+        );
     }
 }
 

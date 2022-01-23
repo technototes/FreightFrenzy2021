@@ -11,9 +11,11 @@ import org.firstinspires.ftc.teamcode.subsystems.VisionSubsystem;
 
 public class AutoRedDepotVizCommandGroup extends SequentialCommandGroup {
     public AutoRedDepotVizCommandGroup(DrivebaseSubsystem drive, DumpSubsystem bucket, IntakeSubsystem intake, VisionSubsystem vision) {
-        super(new HeightSelectRedDepotCommand(drive, bucket, intake, vision),
-                  new RedDepotRemainderCommandGroup(drive, bucket, intake),
-                  CommandScheduler.getInstance()::terminateOpMode);
+        super(
+                new HeightSelectRedDepotCommand(drive, bucket, intake, vision),
+                new RedDepotRemainderCommandGroup(drive, bucket, intake),
+                CommandScheduler.getInstance()::terminateOpMode // ending the entire opmode
+        );
     }
 
 }

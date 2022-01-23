@@ -14,7 +14,7 @@ public class AutoBlueDepotVizCommandGroup extends SequentialCommandGroup {
                 new HeightSelectBlueDepotCommand(drive, bucket, intake, vision),
                 new BlueDepotRemainderCommandGroup(drive, bucket, intake),
 
-                CommandScheduler.getInstance()::terminateOpMode
+                CommandScheduler.getInstance()::terminateOpMode // ending the entire opmode
         );
     }
 
