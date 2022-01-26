@@ -20,8 +20,8 @@ public class AutonomousConstants {
         public static Pose2d DUCK_ALLIANCE_HUB_LEVEL1 = new Pose2d(-28, -42, toRadians(-125));
         public static Pose2d DUCK_CAROUSEL = new Pose2d(-64, -59, toRadians(-90));
         public static Pose2d DUCK_COLLECT1 = new Pose2d(-60, -60, toRadians(-90));
-        public static Pose2d DUCK_COLLECT2 = new Pose2d(-48, -60, toRadians(-90));
-        public static Pose2d DUCK_PARK = new Pose2d(-69, -36, toRadians(180));
+        public static Pose2d DUCK_COLLECT2 = new Pose2d(-48, -61, toRadians(-90));
+        public static Pose2d DUCK_PARK = new Pose2d(-69, -30, toRadians(180));
         public static Pose2d DEPOT_START = new Pose2d(0, -66, toRadians(-90));
         public static Pose2d DEPOT_ALLIANCE_HUB_LEVEL3 = new Pose2d(-10, -45, toRadians(-68));
         public static Pose2d DEPOT_ALLIANCE_HUB_LEVEL2 = new Pose2d(-10, -51, toRadians(-68));
@@ -38,9 +38,9 @@ public class AutonomousConstants {
         public static Pose2d DUCK_ALLIANCE_HUB_LEVEL1 = new Pose2d(-20, 42, toRadians(125));
 
         public static Pose2d DUCK_CAROUSEL = new Pose2d(-59, 59, toRadians(180));
-        public static Pose2d DUCK_COLLECT1 = new Pose2d(-55, 63, toRadians(90));
-        public static Pose2d DUCK_COLLECT2 = new Pose2d(-43, 63, toRadians(90));
-        public static Pose2d DUCK_PARK = new Pose2d(-68, 36, toRadians(180));
+        public static Pose2d DUCK_COLLECT1 = new Pose2d(-55, 60, toRadians(90));
+        public static Pose2d DUCK_COLLECT2 = new Pose2d(-43, 61, toRadians(90));
+        public static Pose2d DUCK_PARK = new Pose2d(-69, 36, toRadians(180));
         public static Pose2d DEPOT_START = new Pose2d(0, 66, toRadians(90));
         public static Pose2d DEPOT_ALLIANCE_HUB_LEVEL3 = new Pose2d(-10, 42, toRadians(55));
         public static Pose2d DEPOT_ALLIANCE_HUB_LEVEL2 = new Pose2d(-10, 48, toRadians(60));

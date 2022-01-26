@@ -20,8 +20,6 @@ public class RedDuckRemainderCommandGroup extends SequentialCommandGroup {
         super(
                 new AutoCarouselSlowSpinCommand(carousel).withTimeout(1),
                 new AutoCarouselFastSpinCommand(carousel).withTimeout(0.9),
-                new DumpCarryCommand(dump),
-                new DumpCollectCommand(dump),
                 new TrajectorySequenceCommand(drive, AutonomousConstants.RED_DUCK_CAROUSEL_TO_DUCK_COLLECT1),
                 new IntakeInCommand(intake),
                 new RedDuckCollectCommand(drive),

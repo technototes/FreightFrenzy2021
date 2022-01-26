@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcode.subsystems.VisionSubsystem;
 public class AutoBlueDuckVizCommandGroup extends SequentialCommandGroup {
     public AutoBlueDuckVizCommandGroup(DrivebaseSubsystem drive, DumpSubsystem bucket, IntakeSubsystem intake, VisionSubsystem vision, CarouselSubsystem carousel) {
         super(
-                new HeightSelectBlueDuckCommand(drive, bucket, intake, vision),
+                new HeightSelectBlueDuckCommand(drive, bucket, vision),
                 new BlueDuckRemainderCommandGroup(drive, bucket, intake, carousel),
 
                 CommandScheduler.getInstance()::terminateOpMode // ending the entire opmode
