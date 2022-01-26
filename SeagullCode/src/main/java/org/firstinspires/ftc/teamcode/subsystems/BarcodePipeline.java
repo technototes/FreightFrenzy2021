@@ -159,8 +159,8 @@ public class BarcodePipeline extends OpenCvPipeline implements Supplier<Integer>
         Core.inRange(customColorSpace, top, topEdge, red2);
         Core.bitwise_or(red1, red2, Cr);
         // Make everything that's the color we're looking for turn white
-        Core.bitwise_or(Cr, input, input);
-        /*
+        // Core.bitwise_or(Cr, input, input);
+
         // flip the pixels that we're seeing as "red" to yellow!
         // also: Draw pixels by drawing a 1x1 rectangle is *masterful* code!
         // TODO: This should use bitwise and/bitwise or to do this really...
@@ -176,7 +176,7 @@ public class BarcodePipeline extends OpenCvPipeline implements Supplier<Integer>
                 }
             }
         }
-        */
+
     }
 
     public void init(Mat firstFrame){
