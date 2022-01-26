@@ -18,6 +18,7 @@ import com.technototes.vision.hardware.Webcam;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.subsystems.ArmSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.BrakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.CapSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ExtensionSubsystem;
 
@@ -52,8 +53,7 @@ public class Hardware implements Loggable {
 
         public static String CAP = "cap";
 
-
-
+        public static String BRAKE = "brake";
 
     }
 
@@ -85,9 +85,14 @@ public class Hardware implements Loggable {
 
     public Webcam camera;
 
+    public Servo brake;
+
     public Hardware() {
-        if(SPEAKER_CONNECTED){
+        if(SPEAKER_ENABLED){
             speaker = new Speaker();
+        }
+        if(BRAKE_ENABLED){
+            brake = new Servo(BRAKE).startAt(BrakeSubsystem.BrakeConstants.UP);
         }
         if(LIFT_ENABLED) {
             liftMotor = new EncodedMotor<DcMotorEx>(LIFT).brake().tare();

@@ -87,9 +87,9 @@ public class Controls {
 
    public void bindBucketControls() {
         intakeInTrigger.whenPressed(
-                new SequentialCommandGroup(true,
+                new SequentialCommandGroup(
                 new DumpCollectCommand(robot.dumpSubsystem),
-                new IntakeSafeCommand(robot.intakeSubsystem, robot.dumpSubsystem, gamepad))
+                new IntakeSafeCommand(robot.intakeSubsystem, robot.dumpSubsystem, gamepad)).ignoreCancel()
         );
         topDepositButton.whenPressed(new DumpUnloadTopLevelCommand(robot.dumpSubsystem).alongWith(new IntakeStopCommand(robot.intakeSubsystem)));
         sharedDepositButton.whenPressed(new DumpUnloadSharedHubCommand(robot.dumpSubsystem).alongWith(new IntakeStopCommand(robot.intakeSubsystem)));

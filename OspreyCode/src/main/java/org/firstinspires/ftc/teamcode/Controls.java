@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.technototes.library.command.SequentialCommandGroup;
 import com.technototes.library.command.WaitCommand;
 import com.technototes.library.control.CommandAxis;
 import com.technototes.library.control.CommandButton;
@@ -21,7 +22,6 @@ import org.firstinspires.ftc.teamcode.commands.arm.ArmAllianceCommand;
 import org.firstinspires.ftc.teamcode.commands.arm.BucketDumpVariableCommand;
 import org.firstinspires.ftc.teamcode.commands.drivebase.DriveCommand;
 import org.firstinspires.ftc.teamcode.commands.drivebase.DriveResetCommand;
-import org.firstinspires.ftc.teamcode.commands.drivebase.DriveSpeedCommand;
 import org.firstinspires.ftc.teamcode.commands.extension.ExtensionCollectCommand;
 import org.firstinspires.ftc.teamcode.commands.extension.ExtensionCommand;
 import org.firstinspires.ftc.teamcode.commands.extension.ExtensionSideCommand;
@@ -36,6 +36,7 @@ import org.firstinspires.ftc.teamcode.commands.lift.LiftSharedCommand;
 import org.firstinspires.ftc.teamcode.commands.lift.LiftTranslateCommand;
 import org.firstinspires.ftc.teamcode.subsystems.ExtensionSubsystem;
 
+import static org.firstinspires.ftc.teamcode.Robot.SubsystemConstants.BRAKE_ENABLED;
 import static org.firstinspires.ftc.teamcode.Robot.SubsystemConstants.CAP_ENABLED;
 import static org.firstinspires.ftc.teamcode.Robot.SubsystemConstants.CAROUSEL_ENABLED;
 import static org.firstinspires.ftc.teamcode.Robot.SubsystemConstants.ARM_ENABLED;
@@ -63,7 +64,7 @@ public class Controls {
     public CommandButton capUpButton, capDownButton;
 
     public Stick driveLeftStick, driveRightStick;
-    public CommandButton resetGyroButton, snailSpeedButton;
+    public CommandButton resetGyroButton, brakeButton;
 
     public CommandButton strategy1Button, strategy2Button;
 
@@ -93,7 +94,7 @@ public class Controls {
         carouselBackButton = driverGamepad.triangle;
 
         resetGyroButton = driverGamepad.rightStickButton;
-        snailSpeedButton = driverGamepad.leftStickButton;
+        brakeButton = driverGamepad.leftStickButton;
 
         driveLeftStick = driverGamepad.leftStick;
         driveRightStick = driverGamepad.rightStick;
@@ -120,12 +121,18 @@ public class Controls {
         if (CAROUSEL_ENABLED) bindCarouselControls();
         if (CAP_ENABLED) bindCapControls();
         if (EXTENSION_ENABLED) bindExtensionControls();
+        if(BRAKE_ENABLED) bindBrakeControls();
 
         strategy1Button.whenPressed(RobotState::strategy1);
         strategy2Button.whenPressed(RobotState::strategy2);
 
 
     }
+
+    public void bindBrakeControls(){
+        brakeButton.whenPressedReleased(robot.brakeSubsystem::lower, robot.brakeSubsystem::raise);
+    }
+
 
     public void bindArmControls() {
         dumpAxis.whilePressedOnce(new BucketDumpVariableCommand(robot.armSubsystem, dumpAxis).asConditional(EXTENSION_ENABLED ? robot.extensionSubsystem::isSlideOut : ()->true));
@@ -144,21 +151,25 @@ public class Controls {
     }
 
     public void bindDriveControls() {
-//        if(EXTENSION_ENABLED && ARM_ENABLED && LIFT_ENABLED && INTAKE_ENABLED){
-//            allianceHubButton.whilePressed( new TeleopDepositAllianceCommand(robot.drivebaseSubsystem, robot.intakeSubsystem, robot.liftSubsystem, robot.armSubsystem, robot.extensionSubsystem).andThen(new TeleopIntakeAllianceWarehouseCommand(robot.drivebaseSubsystem, robot.intakeSubsystem, robot.liftSubsystem, robot.armSubsystem, robot.extensionSubsystem)));
-//            sharedHubButton.whilePressed(new TeleopDepositSharedCommand(robot.drivebaseSubsystem, robot.intakeSubsystem, robot.liftSubsystem, robot.armSubsystem, robot.extensionSubsystem).andThen(new TeleopIntakeSharedWarehouseCommand(robot.drivebaseSubsystem, robot.intakeSubsystem, robot.liftSubsystem, robot.armSubsystem, robot.extensionSubsystem)));
-//        }
+        if(EXTENSION_ENABLED && ARM_ENABLED && LIFT_ENABLED && INTAKE_ENABLED){
+            allianceHubButton.whilePressed( new TeleopDepositAllianceCommand(robot.drivebaseSubsystem, robot.intakeSubsystem, robot.liftSubsystem, robot.armSubsystem, robot.extensionSubsystem).andThen(new TeleopIntakeAllianceWarehouseCommand(robot.drivebaseSubsystem, robot.intakeSubsystem, robot.liftSubsystem, robot.armSubsystem, robot.extensionSubsystem)));
+            sharedHubButton.whilePressed(new TeleopDepositSharedCommand(robot.drivebaseSubsystem, robot.intakeSubsystem, robot.liftSubsystem, robot.armSubsystem, robot.extensionSubsystem).andThen(new TeleopIntakeSharedWarehouseCommand(robot.drivebaseSubsystem, robot.intakeSubsystem, robot.liftSubsystem, robot.armSubsystem, robot.extensionSubsystem)));
+        }
         robot.drivebaseSubsystem.setDefaultCommand(new DriveCommand(robot.drivebaseSubsystem, driveLeftStick, driveRightStick));
         robot.drivebaseSubsystem.setExternalHeading(Math.toRadians(180));
 //        allianceHubButton.whenPressed(new DriveSpeedCommand(robot.drivebaseSubsystem).cancelUpon(toIntakeButton));
         resetGyroButton.whenPressed(new DriveResetCommand(robot.drivebaseSubsystem));
-        snailSpeedButton.whilePressedOnce(new DriveSpeedCommand(robot.drivebaseSubsystem));
     }
 
     public void bindIntakeControls() {
-        if(ARM_ENABLED) toIntakeButton.whenPressed( new WaitCommand(1.2).andThen(new IntakeSafeCommand(robot.intakeSubsystem).andThen(robot.armSubsystem::slightCarry, driverGamepad::rumbleBlip, new WaitCommand(0.5).andThen(new IntakeOutCommand(robot.intakeSubsystem).withTimeout(0.5))).withTimeout(4)));
-        else toIntakeButton.whenPressed(new WaitCommand(1).andThen(new IntakeSafeCommand(robot.intakeSubsystem)));
-        intakeInButton.whilePressedContinuous(new IntakeSafeCommand(robot.intakeSubsystem).andThen(robot.armSubsystem::slightCarry, driverGamepad::rumbleBlip, new WaitCommand(0.5).andThen(new IntakeOutCommand(robot.intakeSubsystem).withTimeout(0.5))).withTimeout(4));
+        if(ARM_ENABLED){
+            toIntakeButton.whenPressed(new SequentialCommandGroup(new WaitCommand(1.2), new IntakeSafeCommand(robot.intakeSubsystem), robot.armSubsystem::slightCarry, driverGamepad::rumbleBlip, new WaitCommand(0.5), new IntakeOutCommand(robot.intakeSubsystem).withTimeout(0.5)).ignoreCancel());
+            intakeInButton.whilePressedContinuous(new SequentialCommandGroup(new IntakeSafeCommand(robot.intakeSubsystem), robot.armSubsystem::slightCarry, driverGamepad::rumbleBlip, new WaitCommand(0.5), new IntakeOutCommand(robot.intakeSubsystem).withTimeout(0.5)).ignoreCancel());
+        }
+        else {
+            toIntakeButton.whenPressed(new WaitCommand(1).andThen(new IntakeSafeCommand(robot.intakeSubsystem)));
+            intakeInButton.whilePressedContinuous(new IntakeInCommand(robot.intakeSubsystem));
+        }
         intakeOutButton.whilePressedOnce(new IntakeOutCommand(robot.intakeSubsystem));
         allianceHubButton.whenReleased(new IntakeOutCommand(robot.intakeSubsystem).withTimeout(0.2));
         sharedHubButton.whenReleased(new IntakeOutCommand(robot.intakeSubsystem).withTimeout(0.2));

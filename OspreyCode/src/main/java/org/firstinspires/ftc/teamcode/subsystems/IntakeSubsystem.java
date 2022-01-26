@@ -26,8 +26,6 @@ public class IntakeSubsystem implements Subsystem, Supplier<String> {
         public static double INTAKE_OUT_SPEED = -1;
         public static double INTAKE_STOP_SPEED = 0;
 
-        public static double DETECTION_DISTANCE = 3;
-
         public static Range CUBE_RANGE = new Range(400, 2100);
         public static Range DUCK_RANGE = new Range(400, 2100);
         public static Range BALL_RANGE = new Range(400, 2100);
@@ -65,18 +63,17 @@ public class IntakeSubsystem implements Subsystem, Supplier<String> {
         motor.setSpeed(INTAKE_STOP_SPEED);
     }
 
-    private double distance, light;
+    private double light;
 
     @Override
     public String get() {
-        return "Distance: "+distance+", Raw Light: "+light+", Freight: "+RobotState.getFreight();
+        return RobotState.getFreight().toString();
     }
     ElapsedTime t = new ElapsedTime();
     @Override
     public void periodic() {
         if(t.seconds() > 1/SENSOR_REFRESH_RATE){
             t.reset();
-            distance = sensor.getDistance();
             light = sensor.getLight();
             RobotState.setFreight(parseFreight());
         }
