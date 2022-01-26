@@ -11,7 +11,7 @@ import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
 public class AutoRedDuckCommandGroup extends SequentialCommandGroup {
     public AutoRedDuckCommandGroup(DrivebaseSubsystem drive, CarouselSubsystem carousel, DumpSubsystem dump, IntakeSubsystem intake) {
         super(
-                new UnloadTopRedDuckCommandGroup(drive, dump, intake),
+                new UnloadTopRedDuckCommandGroup(drive, dump),
                 new RedDuckRemainderCommandGroup(drive, dump, intake, carousel),
 
                 CommandScheduler.getInstance()::terminateOpMode // ending the entire opmode
