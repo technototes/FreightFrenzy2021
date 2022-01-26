@@ -21,7 +21,7 @@ public class AutonomousConstants {
         public static Pose2d DUCK_CAROUSEL = new Pose2d(-64, -59, toRadians(-90));
         public static Pose2d DUCK_COLLECT1 = new Pose2d(-60, -60, toRadians(-90));
         public static Pose2d DUCK_COLLECT2 = new Pose2d(-48, -61, toRadians(-90));
-        public static Pose2d DUCK_PARK = new Pose2d(-69, -30, toRadians(180));
+        public static Pose2d DUCK_PARK = new Pose2d(-69, -36, toRadians(180));
         public static Pose2d DEPOT_START = new Pose2d(0, -66, toRadians(-90));
         public static Pose2d DEPOT_ALLIANCE_HUB_LEVEL3 = new Pose2d(-10, -45, toRadians(-68));
         public static Pose2d DEPOT_ALLIANCE_HUB_LEVEL2 = new Pose2d(-10, -51, toRadians(-68));
