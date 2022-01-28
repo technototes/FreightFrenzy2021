@@ -1,25 +1,26 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.commands.autonomous.AutonomousConstants;
+import org.firstinspires.ftc.teamcode.DuckOrDepot;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
-import org.opencv.core.MatOfPoint;
-import org.opencv.core.MatOfPoint2f;
 import org.opencv.core.Point;
 import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
-import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
 import org.openftc.easyopencv.OpenCvPipeline;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.function.Supplier;
 import com.acmerobotics.dashboard.config.Config;
 
 import static org.firstinspires.ftc.teamcode.subsystems.BarcodePipeline.BarcodeConstants.*;
-public class BarcodePipeline extends OpenCvPipeline implements Supplier<Integer> {
+
+import com.technototes.library.logger.LogConfig;
+import com.technototes.library.logger.Loggable;
+import com.technototes.library.logger.Log;
+import com.technototes.library.util.Alliance;
+
+public class BarcodePipeline extends OpenCvPipeline implements Supplier<Integer>, Loggable{
 
     @Config
     public static class BarcodeConstants {
@@ -45,11 +46,8 @@ public class BarcodePipeline extends OpenCvPipeline implements Supplier<Integer>
             MEDIUM,
             LOW,
         }
-        public static ArmPosition position;
 
-        public static Mat YCrCb = new Mat();
-        public static Mat Cr = new Mat();
-        public static Mat Cb = new Mat();
+        public static ArmPosition position;
 
         /**
          * the boundaries of each region
@@ -57,48 +55,84 @@ public class BarcodePipeline extends OpenCvPipeline implements Supplier<Integer>
          */
 
         static final Scalar BLUE = new Scalar(0, 0, 255);
-        public static int REGION_1_LEFT = 0;
-        public static int REGION_1_RIGHT = 100;
-        public static int REGION_1_DOWN = 200;
-        public static int REGION_1_UP = 0;
+        static final Scalar RED = new Scalar(255, 0, 0);
+        static final Scalar YELLOW = new Scalar(255, 255, 0);
+        public static class CameraConfig {
+            final Alliance alliance;
+            final DuckOrDepot side;
+            final Rect region1;
+            final Rect region2;
+            final Rect region3;
+            CameraConfig(Alliance alliance, DuckOrDepot side,
+                         Rect topRect, Rect midRect, Rect botRect) {
+                this.alliance = alliance;
+                this.side = side;
+                this.region1 = topRect;
+                this.region2 = midRect;
+                this.region3 = botRect;
+            }
+        }
+        //for each location, want to know which rectangle corresponds to which spot and want to know if theres a spot
+        //we do not see
+        //left rect is 0, middle + right is 1, 2 is not visible
 
-        public static int REGION_2_LEFT = 100;
-        public static int REGION_2_RIGHT = 200;
-        public static int REGION_2_DOWN = 200;
-        public static int REGION_2_UP = 0;
 
-        public static int REGION_3_LEFT = 200;
-        public static int REGION_3_RIGHT = 300;
-        public static int REGION_3_DOWN = 200;
-        public static int REGION_3_UP = 0;
-
-
-
-//        public final static Point REGION_1_TOPLEFT_ANCHOR_POINT = new Point(REGION_1_LEFT, REGION_1_UP);
-//        public final static Point REGION_2_TOPLEFT_ANCHOR_POINT = new Point(REGION_2_LEFT, REGION_2_UP);
-//        public final static Point REGION_3_TOPLEFT_ANCHOR_POINT = new Point(REGION_3_LEFT, REGION_3_UP);
-//        public final static Point REGION_4_TOPLEFT_ANCHOR_POINT = new Point(REGION_4_LEFT, REGION_4_UP);
-//        public final static Point REGION_5_TOPLEFT_ANCHOR_POINT = new Point(REGION_5_LEFT, REGION_5_UP);
+        private static final CameraConfig cameraConfigs[] = {
+                // blue depot-
+                // top level: Right rectangle
+                // middle level: Center rectangle
+                // bottom level: Not in view
+                new CameraConfig(Alliance.BLUE, DuckOrDepot.DEPOT,
+                        new Rect(200, 0, 100, 200),
+                        new Rect(50, 0, 100, 200),
+                        null),
+                // blue duck
+                // top level: Not in view
+                // middle leve: Center rectangle
+                // bottom level: right rectangle
+                new CameraConfig(Alliance.BLUE, DuckOrDepot.DUCK,
+                        null,
+                        new Rect(50,   0, 100, 200),
+                        new Rect(200, 0, 100, 200)),
+                // red depot
+                // top level: center rect
+                // middle level: right rect
+                // bottom level: not in view
+                new CameraConfig(Alliance.RED,  DuckOrDepot.DEPOT,
+                        new Rect(50, 0, 100, 200),
+                        new Rect(200, 0, 100, 200),
+                  null),
+                // red duck
+                // top level: right rect
+                // middle level: center rect
+                // bottom level: not in view
+                new CameraConfig(Alliance.RED,  DuckOrDepot.DUCK,
+                        new Rect(200, 0, 100, 200),
+                        new Rect(50, 0, 100, 200),
+                        null)
+        };
     }
 
     public Exception debug;
 
-    public Point region_1_pointA = new Point(REGION_1_LEFT, REGION_1_UP);
-    public Point region_1_pointB = new Point(REGION_1_RIGHT, REGION_1_DOWN);
-    public Point region_2_pointA = new Point(REGION_2_LEFT, REGION_2_UP);
-    public Point region_2_pointB = new Point(REGION_2_RIGHT, REGION_2_DOWN);
-    public Point region_3_pointA = new Point(REGION_3_LEFT, REGION_3_UP);
-    public Point region_3_pointB = new Point(REGION_3_RIGHT, REGION_3_DOWN);
-
-
-
-
+    private CameraConfig currentConfig = null;
     public Mat region_1_Cr, region_2_Cr, region_3_Cr;
+    public Mat customColorSpace = new Mat();
+    public Mat Cr = new Mat();
 
+    @LogConfig.Run(duringRun = false, duringInit = true)
+    @Log.Boolean (name="top")
+    public volatile boolean topDetected = false;
+    @LogConfig.Run(duringRun = false, duringInit = true)
+    @Log.Boolean (name="mid")
+    public volatile boolean middleDetected = true;
+    @LogConfig.Run(duringRun = false, duringInit = true)
+    @Log.Boolean (name="bot")
+    public volatile boolean bottomDetected = false;
 
-    public volatile boolean on_square_1 = false;
-    public volatile boolean on_square_2 = false;
-    public volatile boolean on_square_3 = false;
+    @LogConfig.Run(duringInit = true, duringRun = false)
+    @Log.Number (name="red")
+    public volatile int redThreshhold = 0;
 
     private final Mat mat = new Mat();
     private final Mat processed = new Mat();
@@ -113,23 +147,53 @@ public class BarcodePipeline extends OpenCvPipeline implements Supplier<Integer>
     public BarcodePipeline(){
     }
 
-
     public void inputToCr(Mat input){
-        Imgproc.cvtColor(input, YCrCb, Imgproc.COLOR_RGB2YCrCb);
-        Core.extractChannel(YCrCb, Cr, 1);
+        Imgproc.cvtColor(input, customColorSpace, Imgproc.COLOR_RGB2HSV);
+        Mat red1 = new Mat();
+        Scalar bottom = new Scalar(0, 70, 50);
+        Scalar bottomEdge = new Scalar(10, 255, 255);
+        Core.inRange(customColorSpace, bottom, bottomEdge, red1);
+        Mat red2 = new Mat();
+        Scalar top = new Scalar(170, 70, 50);
+        Scalar topEdge = new Scalar(180, 255, 255);
+        Core.inRange(customColorSpace, top, topEdge, red2);
+        Core.bitwise_or(red1, red2, Cr);
+        // Make everything that's the color we're looking for turn white
+        // Core.bitwise_or(Cr, input, input);
+
+        // flip the pixels that we're seeing as "red" to yellow!
+        // also: Draw pixels by drawing a 1x1 rectangle is *masterful* code!
+        // TODO: This should use bitwise and/bitwise or to do this really...
+        Rect r = new Rect(new Point(0,0), new Point(1,1));
+        for (int i = 0; i < Cr.width(); i++) {
+            for (int j = 0; j < Cr.height(); j++) {
+                if (Cr.get(j, i)[0] > 0) {
+                    r.x = i;
+                    r.y = j;
+                    r.width = 1;
+                    r.height = 1;
+                    Imgproc.rectangle(input, r, YELLOW);
+                }
+            }
+        }
+
     }
 
     public void init(Mat firstFrame){
 
         inputToCr(firstFrame);
+        region_1_Cr = currentConfig.region1 == null ? null  : Cr.submat(currentConfig.region1);
+        region_2_Cr = currentConfig.region2 == null ? null : Cr.submat(currentConfig.region2);
+        region_3_Cr = currentConfig.region3 == null ? null : Cr.submat(currentConfig.region3);
 
-        region_1_Cr = Cr.submat(new Rect(region_1_pointA, region_1_pointB));
-        region_2_Cr = Cr.submat(new Rect(region_2_pointA, region_2_pointB));
-        region_3_Cr = Cr.submat(new Rect(region_3_pointA, region_3_pointB));
-
-
-       
-
+    }
+    public void setStartingPosition(Alliance alliance, DuckOrDepot side){
+        for (CameraConfig config : BarcodeConstants.cameraConfigs){
+            if (alliance.equals(config.alliance) && side.equals(config.side)){
+                currentConfig = config;
+                break;
+            }
+        }
 
     }
 
@@ -143,39 +207,44 @@ public class BarcodePipeline extends OpenCvPipeline implements Supplier<Integer>
     {
         inputToCr(input);
 
-        int [] red_avg = new int [5];
+        // First, get the average red level of the region (or -1 if no region)
+        int red0 = region_1_Cr == null ? -1 : (int) Core.mean(region_1_Cr).val[0];
+        int red1 = region_2_Cr == null ? -1 : (int) Core.mean(region_2_Cr).val[0];
+        int red2 = region_3_Cr == null ? -1 : (int) Core.mean(region_3_Cr).val[0];
 
-
-
-        red_avg[0] = (int) Core.mean(region_1_Cr).val[0];
-        red_avg[1] = (int) Core.mean(region_2_Cr).val[0];
-        red_avg[2] = (int) Core.mean(region_3_Cr).val[0];
-
-
-
-        Imgproc.rectangle(input, region_1_pointA, region_1_pointB, BLUE, 2);
-        Imgproc.rectangle(input, region_2_pointA, region_2_pointB, BLUE, 2);
-        Imgproc.rectangle(input, region_3_pointA, region_3_pointB, BLUE, 2);
-
-        int max = -1;
-
-
-
-
-        /*
-        Mat output = input.clone();
-        try
-        {
-
-        } catch (Exception e) {
-            debug = e;
-            boolean error = true;
+        // Figure out how much is the most amount of red
+        int max_red = Math.max(Math.max(red0, red1), red2);
+        // If we have more than 20 as an average, we see a brick: set the 'Detected' bits
+        if (max_red > 20) {
+            topDetected = max_red == red0;
+            middleDetected = max_red == red1;
+            bottomDetected = max_red == red2;
+        } else {
+            // We didn't see enough red, so pick a region to defaul to
+            topDetected = currentConfig.region1 == null;
+            middleDetected = currentConfig.region2 == null;
+            bottomDetected = currentConfig.region3 == null;
         }
-        if(telemetry != null) {
-            telemetry.addLine(get().toString());
-            telemetry.update();
+        // If we didn't detect any block at all, default to the top just in case
+        if (!topDetected && !middleDetected && !bottomDetected) {
+            topDetected = true;
         }
-*/
+        // Draw rectangles to show what we're seeing
+        if (currentConfig.region1 != null){
+            Imgproc.rectangle(input, currentConfig.region1, (topDetected ? RED : BLUE), 2);
+        } else {
+            Imgproc.rectangle(input, new Rect(50, 220, 15, 15), (topDetected ? RED : YELLOW), 2);
+        }
+        if (currentConfig.region2 != null){
+            Imgproc.rectangle(input, currentConfig.region2, (middleDetected ? RED : BLUE), 2);
+        } else {
+            Imgproc.rectangle(input, new Rect(150, 220, 15, 15), (middleDetected ? RED : YELLOW), 2);
+        }
+        if (currentConfig.region3 != null){
+            Imgproc.rectangle(input, currentConfig.region3, (bottomDetected ? RED : BLUE), 2);
+        } else {
+            Imgproc.rectangle(input, new Rect(250, 220, 15, 15), (bottomDetected ? RED : YELLOW), 2);
+        }
         return input;
     }
     public int getRectHeight(){return maxRect.height;}
@@ -210,14 +279,14 @@ public class BarcodePipeline extends OpenCvPipeline implements Supplier<Integer>
 //    public boolean none(){
 //        return get() == -1;
 //    }
-//    public boolean zero(){
-//        return get() == 0;
-//    }
-//    public boolean one(){
-//        return get() == 1;
-//    }
-//    public boolean two(){
-//        return get() == 2;
-//    }
+    public boolean top(){
+        return topDetected;
+    }
+    public boolean middle(){
+        return middleDetected;
+    }
+    public boolean bottom(){
+        return bottomDetected;
+    }
 
 }

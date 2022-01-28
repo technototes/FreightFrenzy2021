@@ -7,15 +7,16 @@ import org.firstinspires.ftc.teamcode.subsystems.CarouselSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.DrivebaseSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.DumpSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.VisionSubsystem;
 
-public class AutoBlueDuckCommandGroup extends SequentialCommandGroup {
-    public AutoBlueDuckCommandGroup(DrivebaseSubsystem drive, CarouselSubsystem carousel, DumpSubsystem dump, IntakeSubsystem intake) {
+public class AutoRedDuckVizCommandGroup extends SequentialCommandGroup {
+    public AutoRedDuckVizCommandGroup(DrivebaseSubsystem drive, DumpSubsystem bucket, IntakeSubsystem intake, VisionSubsystem vision, CarouselSubsystem carousel) {
         super(
-                new UnloadTopBlueDuckCommandGroup(drive, dump),
-                new BlueDuckRemainderCommandGroup(drive, dump, intake, carousel),
-
+                new HeightSelectRedDuckCommand(drive, bucket, vision),
+                new RedDuckRemainderCommandGroup(drive, bucket, intake, carousel),
+                
                 CommandScheduler.getInstance()::terminateOpMode // ending the entire opmode
         );
     }
-}
 
+}

@@ -16,7 +16,7 @@ import org.firstinspires.ftc.teamcode.commands.autonomous.AutonomousConstants;
 
 @Autonomous(name = "Red Ducky")
 @SuppressWarnings("unused")
-public class RedDuckAuto extends CommandOpMode implements Loggable {
+public class RedDuckWithoutViz extends CommandOpMode implements Loggable {
     public Robot robot;
     public Hardware hardware;
 
