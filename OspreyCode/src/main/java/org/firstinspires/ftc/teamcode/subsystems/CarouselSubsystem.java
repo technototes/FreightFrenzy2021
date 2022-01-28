@@ -8,6 +8,7 @@ import com.technototes.library.subsystem.Subsystem;
 
 import java.util.function.Supplier;
 
+import static org.firstinspires.ftc.teamcode.subsystems.CarouselSubsystem.CarouselConstants.AUTO_SPEED;
 import static org.firstinspires.ftc.teamcode.subsystems.CarouselSubsystem.CarouselConstants.CAROUSEL_STOP_SPEED;
 import static org.firstinspires.ftc.teamcode.subsystems.CarouselSubsystem.CarouselConstants.MAX_SPEED;
 import static org.firstinspires.ftc.teamcode.subsystems.CarouselSubsystem.CarouselConstants.MIN_SPEED;
@@ -25,6 +26,8 @@ public class CarouselSubsystem implements Subsystem, Supplier<Double> {
     public static class CarouselConstants{
         public static double MAX_SPEED = 1;
         public static double MIN_SPEED = 0.25;
+        public static double AUTO_SPEED = 0.15;
+
         public static double CAROUSEL_STOP_SPEED = 0;
         public static double SPIN_OFFSET = 2.8;
     }
@@ -35,7 +38,7 @@ public class CarouselSubsystem implements Subsystem, Supplier<Double> {
         motor = m;
     }
 
-    public void right(){motor.setSpeed(MAX_SPEED);}
+    public void right(){motor.setSpeed(AUTO_SPEED);}
 
     public void right(double speed){motor.setSpeed(MAX_SPEED*Math.max(MIN_SPEED, speed));}
 
@@ -43,7 +46,7 @@ public class CarouselSubsystem implements Subsystem, Supplier<Double> {
      * when called by Carousel Right Command, sets motor to turn carousel right
      */
 
-    public void left(){motor.setSpeed(-MAX_SPEED);}
+    public void left(){motor.setSpeed(-AUTO_SPEED);}
     public void left(double speed){motor.setSpeed(-MAX_SPEED*Math.max(MIN_SPEED, speed));}
 
     /**

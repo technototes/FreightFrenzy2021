@@ -17,15 +17,15 @@ public class RobotConstants {
     @Config
     public static class AutoRedConstants {
         public static ConfigurablePose CYCLE_START = new ConfigurablePose(12, -63, toRadians(90));
-        public static ConfigurablePose ALLIANCE_HUB = new ConfigurablePose(8, -54, toRadians(125));
-        public static ConfigurablePose CYCLE_TRENCH = new ConfigurablePose(24, -63.5, toRadians(180));
-        public static ConfigurablePose CYCLE_INTERMEDIATE = new ConfigurablePose(42, -63.5, toRadians(180));
+        public static ConfigurablePose ALLIANCE_HUB = new ConfigurablePose(7, -54, toRadians(125));
+        public static ConfigurablePose CYCLE_TRENCH = new ConfigurablePose(24, -64, toRadians(180));
+        public static ConfigurablePose CYCLE_INTERMEDIATE = new ConfigurablePose(42, -64, toRadians(180));
         public static ConfigurablePose[] AUTO_WAREHOUSE = new ConfigurablePose[]{
-                new ConfigurablePose(44, -63.5, toRadians(190)),
-                new ConfigurablePose(46, -63.5, toRadians(190)),
-                new ConfigurablePose(48, -63.5, toRadians(190)),
-                new ConfigurablePose(50, -63.5, toRadians(190)),
-                new ConfigurablePose(52, -63.5, toRadians(190)),
+                new ConfigurablePose(44, -64, toRadians(190)),
+                new ConfigurablePose(46.5, -64, toRadians(190)),
+                new ConfigurablePose(49, -64, toRadians(190)),
+                new ConfigurablePose(51.5, -64, toRadians(190)),
+                new ConfigurablePose(54, -64, toRadians(190)),
         };
 
         public static ConfigurablePose DUCK_START = new ConfigurablePose(-36, -63, toRadians(90));
@@ -44,15 +44,15 @@ public class RobotConstants {
     @Config
     public static class AutoBlueConstants {
         public static ConfigurablePose CYCLE_START = new ConfigurablePose(12, 63, toRadians(-90));
-        public static ConfigurablePose ALLIANCE_HUB = new ConfigurablePose(8, 53, toRadians(-125));
-        public static ConfigurablePose CYCLE_TRENCH = new ConfigurablePose(24, 63.5, toRadians(-180));
-        public static ConfigurablePose CYCLE_INTERMEDIATE = new ConfigurablePose(42, 63.5, toRadians(-180));
+        public static ConfigurablePose ALLIANCE_HUB = new ConfigurablePose(7, 53, toRadians(-125));
+        public static ConfigurablePose CYCLE_TRENCH = new ConfigurablePose(24, 64, toRadians(-180));
+        public static ConfigurablePose CYCLE_INTERMEDIATE = new ConfigurablePose(42, 64, toRadians(-180));
         public static ConfigurablePose[] AUTO_WAREHOUSE = new ConfigurablePose[]{
-                new ConfigurablePose(44, 63.5, toRadians(-190)),
-                new ConfigurablePose(46, 63.5, toRadians(-190)),
-                new ConfigurablePose(48, 63.5, toRadians(-190)),
-                new ConfigurablePose(50, 63.5, toRadians(-190)),
-                new ConfigurablePose(52, 63.5, toRadians(-190)),
+                new ConfigurablePose(44, 64, toRadians(-190)),
+                new ConfigurablePose(46.5, 64, toRadians(-190)),
+                new ConfigurablePose(49, 64, toRadians(-190)),
+                new ConfigurablePose(51.5, 64, toRadians(-190)),
+                new ConfigurablePose(54, 64, toRadians(-190)),
         };
 
         public static ConfigurablePose DUCK_START = new ConfigurablePose(-36, 63, toRadians(-90));

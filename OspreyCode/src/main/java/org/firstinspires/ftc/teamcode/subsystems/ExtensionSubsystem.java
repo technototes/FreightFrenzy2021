@@ -15,7 +15,7 @@ public class ExtensionSubsystem implements Subsystem, Supplier<String> {
     public static class ExtensionConstants {
         public static double SNAP_1 = 0, SNAP_2= Math.PI;
         public static double IN = 0.46, SHARED = 0.3, TELEOP_ALLIANCE = 0.35, STEAL_SHARED = 0.1, LOW_GOAL_AUTO = 0,  OUT = 0;
-        public static double LEFT = 0, CENTER = 0.5, RIGHT = 1;
+        public static double LEFT = 0.25, CENTER = 0.5, RIGHT = 0.75;
     }
 
     public Servo slideServo;
@@ -39,7 +39,7 @@ public class ExtensionSubsystem implements Subsystem, Supplier<String> {
     }
 
     public void setTurret(double v){
-        turretServo.setPosition(Range.clip(v, ExtensionConstants.LEFT, ExtensionConstants.RIGHT));
+        turretServo.setPosition(v);
     }
 
 
@@ -79,7 +79,6 @@ public class ExtensionSubsystem implements Subsystem, Supplier<String> {
     @Override
     public String get() {
         return "TURRET: "+ turretServo.getPosition()+", SLIDE: "+ slideServo.getPosition();
-        //return "EXTENSION: "+differential.getAverage()+", DUMP: "+differential.getDeviation();
     }
 
 }

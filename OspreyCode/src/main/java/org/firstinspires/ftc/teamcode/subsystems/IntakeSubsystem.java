@@ -25,12 +25,14 @@ public class IntakeSubsystem implements Subsystem, Supplier<String> {
         public static double INTAKE_IN_SPEED = 1;
         public static double INTAKE_OUT_SPEED = -1;
         public static double INTAKE_STOP_SPEED = 0;
+        public static double INTAKE_IDLE_SPEED = 0.2;
+
 
         public static Range CUBE_RANGE = new Range(400, 2100);
         public static Range DUCK_RANGE = new Range(400, 2100);
         public static Range BALL_RANGE = new Range(400, 2100);
 
-        public static double SENSOR_REFRESH_RATE = 10;
+        public static double SENSOR_REFRESH_RATE = 50;
     }
 
     public Motor<DcMotorEx> motor;
@@ -63,6 +65,12 @@ public class IntakeSubsystem implements Subsystem, Supplier<String> {
         motor.setSpeed(INTAKE_STOP_SPEED);
     }
 
+
+    public void idle(){
+        motor.setSpeed(INTAKE_IDLE_SPEED);
+    }
+
+
     private double light;
 
     @Override
@@ -72,7 +80,7 @@ public class IntakeSubsystem implements Subsystem, Supplier<String> {
     ElapsedTime t = new ElapsedTime();
     @Override
     public void periodic() {
-        if(t.seconds() > 1/SENSOR_REFRESH_RATE){
+        if(t.seconds() > 1/SENSOR_REFRESH_RATE && motor.getSpeed()>0){
             t.reset();
             light = sensor.getLight();
             RobotState.setFreight(parseFreight());

@@ -10,7 +10,7 @@ import java.util.function.Supplier;
 
 import static org.firstinspires.ftc.teamcode.subsystems.ArmSubsystem.ArmConstants.CARRY;
 import static org.firstinspires.ftc.teamcode.subsystems.ArmSubsystem.ArmConstants.COLLECT;
-import static org.firstinspires.ftc.teamcode.subsystems.ArmSubsystem.ArmConstants.CONSTRAINTS;
+import static org.firstinspires.ftc.teamcode.subsystems.ArmSubsystem.ArmConstants.ARM_CONSTRAINTS;
 import static org.firstinspires.ftc.teamcode.subsystems.ArmSubsystem.ArmConstants.DOWN;
 import static org.firstinspires.ftc.teamcode.subsystems.ArmSubsystem.ArmConstants.DUMP;
 import static org.firstinspires.ftc.teamcode.subsystems.ArmSubsystem.ArmConstants.DIFFERENTIAL;
@@ -19,8 +19,6 @@ import static org.firstinspires.ftc.teamcode.subsystems.ArmSubsystem.ArmConstant
 import static org.firstinspires.ftc.teamcode.subsystems.ArmSubsystem.ArmConstants.OUT;
 import static org.firstinspires.ftc.teamcode.subsystems.ArmSubsystem.ArmConstants.SLIGHT_CARRY;
 import static org.firstinspires.ftc.teamcode.subsystems.ArmSubsystem.ArmConstants.UP;
-
-import org.firstinspires.ftc.teamcode.RobotState;
 
 @SuppressWarnings("unused")
 
@@ -36,7 +34,7 @@ public class ArmSubsystem implements Subsystem, Supplier<String> {
         public static double DUMP = 0.55, CARRY = 0.25, FAKE_CARRY = 0.15, COLLECT = 0.03, AUTO_CARRY = 0.3, SLIGHT_CARRY = 0.15;
         public static double IN = 0.02, UP = 0.3, OUT = 0.6, DOWN = 0.75;
         public static double DIFFERENTIAL = 2.8;
-        public static ServoProfiler.Constraints CONSTRAINTS = new ServoProfiler.Constraints(2, 5, 10);
+        public static ServoProfiler.Constraints ARM_CONSTRAINTS = new ServoProfiler.Constraints(5, 5, 5);
     }
 
     public Servo dumpServo;
@@ -45,7 +43,7 @@ public class ArmSubsystem implements Subsystem, Supplier<String> {
     public ArmSubsystem(Servo l, Servo r){
         dumpServo = l;
         armServo = r;
-        armController = new ServoProfiler(armServo).setConstraints(CONSTRAINTS).setTargetPosition(UP);
+        armController = new ServoProfiler(armServo).setConstraints(ARM_CONSTRAINTS).setTargetPosition(UP);
 
     }
 

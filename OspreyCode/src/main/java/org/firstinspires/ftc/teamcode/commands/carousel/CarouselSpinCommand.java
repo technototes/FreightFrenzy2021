@@ -19,8 +19,8 @@ public class CarouselSpinCommand implements Command {
 
     @Override
     public void execute() {
-        if (RobotConstants.getAlliance() == Alliance.RED) subsystem.left(CarouselSubsystem.CarouselConstants.MIN_SPEED);
-        else subsystem.right(CarouselSubsystem.CarouselConstants.MIN_SPEED);
+        if (RobotConstants.getAlliance() == Alliance.RED) subsystem.left();
+        else subsystem.right();
     }
 
 

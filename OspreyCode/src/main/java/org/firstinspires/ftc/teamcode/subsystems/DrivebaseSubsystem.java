@@ -22,11 +22,9 @@ import org.firstinspires.ftc.teamcode.RobotConstants;
 
 import java.util.function.Supplier;
 
-import static org.firstinspires.ftc.teamcode.subsystems.DrivebaseSubsystem.DriveConstants.FRONT_SENSOR_DISTANCE;
 import static org.firstinspires.ftc.teamcode.subsystems.DrivebaseSubsystem.DriveConstants.FRONT_SENSOR_POSE;
 import static org.firstinspires.ftc.teamcode.subsystems.DrivebaseSubsystem.DriveConstants.LEFT_SENSOR_POSE;
 import static org.firstinspires.ftc.teamcode.subsystems.DrivebaseSubsystem.DriveConstants.RIGHT_SENSOR_POSE;
-import static org.firstinspires.ftc.teamcode.subsystems.DrivebaseSubsystem.DriveConstants.SIDE_SENSOR_DISTANCE;
 import static org.firstinspires.ftc.teamcode.subsystems.DrivebaseSubsystem.DriveConstants.TIP_AUTHORITY;
 import static org.firstinspires.ftc.teamcode.subsystems.DrivebaseSubsystem.DriveConstants.TIP_TOLERANCE;
 
@@ -94,16 +92,13 @@ public class DrivebaseSubsystem extends MecanumDrivebaseSubsystem implements Sup
         @PoseLimit
         public static int POSE_HISTORY_LIMIT = 100;
 
-        public static double SIDE_SENSOR_DISTANCE = 65;
-        public static double FRONT_SENSOR_DISTANCE = 65.5;
-
         public static double TIP_TOLERANCE = Math.toRadians(10);
 
         public static double TIP_AUTHORITY = 0.9;
 
         public static ConfigurablePose LEFT_SENSOR_POSE = new ConfigurablePose(0.5, -5.5, Math.toRadians(-90));
         public static ConfigurablePose RIGHT_SENSOR_POSE = new ConfigurablePose(0.5, 5.5, Math.toRadians(90));
-        public static ConfigurablePose FRONT_SENSOR_POSE = new ConfigurablePose(-5, -2.5, Math.toRadians(180));
+        public static ConfigurablePose FRONT_SENSOR_POSE = new ConfigurablePose(-6, -2.5, Math.toRadians(180));
 
 
     }
@@ -140,12 +135,10 @@ public class DrivebaseSubsystem extends MecanumDrivebaseSubsystem implements Sup
 
 
     public void relocalize(){
-
-        distanceSensorLocalizer.update();
-        setPoseEstimate(distanceSensorLocalizer.getSafePoseEstimate(getPoseEstimate()));
+        distanceSensorLocalizer.update(getPoseEstimate());
+        setPoseEstimate(distanceSensorLocalizer.getPoseEstimate());
     }
     public void relocalizeUnsafe(){
-
         distanceSensorLocalizer.update();
         setPoseEstimate(distanceSensorLocalizer.getPoseEstimate());
     }
