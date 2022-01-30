@@ -110,13 +110,13 @@ public class Controls {
     }
 
     public void bindCarouselRedControls() {
-//        carouselButton.whilePressedOnce(new CarouselRedSlowCommand(robot.carouselSubsystem));
-        carouselButton.whilePressed(new CarouselRedSlowCommand(robot.carouselSubsystem));
-        carouselButton.whenReleased(new CarouselRedFastCommand(robot.carouselSubsystem).withTimeout(0.5));
+        carouselButton.whilePressedOnce(new CarouselRedSlowCommand(robot.carouselSubsystem));
+//        carouselButton.whilePressed(new CarouselRedSlowCommand(robot.carouselSubsystem));
+//        carouselButton.whenReleased(new CarouselRedFastCommand(robot.carouselSubsystem).withTimeout(0.5));
     }
     public void bindCarouselBlueControls() {
-//        carouselButton.whilePressedOnce(new CarouselBlueSlowCommand(robot.carouselSubsystem));
-        carouselButton.whilePressed(new CarouselBlueSlowCommand(robot.carouselSubsystem));
-        carouselButton.whenReleased(new CarouselBlueFastCommand(robot.carouselSubsystem).withTimeout(0.5));
+        carouselButton.whilePressedOnce(new CarouselBlueSlowCommand(robot.carouselSubsystem));
+//        carouselButton.whilePressed(new CarouselBlueSlowCommand(robot.carouselSubsystem));
+//        carouselButton.whenReleased(new CarouselBlueFastCommand(robot.carouselSubsystem).withTimeout(0.5));
     }
 }
