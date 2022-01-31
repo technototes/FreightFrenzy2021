@@ -9,6 +9,8 @@ import com.technototes.library.subsystem.Subsystem;
 import java.util.function.Supplier;
 
 public class SpeakerSubsystem implements Subsystem, Supplier<String> {
+
+
     @com.acmerobotics.dashboard.config.Config
     public static class SpeakerConstants{
         public static String AMOGUS = "among4";
@@ -24,7 +26,7 @@ public class SpeakerSubsystem implements Subsystem, Supplier<String> {
 
     public void playAmogus(){
 
-        //speaker.start(AMOGUS);
+        speaker.start(AMOGUS);
     }
 
     public void playJeopardy(){
@@ -37,6 +39,10 @@ public class SpeakerSubsystem implements Subsystem, Supplier<String> {
 
     public void playTerraria(){
         //TODO speaker.start(TERRARIA);
+    }
+
+    public void stop() {
+        speaker.stop();
     }
 
     @Override

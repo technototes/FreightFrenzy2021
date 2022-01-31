@@ -25,7 +25,7 @@ public class IntakeSubsystem implements Subsystem, Supplier<String> {
         public static double INTAKE_IN_SPEED = 1;
         public static double INTAKE_OUT_SPEED = -1;
         public static double INTAKE_STOP_SPEED = 0;
-        public static double INTAKE_IDLE_SPEED = 0.2;
+        public static double INTAKE_IDLE_SPEED = 0.5;
 
 
         public static Range CUBE_RANGE = new Range(400, 2100);

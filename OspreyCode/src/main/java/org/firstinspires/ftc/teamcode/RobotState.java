@@ -39,7 +39,7 @@ public class RobotState {
         depositTarget = true;
     }
     public static void stopDeposit(){
-        depositTarget = true;
+        depositTarget = false;
     }
     public static boolean isDepositing(){
         return depositTarget;

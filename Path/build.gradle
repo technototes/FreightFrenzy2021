@@ -50,7 +50,7 @@ dependencies {
 
 repositories {
     flatDir {
-        dirs '../libs'
+        dirs '../lixbs'
     }
 }
 

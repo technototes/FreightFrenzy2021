@@ -41,8 +41,8 @@ public class DriveCommand implements Command {
         );
     }
     //gotta tune all of this yay
-    public static boolean ACCEL_TURNS = true, HEADING_LOCK = true;
-    public static double ACCEL_LIMIT = 4, HEADING_P = 0.5, HEADING_TOLERANCE = 5;
+    public static boolean ACCEL_TURNS = true, HEADING_LOCK = false;
+    public static double ACCEL_LIMIT = 5, HEADING_P = 0.4, HEADING_TOLERANCE = 5;
     public ElapsedTime t = new ElapsedTime();
     public double past = 0, targetHeading = 0;
     public boolean targetingHeading = false;

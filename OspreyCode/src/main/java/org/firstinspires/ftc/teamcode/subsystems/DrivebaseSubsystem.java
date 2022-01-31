@@ -98,7 +98,7 @@ public class DrivebaseSubsystem extends MecanumDrivebaseSubsystem implements Sup
 
         public static ConfigurablePose LEFT_SENSOR_POSE = new ConfigurablePose(0.5, -5.5, Math.toRadians(-90));
         public static ConfigurablePose RIGHT_SENSOR_POSE = new ConfigurablePose(0.5, 5.5, Math.toRadians(90));
-        public static ConfigurablePose FRONT_SENSOR_POSE = new ConfigurablePose(-6, -2.5, Math.toRadians(180));
+        public static ConfigurablePose FRONT_SENSOR_POSE = new ConfigurablePose(-5.7, -2.5, Math.toRadians(180));
 
 
     }

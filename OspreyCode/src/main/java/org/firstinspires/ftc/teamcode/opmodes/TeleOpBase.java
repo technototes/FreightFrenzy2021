@@ -24,14 +24,6 @@ public abstract class TeleOpBase extends CommandOpMode implements Loggable {
         hardware = new Hardware();
         robot = new Robot(hardware);
         controls = new Controls(robot, driverGamepad, codriverGamepad);
-        CommandScheduler.getInstance().scheduleInit(new WaitCommand(40).andThen(robot.speakerSubsystem::playJeopardy));
-//        CommandScheduler.getInstance().scheduleOnceForState(new SequentialCommandGroup(
-//                robot.speakerSubsystem::playTerraria), OpModeState.RUN);
-    }
-
-    @Override
-    public void end() {
-        hardware.speaker.stop();
     }
 
     @TeleOp(name="\uD83D\uDFE5 \uD83C\uDFAE Red TeleOp")

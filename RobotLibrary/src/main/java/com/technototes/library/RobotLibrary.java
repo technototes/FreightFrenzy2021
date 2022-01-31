@@ -11,7 +11,7 @@ public class RobotLibrary {
      * @return Library version
      */
     public static String getVersion(){
-        return "0.10.1";
+        return "1.0.2";
     }
 
     /** Get if the library is a pre release
