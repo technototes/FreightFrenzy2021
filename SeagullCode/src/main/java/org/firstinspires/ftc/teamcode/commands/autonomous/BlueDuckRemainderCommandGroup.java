@@ -7,7 +7,6 @@ import com.technototes.path.command.TrajectorySequenceCommand;
 import org.firstinspires.ftc.teamcode.commands.carousel.AutoCarouselFastSpinCommand;
 import org.firstinspires.ftc.teamcode.commands.carousel.AutoCarouselSlowSpinCommand;
 import org.firstinspires.ftc.teamcode.commands.dump.DumpCollectCommand;
-import org.firstinspires.ftc.teamcode.commands.intake.IntakeInCommand;
 import org.firstinspires.ftc.teamcode.commands.intake.IntakeStopCommand;
 import org.firstinspires.ftc.teamcode.subsystems.CarouselSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.DrivebaseSubsystem;
@@ -20,7 +19,7 @@ public class BlueDuckRemainderCommandGroup extends SequentialCommandGroup {
                 new AutoCarouselSlowSpinCommand(carousel).withTimeout(1),
                 new AutoCarouselFastSpinCommand(carousel).withTimeout(0.9),
                 new TrajectorySequenceCommand(drive, AutonomousConstants.BLUE_DUCK_CAROUSEL_TO_DUCK_COLLECT1),
-                new IntakeInCommand(intake),
+                new AutoDuckIntakeSlow(intake),
                 new BlueDuckCollectCommand(drive),
                 new IntakeStopCommand(intake),
                 new TrajectorySequenceCommand(drive, AutonomousConstants.BLUE_DUCK_COLLECT2_TO_ALLIANCE_HUB_LEVEL3),
