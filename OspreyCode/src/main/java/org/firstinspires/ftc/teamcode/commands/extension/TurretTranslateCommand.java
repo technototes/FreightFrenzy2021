@@ -23,6 +23,6 @@ public BooleanSupplier flipTranslate;
 
     @Override
     public boolean isFinished() {
-        return getRuntime().seconds() > 0.03;
+        return getRuntime().seconds() > 0.01;
     }
 }

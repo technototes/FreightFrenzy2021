@@ -19,6 +19,7 @@ public class AutoCycleCommand extends SequentialCommandGroup {
     public AutoCycleCommand(DrivebaseSubsystem drive, IntakeSubsystem intake, LiftSubsystem lift, ArmSubsystem deposit, ExtensionSubsystem extension, VisionSubsystem vision){
         super(()->drive.setPoseEstimate(RobotConstants.CYCLE_START_SELECT.get()),
                 ()->drive.distanceSensorLocalizer.setGyroOffset(-RobotConstants.CYCLE_START_SELECT.get().getHeading()),
+                drive::relocalize,
                 new AutoCyclePreloadCommand(drive, deposit, extension, lift, vision),
                 new IterativeCommand(i->
                     new AutoIntakeWarehouseCommand(drive, intake, lift, deposit, extension, i)

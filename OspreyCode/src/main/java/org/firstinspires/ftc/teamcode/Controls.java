@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.technototes.library.command.CommandScheduler;
+import com.technototes.library.command.ConditionalCommand;
 import com.technototes.library.command.SequentialCommandGroup;
 import com.technototes.library.command.WaitCommand;
 import com.technototes.library.control.CommandAxis;
@@ -130,22 +132,23 @@ public class Controls {
     }
 
     public void bindBrakeControls(){
-        brakeButton.whenPressedReleased(robot.brakeSubsystem::lower, robot.brakeSubsystem::raise);
+        brakeButton.whenPressed(robot.brakeSubsystem::lower);
+        CommandScheduler.getInstance().scheduleJoystick(robot.brakeSubsystem::raise, ()->driveLeftStick.getDistanceFromCenter()>0.1 && robot.brakeSubsystem.get());
     }
 
 
     public void bindArmControls() {
         dumpAxis.whilePressedOnce(new BucketDumpVariableCommand(robot.armSubsystem, dumpAxis).asConditional(EXTENSION_ENABLED ? robot.extensionSubsystem::isSlideOut : ()->true));
         toIntakeButton.whenPressed(new ArmInCommand(robot.armSubsystem));
-        allianceHubButton.whileReleasedOnce( new ArmAllianceCommand(robot.armSubsystem).asConditional(RobotState::isDepositing));
-        sharedHubButton.whileReleasedOnce(new ArmSharedCommand(robot.armSubsystem).asConditional(RobotState::isDepositing));
+        allianceHubButton.whileReleasedOnce( new ArmAllianceCommand(robot.armSubsystem));
+        sharedHubButton.whileReleasedOnce(new ArmSharedCommand(robot.armSubsystem));
         intakeInButton.whenPressed(new ArmInCommand(robot.armSubsystem));
     }
 
     public void bindLiftControls() {
-        sharedHubButton.whileReleasedOnce(new LiftSharedCommand(robot.liftSubsystem).withTimeout(0.5).asConditional(RobotState::isDepositing));
-        allianceHubButton.whileReleasedOnce(new LiftLevelCommand(robot.liftSubsystem).withTimeout(0.5).asConditional(RobotState::isDepositing));
-        toIntakeButton.whenPressed(new LiftLevel1Command(robot.liftSubsystem).alongWith(new WaitCommand(1)).andThen(new LiftCollectCommand(robot.liftSubsystem).withTimeout(0.4)));
+        sharedHubButton.whileReleasedOnce(new LiftSharedCommand(robot.liftSubsystem).withTimeout(0.5));
+        allianceHubButton.whileReleasedOnce(new LiftLevelCommand(robot.liftSubsystem).withTimeout(0.5));
+        toIntakeButton.whenPressed(new LiftLevel1Command(robot.liftSubsystem).withTimeout(0.5).alongWith(new WaitCommand(0.5)).andThen(new LiftCollectCommand(robot.liftSubsystem).withTimeout(0.4)));
         liftAdjustUpButton.whilePressed(new LiftTranslateCommand(robot.liftSubsystem, 50));
         liftAdjustDownButton.whilePressed(new LiftTranslateCommand(robot.liftSubsystem, -50));
     }
@@ -163,11 +166,11 @@ public class Controls {
 
     public void bindIntakeControls() {
         if(ARM_ENABLED){
-            toIntakeButton.whenPressed(new SequentialCommandGroup(new WaitCommand(1.2), new IntakeSafeCommand(robot.intakeSubsystem), robot.armSubsystem::slightCarry, driverGamepad::rumbleBlip, new WaitCommand(0.5), new IntakeOutCommand(robot.intakeSubsystem).withTimeout(0.5)).ignoreCancel());
-            intakeInButton.whilePressedContinuous(new SequentialCommandGroup(new IntakeSafeCommand(robot.intakeSubsystem), robot.armSubsystem::slightCarry, driverGamepad::rumbleBlip, new WaitCommand(0.5), new IntakeOutCommand(robot.intakeSubsystem).withTimeout(0.5)).ignoreCancel());
+            toIntakeButton.whenPressed(new SequentialCommandGroup(new WaitCommand(0.8), new IntakeSafeCommand(robot.intakeSubsystem), driverGamepad::rumbleBlip, robot.armSubsystem::slightCarry, new WaitCommand(0.2), new IntakeOutCommand(robot.intakeSubsystem).withTimeout(0.5)).ignoreCancel());
+            intakeInButton.whilePressedContinuous(new SequentialCommandGroup(new IntakeSafeCommand(robot.intakeSubsystem), driverGamepad::rumbleBlip, robot.armSubsystem::slightCarry, new WaitCommand(0.2), new IntakeOutCommand(robot.intakeSubsystem).withTimeout(0.5)).ignoreCancel());
         }
         else {
-            toIntakeButton.whenPressed(new WaitCommand(1).andThen(new IntakeSafeCommand(robot.intakeSubsystem)));
+            toIntakeButton.whenPressed(new WaitCommand(0.8).andThen(new IntakeSafeCommand(robot.intakeSubsystem)));
             intakeInButton.whilePressedContinuous(new IntakeInCommand(robot.intakeSubsystem));
         }
         intakeOutButton.whilePressedOnce(new IntakeOutCommand(robot.intakeSubsystem));
@@ -190,8 +193,8 @@ public class Controls {
     }
 
     public void bindExtensionControls() {
-        allianceHubButton.whileReleasedOnce(new ExtensionCommand(robot.extensionSubsystem, ExtensionSubsystem.ExtensionConstants.TELEOP_ALLIANCE, ExtensionSubsystem.ExtensionConstants.CENTER).asConditional(RobotState::isDepositing));
-        sharedHubButton.whileReleasedOnce(new ExtensionSideCommand(robot.extensionSubsystem).asConditional(RobotState::isDepositing));
+        allianceHubButton.whileReleasedOnce(new ExtensionCommand(robot.extensionSubsystem, ExtensionSubsystem.ExtensionConstants.TELEOP_ALLIANCE, ExtensionSubsystem.ExtensionConstants.CENTER));
+        sharedHubButton.whileReleasedOnce(new ExtensionSideCommand(robot.extensionSubsystem));
         toIntakeButton.whenPressed(new ExtensionCollectCommand(robot.extensionSubsystem));
         turretAdjustLeftButton.whilePressed(new TurretTranslateCommand(robot.extensionSubsystem, 0.05, ()-> DRIVE_ENABLED && (RobotConstants.getAlliance()== Alliance.RED ^ (robot.drivebaseSubsystem.getExternalHeading() > ExtensionSubsystem.ExtensionConstants.SNAP_1 && robot.drivebaseSubsystem.getExternalHeading() < ExtensionSubsystem.ExtensionConstants.SNAP_2))));
         turretAdjustRightButton.whilePressed(new TurretTranslateCommand(robot.extensionSubsystem,   -0.05, ()-> DRIVE_ENABLED && (RobotConstants.getAlliance()== Alliance.RED ^ (robot.drivebaseSubsystem.getExternalHeading() > ExtensionSubsystem.ExtensionConstants.SNAP_1 && robot.drivebaseSubsystem.getExternalHeading() < ExtensionSubsystem.ExtensionConstants.SNAP_2))));

@@ -8,7 +8,7 @@ import java.util.function.Supplier;
 public class BrakeSubsystem implements Subsystem, Supplier<Boolean> {
     @com.acmerobotics.dashboard.config.Config
     public static class BrakeConstants{
-        public static double UP = 0.28, DOWN = 0.62;
+        public static double UP = 0.02, DOWN = 0.34;
     }
     private boolean isBraking;
     public Servo servo;

@@ -6,6 +6,7 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.acmerobotics.roadrunner.util.Angle;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.util.Range;
 import com.technototes.library.command.Command;
 import com.technototes.library.control.Stick;
 
@@ -15,20 +16,15 @@ import org.firstinspires.ftc.teamcode.subsystems.DrivebaseSubsystem;
 import java.util.function.DoubleSupplier;
 @Config
 public class DriveCommand implements Command {
-    public static boolean HEADING_LOCK = false;
-    public static double TARGET_HEADING_TOLERANCE = 2;
-    public static double P = 0.4, I = 0, D = 0;
+
     public DrivebaseSubsystem subsystem;
     public DoubleSupplier x, y, r;
-    private double targetHeading;
-    private boolean wasTurning;
     public DriveCommand(DrivebaseSubsystem sub, Stick stick1, Stick stick2) {
         addRequirements(sub);
         subsystem = sub;
         x = stick1.getXSupplier();
         y = stick1.getYSupplier();
         r = stick2.getXSupplier();
-        wasTurning = false;
     }
 
     @Override
@@ -41,28 +37,31 @@ public class DriveCommand implements Command {
                 new Pose2d(
                         input.getX(),
                         input.getY(),
-                        -Math.pow(r.getAsDouble()*subsystem.speed, 3))
+                        getTurn(-Math.pow(r.getAsDouble()*subsystem.speed, 3)))
         );
     }
-    ElapsedTime t = new ElapsedTime();
-    double past = 0;
-    public double getTurn(){
-
-        double heading = subsystem.getRawExternalHeading();
-        if(!HEADING_LOCK || Math.abs(r.getAsDouble())>0.05){
-            wasTurning = true;
+    //gotta tune all of this yay
+    public static boolean ACCEL_TURNS = true, HEADING_LOCK = false;
+    public static double ACCEL_LIMIT = 5, HEADING_P = 0.4, HEADING_TOLERANCE = 5;
+    public ElapsedTime t = new ElapsedTime();
+    public double past = 0, targetHeading = 0;
+    public boolean targetingHeading = false;
+    public double getTurn(double input){
+        if(ACCEL_TURNS) {
+            input = Range.clip(input, past-t.seconds()*ACCEL_LIMIT, past+t.seconds()*ACCEL_LIMIT);
+            past = input;
             t.reset();
-            past = heading;
-            return Math.pow(-r.getAsDouble(), 3);
+            if(Math.abs(input) > 0.02) targetingHeading = false;
         }
-        if (wasTurning) {
-            wasTurning = false;
-            targetHeading = heading+Math.cbrt((heading-past)/t.seconds())* D;
+        if(HEADING_LOCK && Math.abs(input) < 0.02){
+            double h = subsystem.getRawExternalHeading();
+            if(!targetingHeading){
+                targetHeading = h;
+                targetingHeading = true;
+            }
+            if(Math.abs(Angle.normDelta(targetHeading-h)) > Math.toRadians(HEADING_TOLERANCE)) input=Angle.normDelta(targetHeading-h)*HEADING_P;
         }
-        return Math.abs(Angle.normDelta(heading-targetHeading)) < Math.toRadians(TARGET_HEADING_TOLERANCE)
-                ? 0 : - P *Angle.normDelta(heading-targetHeading);
-
-
+        return input;
     }
 
     @Override

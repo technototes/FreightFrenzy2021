@@ -13,9 +13,12 @@ public class ExtensionCommand implements Command {
         slideTarget = slide;
         turretTarget = turret;
     }
+
     @Override
     public void execute() {
         extensionSubsystem.setTurret(turretTarget);
         extensionSubsystem.setSlide(slideTarget);
     }
+
+
 }

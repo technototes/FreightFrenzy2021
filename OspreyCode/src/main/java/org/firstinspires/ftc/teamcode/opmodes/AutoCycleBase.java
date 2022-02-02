@@ -26,12 +26,16 @@ public abstract class AutoCycleBase extends CommandOpMode implements Loggable {
         robot = new Robot(hardware);
         CommandScheduler.getInstance().scheduleInit(new VisionBarcodeCommand(robot.visionSubsystem));
         CommandScheduler.getInstance().scheduleOnceForState(new AutoCycleCommand(robot.drivebaseSubsystem, robot.intakeSubsystem, robot.liftSubsystem, robot.armSubsystem, robot.extensionSubsystem, robot.visionSubsystem), OpModeState.RUN);
-        CommandScheduler.getInstance().scheduleInit(new WaitCommand(40).andThen(robot.speakerSubsystem::playJeopardy));
-        CommandScheduler.getInstance().scheduleForState(new SequentialCommandGroup(robot.speakerSubsystem::playAmogus, new WaitCommand(40)), OpModeState.RUN);
     }
+
+    @Override
+    public void uponStart() {
+        if(Robot.SubsystemConstants.SPEAKER_ENABLED) robot.speakerSubsystem.playAmogus();
+    }
+
     @Override
     public void end() {
-        hardware.speaker.stop();
+        if(Robot.SubsystemConstants.SPEAKER_ENABLED) robot.speakerSubsystem.stop();
     }
 
     @Autonomous(name="\uD83D\uDD35 ♻️ Blue Cycle")

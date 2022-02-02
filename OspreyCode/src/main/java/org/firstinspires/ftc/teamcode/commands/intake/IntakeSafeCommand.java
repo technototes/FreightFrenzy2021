@@ -10,11 +10,11 @@ public class IntakeSafeCommand extends IntakeInCommand {
 
     @Override
     public boolean isFinished() {
-        return RobotState.hasFreight() && getRuntime().seconds()>1;
+        return RobotState.hasFreight() && getRuntime().seconds()>0.2;
     }
 
     @Override
     public void end(boolean cancel) {
-        if(!cancel) subsystem.stop();
+        if(!cancel) subsystem.idle();
     }
 }

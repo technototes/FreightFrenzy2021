@@ -83,32 +83,33 @@ public class BarcodePipeline extends OpenCvPipeline implements Supplier<Integer>
                 // middle level: Center rectangle
                 // bottom level: Not in view
                 new CameraConfig(Alliance.BLUE, DuckOrDepot.DEPOT,
-                        new Rect(200, 0, 100, 200),
-                        new Rect(50, 0, 100, 200),
+                        new Rect(200, 0, 100, 100),
+                        new Rect(50, 0, 100, 100),
                         null),
                 // blue duck
                 // top level: Not in view
                 // middle leve: Center rectangle
                 // bottom level: right rectangle
                 new CameraConfig(Alliance.BLUE, DuckOrDepot.DUCK,
-                        null,
-                        new Rect(50,   0, 100, 200),
-                        new Rect(200, 0, 100, 200)),
+                        new Rect(220, 0, 100, 100),
+                        new Rect(120,   0, 100, 100),
+                null),
                 // red depot
                 // top level: center rect
                 // middle level: right rect
                 // bottom level: not in view
                 new CameraConfig(Alliance.RED,  DuckOrDepot.DEPOT,
-                        new Rect(50, 0, 100, 200),
-                        new Rect(200, 0, 100, 200),
-                  null),
-                // red duck
+                        null,
+                        new Rect(220, 0, 100, 100),
+                        new Rect(120, 0, 100, 100)),
+
+                        // red duck
                 // top level: right rect
                 // middle level: center rect
                 // bottom level: not in view
                 new CameraConfig(Alliance.RED,  DuckOrDepot.DUCK,
-                        new Rect(200, 0, 100, 200),
-                        new Rect(50, 0, 100, 200),
+                        new Rect(200, 0, 100, 100),
+                        new Rect(50, 0, 100, 100),
                         null)
         };
     }
