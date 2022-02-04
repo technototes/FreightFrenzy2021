@@ -12,6 +12,7 @@ import com.technototes.library.hardware.sensor.IMU;
 import com.technototes.library.hardware.sensor.IMU.AxesSigns;
 import com.technototes.library.hardware.sensor.Rev2MDistanceSensor;
 import com.technototes.library.hardware.servo.Servo;
+import com.technototes.library.hardware.servo.ServoGroup;
 import com.technototes.library.logger.Loggable;
 import com.technototes.vision.hardware.Webcam;
 
@@ -87,6 +88,13 @@ public class Hardware implements Loggable {
 
     public Servo brake;
 
+    public Servo capLeftArmServo;
+    public Servo capRightArmServo;
+    public ServoGroup capArmServos;
+
+    public Servo capClawServo;
+    public Servo capTurretServo;
+
     public Hardware() {
         if(SPEAKER_ENABLED){
             speaker = new Speaker();
@@ -126,7 +134,12 @@ public class Hardware implements Loggable {
             intakeSensor = new ColorDistanceSensor(INTAKE_COLOR).onUnit(DistanceUnit.INCH);
         }
         if(CAP_ENABLED){
-            capServo = new Servo(CAP).startAt(CapSubsystem.CapConstants.COLLECT);
+            capLeftArmServo = new Servo("caparml").onRange(0.25, 0.65).invert();
+            capRightArmServo = new Servo("caparmr").onRange(0.35, 0.75);
+            capArmServos = new ServoGroup(capLeftArmServo, capRightArmServo).startAt(CapSubsystem.CapConstants.ARM_INIT);
+
+            capClawServo = new Servo("capclaw").startAt(CapSubsystem.CapConstants.CLAW_CLOSE);
+            capTurretServo = new Servo("capturr").startAt(CapSubsystem.CapConstants.TURRET_INIT);
         }
     }
 }

@@ -19,8 +19,13 @@ public class DriveCommand implements Command {
 
     public DrivebaseSubsystem subsystem;
     public DoubleSupplier x, y, r;
+    public double speed;
     public DriveCommand(DrivebaseSubsystem sub, Stick stick1, Stick stick2) {
+        this(sub, stick1, stick2, 1);
+    }
+    public DriveCommand(DrivebaseSubsystem sub, Stick stick1, Stick stick2, double s) {
         addRequirements(sub);
+        speed = s;
         subsystem = sub;
         x = stick1.getXSupplier();
         y = stick1.getYSupplier();
@@ -37,7 +42,7 @@ public class DriveCommand implements Command {
                 new Pose2d(
                         input.getX(),
                         input.getY(),
-                        getTurn(-Math.pow(r.getAsDouble()*subsystem.speed, 3)))
+                        getTurn(-Math.pow(r.getAsDouble()*subsystem.speed, 3))).times(speed)
         );
     }
     //gotta tune all of this yay
@@ -69,8 +74,5 @@ public class DriveCommand implements Command {
         return false;
     }
 
-    @Override
-    public void end(boolean cancel) {
-        if(cancel) subsystem.setDriveSignal(new DriveSignal());
-    }
+
 }

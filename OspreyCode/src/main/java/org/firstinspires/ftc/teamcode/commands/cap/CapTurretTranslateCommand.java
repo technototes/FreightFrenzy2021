@@ -1,25 +1,31 @@
+
 package org.firstinspires.ftc.teamcode.commands.cap;
 
 import com.technototes.library.command.Command;
 
 import org.firstinspires.ftc.teamcode.subsystems.CapSubsystem;
-import org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem;
 
-public class CapDownCommand implements Command {
+public class CapTurretTranslateCommand implements Command {
     public CapSubsystem subsystem;
-    public CapDownCommand(CapSubsystem cap){
+    public double amount;
+    public CapTurretTranslateCommand(CapSubsystem cap, double amt){
         subsystem = cap;
         addRequirements(cap);
+        amount = amt;
+    }
+
+    @Override
+    public void initialize() {
+        subsystem.translateTurret(amount);
     }
 
     @Override
     public void execute() {
-        subsystem.down();
-        subsystem.open();
+
     }
 
     @Override
     public boolean isFinished() {
-        return getRuntime().seconds() >0.6;
+        return getRuntime().seconds()>0.1;
     }
 }

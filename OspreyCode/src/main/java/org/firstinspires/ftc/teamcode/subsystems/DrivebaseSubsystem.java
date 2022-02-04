@@ -123,7 +123,6 @@ public class DrivebaseSubsystem extends MecanumDrivebaseSubsystem implements Sup
         right = r;
         front = f;
 
-
         resetGyro();
 //        dashboard = FtcDashboard.getInstance();
 //        dashboard.setTelemetryTransmissionInterval(25);

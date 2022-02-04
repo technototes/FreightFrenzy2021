@@ -30,6 +30,7 @@ public abstract class AutoDuckBase extends CommandOpMode implements Loggable {
     @Override
     public void uponStart() {
         if(Robot.SubsystemConstants.SPEAKER_ENABLED) robot.speakerSubsystem.playAmogus();
+        if(Robot.SubsystemConstants.CAP_ENABLED) robot.capSubsystem.up();
     }
 
     @Override

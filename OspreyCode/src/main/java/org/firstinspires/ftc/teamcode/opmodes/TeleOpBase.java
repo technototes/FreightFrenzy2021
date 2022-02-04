@@ -6,6 +6,7 @@ import com.technototes.library.command.SequentialCommandGroup;
 import com.technototes.library.command.WaitCommand;
 import com.technototes.library.logger.Loggable;
 import com.technototes.library.structure.CommandOpMode;
+import com.technototes.library.subsystem.Subsystem;
 import com.technototes.library.util.Alliance;
 
 import org.firstinspires.ftc.teamcode.Controls;
@@ -24,6 +25,16 @@ public abstract class TeleOpBase extends CommandOpMode implements Loggable {
         hardware = new Hardware();
         robot = new Robot(hardware);
         controls = new Controls(robot, driverGamepad, codriverGamepad);
+
+    }
+
+    @Override
+    public void uponStart() {
+        if(Robot.SubsystemConstants.CAP_ENABLED) robot.capSubsystem.up();
+        if(Robot.SubsystemConstants.DRIVE_ENABLED){
+            robot.drivebaseSubsystem.resetGyro();
+            robot.drivebaseSubsystem.setExternalHeading(Math.toRadians(180));
+        }
     }
 
     @TeleOp(name="\uD83D\uDFE5 \uD83C\uDFAE Red TeleOp")

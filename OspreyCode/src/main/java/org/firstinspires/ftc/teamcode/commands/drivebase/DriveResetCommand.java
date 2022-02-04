@@ -13,7 +13,7 @@ public class DriveResetCommand implements Command {
     }
     @Override
     public void execute() {
-        subsystem.setExternalHeading(Math.toRadians(RobotConstants.getAlliance().selectOf(-90, 90)));
         subsystem.resetGyro();
+        subsystem.setExternalHeading(RobotConstants.getAlliance().selectOf(-Math.PI/2, Math.PI/2));
     }
 }

@@ -1,21 +1,20 @@
+
 package org.firstinspires.ftc.teamcode.commands.cap;
 
 import com.technototes.library.command.Command;
 
 import org.firstinspires.ftc.teamcode.subsystems.CapSubsystem;
-import org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem;
 
-public class CapDownCommand implements Command {
+public class CapOutCommand implements Command {
     public CapSubsystem subsystem;
-    public CapDownCommand(CapSubsystem cap){
+    public CapOutCommand(CapSubsystem cap){
         subsystem = cap;
         addRequirements(cap);
     }
 
     @Override
     public void execute() {
-        subsystem.down();
-        subsystem.open();
+        subsystem.raise();
     }
 
     @Override

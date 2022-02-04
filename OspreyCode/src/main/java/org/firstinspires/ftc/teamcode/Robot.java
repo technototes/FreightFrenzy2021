@@ -30,8 +30,8 @@ public class Robot implements Loggable {
         public static boolean CAROUSEL_ENABLED = true;
         public static boolean INTAKE_ENABLED = true;
         public static boolean VISION_ENABLED = true;
-        public static boolean CAP_ENABLED = false;
-        public static boolean SPEAKER_ENABLED = false;
+        public static boolean CAP_ENABLED = true;
+        public static boolean SPEAKER_ENABLED = true;
         public static boolean BRAKE_ENABLED = true;
     }
 
@@ -54,7 +54,7 @@ public class Robot implements Loggable {
     @Log(name = "Intake", entryColor = Color.LIME)
     public IntakeSubsystem intakeSubsystem;
 
-    @Log.NumberSlider(name = "Cap", color = Color.MAGENTA)
+    @Log(name = "Cap", color = Color.MAGENTA)
     public CapSubsystem capSubsystem;
 
     public VisionSubsystem visionSubsystem;
@@ -86,6 +86,6 @@ public class Robot implements Loggable {
 
         if(VISION_ENABLED) visionSubsystem = new VisionSubsystem(hardware.camera);
 
-        if(CAP_ENABLED) capSubsystem = new CapSubsystem(hardware.capServo);
+        if(CAP_ENABLED) capSubsystem = new CapSubsystem(hardware.capArmServos, hardware.capClawServo, hardware.capTurretServo);
     }
 }
