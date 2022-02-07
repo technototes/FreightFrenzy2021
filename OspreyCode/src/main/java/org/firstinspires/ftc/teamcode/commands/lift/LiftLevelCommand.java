@@ -14,6 +14,6 @@ import org.firstinspires.ftc.teamcode.subsystems.LiftSubsystem;
 public class LiftLevelCommand extends ChoiceCommand {
     public LiftLevelCommand(LiftSubsystem ls) {
         super(new Pair<>(()->getAllianceStrategy() == HIGH, new LiftLevel3Command(ls)),
-                new Pair<>(()->getAllianceStrategy() == MID, new LiftLevel2Command(ls)));
+                new Pair<>(()->getAllianceStrategy() == MID, new LiftLevel2TeleCommand(ls)));
     }
 }

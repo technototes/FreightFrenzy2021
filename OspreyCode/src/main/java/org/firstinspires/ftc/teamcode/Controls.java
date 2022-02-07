@@ -69,7 +69,7 @@ public class Controls {
     public Stick driveLeftStick, driveRightStick;
     public CommandButton resetGyroButton, brakeButton;
 
-    public CommandButton[] strategy1Button, strategy2Button;
+    public CommandButton strategy1Button, strategy2Button;
 
     public Controls(Robot r, CommandGamepad driver, CommandGamepad codriver) {
         driverGamepad = driver;
@@ -100,8 +100,8 @@ public class Controls {
 
         capUpButton = driverGamepad.start;
 
-        strategy1Button = new CommandButton[]{driverGamepad.start, codriverGamepad.start};
-        strategy2Button = new CommandButton[]{driverGamepad.back, codriverGamepad.back};
+        strategy1Button = driverGamepad.start;
+        strategy2Button = driverGamepad.back;
 
         RobotState.setStrategy(RobotState.AllianceHubStrategy.HIGH, RobotState.SharedHubStrategy.OWN);
 
@@ -118,13 +118,10 @@ public class Controls {
         if (EXTENSION_ENABLED) bindExtensionControls();
         if (BRAKE_ENABLED) bindBrakeControls();
 
-        for (CommandButton c : strategy1Button) {
-            c.whenPressed(RobotState::strategy1);
-        }
-
-        for (CommandButton c : strategy2Button) {
-            c.whenPressed(RobotState::strategy2);
-        }
+        strategy1Button.whenPressed(() -> RobotState.strategy1());
+        codriverGamepad.start.whenPressed(() -> RobotState.strategy1());
+        strategy2Button.whenPressed(() -> RobotState.strategy2());
+        codriverGamepad.back.whenPressed(() -> RobotState.strategy2());
 
 
     }

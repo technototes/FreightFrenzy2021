@@ -15,10 +15,12 @@ import java.util.function.Supplier;
 public class CapSubsystem implements Subsystem, Supplier<String> {
     @Config
     public static class CapConstants {
-            public static double TURRET_INIT = 0.7, TURRET_PICKUP = 0.1, TURRET_CAP = 0.5;
-            public static double CLAW_OPEN = 0.1, CLAW_CLOSE = 0.6;
-            public static double ARM_UP = 1, ARM_CAP = 0.85, ARM_INIT = 0.1, ARM_DOWN = 0.1;
+            public static double TURRET_INIT = 0.8, TURRET_PICKUP = 0.1, TURRET_CARRY = 0.8, TURRET_CAP = 0.5;
+            public static double CLAW_OPEN = 0.1, CLAW_CLOSE = 0.53;
+            public static double ARM_UP = 1, ARM_CAP = 0.85, ARM_INIT = 0.4, ARM_DOWN = 0.05;
             public static ServoProfiler.Constraints ARM_CONSTRAINTS = new ServoProfiler.Constraints(5, 5, 5);
+            public static ServoProfiler.Constraints TURRET_CONSTRAINTS = new ServoProfiler.Constraints(3, 2, 2);
+
     }
     public Servo armServo;
     public Servo clawServo;
@@ -26,6 +28,8 @@ public class CapSubsystem implements Subsystem, Supplier<String> {
     public Servo turretServo;
 
     public ServoProfiler armProfiler;
+    public ServoProfiler turretProfiler;
+
 
     public CapSubsystem(Servo arm, Servo claw, Servo turret){
         CommandScheduler.getInstance().register(this);
@@ -33,6 +37,7 @@ public class CapSubsystem implements Subsystem, Supplier<String> {
         clawServo = claw;
         turretServo = turret;
         armProfiler = new ServoProfiler(armServo).setServoRange(0.4).setConstraints(ARM_CONSTRAINTS).setTargetPosition(ARM_INIT);
+        turretProfiler = new ServoProfiler(turretServo).setConstraints(TURRET_CONSTRAINTS).setTargetPosition(TURRET_INIT);
     }
 
     public void open(){
@@ -45,33 +50,35 @@ public class CapSubsystem implements Subsystem, Supplier<String> {
 
     public void up(){
         armProfiler.setTargetPosition(ARM_UP);
-        turretServo.setPosition(TURRET_CAP);
+        turretProfiler.setTargetPosition(TURRET_CARRY);
         clawServo.setPosition(CLAW_CLOSE);
     }
     public void raise(){
         armProfiler.setTargetPosition(ARM_CAP);
-        turretServo.setPosition(TURRET_CAP);
+    }
+    public void raise2(){
+        turretProfiler.setTargetPosition(TURRET_CAP);
     }
     public void down(){
         armProfiler.setTargetPosition(ARM_DOWN);
-        turretServo.setPosition(TURRET_PICKUP);
+        turretProfiler.setTargetPosition(TURRET_PICKUP);
     }
     public void translateArm(double translation){
         armProfiler.translateTargetPosition(translation);
     }
     public void translateTurret(double translation){
-        turretServo.incrementPosition(translation);
+        turretProfiler.translateTargetPosition(translation);
     }
 
     @Override
     public void periodic() {
-
+        turretProfiler.update();
         armProfiler.update();
     }
 
     @Override
     public String get() {
-        return "CLAW: "+clawServo.getPosition()+", ARM: "+armProfiler.getTargetPosition()+", TURRET: "+turretServo.getPosition();
+        return "CLAW: "+clawServo.getPosition()+", ARM: "+armProfiler.getTargetPosition()+", TURRET: "+turretProfiler.getTargetPosition();
     }
 
 }

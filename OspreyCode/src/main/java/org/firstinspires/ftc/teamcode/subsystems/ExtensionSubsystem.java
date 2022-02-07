@@ -14,8 +14,8 @@ public class ExtensionSubsystem implements Subsystem, Supplier<String> {
     @Config
     public static class ExtensionConstants {
         public static double SNAP_1 = 0, SNAP_2= Math.PI;
-        public static double IN = 0.46, SHARED = 0.3, TELEOP_ALLIANCE = 0.35, STEAL_SHARED = 0.1, LOW_GOAL_AUTO = 0,  OUT = 0;
-        public static double LEFT = 0.2, CENTER = 0.5, RIGHT = 0.8, AUTO_LEFT = 0.25, AUTO_RIGHT = 0.75;
+        public static double IN = 0.46, SHARED = 0.3, TELEOP_ALLIANCE = 0.35, STEAL_SHARED = 0.2, LOW_GOAL_AUTO = 0,  OUT = 0;
+        public static double LEFT = 0.1, CENTER = 0.5, RIGHT = 0.9, AUTO_LEFT = 0.25, AUTO_RIGHT = 0.75;
     }
 
     public Servo slideServo;

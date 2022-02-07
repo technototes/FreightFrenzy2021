@@ -15,7 +15,7 @@ public class CapDownCommand implements Command {
     @Override
     public void execute() {
         subsystem.down();
-        subsystem.open();
+        subsystem.close();
     }
 
     @Override

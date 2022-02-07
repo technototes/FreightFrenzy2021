@@ -15,10 +15,11 @@ public class CapOutCommand implements Command {
     @Override
     public void execute() {
         subsystem.raise();
+        if(getRuntime().seconds()>0.5) subsystem.raise2();
     }
 
     @Override
     public boolean isFinished() {
-        return getRuntime().seconds() >0.6;
+        return getRuntime().seconds() >1;
     }
 }
