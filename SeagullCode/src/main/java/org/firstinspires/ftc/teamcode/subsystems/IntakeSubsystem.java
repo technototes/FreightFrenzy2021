@@ -17,6 +17,7 @@ public class IntakeSubsystem implements Subsystem, Supplier<Double>, Loggable {
     public static double INTAKE_OUT_SPEED = -1.0;
     public static double INTAKE_STOP_SPEED = 0;
     public static double DETECTION_THRESHOLD = 3.0;
+    public static double INTAKE_SLOW_SPEED = 0.65;
   }
 
   public enum State {
@@ -47,6 +48,11 @@ public class IntakeSubsystem implements Subsystem, Supplier<Double>, Loggable {
   public void in() {
     motor.setSpeed(IntakeConstant.INTAKE_IN_SPEED);
     currentState = State.IN;
+  }
+
+  public void slow() {
+    motor.setSpeed(IntakeConstant.INTAKE_SLOW_SPEED);
+
   }
 
   public void out() {

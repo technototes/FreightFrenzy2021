@@ -23,12 +23,12 @@ public class AutonomousConstants {
         public static Pose2d DUCK_COLLECT2 = new Pose2d(-48, -61, toRadians(-90));
         public static Pose2d DUCK_PARK = new Pose2d(-69, -36, toRadians(180));
         public static Pose2d DEPOT_START = new Pose2d(0, -66, toRadians(-90));
-        public static Pose2d DEPOT_ALLIANCE_HUB_LEVEL3 = new Pose2d(-10, -45, toRadians(-68));
+        public static Pose2d DEPOT_ALLIANCE_HUB_LEVEL3 = new Pose2d(-10, -43, toRadians(-65));
         public static Pose2d DEPOT_ALLIANCE_HUB_LEVEL2 = new Pose2d(-10, -51, toRadians(-68));
         public static Pose2d DEPOT_ALLIANCE_HUB_LEVEL1 = new Pose2d(-4, -56, toRadians(-68));
-        public static Pose2d DEPOT_GAP = new Pose2d(20, -67, toRadians(0));
-        public static Pose2d DEPOT_COLLECT1 = new Pose2d(46, -67, toRadians(0));
-        public static Pose2d DEPOT_COLLECT2 = new Pose2d(50, -67, toRadians(0));
+        public static Pose2d DEPOT_GAP = new Pose2d(20, -66.5, toRadians(0));
+        public static Pose2d DEPOT_COLLECT1 = new Pose2d(56, -67, toRadians(0));
+        public static Pose2d DEPOT_COLLECT2 = new Pose2d(56, -67, toRadians(0));
     }
 
     public static class BlueConstants {
@@ -40,14 +40,14 @@ public class AutonomousConstants {
         public static Pose2d DUCK_CAROUSEL = new Pose2d(-59, 59, toRadians(180));
         public static Pose2d DUCK_COLLECT1 = new Pose2d(-55, 60, toRadians(90));
         public static Pose2d DUCK_COLLECT2 = new Pose2d(-43, 61, toRadians(90));
-        public static Pose2d DUCK_PARK = new Pose2d(-69, 36, toRadians(180));
+        public static Pose2d DUCK_PARK = new Pose2d(-69, 38, toRadians(180));
         public static Pose2d DEPOT_START = new Pose2d(0, 66, toRadians(90));
-        public static Pose2d DEPOT_ALLIANCE_HUB_LEVEL3 = new Pose2d(-10, 42, toRadians(55));
-        public static Pose2d DEPOT_ALLIANCE_HUB_LEVEL2 = new Pose2d(-10, 52, toRadians(60));
-        public static Pose2d DEPOT_ALLIANCE_HUB_LEVEL1 = new Pose2d(-8, 54, toRadians(60));
-        public static Pose2d DEPOT_GAP = new Pose2d(20, 67, toRadians(0));
-        public static Pose2d DEPOT_COLLECT1 = new Pose2d(46, 67, toRadians(0));
-        public static Pose2d DEPOT_COLLECT2 = new Pose2d(48, 67, toRadians(0));
+        public static Pose2d DEPOT_ALLIANCE_HUB_LEVEL3 = new Pose2d(-10, 42, toRadians(65));
+        public static Pose2d DEPOT_ALLIANCE_HUB_LEVEL2 = new Pose2d(-10, 44, toRadians(60));
+        public static Pose2d DEPOT_ALLIANCE_HUB_LEVEL1 = new Pose2d(-8, 44, toRadians(60));
+        public static Pose2d DEPOT_GAP = new Pose2d(20, 66.5, toRadians(0));
+        public static Pose2d DEPOT_COLLECT1 = new Pose2d(56, 67, toRadians(0));
+        public static Pose2d DEPOT_COLLECT2 = new Pose2d(58, 67, toRadians(0));
     }
 
     public static Alliance ALLIANCE = Alliance.BLUE;
