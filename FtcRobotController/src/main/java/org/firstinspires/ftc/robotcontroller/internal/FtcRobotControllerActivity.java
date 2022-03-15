@@ -405,7 +405,6 @@ public class FtcRobotControllerActivity extends Activity
       initWifiMute(true);
     }
 
-    // KBF: This was commented out
     FtcAboutActivity.setBuildTimeFromBuildConfig(BuildConfig.APP_BUILD_TIME);
 
     // check to see if there is a preferred Wi-Fi to use.
