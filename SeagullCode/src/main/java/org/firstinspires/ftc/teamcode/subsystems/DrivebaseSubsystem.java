@@ -79,13 +79,6 @@ public class DrivebaseSubsystem extends MecanumDrivebaseSubsystem implements Sup
 
     }
 
-    //@Log.Number (name = "Front Range Sensor")
-    //public Rev2MDistanceSensor front_distance;
-    //@Log.Number (name = "Left Range Sensor")
-    //public Rev2MDistanceSensor left_distance;
-    //@Log.Number (name = "Right Range Sensor")
-    //public Rev2MDistanceSensor right_distance;
-
     private static final boolean ENABLE_POSE_DIAGNOSTICS = false;
 
     @Log (name="Pose2d: ")
@@ -102,13 +95,9 @@ public class DrivebaseSubsystem extends MecanumDrivebaseSubsystem implements Sup
 
     public DrivebaseSubsystem(EncodedMotor<DcMotorEx> fl, EncodedMotor<DcMotorEx> fr,
                               EncodedMotor<DcMotorEx> rl, EncodedMotor<DcMotorEx> rr,
-                              IMU i,
-                              Rev2MDistanceSensor front/*, Rev2MDistanceSensor left, Rev2MDistanceSensor right*/) {
+                              IMU i) {
         super(fl, fr, rl, rr, i, () -> DriveConstants.class);
         fl2 = fl; fr2 = fr; rl2 = rl; rr2 = rr;
-        //this.front_distance = front;
-        //this.left_distance = left;
-        //this.right_distance = right;
     }
 
     @Override

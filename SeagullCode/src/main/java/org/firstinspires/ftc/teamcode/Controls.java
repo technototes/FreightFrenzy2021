@@ -30,10 +30,9 @@ public class Controls {
 
     public Alliance alliance;
 
-    public Controls(CommandGamepad g, Robot r, Alliance alliance) {
+    public Controls(CommandGamepad g, Robot r) {
         gamepad = g;
         robot = r;
-        this.alliance = alliance;
 
         sharedDepositButton = gamepad.leftBumper;
         middleDepositButton = gamepad.dpadRight;
@@ -60,7 +59,6 @@ public class Controls {
     }
 
     public void bindDriveControls() {
-        // robot.drivebaseSubsystem.setDefaultCommand(new DriveCommand(robot.drivebaseSubsystem, driveLeftStick, driveRightStick));
         CommandScheduler.getInstance().scheduleJoystick(new DriveCommand(robot.drivebaseSubsystem, driveLeftStick, driveRightStick, driveStraightenButton));
         resetGyroButton.whenPressed(new ResetGyroCommand(robot.drivebaseSubsystem));
         snailSpeedButton.whilePressedOnce(new SetSpeedCommand(robot.drivebaseSubsystem));

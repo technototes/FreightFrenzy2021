@@ -9,10 +9,8 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.technototes.library.hardware.motor.EncodedMotor;
 import com.technototes.library.hardware.sensor.IMU;
 import com.technototes.library.hardware.sensor.IMU.AxesSigns;
-import com.technototes.library.hardware.sensor.Rev2MDistanceSensor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 public class Hardware {
     @Config
@@ -32,8 +30,6 @@ public class Hardware {
     public EncodedMotor<DcMotorEx> rrDriveMotor;
     public IMU imu;
 
-    public Rev2MDistanceSensor frontDistanceSensor;
-
     public Hardware() {
         if (DRIVE_CONNECTED) {
             flDriveMotor = new EncodedMotor<>(FL_MOTOR);
@@ -41,7 +37,6 @@ public class Hardware {
             rlDriveMotor = new EncodedMotor<>(RL_MOTOR);
             rrDriveMotor = new EncodedMotor<>(RR_MOTOR);
             imu = new IMU(HardwareConstants.IMU).remapAxes(AxesOrder.YXZ, AxesSigns.NNN);
-            frontDistanceSensor = new Rev2MDistanceSensor(FRONT_RANGE).onUnit(DistanceUnit.INCH);
         }
     }
 }
