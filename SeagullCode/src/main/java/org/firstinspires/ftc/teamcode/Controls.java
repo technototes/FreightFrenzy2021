@@ -8,8 +8,8 @@ import com.technototes.library.control.CommandButton;
 import com.technototes.library.control.CommandGamepad;
 import com.technototes.library.control.Stick;
 
+import org.firstinspires.ftc.teamcode.commands.drivebase.DebugDriveToCenterCommand;
 import org.firstinspires.ftc.teamcode.commands.drivebase.DriveCommand;
-import org.firstinspires.ftc.teamcode.commands.drivebase.DriveToCenterCommand;
 import org.firstinspires.ftc.teamcode.commands.drivebase.DriveToCenterCommandGroup;
 import org.firstinspires.ftc.teamcode.commands.drivebase.ResetGyroCommand;
 import org.firstinspires.ftc.teamcode.commands.drivebase.SetSpeedCommand;
@@ -41,6 +41,7 @@ public class Controls {
         driveStraightenButton = gamepad.square;
 
         squareButton = gamepad.square;
+        triangleButton = gamepad.triangle;
 
         if (DRIVE_CONNECTED) bindDriveControls();
         if (enableExperimentalFeatures) bindExperimentalControls();
@@ -53,6 +54,7 @@ public class Controls {
     }
 
     public void bindExperimentalControls() {
-//        squareButton.whenPressed(new DriveToCenterCommandGroup(robot.drivebaseSubsystem, robot.drivebaseSubsystem.getPoseEstimate()));
+        squareButton.whenPressed(new DriveToCenterCommandGroup(robot.drivebaseSubsystem, robot.drivebaseSubsystem.getPoseEstimate()));
+        triangleButton.whenPressed(new DebugDriveToCenterCommand(robot.drivebaseSubsystem, robot.drivebaseSubsystem.getPoseEstimate()));
     }
 }
