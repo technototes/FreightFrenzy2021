@@ -9,6 +9,8 @@ import com.technototes.library.control.CommandGamepad;
 import com.technototes.library.control.Stick;
 
 import org.firstinspires.ftc.teamcode.commands.drivebase.DriveCommand;
+import org.firstinspires.ftc.teamcode.commands.drivebase.DriveToCenterCommand;
+import org.firstinspires.ftc.teamcode.commands.drivebase.DriveToCenterCommandGroup;
 import org.firstinspires.ftc.teamcode.commands.drivebase.ResetGyroCommand;
 import org.firstinspires.ftc.teamcode.commands.drivebase.SetSpeedCommand;
 
@@ -22,12 +24,12 @@ public class Controls {
     public CommandButton intakeInButton, intakeOutButton;
     public CommandAxis intakeInTrigger, carryDepositButton;
 
-    public CommandButton carouselButton;
+    public CommandButton squareButton, triangleButton, circleButton, xButton;
 
     public Stick driveLeftStick, driveRightStick;
     public CommandButton resetGyroButton, driveStraightenButton, snailSpeedButton;
 
-    public Controls(CommandGamepad g, Robot r) {
+    public Controls(CommandGamepad g, Robot r, boolean enableExperimentalFeatures) {
         gamepad = g;
         robot = r;
 
@@ -38,12 +40,19 @@ public class Controls {
         driveRightStick = gamepad.rightStick;
         driveStraightenButton = gamepad.square;
 
+        squareButton = gamepad.square;
+
         if (DRIVE_CONNECTED) bindDriveControls();
+        if (enableExperimentalFeatures) bindExperimentalControls();
     }
 
     public void bindDriveControls() {
         CommandScheduler.getInstance().scheduleJoystick(new DriveCommand(robot.drivebaseSubsystem, driveLeftStick, driveRightStick, driveStraightenButton));
         resetGyroButton.whenPressed(new ResetGyroCommand(robot.drivebaseSubsystem));
         snailSpeedButton.whilePressedOnce(new SetSpeedCommand(robot.drivebaseSubsystem));
+    }
+
+    public void bindExperimentalControls() {
+//        squareButton.whenPressed(new DriveToCenterCommandGroup(robot.drivebaseSubsystem, robot.drivebaseSubsystem.getPoseEstimate()));
     }
 }

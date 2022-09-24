@@ -18,6 +18,6 @@ public class DriveOnly extends CommandOpMode implements Loggable {
     public void uponInit() {
         hardware = new Hardware();
         robot = new Robot(hardware);
-        controls = new Controls(driverGamepad, robot);
+        controls = new Controls(driverGamepad, robot,false);
     }
 }
