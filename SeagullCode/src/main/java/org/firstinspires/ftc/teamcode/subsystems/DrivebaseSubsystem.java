@@ -79,7 +79,7 @@ public class DrivebaseSubsystem extends MecanumDrivebaseSubsystem implements Sup
 
     }
 
-    private static final boolean ENABLE_POSE_DIAGNOSTICS = false;
+    private static final boolean ENABLE_POSE_DIAGNOSTICS = true;
 
     @Log (name="Pose2d: ")
     public String poseDisplay = ENABLE_POSE_DIAGNOSTICS ? "" : null;
