@@ -7,7 +7,6 @@ import com.technototes.library.control.CommandAxis;
 import com.technototes.library.control.CommandButton;
 import com.technototes.library.control.CommandGamepad;
 import com.technototes.library.control.Stick;
-import com.technototes.library.util.Alliance;
 
 import org.firstinspires.ftc.teamcode.commands.drivebase.DriveCommand;
 import org.firstinspires.ftc.teamcode.commands.drivebase.ResetGyroCommand;
@@ -28,23 +27,9 @@ public class Controls {
     public Stick driveLeftStick, driveRightStick;
     public CommandButton resetGyroButton, driveStraightenButton, snailSpeedButton;
 
-    public Alliance alliance;
-
     public Controls(CommandGamepad g, Robot r) {
         gamepad = g;
         robot = r;
-
-        sharedDepositButton = gamepad.leftBumper;
-        middleDepositButton = gamepad.dpadRight;
-        topDepositButton = gamepad.rightBumper;
-        carryDepositButton = gamepad.leftTrigger;
-
-        intakeInTrigger = gamepad.rightTrigger;
-
-        intakeInButton = gamepad.cross;
-        intakeOutButton = gamepad.circle;
-
-        carouselButton = gamepad.triangle;
 
         resetGyroButton = gamepad.rightStickButton;
         snailSpeedButton = gamepad.circle;
@@ -52,8 +37,6 @@ public class Controls {
         driveLeftStick = gamepad.leftStick;
         driveRightStick = gamepad.rightStick;
         driveStraightenButton = gamepad.square;
-
-
 
         if (DRIVE_CONNECTED) bindDriveControls();
     }
