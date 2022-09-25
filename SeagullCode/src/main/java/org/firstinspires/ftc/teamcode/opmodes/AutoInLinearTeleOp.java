@@ -13,7 +13,7 @@ import org.firstinspires.ftc.teamcode.Hardware;
 import org.firstinspires.ftc.teamcode.Robot;
 
 @TeleOp(name = "Experiment 1")
-public class AutoInTeleOp extends LinearOpMode implements Loggable {
+public class AutoInLinearTeleOp extends LinearOpMode implements Loggable {
     public Robot robot;
     public Controls controls;
     public Hardware hardware;
