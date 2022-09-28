@@ -43,8 +43,12 @@ public class Controls {
         squareButton = gamepad.square;
         triangleButton = gamepad.triangle;
 
-        if (DRIVE_CONNECTED) bindDriveControls();
-        if (enableExperimentalFeatures) bindExperimentalControls();
+        if (DRIVE_CONNECTED) {
+            bindDriveControls();
+        }
+        if (enableExperimentalFeatures) {
+            bindExperimentalControls();
+        }
     }
 
     public void bindDriveControls() {
